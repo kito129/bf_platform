@@ -1,0 +1,14 @@
+<label class="text-gray">{{title}}</label>
+<ng-select [ngClass]="isLive? 'optgroup' : ''"
+           [items]="runnersList$ | async"
+           bindLabel="name"
+           bindValue="id"
+           placeholder="Select item"
+           [searchable]="true"
+           [clearable]="false"
+           [selectOnTab]="true"
+           [(ngModel)]="selectedRunner.id"
+           [virtualScroll]="true"
+           [ngModelOptions]="{standalone: true}"
+           (ngModelChange)="updateRunnerName()">
+</ng-select>

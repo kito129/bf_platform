@@ -1,0 +1,64 @@
+<li class="list-group-item" *ngFor=" let note of notes">
+  <div class="row pointer" placement="right" [tooltipClass]="'wider-tooltip'" [ngbTooltip]="noteDescriptionToolTip">
+    <div class="col">
+      <h3 class="mr-2" [ngClass]=" today -note.created < 1000 * 60 * 60 * 24 * 7 ? 'text-danger' : today -note.created < 1000 * 60 * 60 * 24 * 21 ? 'text-warning' : ''">
+        {{note.created | date:'mediumDate'}}
+      </h3>
+    </div>
+    <div class="col">
+      <h3 *ngIf="note.note.type.indexOf('Note')!==-1"><span class="badge badge-secondary">{{note.note.type}}</span></h3>
+      <h3 *ngIf="note.note.type.indexOf('Medical')!==-1"><span class="badge badge-danger">{{note.note.type}}</span></h3>
+      <h3 *ngIf="note.note.type.indexOf('WalkOver')!==-1"><span class="badge badge-warning">{{note.note.type}}</span></h3>
+      <h3 *ngIf="note.note.type.indexOf('No Med Retired')!==-1"><span class="badge badge-primary">{{note.note.type}}</span></h3>
+    </div>
+    <div class="col">
+      <h3 *ngIf="note.note.validation.detailValidation.win" class="mb-1"><span class="badge badge-success">Win</span> </h3>
+      <h3 *ngIf="note.note.validation.detailValidation.lose" class="mb-1"><span class="badge badge-danger">Lose</span> </h3>
+      <h3 *ngIf="note.note.validation.detailValidation.retired" class="mb-1"><span class="badge badge-warning">Retired</span> </h3>
+    </div>
+    <div class="col">
+      <h3 *ngIf="note.note.selection.runnerA.id === note.note.selection.injuredId && note.note.type.indexOf('WalkOver')===-1">
+        <b>{{note.note.selection.runnerA.odds}}</b>-{{note.note.selection.runnerB.odds}}
+      </h3>
+      <h3 *ngIf="note.note.selection.runnerB.id === note.note.selection.injuredId && note.note.type.indexOf('WalkOver')===-1">
+        {{note.note.selection.runnerA.odds}} - <b>{{note.note.selection.runnerB.odds}}</b>
+      </h3>
+    </div>
+    <div class="col">
+      <h3 class="text-gray" *ngIf="note.note.type.indexOf('WalkOver')===-1 && note.note.type.indexOf('Note')===-1 ">
+        {{note.note.validation.tennisPoints | tennisPoint}}
+      </h3>
+    </div>
+  </div>
+  <!-- NOTE TOOLTIP-->
+  <ng-template #noteDescriptionToolTip>
+    <ul>
+      <li>
+        <h3 *ngIf="note.note.selection.runnerA.id === note.note.selection.injuredId"><b>{{note.note.selection.runnerA.name}}</b> v {{note.note.selection.runnerB.name}}</h3>
+        <h3 *ngIf="note.note.selection.runnerB.id === note.note.selection.injuredId"> {{note.note.selection.runnerA.name}} v <b>{{note.note.selection.runnerB.name}}</b></h3>
+        <h3 *ngIf="note.note.validation.detailValidation.win" class="mb-1"><span class="badge badge-success">Win</span> </h3>
+        <h3 *ngIf="note.note.validation.detailValidation.lose" class="mb-1"><span class="badge badge-danger">Lose</span> </h3>
+        <h3 *ngIf="note.note.validation.detailValidation.retired" class="mb-1"><span class="badge badge-warning">Retired</span> </h3>
+      </li>
+      <li *ngIf="note.note.type.indexOf('WalkOver')===-1">
+        <h3>Point: <b>{{note.note.tennisPoints | tennisPoint}}</b></h3>
+        <h3>Result: <b>{{note.note.validation.tennisPoints | tennisPoint}}</b></h3>
+      </li>
+      <li *ngIf="note.note.type.indexOf('WalkOver')===-1">
+        <h3 *ngIf="note.note.selection.runnerA.id === note.note.selection.injuredId">BSP: <b>{{note.note.selection.runnerA.bsp}}</b> - {{note.note.selection.runnerB.bsp}} </h3>
+        <h3 *ngIf="note.note.selection.runnerB.id === note.note.selection.injuredId">BSP: {{note.note.selection.runnerA.bsp}} - <b>{{note.note.selection.runnerB.bsp}}</b></h3>
+      </li>
+      <li>
+        <h3>Note: <b>{{note.note.description}}</b></h3>
+      </li>
+      <li *ngIf="note.note.validation.validationNote">
+        <h3>Validation: <b>{{note.note.validation.validationNote}}</b></h3>
+      </li>
+      <li>
+        <h3 *ngIf="note.note.detailType.isInPlay" class="mb-1"><span class="badge badge-info">In Game</span></h3>
+        <h3 *ngIf="note.note.detailType.isNotInPause" class="mb-1"><span class="badge badge-light">Not Pause</span></h3>
+        <h3 *ngIf="note.note.detailType.recall" class="mb-1"><span class="badge badge-primary">Recall</span></h3>
+      </li>
+    </ul>
+  </ng-template>
+</li>

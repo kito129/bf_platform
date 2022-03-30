@@ -1,0 +1,25 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Runner Markets Stats</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body">
+     <div class="row">
+      <div class="col-6">
+        <app-runner-detail-market-stats-distribution [marketStats]="marketsStats.rangeStats">
+        </app-runner-detail-market-stats-distribution>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6" *ngFor="let stats of marketsStats.rangeStats">
+        <app-runner-detail-market-stats-view [marketStats]="stats"
+                                             [runnerId]="runnerId"
+                                             [totalMatch]="runnerMarkets.length">
+        </app-runner-detail-market-stats-view>
+      </div>
+    </div>
+  </div>
+</div>

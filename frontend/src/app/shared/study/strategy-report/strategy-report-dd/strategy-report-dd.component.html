@@ -1,0 +1,64 @@
+<ul class="list-group">
+  <li class="list-group-item disabled">
+    <h4> DD </h4></li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Max DD [€]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyReport.trades.dd.max.dd | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Max DD [%]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyReport.trades.dd.max.percent | percent:'0.2'}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Avg DD [€]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyReport.trades.dd.avg.dd | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Avg DD [%]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyReport.trades.dd.avg.percent | percent:'0.2'}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Stdv DD [€]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyReport.trades.dd.stdv.dd | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Stdv DD [%]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyReport.trades.dd.stdv.percent | percent:'0.2'}}</h4>
+      </div>
+    </div>
+  </li>
+</ul>

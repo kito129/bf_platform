@@ -1,0 +1,44 @@
+<div>
+  <button type="button" class="btn  btn-icon mr-2 d-none d-md-block"
+          [ngClass]="notFound ? 'btn-outline-warning' :'btn-outline-info' "
+          (click)="openModal(charts)">
+    <i class="btn-icon-prepend"
+       data-feather="eye"
+       appFeatherIcon></i>
+  </button>
+
+  <ng-template #charts let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Trade Detail</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <app-trade-row-detail-shared [trade]="trade">
+
+        </app-trade-row-detail-shared>
+
+        <h5 class="mt-3 mb-3">Trades</h5>
+
+        <app-trade-bets-view class="mb-3" [trade]="trade">
+
+        </app-trade-bets-view>
+      </div>
+
+      <div>
+        <h4 *ngIf="notFound" class="text-warning mt-3 mb-3">Chart not available, Market id not found...</h4>
+        <app-loading-cards *ngIf="(isLoadingMarketDetails$ | async).isLoading"></app-loading-cards>
+        <app-tv-market-prices-and-trades *ngIf="(isLoadingMarketDetails$ | async).isLoadingSuccess"
+                                         [marketDetail]="marketDetails$ | async"
+                                         [trade]="trade"
+                                         [marketDetailsFound]="!notFound">
+        </app-tv-market-prices-and-trades>
+      </div>
+
+    </div>
+  </ng-template>
+</div>
+
+

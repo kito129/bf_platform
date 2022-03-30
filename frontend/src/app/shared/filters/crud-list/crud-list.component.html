@@ -1,0 +1,145 @@
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Basket Saved</h6>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <!-- BUTTON -->
+    <div class="d-flex justify-content-end align-items-baseline mb-2">
+
+      <form class="forms-sample grid-margin mr-3">
+          <label for="name">
+            <input class="form-control"
+                   type="text"
+                   placeholder="Type name..."
+                   id="name"
+                   [(ngModel)]="newName"
+                   name="name"/>
+          </label>
+      </form>
+
+      <button *ngIf="selectedFilterBasketId"
+              type="button"
+              class="btn btn-icon  btn-outline-primary mr-2 d-none d-md-block"
+              (click)="updateCurrent()">
+        <i class="btn-icon-prepend"
+           data-feather="edit"
+           appFeatherIcon></i>
+          Update
+      </button>
+
+      <button type="button"
+              class="btn btn-icon  btn-outline-light mr-2 d-none d-md-block"
+              (click)="saveNew()">
+        <i class="btn-icon-prepend"
+           data-feather="save"
+           appFeatherIcon>
+        </i>
+        Save New
+      </button>
+    </div>
+
+    <!-- LIST -->
+    <div *ngIf="filterBaskets.length">
+      <ngx-datatable
+      class="dark"
+      [rows]="filterBaskets"
+      [columnMode]="ColumnMode.flex"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [limit]="8"
+      rowHeight="47"
+      [sorts]="[{prop: 'lastUpdate', dir: 'desc'}]">
+
+        <ngx-datatable-column name="Date" prop="lastUpdate" [flexGrow]="1">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <p>
+              {{ value | date:'shortDate' }}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Name" prop="filterBasket.name" [flexGrow]="3">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <p>
+              {{ value }}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Filter" prop="filterBasket.filter" [flexGrow]="1">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+
+            <h6 [tooltipClass]="'wider-tooltip'" [ngbTooltip]="filterDetail" container="body">
+              <i class="btn-icon-prepend"
+                 data-feather="info"
+                 appFeatherIcon>
+              </i>
+            </h6>
+
+            <ng-template #filterDetail>
+              <ul class="list-group">
+                <div *ngFor="let filter of value">
+                  <li class="list-group-item" *ngIf="filter.active">
+                    <h6 class="text-white"> {{filter.name}} - {{filter.min}}</h6>
+                  </li>
+                </div>
+              </ul>
+            </ng-template>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+
+
+        <ngx-datatable-column name="Active Filter" prop="filterBasket.activeFilter" [flexGrow]="1">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <h6>
+              {{ value }}
+            </h6>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Size" prop="filterBasket.marketSize" [flexGrow]="1">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <h6>
+              {{ value }}
+            </h6>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Removed Size" prop="filterBasket.removedSize" [flexGrow]="1">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <h6>
+              {{ value }}
+            </h6>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Tools" prop="" [flexGrow]="2">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <div class="d-flex justify-content-end align-items-baseline" *ngIf="value.filterBasket">
+
+              <button type="button" class="btn btn-icon   mr-2 d-none d-md-block"
+                      [ngClass]="selectedFilterBasketId === value._id ? 'btn-info': 'btn-outline-info'"
+                      (click)="setFilterBasket(value)">
+                <i class="btn-icon-prepend"
+                   data-feather="crosshair"
+                   appFeatherIcon></i>
+              </button>
+
+              <app-delete-modal [name]="value.filterBasket.name"
+                                [type]="'Basket'"
+                                [options]="'Delete'"
+                                (deleteEmitter)="deleteFilterBasket(value._id)">
+              </app-delete-modal>
+
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>

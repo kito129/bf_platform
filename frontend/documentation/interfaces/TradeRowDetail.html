@@ -1,0 +1,703 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>betfairplatform documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">betfairplatform documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li
+  >
+  TradeRowDetail</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/model/report/trade.ts</code>
+        </p>
+
+
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#data" 
+>
+                                            data
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#trade" 
+>
+                                            trade
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="data"></a>
+                                        <span class="name "><b>data</b>
+                                            <a href="#data">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>data:     <code>literal type</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="trade"></a>
+                                        <span class="name "><b>trade</b>
+                                            <a href="#trade">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>trade:         <code><a href="../interfaces/Trade.html" target="_self" >Trade</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/Trade.html" target="_self" >Trade</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {TennisPoint} from &quot;../point/tennisPoint&quot;;
+import {FootballPoint} from &quot;../point/footballPoint&quot;;
+
+export interface Trade {
+  _id?: string
+  created?: number
+  lastUpdate?: number
+  trade: {
+    info: {
+      strategyId: string
+      tennisTournamentId: string
+      date: number
+      marketInfo: {
+        marketName: string
+        marketId: string
+        sport: string
+      }
+      executor: string[]
+      exchange: {
+        name: string
+        commission: number
+      }
+      note: {
+        description: string
+        entry: string
+        exit: string
+        position: string
+        mm: string
+        odds: string
+        post: string
+      }
+    }
+    selections: [{
+      runnerId: number
+      runnerName: string
+      winner: boolean
+      bsp: number
+      avg: {
+        back: {
+          odds: number
+          stake: number
+        },
+        lay: {
+          odds: number
+          bank: number
+          liability: number
+        }
+      }
+    }]
+    trades: {
+      back: [{
+        selectionN: number
+        odds: number
+        stake: number
+        ifWin: number
+        condition: {
+          tennis: {
+            isTennis: boolean
+            point: TennisPoint
+          }
+          football: {
+            isFootball: boolean
+            point: FootballPoint
+          }
+          horse: {
+            isHorse: boolean
+          }
+          note: string
+          time: number
+        }
+      }]
+      lay: [{
+        selectionN: number
+        odds: number
+        bank: number
+        liability: number
+        ifWin: number
+        condition: {
+          tennis: {
+            isTennis: boolean
+            point: TennisPoint
+          }
+          football: {
+            isFootball: boolean
+            point: FootballPoint
+          }
+          horse: {
+            isHorse: boolean
+          }
+          note: string
+          time: number
+        }
+      }]
+    }
+    exposition: [{
+      back: number
+      lay: number
+      selectionN: number
+    }]
+    result: {
+      grossProfit: number,
+      netProfit: number,
+      rr: number
+      commissionPaid: number
+      maxRisk: number
+      correctionPl: number
+      finalScore:{
+        tennis: TennisPoint
+        football: FootballPoint
+      }
+    }
+  }
+}
+
+export interface TradeRowDetail{
+  trade: Trade
+  data: {
+    stockPl: number,
+    stockPercent: number
+    lastMax: number,
+    lastMin:number,
+    dd: number,
+    up: number,
+    ddPercent: number
+  }
+}
+
+
+
+export class TradeForm{
+
+  public info: {
+    tennisTournamentId: string,
+    strategyId: string
+    date: number
+    marketInfo: {
+      marketName: string
+      marketId: string
+      sport: string
+    }
+    executor: string[]
+    exchange: {
+      name: string
+      commission: number
+    }
+    note: {
+      description: string
+      entry: string
+      exit: string
+      position: string
+      mm: string
+      odds: string
+      post: string
+    }
+  }
+
+  public selections: [{
+    runnerId: number
+    runnerName: string
+    winner: boolean
+    bsp: number
+    avg: {
+      back: {
+        odds: number
+        stake: number
+      },
+      lay: {
+        odds: number
+        bank: number
+        liability: number
+      }
+    }
+  }]
+
+  public trades: {
+    back: [{
+      selectionN: number
+      odds: number
+      stake: number
+      ifWin: number
+      condition: {
+        tennis: {
+          isTennis: boolean
+          point: TennisPoint
+        }
+        football: {
+          isFootball: boolean
+          point: FootballPoint
+        }
+        horse: {
+          isHorse: boolean
+        }
+        note: string
+        time: number
+      }
+    }]
+    lay: [{
+      selectionN: number
+      odds: number
+      bank: number
+      liability: number
+      ifWin: number
+      condition: {
+        tennis: {
+          isTennis: boolean
+          point: TennisPoint
+        }
+        football: {
+          isFootball: boolean
+          point: FootballPoint
+        }
+        horse: {
+          isHorse: boolean
+        }
+        note: string
+        time: number
+      }
+    }]
+  }
+
+  public exposition: [{
+    back: number
+    lay: number
+    selectionN: number
+  }]
+
+  public result: {
+    grossProfit: number,
+    netProfit: number,
+    rr: number
+    commissionPaid: number
+    maxRisk: number
+    correctionPl: number
+    finalScore:{
+      tennis: TennisPoint
+      football: FootballPoint
+    }
+  }
+
+  constructor() {
+    this.info &#x3D; {
+      strategyId: null,
+      tennisTournamentId: null,
+      marketInfo: {
+        marketName: null,
+        marketId: null,
+        sport: null
+      },
+      date: null,
+      executor: [],
+      exchange: {
+        name: &#x27;UK KEVIN&#x27;,
+        commission: 0.02
+      },
+      note: {
+        description: null,
+        entry: null,
+        exit: null,
+        position: null,
+        mm: null,
+        odds: null,
+        post: null
+      }
+    };
+
+    this.selections &#x3D; [{
+      runnerId: null,
+      runnerName: null,
+      winner: null,
+      bsp: 0,
+      avg: {
+        back: {
+          odds: 0,
+          stake: 0,
+        },
+        lay: {
+          odds: 0,
+          bank: 0,
+          liability: 0,
+        }
+      }
+    }]
+
+    this.trades&#x3D; {
+      back: [{
+        selectionN: 0,
+        odds: null,
+        stake: null,
+        ifWin: null,
+        condition: {
+          tennis: {
+            isTennis: null,
+            point: null,
+          },
+          football: {
+            isFootball: null,
+            point: null,
+          },
+          horse: {
+            isHorse: null
+          },
+          time: 0,
+          note: null,
+        }
+      }],
+      lay: [{
+        selectionN: 0,
+        odds: null,
+        bank: null,
+        liability: null,
+        ifWin: null,
+        condition: {
+          tennis: {
+            isTennis: null,
+            point: null,
+          },
+          football: {
+            isFootball: null,
+            point: null,
+          },
+          horse: {
+            isHorse: null,
+          },
+          time: 0,
+          note: null,
+        }
+      }]
+    }
+    this.exposition&#x3D; [{
+      back: 0,
+      lay: 0,
+      selectionN: 0,
+    }]
+
+    this.result&#x3D; {
+      grossProfit: 0,
+      netProfit: 0,
+      rr: 0,
+      maxRisk: 0,
+      commissionPaid: 0,
+      correctionPl: 0,
+      finalScore: {
+        tennis: {
+          set1: {
+            runnerA: 0,
+            runnerB: 0
+          },
+          set2: {
+            runnerA: 0,
+            runnerB: 0
+          },
+          set3: {
+            runnerA: 0,
+            runnerB: 0
+          },
+          set4: {
+            runnerA: 0,
+            runnerB: 0
+          },
+          set5: {
+            runnerA: 0,
+            runnerB: 0
+          },
+          currentGame: {
+            runnerA: &#x27;0&#x27;,
+            runnerB: &#x27;0&#x27;,
+            server: null,
+          }
+        },
+        football: {
+          home: 0,
+          away: 0
+        }
+      }
+    }
+    this.trades.back.pop()
+    this.trades.lay.pop()
+  }
+
+}
+
+export class SupportBets{
+  odds: number
+  stake: number
+  selection: {
+    runnerId: number,
+    runnerName: string,
+    winner: number,
+    bsp: number
+  }
+  isBack: boolean
+  isLay: boolean
+  condition: {
+    tennis: {
+      isTennis: boolean,
+      point: TennisPoint
+    }
+    football: {
+      isFootball: boolean,
+      point: FootballPoint,
+    }
+    horse: {
+      isHorse: boolean,
+    }
+    time: number
+    note: null
+  }
+
+  constructor() {
+    this.odds&#x3D; 1.01
+    this.stake&#x3D; 100
+    this.selection&#x3D; {
+      runnerId: null,
+        runnerName: null,
+        winner: null,
+        bsp: 0
+    }
+    this.isBack&#x3D; true
+    this.isLay&#x3D; false
+    this.condition&#x3D; {
+      tennis: {
+        isTennis: false,
+        point: {
+          set1: {
+            runnerA: 0,
+              runnerB: 0
+          },
+          set2: {
+            runnerA: 0,
+              runnerB: 0
+          },
+          set3: {
+            runnerA: 0,
+              runnerB: 0
+          },
+          set4: {
+            runnerA: 0,
+              runnerB: 0
+          },
+          set5: {
+            runnerA: 0,
+              runnerB: 0
+          },
+          currentGame: {
+            runnerA: &#x27;0&#x27;,
+              runnerB: &#x27;0&#x27;,
+              server: null,
+          }
+        }
+      },
+      football: {
+        isFootball: false,
+        point: {
+          home: 0,
+          away: 0
+        }
+      },
+      horse: {
+        isHorse: false
+      },
+      time: 0,
+      note: null
+    }
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'TradeRowDetail.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

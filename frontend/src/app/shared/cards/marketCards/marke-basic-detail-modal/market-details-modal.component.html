@@ -1,0 +1,36 @@
+<div>
+  <button *ngIf="!asString" type="button" class="btn  btn-icon mr-2 d-none d-md-block"
+          [ngClass]="!basicHaveAdv ? 'btn-outline-info' : 'btn-outline-light'"
+          (click)="openModal(charts)">
+    <i class="btn-icon-prepend"
+       data-feather="eye"
+       appFeatherIcon></i>
+  </button>
+
+  <p *ngIf="asString" class="text-primary" (click)="openModal(charts)">{{text}}</p>
+
+
+  <ng-template #charts let-modal>
+    <div class="modal-header">
+      <h2 class="modal-title">Market Details</h2>
+
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <h3 *ngIf="!isBasic || basicHaveAdv"> Advanced Market </h3>
+      <app-market-advanced-detail *ngIf="!isBasic || basicHaveAdv"
+                                  [marketIdInput]="marketId"
+                                  [wantUpdates]="false">
+      </app-market-advanced-detail>
+
+      <h3 *ngIf="isBasic"> Basic Market </h3>
+      <app-market-detail-basic *ngIf="isBasic" [marketIdInput]="marketId"
+                               [dontWantUpdate]="!wantUpdate">
+      </app-market-detail-basic>
+
+    </div>
+  </ng-template>
+</div>

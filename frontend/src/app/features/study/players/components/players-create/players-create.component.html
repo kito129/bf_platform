@@ -1,0 +1,90 @@
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">{{data.create? 'Create' : 'Update'}} Players List</h6>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="card-body">
+    <form ngForm *ngIf="bug">
+
+      <div class="form-group">
+        <label for="playersListName">Players List Name</label>
+        <input class="form-control"
+               id="playersListName"
+               type="text"
+               placeholder="Players List Name"
+               name="playersListName"
+               [(ngModel)]="data.name">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control"
+                  id="description"
+                  rows="5"
+                  placeholder="Description"
+                  name="description"
+                  [(ngModel)]="data.description">
+        </textarea>
+      </div>
+
+      <h5>Validity Time:</h5>
+
+      <label class="text-gray">From</label>
+      <app-date-form [showDate]="true"
+                     [time]="data.valid.from"
+                     (dateEmitter)="setFrom($event)">
+      </app-date-form>
+
+      <label class="text-gray">To</label>
+      <app-date-form [showDate]="true"
+                     [time]="data.valid.to"
+                     (dateEmitter)="setTo($event)">
+      </app-date-form>
+
+
+      <div class="row">
+        <div class="col-10">
+          <app-runners-selection-form [isLive]="false"
+                                      (runnerSelectedEmitter)="setCurrentRunner($event)"
+                                      [title]="'Player to Add'">
+
+          </app-runners-selection-form>
+        </div>
+        <div class="col-2">
+          <button type="button"
+                  class="btn-xs btn-success"
+                  [disabled]="!checkAlreadyPresent(currentSelected.id)"
+                  (click)="addRunner()">+</button>
+        </div>
+      </div>
+
+      <ul class="list-group mt-2">
+        <li class="list-group-item" *ngFor="let runner of data.playersList, index as i">
+          <div class="d-flex justify-content-between align-items-baseline">
+            <h5>
+              {{i+1}}) {{runner | runnerNamePipe: store}}
+            </h5>
+            <button type="button"
+                    class="btn-xs btn-danger"
+                    (click)="removeRunner(runner)">x</button>
+          </div>
+
+        </li>
+      </ul>
+
+    </form>
+  </div>
+  <!-- FOOTER -->
+  <div class="card-footer">
+    <button type="button"
+            class="btn btn-icon-text"
+            [ngClass]="data.create? 'btn-primary' : 'btn-light'"
+            (click)="submit()">
+      <i class="btn-icon-prepend" data-feather="save" appFeatherIcon></i>
+      {{data.create? 'Create' : 'Update'}}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">All Strategy</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+    <app-strategy-create-modal class="mr-2" (addStrategyCreateEmitter)="createModal($event)"></app-strategy-create-modal>
+
+
+    <div class="d-flex justify-content-end align-items-baseline">
+      <form class="forms-sample grid-margin" #searchForm="ngForm">
+        <div class="row">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Type name..."
+            (keyup)="updateFilter($event)"
+          />
+        </div>
+        <div class="row">
+          <input
+            class="form-control"
+            type="number"
+            placeholder="Table Size"
+            name="tableSize"
+            [(ngModel)]="tableSize"/>
+        </div>
+      </form>
+    </div>
+
+    <ngx-datatable
+      class="dark"
+      [rows]="rows"
+      [loadingIndicator]="loadingIndicator"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [limit]=tableSize
+      rowHeight="auto"
+      [reorderable]="true"
+      [sorts]="[{prop: 'pl', dir: 'desc'}]">
+      >
+      <ngx-datatable-column name="Name" prop="name">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Sport" prop="sport">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <app-sport-text [sport]="value"></app-sport-text>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="# of Trade" prop="numberOfTrade">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column name="Bank" prop="currentBank">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value | currency}}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Pl" prop="pl">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value | currency }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Max DD" prop="maxDD">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value | currency }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Max DD %" prop="maxDDPercent">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value | percent }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Win ratio" prop="winRatio">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value | percent }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column name="Tolls" prop="strategy">
+        <ng-template let-value="value"  ngx-datatable-cell-template>
+
+          <div class="d-flex justify-content-center align-items-center">
+
+            <button type="button" class="btn btn-icon mr-2" [ngClass]="selectedStrategyId === value._id ? 'btn-info' : 'btn-outline-info'"
+                    (click)="clickSelectStrategy(value._id)" >
+              <i class="feather icon-eye"></i>
+            </button>
+
+            <app-delete-modal [id]="value._id"
+                              [options]="'Delete'"
+                              [type]="'strategy'"
+                              (deleteEmitter)="deleteModal($event)">
+            </app-delete-modal>
+
+            <app-strategy-updates-modal [strategyInput$]="value"
+                                        (strategyUpdateEmitter)="updateModal($event)">
+
+            </app-strategy-updates-modal>
+          </div>
+
+        </ng-template>
+      </ngx-datatable-column>
+
+
+    </ngx-datatable>
+
+  </div>
+</div>

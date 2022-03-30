@@ -1,0 +1,44 @@
+<div class="row grid-margin">
+  <div class="col">
+    <app-loading-cards *ngIf="(isLoadingAllBaskets$ | async).isLoading"></app-loading-cards>
+    <app-basket-list *ngIf="(isLoadingAllBaskets$ | async).isLoadingSuccess"
+                     [baskets]="allBaskets$ | async"
+                     [selectedBasketId]="(selectedBasketId$ | async)">
+    </app-basket-list>
+
+    <div *ngIf="(selectedBasket$ | async) && (isLoadingBasketMarkets$ | async).isLoadingSuccess" >
+      <app-basket-details *ngIf="(isLoadingAllBaskets$ | async).isLoadingSuccess && (isLoadingBasketMarkets$ | async).isLoadingSuccess"
+                          [marketsBasketList$]="selectedBasketMarketsList$">
+      </app-basket-details>
+    </div>
+  </div>
+  <div class="col">
+    <app-basket-create [selectedBasket$]="selectedBasket$">
+
+    </app-basket-create>
+  </div>
+</div>
+<div class="row grid-margin">
+  <div class="col">
+    <app-loading-cards *ngIf="(isLoadingBasketMarkets$ | async).isLoading"></app-loading-cards>
+    <app-basket-markets-list *ngIf="(isLoadingAllBaskets$ | async).isLoadingSuccess && (isLoadingBasketMarkets$ | async).isLoadingSuccess"
+                             [marketsBasketList$]="selectedBasketMarketsList$"
+                             [selectedBasketMarketId]="selectedBasketMarketId$ | async">
+
+    </app-basket-markets-list>
+  </div>
+</div>
+
+<div class="row grid-margin">
+  <div class="col">
+    <app-loading-cards *ngIf="(isLoadingSelectedBasketMarket$ | async).isLoading"></app-loading-cards>
+    <app-study-markets-selected-detail *ngIf="(isLoadingSelectedBasketMarket$ | async).isLoadingSuccess && validBsp && (isLoadingBasketMarkets$ | async).isLoadingSuccess"
+                                       [selectedMarketData]="selectedBasketMarketsData$ | async"
+                                       [detail]="true"
+                                       [haveTrades]="false"
+                                       [basketBspOdds]="basketBps.odds"
+                                       [basketBspTime]="basketBps.time">
+    </app-study-markets-selected-detail>
+  </div>
+</div>
+

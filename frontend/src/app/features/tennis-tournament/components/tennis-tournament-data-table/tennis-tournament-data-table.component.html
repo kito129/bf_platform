@@ -1,0 +1,140 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Tournaments</h6>
+    </div>
+  </div>
+  <div class="card-body"><!-- BODY -->
+    <div class="d-flex justify-content-around align-items-center">
+      <app-tennis-tournament-create-modal class="mr-2"
+                                          (addTennisTournamentEmitter)="createModal($event)">
+
+      </app-tennis-tournament-create-modal>
+
+
+      <button type="button" class="btn btn-outline-light btn-icon-text mr-2 d-none d-md-block" (click)="saveAsCSV()">
+        <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
+        Download
+      </button>
+
+
+
+      <!--
+      <div class="row">
+        <button type="button" [ngClass]="state.all ? 'btn btn-primary mr-2' :'btn btn-outline-primary mr-2'" (click)="buttonFilter('ATP')">ATP</button>
+        <button type="button" [ngClass]="state.medical ? 'btn btn-danger mr-2' :'btn btn-outline-danger mr-2'" (click)="buttonFilter('WTA')">WTA</button>
+      </div>set
+
+      <div class="row">
+        <button type="button" [ngClass]="state.all ? 'btn btn-info mr-2' :'btn btn-outline-info mr-2'" (click)="buttonFilter('Hard')">Hard</button>
+        <button type="button" [ngClass]="state.medical ? 'btn btn-danger mr-2' :'btn btn-outline-danger mr-2'" (click)="buttonFilter('Clay')">Clay</button>
+        <button type="button" [ngClass]="state.note ? 'btn btn-success mr-2' :'btn btn-outline-success mr-2'" (click)="buttonFilter('Grass')">Grass</button>
+      </div>
+
+      <div class="row">
+        <button type="button" [ngClass]="state.all ? 'btn btn-light mr-2' :'btn btn-outline-light mr-2'" (click)="buttonFilter('Challenger')">Challenger</button>
+        <button type="button" [ngClass]="state.medical ? 'btn btn-warning mr-2' :'btn btn-outline-warning mr-2'" (click)="buttonFilter('Slam')">Slam</button>
+      </div>
+      -->
+
+
+      <form class="form-group mr-2" #searchFormRunner="ngForm">
+        <div class="row">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Search..."
+            (keyup)="updateFilter($event)"
+          />
+        </div>
+      </form>
+
+    </div>
+
+    <ngx-datatable
+      class="dark"
+      [rows]="rows"
+      [loadingIndicator]="loadingIndicator"
+      [columns]="columns"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [limit]="10"
+      rowHeight="auto"
+      [reorderable]="true"
+      [sorts]="[{prop: 'tournament.detail.openDate', dir: 'desc'}]">
+      >
+      <ngx-datatable-column name="Date" prop="tournament.detail.openDate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value | date:'shortDate' }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Name" prop="tournament.detail.name">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{value}}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Type" prop="tournament.detail">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5 *ngIf="value.type.federation?.indexOf('ATP')!=-1"><span class="badge badge-primary mb-1">{{value.type.federation}} - {{value.type.point}}</span></h5>
+          <h5 *ngIf="value.type.federation?.indexOf('WTA')!=-1"><span class="badge badge-danger mb-1">{{value.type.federation}} - {{value.type.point}}</span></h5>
+          <h5 *ngIf="value.type.isSlam"><span class="badge badge-warning mb-1">SLAM</span></h5>
+          <h5 *ngIf="value.type.isChallenger"><span class="badge badge-success mb-1">CHALLENGER</span></h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Surface" prop="tournament.detail.surface">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5 *ngIf="value?.indexOf('GRASS')!=-1"><span class="badge badge-success">{{value}}</span></h5>
+          <h5 *ngIf="value?.indexOf('CLAY')!=-1"><span class="badge badge-danger">{{value}}</span></h5>
+          <h5 *ngIf="value?.indexOf('HARD')!=-1 && value?.indexOf('INDOOR')===-1"><span class="badge badge-primary">{{value}}</span></h5>
+          <h5 *ngIf="value?.indexOf('INDOOR')!=-1"><span class="badge badge-info">{{value}}</span></h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Draw Size" prop="tournament.detail.draw">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{value}}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Total Match" prop="tournament.detail.draw">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{value*2-1}}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Qualifying Size" prop="tournament.detail.qualifying">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{value}}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Tolls" prop="">
+        <ng-template let-value="value"  ngx-datatable-cell-template>
+
+          <div class="d-flex justify-content-end align-items-baseline">
+
+            <app-delete-modal [type]="'Tennis Tournament'"
+                               [id]="value._id"
+                               [name]="value.tournament.detail.name"
+                               (deleteEmitter)="deleteModal($event)">
+            </app-delete-modal>
+
+            <app-tennis-tournament-updates-modal [tennisTournamentInput$]="value"
+                                                  (tennisTournamentUpdateEmitter)="updateModal($event)">
+
+            </app-tennis-tournament-updates-modal>
+          </div>
+
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+    <!-- /NO MARKET -->
+  </div><!-- /BODY -->
+</div>

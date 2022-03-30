@@ -1,0 +1,33 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Update Runners Stats</h6>
+      <!-- CARD OPTIONS -->
+
+    </div><!-- /CARD OPTIONS -->
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+
+    <div class="col grid-margin">
+      <div class="d-flex justify-content-between align-items-baseline">
+        <button type="button" class="btn btn-secondary mr-2" (click)="updateRunnersStats()">Updates Runner Stats</button>
+        <p>Response message :</p>
+        <div class="col">
+          <div *ngIf="dbState.isLoadingRunnersStats.isLoading != true">
+            <p *ngIf="dbState.isLoadingRunnersStats.isLoadingSuccess" > <span class="badge badge-success">Success</span> Runner Updated:  {{dbState.updateUnderOverResponse}}</p>
+            <p *ngIf="dbState.isLoadingRunnersStats.isLoadingError" ><span class="badge badge-danger">Error</span></p>
+          </div>
+
+          <div class="spinner-border text-danger" role="status" *ngIf="dbState.isLoadingRunnersStats.isLoading == true">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div><!-- /BODY -->
+</div>

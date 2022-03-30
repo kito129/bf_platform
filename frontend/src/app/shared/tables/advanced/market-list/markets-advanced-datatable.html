@@ -1,0 +1,106 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">All Advanced Markets</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+
+    <div class="d-flex justify-content-end align-items-baseline">
+      <form class="forms-sample grid-margin" #searchForm="ngForm">
+        <div class="row">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Type name..."
+            (keyup)="updateFilter($event)"
+          />
+        </div>
+      </form>
+    </div>
+
+
+    <ngx-datatable
+      class="dark"
+      [rows]="rows"
+      [loadingIndicator]="loadingIndicator"
+      [columns]="columns"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [limit]="20"
+      [rowHeight]="40"
+      [sorts]="[{prop: 'openDate', dir: 'desc'}]">
+
+      <ngx-datatable-column name="Date" prop="marketInfo.openDate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{ value | date:'short' }}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Name" prop="marketInfo.eventName" [width]="300">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{ value }}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Winner"  prop="marketInfo.winner.name" >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p class="text">{{value}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Winner BSP"  prop="marketInfo.winner.BSP">
+        <ng-template  let-value="value" ngx-datatable-cell-template>
+          <app-bsp-odd [bspOdd]="value">
+          </app-bsp-odd>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Winner MAX"  prop="marketInfo.winner.maxInPlay" >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p> {{value | number:'0.2'}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="PreMatch Volume"  prop="marketInfo.volume.preMatch">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p class="text">{{value | currencyK}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="PV %"  prop="marketInfo.volume.preMatchPercent" >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p class="text">{{value | percent}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Traded Volume"  prop="marketInfo.volume.total">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p class="text">{{value | currencyK}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Open Winner" prop="marketInfo.winner.id">
+        <ng-template  let-value="value" ngx-datatable-cell-template>
+          <button type="button" routerLink='/runners/detail/{{value}}'  class="btn btn-info btn-icon">
+            <i class="feather icon-external-link"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Open Market" prop="marketId">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <button type="button" routerLink='/marketAdvanced/detail/{{value}}'  class="btn btn-primary btn-icon">
+            <i class="feather icon-external-link"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </div><!-- /BODY -->
+</div>

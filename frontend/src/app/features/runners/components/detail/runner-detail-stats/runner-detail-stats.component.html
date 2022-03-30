@@ -1,0 +1,25 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header" *ngIf="title!==''">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">{{title}}</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+    <apx-chart
+      [series]="donutChartOptions.nonAxisSeries"
+      [chart]="donutChartOptions.chart"
+      [colors]="donutChartOptions.colors"
+      [labels]="donutChartOptions.labels"
+      [stroke]="donutChartOptions.stroke"
+      [legend]="donutChartOptions.legend"
+      [dataLabels]="donutChartOptions.dataLabels"
+      [theme]="donutChartOptions.theme"
+    ></apx-chart>
+
+  </div><!-- /BODY -->
+</div>
+<!-- /CARD 1-->
+

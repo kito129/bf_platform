@@ -1,0 +1,54 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Sports In Db</h6>
+      <!-- CARD OPTIONS -->
+      <div ngbDropdown class="mb-2">
+        <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton">
+          <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="eye" appFeatherIcon class="icon-sm mr-2"></i> <span class="">View</span></a>
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="edit-2" appFeatherIcon class="icon-sm mr-2"></i> <span class="">Edit</span></a>
+        </div>
+      </div>
+    </div><!-- /CARD OPTIONS -->
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+    <div class="row flex-grow">
+      <div class="col mb-2"><!--1 INFO -->
+        <h3 class="text">Horse</h3>
+        <h4 class="mb-1"> {{dbState.sportStats.countHorse}} </h4>
+        <button type="button" class="btn btn-danger" routerLink="/markets/list">
+          <i class="feather icon-external-link"></i>
+        </button>
+        <!--
+        <div class="d-flex align-items-baseline">
+          <p class="text-success">
+            <span>+3.3%</span>
+            <i data-feather="arrow-up" appFeatherIcon class="icon-sm mb-1"></i>
+          </p>
+        </div>
+        -->
+      </div><!-- /1 INFO -->
+      <div class="col mb-2"><!--2 INFO -->
+        <h3 >Tennis</h3>
+        <h4 class="mb-1"> {{dbState.sportStats.countTennis}} </h4>
+        <button type="button" class="btn btn-warning" routerLink="/markets/list">
+          <i class="feather icon-external-link"></i>
+        </button>
+      </div><!-- /2 INFO -->
+      <div class="col mb-2"><!--3 INFO -->
+        <h3 >Football</h3>
+        <h4 class="mb-1"> {{dbState.sportStats.countFootball}} </h4>
+        <button type="button" class="btn btn-success" routerLink="/markets/list">
+          <i class="feather icon-external-link"></i>
+        </button>
+      </div><!-- /3 INFO -->
+    </div>
+  </div><!-- /BODY -->
+</div>
+<!-- /CARD 1-->
+

@@ -1,0 +1,34 @@
+<div class="col">
+  <div class="d-flex justify-content-end align-items-baseline">
+    <button type="button"
+            class="btn btn-outline-danger btn-icon-text mr-2 d-none d-md-block"
+            (click)="addNewMarket()">
+      <i class="btn-icon-prepend" data-feather="add" appFeatherIcon></i>
+      Add New Market
+    </button>
+  </div>
+  <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+    <!-- ALL MARKET IN LIST-->
+    <li *ngFor="let market of strategyUploaderMatch, index as i" [ngbNavItem]="i+1">
+      <h5>
+        <a ngbNavLink>
+          <div class="form-group">
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="market.info.name" name="name">
+          </div>
+
+        </a>
+      </h5>
+      <ng-template ngbNavContent>
+        <app-strategy-uploader-insert [market]="market"
+                                      (deleteMarketEmitter)="deleteMarket($event)">
+        </app-strategy-uploader-insert>
+      </ng-template>
+    </li>
+  </ul>
+
+  <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+</div>
+
+

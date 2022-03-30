@@ -1,0 +1,172 @@
+<!-- CARD 1-->
+<div class="card mt-2">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h4 class="card-title mb-0">Range {{marketStats.range.minOdds}} - {{marketStats.range.maxOdds}}</h4>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body">
+    <div class="col">
+
+      <ul class="list-group">
+        <li class="list-group-item active">
+          <div class="d-flex justify-content-around align-items-baseline">
+            <h5>Matches: {{marketStats.match.matchNumber}} ({{ marketStats.match.matchNumber / totalMatch | percent}})</h5>
+            <button type="button" [ngClass]="isCollapsed? 'btn btn-xs btn-outline-dark' : 'btn btn-xs btn-dark'" (click)="isCollapsed = !isCollapsed"
+                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+              View
+            </button>
+          </div>
+        </li>
+
+        <!-- DATATABLE -->
+        <li class="list-group-item" [ngbCollapse]="isCollapsed">
+          <ngx-datatable
+            class="dark"
+            [rows]="marketStats.marketsInfo"
+            [columnMode]="ColumnMode.flex"
+            [headerHeight]="40"
+            [footerHeight]="50"
+            [limit]="15"
+            rowHeight="50"
+            [sorts]="[{prop: 'winner.bsp', dir: 'asc'}]">
+
+            <ngx-datatable-column name="Date" prop="openDate" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <h5>
+                  {{ value | date:'shortDate' }}
+                </h5>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Name" prop="eventName" [flexGrow]="3">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <h5>
+                  {{ value}}
+                </h5>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Winner" prop="winner.id" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <h5 *ngIf="+value === +runnerId">
+                  <i data-feather="check" appFeatherIcon class="text-success"></i>
+                </h5>
+                <h5 *ngIf="+value !== +runnerId">
+                  <i data-feather="x" appFeatherIcon class="text-danger"></i>
+                </h5>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Winner BSP" prop="winner.bsp" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Winner Max" prop="winner.maxInPlay" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Winner min" prop="winner.minInPlay" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Loser BSP" prop="loser.bsp" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                  <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Loser Max" prop="loser.maxInPlay" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Loser min" prop="loser.minInPlay" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Detail" prop="marketId" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <app-market-details-modal [isBasic]="true"
+                                          [marketId]="value">
+                </app-market-details-modal>
+              </ng-template>
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+
+        </li>
+
+        <!--
+        <li class="list-group-item" *ngFor="let info of marketStats.marketsInfo" [ngbCollapse]="isCollapsed">
+
+          <div class="row">
+            <div class="col-2">
+              <p>{{info.openDate | date:'M/d/yy'}}</p>
+            </div>
+            <div class="col-3">
+              <p>{{info.eventName}}</p>
+            </div>
+            <div class="col-2">
+              <app-bsp-odd [bspOdd]="info.selectionWin ? info.winner.bsp : info.loser.bsp"></app-bsp-odd>
+            </div>
+            <div class="col-2">
+              <p>min: {{info.selectionWin ? info.winner.minInPlay : info.loser.minInPlay}}</p>
+              <p class="mt-1">MAX: {{info.selectionWin ? info.winner.maxInPlay : info.loser.maxInPlay}}</p>
+            </div>
+            <div class="col-1">
+              <div *ngIf="+info.winner.id === +runnerId">
+                <i data-feather="check" appFeatherIcon class="text-success"></i>
+              </div>
+              <div *ngIf="+info.winner.id !== +runnerId && info.winner.id">
+                <i data-feather="x" appFeatherIcon class="text-danger"></i>
+              </div>
+              <div *ngIf="!info.winner.id">
+                <i data-feather="info" appFeatherIcon class="text-warning"></i>
+              </div>
+            </div>
+            <div class="col-2">
+              <app-market-details-modal [isBasic]="true"
+                                        [marketId]="info.marketId">
+              </app-market-details-modal>
+            </div>
+          </div>
+
+
+
+        </li>
+        -->
+        <li class="list-group-item disabled">
+          <div class="row">
+            <div class="col">
+              <h5>Min:</h5>
+              <h5>{{marketStats.odds.min  | number:'0.2'}}</h5>
+            </div>
+            <div class="col text-center">
+              <h5>Max:</h5>
+              <h5>{{marketStats.odds.max  | number:'0.2'}}</h5>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col mt-2">
+      <app-runner-detail-stats [runnerMarkets]="marketStats.marketsInfo"
+                               [runnerId]=" runnerId"
+                               title="" height="220">
+
+      </app-runner-detail-stats>
+    </div>
+  </div>
+
+</div>

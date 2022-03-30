@@ -1,0 +1,89 @@
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Basket Markets List</h6>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="card-body">
+
+    <form class="form-group mr-2" #searchFormRunner="ngForm">
+      <div class="row">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Search..."
+          (keyup)="updateFilter($event)"
+        />
+      </div>
+    </form>
+
+    <ngx-datatable
+      class="dark"
+      [rows]="rows"
+      [columns]="columns"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [rowHeight]="45"
+      [limit]="10"
+      [reorderable]="true"
+      [sorts]="[{prop: 'marketInfo.openDate', dir: 'desc'}]">
+
+
+      <ngx-datatable-column name="Date" prop="marketInfo.openDate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{value | date}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Market" prop="marketInfo">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <a routerLink="/markets/detail/{{value.id}}">{{value.name}}</a>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="SelectionName" prop="selection">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <a routerLink="/runners/detail/{{value.id}}">{{value.name}}</a>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="BSP" prop="selection.inPlayOdds">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Winner" prop="" orderable="true">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <app-winner-formatter *ngIf="value.marketInfo.winner.id !== undefined" [winner]="value.selection.id === value.marketInfo.winner?.id">
+          </app-winner-formatter>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column name="# Of odds" prop="selection.lengthOddsInPlay">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6> {{value}} </h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column name="Tools" prop="">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <button type="button" class="btn btn-icon" [ngClass]="selectedBasketMarketId === value.marketInfo.id ? 'btn-info' : 'btn-outline-info'" (click)="onClick(value.marketInfo.id, value.selection.id)">
+            <i class="feather icon-eye"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+    </ngx-datatable>
+
+  </div>
+  <!-- FOOTER -->
+  <div class="card-footer">
+  </div>
+</div>

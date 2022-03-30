@@ -1,0 +1,89 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Study Comparator</h6>
+    </div><!-- /CARD OPTIONS -->
+  </div><!-- /HEADER -->
+  <div class="card-body" *ngIf="dataOk"><!-- BODY -->
+
+    <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink>Compare</a>
+        <ng-template ngbNavContent>
+
+          <app-strategy-report-tables [strategyReports]="strategyReports"
+                                      [strategyWinners]="strategyPies">
+          </app-strategy-report-tables>
+
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2">
+        <a ngbNavLink>Equity</a>
+        <ng-template ngbNavContent>
+
+          <app-multi-line-equity [seriesName]="seriesName"
+                                 [stock]="equity"
+                                 [wantLegend]="true"
+                                 [wantTooltip]="true"
+                                 [height]="900">
+          </app-multi-line-equity>
+
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3">
+        <a ngbNavLink>DD</a>
+        <ng-template ngbNavContent>
+
+          <app-dd-multi-charts [seriesName]="seriesName"
+                               [ddPercent]="ddPercent"
+                               [ddMonetary]="ddMonetary"
+                               [maxDDMonetary]="maxDDMonetary"
+                               [avgDD]="avgDDPercent"
+                               [maxDDPercent]="maxDDPercent"
+                               [chartHeight]="chartHeight"
+                               [histogramResolution]="6"
+                               [toolTipCharts]="true"
+                               [wantLegend]="true">
+          </app-dd-multi-charts>
+
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="4">
+        <a ngbNavLink>Trades Comparator</a>
+        <ng-template ngbNavContent>
+
+          <app-study-comparator-trades-table [rowsInput]="rows"
+                                             [studyName]="seriesName">
+          </app-study-comparator-trades-table>
+
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="5">
+        <a ngbNavLink>Trades</a>
+        <ng-template ngbNavContent>
+
+          <app-multi-pl-trades [seriesName]="seriesName"
+                               [pl]="pl">
+          </app-multi-pl-trades>
+
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="6">
+        <a ngbNavLink>RR</a>
+        <ng-template ngbNavContent>
+
+          <app-multi-rr-trades [rr]="rr"
+                               [seriesName]="seriesName">
+          </app-multi-rr-trades>
+
+        </ng-template>
+      </li>
+    </ul>
+
+    <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+  </div>
+</div>
+
+

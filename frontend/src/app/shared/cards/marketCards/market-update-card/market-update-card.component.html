@@ -1,0 +1,90 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header" *ngIf="!marketUpdateOnlyData">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Market Update</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+    <h4>Market Duration: {{inPlayDuration| secAndMinute}} {{notSuspended ? '* not suspended' : ''}}</h4>
+
+
+    <div class="table-responsive" *ngIf="marketInfoBasic && marketUpdates">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>TimeStamp</th>
+          <th>Delta</th>
+          <th>Status</th>
+          <th>BetDelay</th>
+          <th>InPlay</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let update of marketUpdates.marketUpdates, index as i" >
+          <td> <h6 [ngClass]="update.timestamp == marketInfoBasic.marketInfo.openDate ? 'text-warning' : ''">{{ update.timestamp | date:'long' }}</h6></td>
+          <td> <h6 >{{ i-1>=0 ? (update.timestamp - marketUpdates.marketUpdates[i-1].timestamp | secAndMinute ): 0 }}</h6></td>
+          <td> <h6 [ngClass]="update.status.indexOf('OPEN')!== -1 ? 'text-success' : update.status.indexOf('SUSPENDED')!== -1 ? 'text-warning' : 'text-danger'">{{ update.status }} </h6></td>
+          <td> <h6 [ngClass]="update.betDelay === 3 ? 'text-success' : update.betDelay === 5 ? 'text-warning' : 'text-danger'">{{ update.betDelay }} </h6></td>
+          <td> <h6 [ngClass]="update.inPlay ? 'text-success' : 'text-danger'">{{ update.inPlay}}</h6> </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-responsive" *ngIf="marketInfoAdvanced && marketUpdates">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>TimeStamp</th>
+          <th>Delta</th>
+          <th>Status</th>
+          <th>BetDelay</th>
+          <th>InPlay</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let update of marketUpdates.marketUpdates, index as j" >
+          <td> <h6 [ngClass]="update.timestamp == marketInfoAdvanced.marketInfo.openDate ? 'text-warning' : ''">{{ update.timestamp | date:'long' }}</h6></td>
+          <td> <h6 >{{ j-1>=0 ? (update.timestamp - marketUpdates.marketUpdates[j-1].timestamp | secAndMinute ): 0 }}</h6></td>
+          <td> <h6 [ngClass]="update.status.indexOf('OPEN')!== -1 ? 'text-success' : update.status.indexOf('SUSPENDED')!== -1 ? 'text-warning' : 'text-danger'">{{ update.status }} </h6></td>
+          <td> <h6 [ngClass]="update.betDelay === 3 ? 'text-success' : update.betDelay === 5 ? 'text-warning' : 'text-danger'">{{ update.betDelay }} </h6></td>
+          <td> <h6 [ngClass]="update.inPlay ? 'text-success' : 'text-danger'">{{ update.inPlay}}</h6> </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-responsive" *ngIf="marketUpdateOnlyData">
+      <table class="table table-hover" style="border-spacing:0;">
+        <thead>
+        <tr>
+          <th>TimeStamp</th>
+          <th>Delta</th>
+          <th>Status</th>
+          <th>BetDelay</th>
+          <th>InPlay</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let update of marketUpdateOnlyData, index as h" >
+          <td *ngIf="marketInfoAdvanced"> <h6 [ngClass]="update.timestamp == marketInfoAdvanced.marketInfo.openDate ? 'text-warning' : ''">{{ update.timestamp | date:'long' }}</h6></td>
+          <td *ngIf="marketInfoBasic"> <h6 [ngClass]="update.timestamp == marketInfoBasic.marketInfo.openDate ? 'text-warning' : ''">{{ update.timestamp | date:'long' }}</h6></td>
+          <td> <h6 >{{ h-1>=0 ? (update.timestamp - marketUpdateOnlyData[h-1].timestamp | secAndMinute ): 0 }}</h6></td>
+          <td> <h6 [ngClass]="update.status.indexOf('OPEN')!== -1 ? 'text-success' : update.status.indexOf('SUSPENDED')!== -1 ? 'text-warning' : 'text-danger'">{{ update.status }} </h6></td>
+          <td> <h6 [ngClass]="update.betDelay === 3 ? 'text-success' : update.betDelay === 5 ? 'text-warning' : 'text-danger'">{{ update.betDelay }} </h6></td>
+          <td> <h6 [ngClass]="update.inPlay ? 'text-success' : 'text-danger'">{{ update.inPlay}}</h6> </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+
+  </div><!-- /BODY -->
+</div>
+<!-- /CARD 1-->
+

@@ -1,0 +1,17 @@
+<app-odd-form [title]="isBack ? 'Back': 'Lay'"
+              [odds]="data.odds"
+              (oddsPointEmitter)="updateOdds($event)"></app-odd-form>
+<div class="form-group">
+  <label for="stake" [ngClass]="isBack ? 'text-primary': 'text-danger'">{{isBack ? 'Stake': 'Bank'}}</label>
+  <input type="number"
+         class="form-control"
+         id="stake"
+         [(ngModel)]="stakeForm"
+         name="stake"
+         step="0.01"
+         (ngModelChange)="updateStake()">
+</div>
+<div *ngIf="!isBack && data.liability">
+  <h6> Liability: {{data.liability | currency}} </h6>
+</div>
+

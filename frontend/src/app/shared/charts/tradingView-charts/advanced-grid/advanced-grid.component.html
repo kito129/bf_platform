@@ -1,0 +1,75 @@
+<table class="table table-bordered text-center">
+  <thead>
+  <tr>
+    <th colspan="7">
+      <h4>
+        {{inputGrid.runnerA.name}}
+      </h4>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <!--- BACK -->
+    <td class="text-primary" style="width: 33%;" *ngFor="let back of inputGrid.runnerA.batb">
+      <div [hidden]="back[1] === 0 || back[2]===0">
+        <h6>
+          {{back[1]}}
+        </h6>
+        <h6>
+          {{back[2] | currency : 'EUR' : 'symbol' : '1.0-0'}}
+        </h6>
+      </div>
+    </td>
+    <td class="table-dark">
+      <!---EMPTY-->
+    </td>
+    <!--- LAY -->
+    <td class="text-danger" style="width: 33%;" *ngFor="let lay of inputGrid.runnerA.batl">
+      <div [hidden]="lay[1] === 0 || lay[2]===0">
+        <h6>
+          {{lay[1]}}
+        </h6>
+        <h6>
+          {{lay[2]| currency : 'EUR' : 'symbol' : '1.0-0'}}
+        </h6>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="7">
+      <h4>
+        {{inputGrid.runnerB.name}}
+      </h4>
+    </td>
+  </tr>
+  <tr>
+    <!--- BACK -->
+    <td class="text-primary" style="width: 33%;" *ngFor="let back of inputGrid.runnerB.batb">
+      <div [hidden]="back[1] === 0 || back[2]===0">
+        <h6>
+          {{back[1]}}
+        </h6>
+        <h6>
+          {{back[2] | currency : 'EUR' : 'symbol' : '1.0-0'}}
+        </h6>
+      </div>
+    </td>
+    <td class="table-dark">
+      <!---EMPTY-->
+    </td>
+    <!--- LAY -->
+    <td class="text-danger" style="width: 33%;" *ngFor="let lay of inputGrid.runnerB.batl">
+      <div [hidden]="lay[1] === 0 || lay[2]===0">
+        <h6>
+          {{lay[1]}}
+        </h6>
+        <h6>
+          {{lay[2]| currency : 'EUR' : 'symbol' : '1.0-0'}}
+        </h6>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

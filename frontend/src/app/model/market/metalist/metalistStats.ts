@@ -1,0 +1,29 @@
+export interface MetalistStats {
+  totalMarket: number
+  avgDuration: number,
+  matchDurationUnder1h: number
+  matchDuration1h2h: number
+  matchDuration2h3h: number
+  matchDuration3h4h: number
+  matchDurationOver4h: number
+  matchCorrectSuspend: number
+  runnerCorrectBSP0: number
+  runnerCorrectBSP1: number
+  runnerCorrectBSP2: number
+  runnerOddsPrematch0: number
+  runnerOddsPrematchUnder200: number
+  runnerOddsPrematch200a500: number
+  runnerOddsPrematch500a1000: number
+  runnerOddsPrematchOver1000: number
+  runnerOddsInplayUnder500: number
+  runnerOddsInplay500a1000: number
+  runnerOddsInplay1000a2000: number
+  runnerOddsInplayOver2000: number
+  numberUpdatesInplay0: number
+  numberUpdatesInplay1: number
+  numberUpdatesInplay2: number
+  numberUpdatesInplay3: number
+  numberUpdatesInplay4: number
+  numberUpdatesInplay5: number
+  numberUpdatesInplayOver6: number
+}

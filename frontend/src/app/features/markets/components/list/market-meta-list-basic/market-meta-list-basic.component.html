@@ -1,0 +1,273 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Tennis Market Basic</h4>
+  </div>
+  <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <button type="button" class="btn btn-outline-info btn-icon mr-2 d-none d-md-block" (click)="refreshData()">
+      <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
+      Refresh Filter
+    </button>
+  </div>
+</div>
+
+<div class="col-12">
+  <!-- MAIN-->
+  <app-loading-cards *ngIf="(isLoadingMetalist$ | async).isLoading"></app-loading-cards>
+  <div *ngIf="(isLoadingMetalist$ | async).isLoadingSuccess">
+
+    <!-- BASKET FILTER-->
+    <div class="row">
+      <!-- BASKET FILTER FILTERS-->
+      <div class="col-8">
+        <app-filters-main class="mb-3">
+        </app-filters-main>
+      </div>
+      <!-- BASKET FILTER CRUD LIST-->
+      <div class="col-4">
+        <app-crud-list [filterBaskets]="filterList$ | async"
+                       [currentBasket]="(metaList$ | async).basket"
+                       [currentRemoved]="(metaList$ | async).removed"
+                       [currentBasketFilter]="basketFilter$ | async"
+                       [selectedFilterBasketId]="selectedFilterBasketId$ | async"
+                       [selectedFilterBasket]="selectedFilterBasket$ | async"
+                       [selectedFilterBasket$]="selectedFilterBasket$">
+        </app-crud-list>
+
+      </div>
+    </div>
+
+
+    <div class="d-flex card-inverse mb-3">
+      <h4># Market in basket: {{rows.length}}</h4>
+    </div>
+
+    <!-- NAME FILTER -->
+    <div class="d-flex justify-content-end align-items-baseline">
+      <form class="forms-sample grid-margin">
+        <div class="row">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Type name..."
+            (keyup)="updateNameFilter($event)"
+          />
+        </div>
+      </form>
+    </div>
+
+    <!-- DATATABLE -->
+    <ngx-datatable
+    class="dark"
+    [rows]="rows"
+    [columnMode]="ColumnMode.flex"
+    [headerHeight]="40"
+    [footerHeight]="50"
+    [limit]="10"
+    rowHeight="50"
+    [sorts]="[{prop: 'marketInfo.marketInfo.metadata.inPlayTime', dir: 'desc'}]">
+
+      <ngx-datatable-column name="Date" prop="marketInfo.marketInfo.metadata.inPlayTime" [flexGrow]="1">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <h5>
+          {{ value | date:'shortDate' }}
+        </h5>
+      </ng-template>
+    </ngx-datatable-column>
+
+      <ngx-datatable-column name="Market Type" prop="marketInfo.marketInfo.name" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6>
+            <app-event-name-text [eventName]="value"></app-event-name-text>
+          </h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Winner" prop="marketRunners.runnerWinner.name" [flexGrow]="2">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6 [ngClass]="value.toLowerCase().indexOf(filterName)!==-1 && filterName !=='' ? 'text-warning' :''">
+            {{value}}
+          </h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Loser" prop="marketRunners.runnerLoser.name" [flexGrow]="2">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <h6 [ngClass]="value.toLowerCase().indexOf(filterName)!==-1 && filterName !=='' ? 'text-warning' :''">
+          {{value}}
+        </h6>
+      </ng-template>
+    </ngx-datatable-column>
+
+      <ngx-datatable-column name="Duration" prop="marketInfo.marketInfo.metadata.inPlayDuration" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6 [ngClass]="value >=2400000 && value <14400000  ? 'text-success' : 'text-danger'">{{ value | secAndMinute }}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Winner BSP" prop="marketRunners.runnerWinner.inPlayOdds" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Winner Max" prop="marketRunners.runnerWinner.maxInPlay" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6>{{value}}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Winner Min" prop="marketRunners.runnerWinner.minInPlay" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6>{{value}}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Loser BSP" prop="marketRunners.runnerLoser.inPlayOdds" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Loser Max" prop="marketRunners.runnerLoser.maxInPlay" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6>{{value}}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Loser Min" prop="marketRunners.runnerLoser.minInPlay" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6>{{value}}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="correctSuspended" prop="marketInfo.marketInfo.metadata.correctSuspended"  [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6 [ngClass]="value ? 'text-success' : 'text-danger'">{{ value }}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="correctBsp" prop="marketInfo.marketInfo.metadata.runnersCorrectBSP"  [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6 [ngClass]="value >=2 ? 'text-success' : value ===1 ? 'text-warning' : 'text-danger'">{{ value }}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="haveAdditional" prop="marketAdditionalInfo"  [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6 [ngClass]="value ? 'text-success': 'text-danger'">{{ value ? "true" : "false" }}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="oddsPrematch" prop="marketInfo.marketInfo.metadata.prematchNumberOddsNumber"  [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6 [ngClass]="value >=20 ? 'text-success' : 'text-danger'">{{ value }}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="oddsInplay" prop="marketInfo.marketInfo.metadata.inplayNumberOddsNumber"  [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6 [ngClass]="value >=50 ? 'text-success' : 'text-danger'">{{ value }}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="updateInplay" prop="marketInfo.marketInfo.metadata.inplayUpdatesNumber"  [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h6 [ngClass]="value ==3 ? 'text-success' : (value >3 && value <=7) || value == 2 ? 'text-warning' : 'text-danger'">{{ value }}</h6>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- DETAIL BUTTONS-->
+      <ngx-datatable-column name="Detail" prop="" [flexGrow]="2">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+
+          <div class="d-flex justify-content-end align-items-baseline">
+            <app-market-details-modal [isBasic]="true"
+                                      [marketId]="value.marketInfo.marketInfo.id">
+            </app-market-details-modal>
+
+            <!-- REMOVED LIST BUTTON-->
+            <button type="button" class="btn btn-icon  btn-outline-danger mr-2 d-none d-md-block"
+                    (click)="setInRemovedList(value.marketInfo.marketInfo.id)">
+              <i class="btn-icon-prepend"
+                 data-feather="x"
+                 appFeatherIcon></i>
+            </button>
+          </div>
+
+
+        </ng-template>
+
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+    <div class="row mt-3">
+      <!-- REMOVED MARKET-->
+      <div class="col-6" *ngIf="(removedMarket$ | async).length">
+        <div class="d-flex justify-content-end align-items-baseline">
+          <h4 class="text-warning mr-3">Removed Market, #: {{(removedMarket$ | async).length}} </h4>
+
+          <button type="button" class="btn btn-icon  btn-outline-danger mr-2 d-none d-md-block"
+                  (click)="resetRemovedList()">
+            <i class="btn-icon-prepend"
+               data-feather="chevrons-right"
+               appFeatherIcon>
+              Flush
+            </i>
+          </button>
+
+        </div>
+        <ngx-datatable
+          class="dark"
+          [rows]="removedMarket$ | async"
+          [columnMode]="ColumnMode.flex"
+          [headerHeight]="40"
+          [footerHeight]="50"
+          [limit]="10"
+          rowHeight="50"
+          [sorts]="[{prop: 'marketDate', dir: 'desc'}]">
+
+          <ngx-datatable-column name="Date" prop="marketDate" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <h5>
+                {{ value | date:'shortDate' }}
+              </h5>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Name" prop="marketName" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <h5>
+                {{ value }}
+              </h5>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Tools" prop="marketId" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div class="d-flex justify-content-end align-items-baseline">
+                <app-market-details-modal [isBasic]="true"
+                                          [marketId]="value">
+                </app-market-details-modal>
+
+                <!-- REMOVED LIST BUTTON-->
+                <button type="button" class="btn btn-icon btn-outline-success mr-2 d-none d-md-block"
+                        (click)="setInRemovedList(value)">
+                  <i class="btn-icon-prepend"
+                     data-feather="plus"
+                     appFeatherIcon></i>
+                </button>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+        </ngx-datatable>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+

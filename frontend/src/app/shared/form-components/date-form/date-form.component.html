@@ -1,0 +1,71 @@
+<div class="row" *ngIf="showDate">
+  <div class="col">
+    <label for="month" class="text-gray">Month</label>
+    <input type="number"
+           step='1'
+           class="form-control"
+           [(ngModel)]="dateStruct.date.month"
+           id="month"
+           name="month"
+           min="1"
+           max="12" (ngModelChange)="onUpdate()">
+  </div>
+  <div class="col">
+    <label for="day" class="text-gray">Day</label>
+    <input type="number"
+           step='1'
+           class="form-control"
+           [(ngModel)]="dateStruct.date.day"
+           id="day"
+           name="day"
+           min="1"
+           max="31" (ngModelChange)="onUpdate()">
+  </div>
+  <div class="col">
+    <label for="year" class="text-gray">Year</label>
+    <input type="number"
+           step='1'
+           class="form-control"
+           [(ngModel)]="dateStruct.date.year"
+           id="year"
+           name="year"
+           min="1970"
+           max="2032" (ngModelChange)="onUpdate()">
+  </div>
+</div>
+<div class="row" *ngIf="showTime">
+  <div class="col">
+    <label for="hour" class="text-gray">Hour</label>
+    <input type="number"
+           step='1'
+           class="form-control"
+           [(ngModel)]="dateStruct.time.hour"
+           id="hour"
+           name="hour"
+           min="0"
+           max="24" (ngModelChange)="onUpdate()">
+  </div>
+  <div class="col">
+    <label for="minute" class="text-gray">Minute</label>
+    <input type="number"
+           step='1'
+           class="form-control"
+           [(ngModel)]="dateStruct.time.minute"
+           id="minute"
+           name="minute"
+           min="0"
+           max="59" (ngModelChange)="onUpdate()">
+  </div>
+  <div class="col">
+    <label for="seconds" class="text-gray">Seconds</label>
+    <input type="number"
+           step='1'
+           class="form-control"
+           [(ngModel)]="dateStruct.time.seconds"
+           id="seconds"
+           name="seconds"
+           min="0"
+           max="59" (ngModelChange)="onUpdate()">
+  </div>
+</div>
+

@@ -1,0 +1,163 @@
+<!-- ROW 1 -->
+<div class="row grid-margin">
+  <!-- COL 1 -->
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h6 class="card-title mb-0">Info</h6>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-4">
+                <h6>Tournament: </h6>
+              </div>
+              <div class="col">
+                <h6>{{(getTennisTournamentName(noteDetail.note.tournamentId) | async)}} - {{noteDetail.note.phase}}</h6>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-4">
+                <h6>Type: </h6>
+              </div>
+              <div class="col">
+                <p *ngIf="noteDetail.note.validation.detailValidation.win" class="mb-1"><span class="badge badge-success">Win</span> </p>
+                <p *ngIf="noteDetail.note.validation.detailValidation.lose" class="mb-1"><span class="badge badge-danger">Lose</span> </p>
+                <p *ngIf="noteDetail.note.validation.detailValidation.retired" class="mb-1"><span class="badge badge-warning">Retired</span> </p>
+              </div>
+              <div class="col">
+                <p *ngIf="noteDetail.note.detailType.isInPlay" class="mb-1"><span class="badge badge-info">In Game</span></p>
+                <p *ngIf="noteDetail.note.detailType.isNotInPause" class="mb-1"><span class="badge badge-light">Not Pause</span></p>
+                <p *ngIf="noteDetail.note.detailType.recall" class="mb-1"><span class="badge badge-primary">Recall</span></p>
+              </div>
+            </div>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-4">
+                <h6>Validated: </h6>
+              </div>
+              <div class="col">
+                <p *ngIf="noteDetail.note.validation.isValidated"><i data-feather="check" appFeatherIcon class="text-success"></i></p>
+                <p *ngIf="!noteDetail.note.validation.isValidated"><i data-feather="x" appFeatherIcon class="text-danger"></i></p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- COL 2 -->
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h6 class="card-title mb-0">Selection</h6>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-4">
+                <h6>{{noteDetail.note.selection.runnerA.name}}</h6>
+              </div>
+              <div class="col">
+                <h5 *ngIf="noteDetail.note.type !== 'WalkOver'"><span class="badge badge-light mb-2">{{noteDetail.note.selection.runnerA.bsp | number:'0.01'}}</span></h5>
+              </div>
+              <div class="col">
+                <h5 *ngIf="noteDetail.note.type === 'Medical'"><span class="badge badge-dark mb-2">{{noteDetail.note.selection.runnerA.odds | number:'0.01'}}</span></h5>
+              </div>
+              <div class="col">
+                <button type="button" routerLink="/runners/detail/{{noteDetail.note.selection.runnerA.id}}" class="btn btn-primary btn-icon">
+                  <i class="feather icon-external-link"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-4">
+                <h6>{{noteDetail.note.selection.runnerB.name}}</h6>
+              </div>
+              <div class="col">
+                <h5 *ngIf="noteDetail.note.type !== 'WalkOver'"><span class="badge badge-light mb-2">{{noteDetail.note.selection.runnerB.bsp | number:'0.01'}}</span></h5>
+              </div>
+              <div class="col">
+                <h5 *ngIf="noteDetail.note.type === 'Medical'"><span class="badge badge-dark mb-2">{{noteDetail.note.selection.runnerB.odds | number:'0.01'}}</span></h5>
+              </div>
+              <div class="col">
+                <button type="button" routerLink="/runners/detail/{{noteDetail.note.selection.runnerB.id}}" class="btn btn-primary btn-icon">
+                  <i class="feather icon-external-link"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- COL 3 -->
+  <div class="col" *ngIf="noteDetail.note.type.indexOf('WalkOver')===-1">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h6 class="card-title mb-0">Point</h6>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-4">
+                <h6>Point:</h6>
+              </div>
+              <div class="col">
+                <h6>{{noteDetail.note.tennisPoints | tennisPoint}}</h6>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-4">
+                <h6>Final Result:</h6>
+              </div>
+              <div class="col">
+                <h6>{{noteDetail.note.validation.tennisPoints | tennisPoint}}</h6>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ROW 2 -->
+<div class="row grid-margin" *ngIf="noteDetail.note.type.indexOf('WalkOver')===-1">
+  <!-- COL 1 -->
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h6 class="card-title mb-0">Note</h6>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item" *ngIf="noteDetail.note.description">
+            <h6 class="text-gray">On Medical: </h6>
+            <p>{{noteDetail.note.description}}</p>
+          </li>
+          <li class="list-group-item" *ngIf="noteDetail.note.validation.isValidated && noteDetail.note.validation.validationNote">
+            <h6 class="text-gray">Final Result: </h6>
+            <p>{{noteDetail.note.validation.validationNote}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

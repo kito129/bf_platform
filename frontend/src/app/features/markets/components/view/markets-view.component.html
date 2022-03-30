@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Markets Preview</h4>
+    <p>Discover db statistics and search markets </p>
+  </div>
+  <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block">
+      <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
+      Refresh
+    </button>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">BF</a></li>
+    <li class="breadcrumb-item"><a routerLink="/markets">Markets</a></li>
+    <li class="breadcrumb-item active" aria-current="page">View</li>
+  </ol>
+</nav>
+<!-- /BREADCRUMB -->
+
+
+<!-- ROW 1-->
+<div class="col-12">
+  <!-- STATS COMPONENTS-->
+  <app-markets-stats-main [dbState]="dbState"></app-markets-stats-main>
+</div>
+<!-- /ROW 1-->
+
+<!-- ROW 2-->
+<div class="col-12">
+  <!-- CALENDAR COMPONENTS-->
+  <app-markets-calendar-main></app-markets-calendar-main>
+</div>
+<!-- /ROW 2-->
+

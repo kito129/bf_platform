@@ -1,0 +1,47 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Runner Info</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+    <ul class="list-group">
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <p>Name: </p>
+          </div>
+          <div class="col">
+            <h3>{{runnerInfo.name}}</h3>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <p>Sport: </p>
+          </div>
+          <div class="col">
+            <app-sport-text [sport]="runnerInfo.sport"></app-sport-text>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <p>Match Played: </p>
+          </div>
+          <div class="col">
+            <h5>{{runnerInfo.match}}</h5>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+
+  </div><!-- /BODY -->
+</div>
+<!-- /CARD 1-->
+

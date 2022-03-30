@@ -1,0 +1,20 @@
+<div class="d-flex justify-content-end align-items-baseline">
+  <app-trade-and-market-details-modal [trade]="trade">
+  </app-trade-and-market-details-modal>
+
+  <button type="button" class="btn btn-icon btn-outline-success mr-2"
+          (click)="onDuplicateClick(trade)">
+    <i class="feather icon-copy"></i>
+  </button>
+
+  <app-delete-modal [type]="'Trade'"
+                    [id]="trade._id"
+                    [name]="trade.trade.info.marketInfo.marketName"
+                    (deleteEmitter)="deleteModal($event)">
+  </app-delete-modal>
+
+  <app-trade-updates-modal [tradeInput]="trade"
+                           (tradeUpdateEmitter)="updateModal($event)">
+
+  </app-trade-updates-modal>
+</div>

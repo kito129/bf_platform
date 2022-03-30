@@ -1,0 +1,131 @@
+<!-- Button trigger trade-modal -->
+<button type="button" class="btn btn-xs btn-outline-light" (click)="openVerticalCenteredModal(verticalCenteredModal)">
+  <i class="feather icon-edit"></i>
+</button>
+
+<!-- Modal -->
+<ng-template #verticalCenteredModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Update Tournament</h5>
+    <button type="button" class="close" (click)="modal.close('close')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form class="forms-sample grid-margin" *ngIf="tennisTournamentOutput!= undefined" >
+      <div class="form-group">
+        <label for="name" class="text-gray">Name</label>
+        <input class="form-control"
+               id="name"
+               type="text"
+               placeholder="Name"
+               name="name"
+               [(ngModel)]="tennisTournamentOutput.tournament.detail.name">
+      </div>
+
+      <app-date-form [time]="tennisTournamentOutput.tournament.detail.openDate"
+                     (dateEmitter)="updateDate($event)"
+                     [showTime]="false"
+                     [showDate]="true">
+      </app-date-form>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="text-gray">Federation</label>
+            <ng-select [items]="federation"
+                       id="federation"
+                       name="federation"
+                       bindLabel="value"
+                       bindValue="value"
+                       placeholder="Federation"
+                       [(ngModel)]="tennisTournamentOutput.tournament.detail.type.federation">
+            </ng-select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="text-gray">Point</label>
+            <ng-select [items]="point"
+                       id="point"
+                       name="point"
+                       bindLabel="value"
+                       bindValue="value"
+                       placeholder="Point"
+                       [(ngModel)]="tennisTournamentOutput.tournament.detail.type.point">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="tennisTournamentOutput.tournament.detail.type.isChallenger" name="isChallenger">
+              <i class="input-frame"></i>
+              Is Challenger
+            </label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="tennisTournamentOutput.tournament.detail.type.isSlam" name="isSlam">
+              <i class="input-frame"></i>
+              Is Grand Slam
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="text-gray" for="surface">Surface</label>
+        <ng-select [items]="surface"
+                   id="surface"
+                   name="surface"
+                   bindLabel="value"
+                   bindValue="value"
+                   placeholder="Surface"
+                   [(ngModel)]="tennisTournamentOutput.tournament.detail.surface">
+        </ng-select>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="drawSize" class="text-gray">Draw Size</label>
+            <input class="form-control"
+                   id="drawSize"
+                   type="number"
+                   placeholder="Draw Size"
+                   name="drawSize"
+                   [(ngModel)]="tennisTournamentOutput.tournament.detail.draw">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="qualfSize" class="text-gray">Qualifying Size</label>
+            <input class="form-control"
+                   id="qualfSize"
+                   type="number"
+                   placeholder="Qualifying Size"
+                   name="qualfSize"
+                   [(ngModel)]="tennisTournamentOutput.tournament.detail.qualifying">
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+    <p>Tennis Tournament created on: {{tennisTournamentOutput.created | date:'short'}}</p>
+     <p *ngIf="tennisTournamentOutput.lastUpdate !== tennisTournamentOutput.created">Note last update: {{tennisTournamentOutput.lastUpdate | date:'short'}}</p>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('close')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('update')">Update</button>
+  </div>
+</ng-template>

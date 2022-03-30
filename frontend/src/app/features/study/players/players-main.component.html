@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col">
+    <app-loading-cards *ngIf="(isLoadingAllPlayers$ | async).isLoading" ></app-loading-cards>
+    <app-players-list *ngIf="(isLoadingAllPlayers$ | async).isLoadingSuccess"
+                      [playersList]="allPlayers$ | async"
+                      [selectedPlayerId]="selectedPlayersId$ | async">
+    </app-players-list>
+  </div>
+  <div class="col">
+    <app-players-create [selectedPlayers$]="selectedPlayers$">
+
+    </app-players-create>
+  </div>
+</div>
+

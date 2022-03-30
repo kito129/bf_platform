@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
+    <p>Recap of all parameters in site and DB</p>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">BF</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+  </ol>
+</nav>
+<!-- /BREADCRUMB -->
+
+
+<div class="row">
+  <div class="col grid-margin">
+    <app-market-stats [marketStats$]="marketsStats$$"></app-market-stats>
+  </div>
+  <div class="col grid-margin">
+    <app-runner-stats [runnerStats$]="runnerStats$$"></app-runner-stats>
+  </div>
+</div> <!-- row -->
+
+<div class="row">
+  <div class="col grid-margin">
+    <app-tennis-tournament-stats [tennisTournamentStats$]="tennisTournamentStats$"></app-tennis-tournament-stats>
+  </div>
+  <div class="col grid-margin">
+    <app-notes-stats [noteStats$]="noteStats$"></app-notes-stats>
+  </div>
+</div> <!-- row -->
+
+

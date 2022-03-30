@@ -1,0 +1,81 @@
+<div *ngIf="maxDDMonetary && ddMonetary">
+  <div class="col">
+    <h2>DD Monetary</h2>
+    <app-multi-dd-trades [dd]="ddMonetary"
+                         [seriesName]="seriesName"
+                         [wantLegend]="wantLegend"
+                         [wantTooltip]="toolTipCharts"
+                         [height]="chartHeight"
+                         [title]="'DD Monetary'"
+                         [isPercent]="false"
+                         [isCurrency]="true">
+    </app-multi-dd-trades>
+  </div>
+
+  <div class="col mt-2">
+    <h2>Max DD Monetary distribution</h2>
+    <app-trade-bar-charts [title]="'DD Monetary'"
+                          [labels]="seriesName"
+                          [data]="maxDDMonetary"
+                          [height]="chartHeight"
+                          [colors]="['#b35c2e']"
+                          [isCurrency]="true"
+                          [isPercent]="false">
+    </app-trade-bar-charts>
+
+    <app-trade-histogram [series]="maxDDMonetary"
+                         [n]="histogramResolution"
+                         [chartHeight]="chartHeight"
+                         [isPercent]="false">
+    </app-trade-histogram>
+  </div>
+</div>
+
+<div class="col">
+  <h2>DD%</h2>
+  <app-multi-dd-trades [dd]="ddPercent"
+                       [seriesName]="seriesName"
+                       [wantLegend]="wantLegend"
+                       [wantTooltip]="toolTipCharts"
+                       [height]="chartHeight"
+                       [title]="'DD %'"
+                       [isPercent]="true"
+                       [isCurrency]="false">
+  </app-multi-dd-trades>
+</div>
+
+<div class="col mt-2">
+  <h2>Max DD% distribution</h2>
+  <app-trade-bar-charts [title]="'DD%'"
+                        [labels]="seriesName"
+                        [data]="maxDDPercent"
+                        [height]="chartHeight"
+                        [colors]="['#b35c2e']"
+                        [isCurrency]="false"
+                        [isPercent]="true">
+  </app-trade-bar-charts>
+
+  <app-trade-histogram [series]="maxDDPercent"
+                       [n]="histogramResolution"
+                       [chartHeight]="chartHeight"
+                       [isPercent]="true">
+  </app-trade-histogram>
+</div>
+
+<div class="col mt-2">
+  <h2>Avg DD% distribution</h2>
+  <app-trade-bar-charts [title]="'Avg DD%'"
+                        [labels]="seriesName"
+                        [data]="avgDD"
+                        [height]="chartHeight"
+                        [colors]="['#b35c2e']"
+                        [isCurrency]="false"
+                        [isPercent]="true">
+  </app-trade-bar-charts>
+
+  <app-trade-histogram [series]="avgDD"
+                       [n]="histogramResolution"
+                       [chartHeight]="chartHeight"
+                       [isPercent]="true">
+  </app-trade-histogram>
+</div>

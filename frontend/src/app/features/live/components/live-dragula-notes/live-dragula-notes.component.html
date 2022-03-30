@@ -1,0 +1,83 @@
+
+<button  *ngIf="(runnerNotes$ | async) && (runnerNotes$ | async).length"
+         class="btn btn-icon" [ngClass]="color"
+         (click)="open(content)">
+  <i class="feather icon-info"></i>
+</button>
+
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title"><b>{{runnerName}}</b> ({{runnerOtherNotes.length + runnerRetiredNotes.length + runnerLastWeekNotes.length}}) -   {{runnerStats.medicalWin}} : {{runnerStats.medicalLost}}</h1>
+
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col">
+        <h2><b>Retired: </b></h2>
+        <h2 class="text-warning"><b>Last Medical: </b></h2>
+        <h2 *ngIf="runnerRetiredNotes.length" class="mb-3 text-danger"><b>Last Retired: </b></h2>
+      </div>
+      <div class="col">
+        <h2>{{runnerStats.medicalRetired}} ({{runnerStats.noMedicalRetired}})</h2>
+        <h2>{{runnerOtherNotes[0].created | date: 'mediumDate'}} ({{(today - runnerOtherNotes[0].created) / (1000 * 60 * 60 * 24) | number:'1.0-0'}})</h2>
+        <h2 *ngIf="runnerRetiredNotes.length">{{runnerRetiredNotes[0].created | date: 'mediumDate'}} ({{(today - runnerRetiredNotes[0].created) / (1000 * 60 * 60 * 24) | number:'1.0-0'}})</h2>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col" *ngIf="runnerRetiredNotes.length">
+        <h3
+          [ngClass]="isCollapsedRetired ? 'text-primary pointer' : 'btn-primary pointer'"
+          (click)="changeRetiredState()"
+          [attr.aria-expanded]="!isCollapsedRetired">
+          Retired Notes [{{runnerRetiredNotes.length}}]
+        </h3>
+        <div [ngbCollapse]="isCollapsedRetired">
+          <ul class="list-group mt-2" >
+            <app-live-dragula-note-detail (click)="clickNote(runnerId)"
+                                          [notes]="runnerRetiredNotes"></app-live-dragula-note-detail>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col" *ngIf="runnerLastWeekNotes.length">
+        <h3
+          [ngClass]="isCollapsedLastWeekNotes ? 'text-danger pointer' : 'btn-danger pointer'"
+          (click)="changeLastWeekState()"
+          [attr.aria-expanded]="!isCollapsedLastWeekNotes"
+        >
+          Last Weeks [{{runnerLastWeekNotes.length}}]
+        </h3>
+        <div [ngbCollapse]="isCollapsedLastWeekNotes">
+          <ul class="list-group mt-2" >
+            <app-live-dragula-note-detail (click)="clickNote(runnerId)"
+                                          [notes]="runnerLastWeekNotes"></app-live-dragula-note-detail>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col" *ngIf="runnerOtherNotes.length">
+        <h3
+          [ngClass]="isCollapsedAll ? 'text-light pointer' : 'btn-light pointer'"
+          (click)="changeLastAllState()"
+          [attr.aria-expanded]="!isCollapsedLastWeekNotes"
+        >
+          Other Notes [{{runnerOtherNotes.length}}]
+        </h3>
+        <div [ngbCollapse]="isCollapsedAll">
+          <ul class="list-group mt-2" >
+            <app-live-dragula-note-detail (click)="clickNote(runnerId)"
+                                          [notes]="runnerOtherNotes"></app-live-dragula-note-detail>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+

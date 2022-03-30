@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Runners List</h4>
+    <p>Discover db statistics and search runners </p>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">BF</a></li>
+    <li class="breadcrumb-item"><a routerLink="/runners">Runners</a></li>
+    <li class="breadcrumb-item active" aria-current="page">List</li>
+  </ol>
+</nav>
+<!-- /BREADCRUMB -->
+
+<!-- ROW 1-->
+<div class="col-12">
+  <!-- STATS COMPONENTS-->
+  <app-loading-cards *ngIf="(isLoadingAllRunners$ | async).isLoading"></app-loading-cards>
+  <app-runners-datatable-list *ngIf="(isLoadingAllRunners$ | async).isLoadingSuccess"
+                              [runners]="allRunners$ | async">
+
+  </app-runners-datatable-list>
+</div>
+<!-- /ROW 1-->

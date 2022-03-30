@@ -1,0 +1,63 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Note Stats</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+    <div class="row">
+      <div class="col">
+        <h5 class="card-title mb-0">Notes</h5>
+        <h3 class="mb-2">{{(noteStats$ | async).length | number}}</h3>
+      </div>
+
+      <div class="col">
+        <h6 class="card-title mb-0 text-danger">Medical</h6>
+        <h4 class="mb-2">{{(noteStats$ | async).stats.medical | number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(noteStats$ | async).stats.medical / (noteStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <h6 class="card-title mb-0 text-secondaty">Note</h6>
+        <h4 class="mb-2">{{(noteStats$ | async).stats.note | number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(noteStats$ | async).stats.note / (noteStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <h6 class="card-title mb-0 text-warning">Walkover</h6>
+        <h4 class="mb-2">{{(noteStats$ | async).stats.walkover | number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(noteStats$ | async).stats.walkover / (noteStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col">
+        <h6 class="card-title mb-0">Validated</h6>
+        <h4 class="mb-2">{{(noteStats$ | async).stats.validated | number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(noteStats$ | async).stats.validated / (noteStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card-footer">
+    <button type="button" class="btn btn-primary" routerLink="/notes">Go</button>
+  </div>
+</div>

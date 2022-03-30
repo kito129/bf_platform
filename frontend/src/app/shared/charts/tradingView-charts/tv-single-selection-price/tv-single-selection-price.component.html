@@ -1,0 +1,33 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Graph</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body" id="TvContainer"><!-- BODY -->
+
+    <div class="row">
+      <div class="col">
+        <h3>Data: </h3>
+        <h4>Time: {{crosshairData.time | date:'medium'}}</h4>
+        <h4>Odds: {{crosshairData.odds}}</h4>
+      </div>
+      <div class="col" *ngIf="haveTrade">
+        <h3>Trades: </h3>
+        <div *ngFor=" let trade of selectedTrades">
+          <app-bets-formatter class="mt-2" [type]="trade.isBackTrade ? 'back' : 'lay'"
+                              [odds]="trade.odds"
+                              [stake]="trade.stake"
+                              [bank]="trade.stake"
+                              [liability]="trade.liability"
+                              [toWin]=" trade.isBackTrade ?(trade.odds - 1) * trade.stake : trade.stake">
+          </app-bets-formatter>
+        </div>
+      </div>
+    </div>
+
+    <div class="align-content-center mt-2" id="TVCharts" style="width: 100%; height: 100%"></div>
+  </div>
+</div>

@@ -1,0 +1,175 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Ladder</h6>
+      <!-- CARD OPTIONS -->
+      <div ngbDropdown class="mb-2">
+        <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton">
+          <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="eye" appFeatherIcon class="icon-sm mr-2"></i> <span class="">View</span></a>
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="edit-2" appFeatherIcon class="icon-sm mr-2"></i> <span class="">Edit</span></a>
+        </div>
+      </div>
+    </div><!-- /CARD OPTIONS -->
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+    <div class="row">
+      <div class="col-2">
+        <!-- stake form-->
+        <form class="forms-sample grid-margin" #backForm="ngForm" >
+          <div class="form-group">
+            <label for="mainStake" class="text-gray">MainStake</label>
+            <input type="number" class="form-control" id="mainStake" autocomplete="off" placeholder="Main Stake" [(ngModel)]="ladder.ladderEntry.mainStakeBack" name="mainStake">
+          </div>
+        </form>
+        <!-- stake default button-->
+        <p class="text-gray grid-margin">Default Stake</p>
+        <div class="d-flex justify-content-center align-items-center grid-margin">
+          <button type="button" [ngClass]="ladder.ladderEntry.mainStakeBack===1 ? 'btn btn-primary' : 'btn btn-outline-primary'" (click)="backClickStake(1)">1</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainStakeBack===2 ? 'btn btn-primary' : 'btn btn-outline-primary'" (click)="backClickStake(2)">2</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainStakeBack===5 ? 'btn btn-primary' : 'btn btn-outline-primary'" (click)="backClickStake(5)">5</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainStakeBack===10 ? 'btn btn-primary' : 'btn btn-outline-primary'" (click)="backClickStake(10)">10</button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center grid-margin">
+          <button type="button" [ngClass]="ladder.ladderEntry.mainStakeBack===20 ? 'btn btn-primary' : 'btn btn-outline-primary'" (click)="backClickStake(20)">20</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainStakeBack===25 ? 'btn btn-primary' : 'btn btn-outline-primary'" (click)="backClickStake(25)">25</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainStakeBack===50 ? 'btn btn-primary' : 'btn btn-outline-primary'" (click)="backClickStake(50)">50</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainStakeBack===100 ? 'btn btn-primary' : 'btn btn-outline-primary'" (click)="backClickStake(100)">100</button>
+        </div>
+        <!-- reset button -->
+        <div class="d-flex justify-content-center align-items-center grid-margin">
+          <button type="button" class="btn btn-primary mr-2" (click)="resetBack()">Reset Back</button>
+          <button type="button" class="btn btn-warning" (click)="netBack()">NET</button>
+        </div>
+        <!-- back side calculator -->
+        <!-- net -->
+        <div class="d-flex justify-content-left align-items-baseline grid-margin">
+          <h4>Tot Stake: {{ladder.ladderResume.totalBackStake | currency}}</h4>
+        </div>
+        <!-- avg -->
+        <div class="d-flex justify-content-left align-items-baseline grid-margin">
+          <h4>Avg Odds:<span class="badge badge-primary ml-2" *ngIf="ladder.ladderResume.avgOddsBack>0"> {{ladder.ladderResume.avgOddsBack|number:'0.02'}}</span></h4>
+        </div>
+        <!-- to win -->
+        <div class="d-flex justify-content-right align-items-baseline grid-margin">
+          <h4>To Win: {{ladder.ladderResume.totalToWinBack|currency}}</h4>
+        </div>
+        <!-- net -->
+        <div class="d-flex justify-content-right align-items-baseline grid-margin">
+          <h3 [ngClass]="ladder.ladderResume.netBack>0 ? 'text-success' : ladder.ladderResume.netBack<0 ?'text-danger':'text-gray'">Net: {{ladder.ladderResume.netBack|currency}}</h3>
+        </div>
+        <!-- BE odds -->
+        <div class="d-flex justify-content-right align-items-baseline grid-margin">
+          <h5 class="text-info">BE Odds: {{ladder.breakEvenOdds|number:'0.02'}}</h5>
+        </div>
+        <!-- commision -->
+        <div class="d-flex justify-content-right align-items-baseline grid-margin">
+          <h5 class="text-warning">Commission: -{{ladder.ladderResume.totalCommission|currency}}</h5>
+        </div>
+        <!-- r/R -->
+        <div class="d-flex justify-content-right align-items-baseline grid-margin">
+          <h4 [ngClass]="[ladder.ladderResume.rating>=1? 'text-success' : 'text-warning']">Rating: {{ladder.ladderResume.rating|percent}}</h4>
+        </div>
+      </div>
+      <!-- main ladder-->
+      <div class="col-8">
+        <div class="ladderTable noSelect">
+          <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+              <th class="backSide">Back</th>
+              <th class="odds">Odds</th>
+              <th class="laySide">Lay</th>
+              <th class="whatIf">P/L</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ladderCell of ladder.ladder.slice().reverse()">
+
+              <td class="text-center" [ngClass]="ladderCell.backSide.stake>0 ? 'table-primary text-dark' :' text-primary'"
+                  (contextmenu)="rightClickBack($event,ladderCell.ticksDown,ladder.ladderEntry.mainStakeBack)"
+                  (click)="leftClickBack(ladderCell.ticksDown,ladder.ladderEntry.mainStakeBack)">
+                <p>{{ladderCell.backSide.stake |number:'0.02'}}</p>
+              </td>
+
+              <td  class="odds thLadder text-center" >
+                <h4>{{ladderCell.odds }}</h4>
+              </td>
+
+              <td class="text-center" [ngClass]="ladderCell.laySide.bank>0 ? 'table-danger text-dark' :'text-danger'"
+                  (contextmenu)="rightClickLay($event,ladderCell.ticksDown,ladder.ladderEntry.mainBankLay)"
+                  (click)="leftClickLay(ladderCell.ticksDown,ladder.ladderEntry.mainBankLay)">
+                <p>{{ladderCell.laySide.bank |number:'0.02'}}</p>
+              </td>
+
+              <td [ngClass]="ladderCell.whatIf>0 ? 'text-success whatIf thLadder' : ladderCell.whatIf===0?'text-primary whatIf thLadder': 'text-danger whatIf thLadder'"
+                  (click)="clickNet(ladderCell.ticksDown,ladderCell.whatIfStake)">
+                <h5 class="text-center">{{ladderCell.whatIf | currency}}</h5>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-2">
+        <!-- stake form-->
+        <form class="forms-sample grid-margin" #layForm="ngForm" >
+          <div class="form-group">
+            <label for="mainBank" class="text-gray">MainStake</label>
+            <input type="number" class="form-control" id="mainBank" autocomplete="off" placeholder="Main Bank" [(ngModel)]="ladder.ladderEntry.mainBankLay" name="mainBank">
+          </div>
+        </form>
+        <!-- stake default button-->
+        <p class="text-gray grid-margin">Default Stake</p>
+        <div class="d-flex justify-content-center align-items-center grid-margin">
+          <button type="button" [ngClass]="ladder.ladderEntry.mainBankLay===1 ? 'btn btn-danger' : 'btn btn-outline-danger'" (click)="layClickBank(1)">1</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainBankLay===2 ? 'btn btn-danger' : 'btn btn-outline-danger'" (click)="layClickBank(2)">2</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainBankLay===5 ? 'btn btn-danger' : 'btn btn-outline-danger'" (click)="layClickBank(5)">5</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainBankLay===10 ? 'btn btn-danger' : 'btn btn-outline-danger'" (click)="layClickBank(10)">10</button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center grid-margin">
+          <button type="button" [ngClass]="ladder.ladderEntry.mainBankLay===20 ? 'btn btn-danger' : 'btn btn-outline-danger'" (click)="layClickBank(20)">20</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainBankLay===25 ? 'btn btn-danger' : 'btn btn-outline-danger'" (click)="layClickBank(25)">25</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainBankLay===50 ? 'btn btn-danger' : 'btn btn-outline-danger'" (click)="layClickBank(50)">50</button>
+          <button type="button" [ngClass]="ladder.ladderEntry.mainBankLay===100 ? 'btn btn-danger' : 'btn btn-outline-danger'" (click)="layClickBank(100)">100</button>
+        </div>
+        <!-- reset button -->
+        <div class="d-flex justify-content-center align-items-center grid-margin">
+          <button type="button" class="btn btn-danger mr-2" (click)="resetLay()">Reset Lay</button>
+          <button type="button" class="btn btn-warning" (click)="netLay()">NET</button>
+        </div>
+        <!-- lay side calculator -->
+        <!-- net -->
+        <div class="d-flex justify-content-left align-items-baseline grid-margin">
+          <h4>Tot Bank: {{ladder.ladderResume.totalLayBank | currency}}</h4>
+        </div>
+        <div class="d-flex justify-content-left align-items-baseline grid-margin">
+          <h4>Tot Liab: {{ladder.ladderResume.totalLayLiability | currency}}</h4>
+        </div>
+        <!-- avg -->
+        <div class="d-flex justify-content-left align-items-baseline grid-margin">
+          <h4>Avg Odds:<span class="badge badge-danger ml-2" *ngIf="ladder.ladderResume.avgOddsLay>0"> {{ladder.ladderResume.avgOddsLay|number:'0.02'}}</span></h4>
+        </div>
+        <!-- to win -->
+        <div class="d-flex justify-content-right align-items-baseline grid-margin">
+          <h4>To Win: {{ladder.ladderResume.totalToWinLay| currency}}</h4>
+        </div>
+        <!-- net -->
+        <div class="d-flex justify-content-right align-items-baseline grid-margin">
+          <h3 [ngClass]="ladder.ladderResume.netLay>0 ? 'text-success' : ladder.ladderResume.netLay<0 ?'text-danger':'text-gray'">Net: {{ladder.ladderResume.netLay|currency}}</h3>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /BODY -->
+  <div class="card-footer"><!-- FOOTER -->
+    <div class="d-flex flex-row-reverse">
+      <button type="button" class="btn btn-secondary" (click)="resetLadder()">Reset</button>
+    </div>
+  </div><!-- / FOOTER -->
+</div>

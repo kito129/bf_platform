@@ -1,0 +1,125 @@
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">MM Params</h6>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="card-body">
+    <div class="col">
+      <div class="form-group">
+        <h5 class="text-gray">Initial Capital [€]</h5>
+        <input type="number"
+               step='1'
+               class="form-control"
+               id="t0Capital"
+               [(ngModel)]="mmParams.t0capital"
+               name="t0Capital"
+               min="0">
+      </div>
+
+      <div class="form-group">
+        <h5 class="text-gray">Fixed Stake [€]</h5>
+        <input type="number"
+               step='1'
+               class="form-control"
+               id="fixedStake"
+               [(ngModel)]="mmParams.params.fixedStake"
+               name="fixedStake"
+               min="0">
+      </div>
+
+      <div class="form-group">
+        <h5 class="text-gray">Martingala K [n]</h5>
+        <input type="number"
+               step='1'
+               class="form-control"
+               id="martingalaK"
+               [(ngModel)]="mmParams.params.martingalaK"
+               name="martingalaK"
+               min="0">
+      </div>
+
+      <div class="form-group">
+        <h5 class="text-gray">Anti Martingala K [n]</h5>
+        <input type="number"
+               step='1'
+               class="form-control"
+               id="antimartingalaK"
+               [(ngModel)]="mmParams.params.antimartingalaK"
+               name="antimartingalaK"
+               min="0">
+      </div>
+
+      <div class="form-group">
+        <h5 class="text-gray">Fixed Fractional [%]</h5>
+        <input type="number"
+               step='1'
+               class="form-control"
+               id="fixedFractional"
+               [(ngModel)]="mmParams.params.fixedFractional"
+               name="fixedFractional"
+               min="0">
+      </div>
+
+      <h5 class="text-gray">Fixed Ratio</h5>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="fixedRatioDelta" class="text-gray">Fixed Ratio Delta </label>
+            <input type="number"
+                   step='1'
+                   class="form-control"
+                   id="fixedRatioDelta"
+                   [(ngModel)]="mmParams.params.fixedRatio.delta"
+                   name="fixedRatioDelta"
+                   min="0">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="fixedRatioPercent" class="text-gray">Fixed Ratio percent </label>
+            <input type="number"
+                   step='1'
+                   class="form-control"
+                   id="fixedRatioPercent"
+                   [(ngModel)]="mmParams.params.fixedRatio.ratio"
+                   name="fixedRatioPercent"
+                   min="0">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="fixedRatioMaxLoss" class="text-gray">Fixed Ratio Max Loss </label>
+            <input type="number"
+                   step='1'
+                   class="form-control"
+                   id="fixedRatioMaxLoss"
+                   [(ngModel)]="mmParams.params.fixedRatio.maxLoss"
+                   name="fixedRatioMaxLoss"
+                   min="0">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="d-flex flex-row-reverse">
+
+      <button type="button"
+              class="btn btn-icon btn-danger btn-icon-text "
+              (click)="calculate()">
+        <i class="btn-icon-prepend" data-feather="fast-forward" appFeatherIcon></i>
+        Calculate
+      </button>
+
+      <button type="button"
+              class="btn btn-icon btn-secondary btn-icon-text mr-2"
+              (click)="resetMmParams()">
+        <i class="btn-icon-prepend" data-feather="x-octagon" appFeatherIcon></i>
+        Reset
+      </button>
+    </div>
+  </div>
+</div>

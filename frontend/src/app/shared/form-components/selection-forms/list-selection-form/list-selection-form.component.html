@@ -1,0 +1,17 @@
+<form class="forms-sample grid-margin">
+  <div class="form-group">
+    <label class="text-gray">{{title}}</label>
+    <ng-select [items]="list$ | async"
+               bindLabel="name"
+               bindValue="id"
+               placeholder="Select item"
+               [searchable]="true"
+               [clearable]="true"
+               [selectOnTab]="true"
+               [(ngModel)]="selected.id"
+               [virtualScroll]="true"
+               [ngModelOptions]="{standalone: true}"
+               (ngModelChange)="updateName()">
+    </ng-select>
+  </div>
+</form>

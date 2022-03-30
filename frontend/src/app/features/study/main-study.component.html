@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Study</h4>
+    <p>Discover db statistics and search runners </p>
+  </div>
+  <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block" (click)="refreshStudy()">
+      <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
+      Refresh
+    </button>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">BF</a></li>
+    <li class="breadcrumb-item"><a routerLink="/study">Study</a></li>
+  </ol>
+</nav>
+<!-- /BREADCRUMB -->
+
+<!-- ROW 1-->
+<div class="col-12">
+
+  <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Rule</a>
+      <ng-template ngbNavContent>
+        <app-rule></app-rule>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Study-old</a>
+      <ng-template ngbNavContent>
+        <app-study-main></app-study-main>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>Basket-old</a>
+      <ng-template ngbNavContent>
+        <app-basket-main></app-basket-main>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <a ngbNavLink>Entry-old</a>
+      <ng-template ngbNavContent>
+        <app-entry-main></app-entry-main>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="5">
+      <a ngbNavLink>Players-old</a>
+      <ng-template ngbNavContent>
+        <app-players-main></app-players-main>
+      </ng-template>
+    </li>
+  </ul>
+
+  <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+
+</div>
+<!-- /ROW 1-->

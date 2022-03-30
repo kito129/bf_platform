@@ -1,0 +1,11 @@
+{
+    "env": {
+        "PORT" : "3000",
+        "MONGO_ATLAS_USER": "marco",
+        "MONGO_ATLAS_PW": "4Nr1fD8mAOSypUur",
+        "MONGO_ATLAS_DBNAME": "bf_historical",
+        "MONGO_ATLAS_STRING1": "@cluster1-shard-00-00.fzsll.mongodb.net:27017,cluster1-shard-00-01.fzsll.mongodb.net:27017,cluster1-shard-00-02.fzsll.mongodb.net:27017/",
+        "MONGO_ATLAS_STRING2": "?ssl=true&replicaSet=atlas-vdivjk-shard-0&authSource=admin&retryWrites=true&w=majority",
+        "JWT_KEY": "secret"
+    }
+}

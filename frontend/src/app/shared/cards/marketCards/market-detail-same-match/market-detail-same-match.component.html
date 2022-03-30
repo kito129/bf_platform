@@ -1,0 +1,26 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Related Markets</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+    <ul class="list-group">
+      <li  class="list-group-item" *ngFor="let market of sameMatchMarkets">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <app-event-name-text [eventName]="market.eventName"></app-event-name-text>
+          <button type="button" class="btn btn-primary btn-icon"
+                  routerLink="/markets/detail/{{market.id}}" (click)="changeMarkets(market.id)">
+            <i class="feather icon-external-link"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+
+  </div><!-- /BODY -->
+</div>
+<!-- /CARD 1-->
+

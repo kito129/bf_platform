@@ -1,0 +1,89 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-1">Tennis Tournament Stats</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+    <div class="row">
+      <div class="col">
+        <h4 class="card-title mb-1">Tennis Tournament</h4>
+        <h3 class="mb-0">{{(tennisTournamentStats$ | async).length | number}}</h3>
+      </div>
+
+      <div class="col">
+        <h5 class="card-title mb-1 text-primary">ATP</h5>
+        <h4 class="mb-0">{{(tennisTournamentStats$ | async).federationStats.atp| number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(tennisTournamentStats$ | async).federationStats.atp / (tennisTournamentStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="col">
+        <h5 class="card-title mb-1 text-danger">WTA</h5>
+        <h4 class="mb-0">{{(tennisTournamentStats$ | async).federationStats.wta | number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(tennisTournamentStats$ | async).federationStats.wta / (tennisTournamentStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row grid-margin">
+      <div class="col">
+        <h6 class="card-title mb-1 text-warning">Slam</h6>
+        <h4 class="mb-0">{{(tennisTournamentStats$ | async).type.slam | number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(tennisTournamentStats$ | async).federationStats.wta / (tennisTournamentStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <h6 class="card-title mb-1 text-success">Challenger</h6>
+        <h4 class="mb-0">{{(tennisTournamentStats$ | async).type.challenger| number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(tennisTournamentStats$ | async).type.challenger / (tennisTournamentStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <h6 class="card-title mb-1 text-primary">250</h6>
+        <h4 class="mb-0">{{(tennisTournamentStats$ | async).type["250"]| number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(tennisTournamentStats$ | async).type["250"] / (tennisTournamentStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <h6 class="card-title mb-1 text-info">500</h6>
+        <h4 class="mb-0">{{(tennisTournamentStats$ | async).type["500"]| number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(tennisTournamentStats$ | async).type["500"] / (tennisTournamentStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <h6 class="card-title mb-1 text-light">1000</h6>
+        <h4 class="mb-0">{{(tennisTournamentStats$ | async).type["1000"]| number}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p class="text-gray">
+            <span>{{(tennisTournamentStats$ | async).type["1000"] / (tennisTournamentStats$ | async).length | percent}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" class="btn btn-primary" routerLink="/tennisTournament">Go</button>
+  </div>
+</div>

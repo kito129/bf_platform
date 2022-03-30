@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-7">
+    <app-loading-cards *ngIf="(isLoadingAllEntry$ | async).isLoading"></app-loading-cards>
+    <app-entry-list *ngIf="(isLoadingAllEntry$ | async).isLoadingSuccess"
+                    [entries]="allEntries$ | async"
+                    [selectedEntryId]="selectedEntryId$ | async">
+    </app-entry-list>
+
+    <div *ngIf="(selectedEntry$ | async)" class="mt-2">
+      <app-entry-detail [bets]="(selectedEntry$ | async).entry.bets"></app-entry-detail>
+    </div>
+  </div>
+  <div class="col">
+    <app-entry-create [selectedEntry$]="selectedEntry$">
+    </app-entry-create>
+  </div>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Calculator</h4>
+    <p>Calculator and some tools.</p>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">BF</a></li>
+    <li class="breadcrumb-item"><a routerLink="/markets">Markets</a></li>
+    <li class="breadcrumb-item active" aria-current="page">View</li>
+  </ol>
+</nav>
+<!-- /BREADCRUMB -->
+
+
+<ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+  <li [ngbNavItem]="1">
+    <a ngbNavLink>Ladder</a>
+    <ng-template ngbNavContent>
+      <div class="row grid-margin"><!-- ROW 1-->
+        <!-- STATS COMPONENTS-->
+        <div class="col">
+          <app-ladder></app-ladder>
+        </div>
+      </div><!-- /ROW 1-->
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="2">
+    <a ngbNavLink>Simple</a>
+    <ng-template ngbNavContent>
+      <div class="row grid-margin"><!-- ROW 1-->
+        <!-- STATS COMPONENTS-->
+        <div class="col">
+          <app-back-lay></app-back-lay>
+        </div>
+        <div class="col">
+          <app-risk-reward></app-risk-reward>
+        </div>
+      </div><!-- /ROW 1-->
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="3">
+    <a ngbNavLink>Montecarlo</a>
+    <ng-template ngbNavContent>
+      <div class="row grid-margin"><!-- ROW 1-->
+        <!-- STATS COMPONENTS-->
+        <div class="col">
+          <app-montecarlo-main></app-montecarlo-main>
+        </div>
+      </div><!-- /ROW 1-->
+    </ng-template>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+
+
+
+
+
+
+
+

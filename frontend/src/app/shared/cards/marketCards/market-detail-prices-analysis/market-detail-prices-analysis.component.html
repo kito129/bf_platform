@@ -1,0 +1,149 @@
+<!-- CARD 1-->
+<div class="card" id="chartDimension">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Price Analysis</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body" *ngIf="pricesAnalysis.length===markets.selectedMarket.marketRunners.runners.length"><!-- BODY -->
+    <div class="row">
+      <div [ngClass]="pricesAnalysis.length===2 ? 'col-12 justify-content-center':pricesAnalysis.length===3 ? 'col-12 justify-content-center': 'col-12 justify-content-center'" *ngFor="let analysis of pricesAnalysis">
+
+        <h4 class="grid-margin mb-2">{{analysis.runnerName}} </h4>
+
+        <!-- PREMATCH -->
+        <div class="col grid-margin noSelect" >
+          <h4 class="text-center">Prematch</h4>
+          <app-simple-charts-plotty *ngIf="analysis!= undefined"
+                                    [prices]="analysis.odds.preMatch.odds"
+                                    [title]="analysis.runnerName +' - Prematch'"
+                                    [yAxisLogaritmic]="false"
+                                    [xSize]="xSize"
+                                    [ySize]="ySize">
+
+          </app-simple-charts-plotty>
+        </div>
+
+        <!-- INLAY -->
+        <div class="col grid-margin noSelect">
+          <h4 class="text-center">InPlay</h4>
+          <app-simple-charts-plotty [prices]="analysis.odds.inPlay.odds"
+                                    [title]="analysis.runnerName +' - InPlay'"
+                                    [yAxisLogaritmic]="true"
+                                    [xSize]="xSize"
+                                    [ySize]="ySize">>
+
+          </app-simple-charts-plotty>
+        </div>
+
+        <!--
+        <ul class="list-group grid-margin">
+          <li class="list-group-item" >
+            <h3 class="text-success text-center">InPlay</h3>
+          </li>
+          <li class="list-group-item" >
+            <div class="row">
+              <div class="col">
+                <h4>Open / Close:</h4>
+              </div>
+              <div class="col">
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.open | number:'0.02'}} / {{analysis.odds.inPlay.stats.close| number:'0.02'}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" >
+            <div class="row">
+              <div class="col">
+                <h4>min / MAX:</h4>
+              </div>
+              <div class="col">
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.min| number:'0.02'}} / {{analysis.odds.inPlay.stats.max| number:'0.02'}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" >
+            <div class="row">
+              <div class="col">
+                <h4>Mean:</h4>
+              </div>
+              <div class="col">
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.mean| number:'0.02'}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" >
+            <div class="row">
+              <div class="col">
+                <h4>Mode:</h4>
+              </div>
+              <div class="col">
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.mode| number:'0.02'}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" >
+            <div class="row">
+              <div class="col">
+                <h4>Median:</h4>
+              </div>
+              <div class="col">
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.median| number:'0.02'}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" >
+            <div class="row">
+              <div class="col">
+                <h4>Variance:</h4>
+              </div>
+              <div class="col">
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.variance| number:'0.02'}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" >
+            <div class="row">
+              <div class="col">
+                <h4>Sample Variance:</h4>
+              </div>
+              <div class="col">
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.sampleVariance| number:'0.02'}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" >
+            <div class="row">
+              <div class="col">
+                <h4>Standard Deviation:</h4>
+              </div>
+              <div class="col">
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.standardDeviation| number:'0.02'}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" >
+            <div class="row">
+              <div class="col">
+                <h4>Quartile:</h4>
+              </div>
+              <div class="col">
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.quartile.q1| number:'0.02'}}</h5>
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.quartile.q2| number:'0.02'}}</h5>
+                <h5 class="text-right">{{analysis.odds.inPlay.stats.quartile.q3| number:'0.02'}}</h5>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    -->
+
+
+  </div><!-- /BODY -->
+  <div class="card-footer">
+
+
+
+  </div>
+</div>

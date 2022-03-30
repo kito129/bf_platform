@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col">
+    <div class="form-group">
+      <label class="text-gray">Tennis Point</label>
+      <div class="row">
+        <div class="col">
+          <label class="text-gray">Set 1</label>
+          <input type="number" step='1' class="form-control mb-1"
+                 [(ngModel)]="tennisPoint.set1.runnerA" min="0" (ngModelChange)="update()">
+          <input type="number" step='1' class="form-control"
+                 [(ngModel)]="tennisPoint.set1.runnerB" name="set1B" min="0" (ngModelChange)="update()">
+        </div>
+        <div class="col">
+          <label class="text-gray">Set 2</label>
+          <input  type="number" step='1' class="form-control mb-1"
+                 [(ngModel)]="tennisPoint.set2.runnerA" name="set2A" min="0" (ngModelChange)="update()">
+          <input  type="number" step='1' class="form-control"
+                 [(ngModel)]="tennisPoint.set2.runnerB" name="set2B" min="0" (ngModelChange)="update()">
+        </div>
+        <div class="col">
+          <label class="text-gray">Set 3</label>
+          <input  type="number" step='1' class="form-control mb-1"
+                 [(ngModel)]="tennisPoint.set3.runnerA" name="set3A" min="0" (ngModelChange)="update()">
+          <input  type="number" step='1' class="form-control"
+                 [(ngModel)]="tennisPoint.set3.runnerB" name="set3B" min="0" (ngModelChange)="update()">
+        </div>
+        <div class="col">
+          <label class="text-gray">Set 4</label>
+          <input  type="number" step='1' class="form-control mb-1"
+                 [(ngModel)]="tennisPoint.set4.runnerA" name="set4A" min="0" (ngModelChange)="update()">
+          <input  type="number" step='1' class="form-control"
+                 [(ngModel)]="tennisPoint.set4.runnerB" name="set4B" min="0" (ngModelChange)="update()">
+        </div>
+        <div class="col">
+          <label class="text-gray">Set 5</label>
+          <input  type="number" step='1' class="form-control mb-1"
+                 [(ngModel)]="tennisPoint.set5.runnerA" name="set5A" min="0"(ngModelChange)="update()">
+          <input  type="number" step='1' class="form-control"
+                 [(ngModel)]="tennisPoint.set5.runnerB" name="set5B" min="0"(ngModelChange)="update()">
+        </div>
+      </div>
+      <div *ngIf="showGame">
+        <div class="row mt-2">
+          <div class="col">
+            <div class="form-group">
+              <label class="text-gray">Game A</label>
+              <ng-select [items]="game"
+
+                         name="gameA"
+                         bindLabel="value"
+                         bindValue="value"
+                         placeholder="Game A"
+                         [(ngModel)]="tennisPoint.currentGame.runnerA"
+                         (ngModelChange)="update()">
+              </ng-select>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="text-gray">Game B</label>
+              <ng-select [items]="game"
+
+                         name="type"
+                         bindLabel="value"
+                         bindValue="value"
+                         placeholder="Game B"
+                         [(ngModel)]="tennisPoint.currentGame.runnerB"
+                         (ngModelChange)="update()">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <label class="text-gray">Server</label>
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optionsRadios" [(ngModel)]="value" [value]="'A'" (ngModelChange)="update()">
+                <i class="input-frame"></i>
+                A
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optionsRadios" [(ngModel)]="value" [value]="'B'" (ngModelChange)="update()">
+                <i class="input-frame"></i>
+                B
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

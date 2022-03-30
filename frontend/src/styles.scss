@@ -1,0 +1,202 @@
+/* You can add global styles to this file, and also import other style files *
+
+
+ */
+
+
+/* You can add global styles to this file, and also import other style files */
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/themes/dark.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+
+table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td{
+  background: #0c1427 !important;
+}
+
+.table-dark th, .table-dark td, .table-dark thead th{
+  border-color: #1a252f !important;
+}
+
+
+.backSide .laySide .odds .whatIf td th{
+  text-align: center !important;;
+  vertical-align: middle !important;
+}
+
+.ladderTable{
+  height: 900px;
+  overflow: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+
+.noSelect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.dataTables_wrapper .dataTables_filter input{
+  color: white;
+}
+
+
+input{
+  color: white
+}
+
+.ngx-datatable .datatable-body .datatable-row-detail {
+  margin: 10px;
+  overflow-y: visible !important;
+}
+
+.tradesCompareTable{
+  height: 1000px;
+  overflow: scroll;
+  overflow-x: hidden;
+  display: table;
+}
+
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+// for fixing columun in datatebles
+.datatable-row-group.datatable-row-left{
+
+  background-color: #131B2E !important;
+  backface-visibility: hidden;
+  cursor: pointer;
+}
+
+.datatable-row-group.datatable-row-right{
+
+  background-color: #131B2E !important;
+  backface-visibility: hidden;
+}
+
+.datatable-header.datatable-header-cell{
+
+  background-color: #131B2E !important;
+  backface-visibility: hidden;
+}
+
+
+// head col
+.headcol {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: #131B2E;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+// color picket
+.picker{
+  width: 40px;
+  height: 40px;
+  border-color: white;
+  border-width: 1px;
+}
+
+
+.noActiveLive{
+  background: #141c22 !important;
+}
+
+// bigger font for live
+.colorLive{
+  max-width: 50px;
+}
+
+.bigFeather{
+  width: 42px;
+  height: 42px;
+  stroke-width: 4;
+}
+
+
+.montecarloWinTable{
+  height: 1000px;
+  overflow: scroll;
+  overflow-x: hidden;
+  display: table;
+}
+
+.noBorder {
+  border: 0;
+  padding:0;
+  margin:0;
+  border-collapse: collapse;
+}
+
+// for select runner
+.optgroup {
+  font-size: 25px !important;
+}
+
+.wider-tooltip {
+  width: 500px;
+  .tooltip-inner {
+    max-width: 500px;
+  }
+}
+
+
+// DRAGULA
+
+/* in-flight clone */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  pointer-events: none;
+}
+/* high-performance display:none; helper */
+.gu-hide {
+  left: -9999px !important;
+}
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+}
+
+//
+
+
+.increase-popover-width {
+  width: 500px;
+  .popover-inner {
+    max-width: 500px;
+  }
+}
+
+
+
+

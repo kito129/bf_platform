@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-4">
+    <app-montecarlo-params (calculateEmitter)="updateParams($event)">
+
+    </app-montecarlo-params>
+  </div>
+  <div class="col" *ngIf="okData && bug">
+    <app-montecarlo-result [win]="montecarloWins">
+
+    </app-montecarlo-result>
+
+  </div>
+</div>
+<div class="row" *ngIf="okData && bug">
+  <div class="col">
+    <app-montecarlo-charts [win]="montecarloWins">
+
+    </app-montecarlo-charts>
+  </div>
+</div>

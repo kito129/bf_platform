@@ -1,0 +1,233 @@
+<!-- Button trigger trade-modal -->
+<button type="button" class="btn btn-xs btn-outline-light" (click)="openVerticalCenteredModal(verticalCenteredModal)">
+  <i class="feather icon-edit"></i>
+</button>
+
+<!-- Modal -->
+<ng-template #verticalCenteredModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Update Note</h5>
+    <button type="button" class="close" (click)="modal.close('close')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+    <form class="forms-sample grid-margin" #notesForm="ngForm" *ngIf="noteOutput!= undefined" >
+      <div class="form-group">
+        <app-runners-selection-form [title]="'A'"
+                                    (runnerSelectedEmitter)="updateRunner($event, 'A')"
+                                    [runnerId]="noteOutput.note.selection.runnerA.id">
+
+        </app-runners-selection-form>
+        <div class="col">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="isInjuredA" name="isInjuredA">
+              <i class="input-frame"></i>
+              Injured / Note
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <app-runners-selection-form [title]="'B'"
+                                    (runnerSelectedEmitter)="updateRunner($event, 'B')"
+                                    [runnerId]="noteOutput.note.selection.runnerB.id">
+
+        </app-runners-selection-form>
+        <div class="col">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="isInjuredB" name="isInjuredB">
+              <i class="input-frame"></i>
+              Injured / Note
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="text-gray">Type</label>
+        <ng-select [items]="typeOfNote"
+                   id="type"
+                   name="type"
+                   bindLabel="value"
+                   bindValue="value"
+                   placeholder="Type"
+                   [(ngModel)]="noteOutput.note.type">
+        </ng-select>
+      </div>
+
+      <div class="row">
+        <div class="col-8">
+
+          <app-list-selection-form [type]="'tennisTournament'"
+                                   (listSelectedEmitter)="updateTennisTournament($event)"
+                                   [selectedId]="noteOutput.note.tournamentId">
+          </app-list-selection-form>
+
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label class="text-gray">Phase</label>
+            <ng-select [items]="phase"
+                       id="phase"
+                       name="phase"
+                       bindLabel="value"
+                       bindValue="value"
+                       placeholder="Phase"
+                       [(ngModel)]="noteOutput.note.phase">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="noteOutput.note.type.indexOf('WalkOver')===-1">
+        <div class="form-group">
+          <label for="description" class="text-gray">Description</label>
+          <textarea class="form-control" id="description" rows="5"  placeholder="Description" name="description" [(ngModel)]="noteOutput.note.description"></textarea>
+        </div>
+        <div class="row">
+          <div class="col">
+            <app-odd-form [odds]="noteOutput.note.selection.runnerA.odds"
+                          [title]="'A current odds'"
+                          (oddsPointEmitter)="setCurrentOdds($event,true)">
+            </app-odd-form>
+          </div>
+          <div class="col">
+            <app-odd-form [odds]="noteOutput.note.selection.runnerB.odds"
+                          [title]="'B current odds'"
+                          (oddsPointEmitter)="setCurrentOdds($event,false)">
+            </app-odd-form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <app-odd-form [odds]="noteOutput.note.selection.runnerA.bsp"
+                          [title]="'A BSP odds'"
+                          (oddsPointEmitter)="setBSPodds($event,true)">
+            </app-odd-form>
+          </div>
+          <div class="col">
+            <app-odd-form [odds]="noteOutput.note.selection.runnerB.bsp"
+                          [title]="'B BSP odds'"
+                          (oddsPointEmitter)="setBSPodds($event,false)">
+            </app-odd-form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <app-tennis-point [tennisPoint]="noteOutput.note.tennisPoints"
+                              (tennisPointEmitter)="updateTennisPoint($event)"
+                              [showGame]="true">
+
+            </app-tennis-point>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="noteOutput.note.detailType.isInPlay" name="isInPlay">
+                  <i class="input-frame"></i>
+                  Is in Game
+                </label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="noteOutput.note.detailType.isNotInPause" name="isNotInPause">
+                  <i class="input-frame"></i>
+                  Not in Pause
+                </label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="noteOutput.note.detailType.recall" name="recall">
+                  <i class="input-frame"></i>
+                  Recall
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="noteOutput.note.validation.isValidated" name="validation">
+                  <i class="input-frame"></i>
+                  Validate
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="noteOutput.note.validation.isValidated">
+
+          <div class="form-group">
+            <label for="validationDescription" class="text-gray">Description</label>
+            <textarea class="form-control" id="validationDescription" rows="5"  placeholder="validation Description" name="validationDescription" [(ngModel)]="noteOutput.note.validation.validationNote"></textarea>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <app-tennis-point [tennisPoint]="noteOutput.note.validation.tennisPoints"
+                                (tennisPointEmitter)="updateValidationTennisPoint($event)"
+                                [showGame]="false">
+
+              </app-tennis-point>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="noteOutput.note.validation.detailValidation.win" name="win">
+                    <i class="input-frame"></i>
+                    Win
+                  </label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="noteOutput.note.validation.detailValidation.lose" name="lose">
+                    <i class="input-frame"></i>
+                    Lose
+                  </label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="noteOutput.note.validation.detailValidation.retired" name="retired">
+                    <i class="input-frame"></i>
+                    Retired
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <p>Created on:</p>
+    <app-date-form [time]="noteOutput.created" (dateEmitter)="updateDate($event)" [showDate]="true" [showTime]="true"></app-date-form>
+    <p *ngIf="noteOutput.lastUpdate !== noteOutput.created">Last update: {{noteOutput.lastUpdate | date:'short'}}</p>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('close')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('update')">Update</button>
+  </div>
+</ng-template>

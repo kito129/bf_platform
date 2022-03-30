@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-3" *ngFor="let report of strategyReport, index as i" >
+    <app-strategy-report-info
+      class="grid-margin"
+      [strategyReport]="report"
+      [title]="report.title">
+    </app-strategy-report-info>
+
+    <app-pie class="grid-margin"
+             [data]="strategyPie[i]"
+             [label]="['WIN', 'LOSS', 'VOID']"
+             [height]="200">
+    </app-pie>
+
+    <app-strategy-report-dd class="grid-margin"
+                            [strategyReport]="report"></app-strategy-report-dd>
+
+    <app-strategy-report-resume class="grid-margin"
+                                [title]="'Profit'"
+                                [strategyResume]="report.trades.detail.profit">
+    </app-strategy-report-resume>
+
+    <app-strategy-report-resume class="grid-margin"
+                                [title]="'Loss'"
+                                [strategyResume]="report.trades.detail.loss">
+    </app-strategy-report-resume>
+  </div>
+</div>

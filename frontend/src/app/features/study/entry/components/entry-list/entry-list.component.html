@@ -1,0 +1,97 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">All Entry</h6>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <div class="d-flex justify-content-end align-items-center">
+      <form class="form-group mr-2" #searchFormRunner="ngForm">
+        <div class="row">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Search..."
+            (keyup)="updateFilter($event)"
+          />
+        </div>
+      </form>
+    </div>
+
+
+    <ngx-datatable
+      class="dark"
+      [rows]="rows"
+      [columns]="columns"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [limit]="10"
+      rowHeight="auto"
+      [reorderable]="true"
+      [sorts]="[{prop: 'lastUpdate', dir: 'desc'}]">
+
+      <ngx-datatable-column name="Date" prop="lastUpdate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{ value | date:'M/d/yy, H:mm' }}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Name" prop="entry.name">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{ value }}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Type" prop="entry.name" [width]="60">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <div class="row">
+            <h5 *ngIf="value.toLowerCase().indexOf('back')!==-1"><span class="badge badge-primary grid-margin mr-2">Back</span></h5>
+            <h5 *ngIf="value.toLowerCase().indexOf('lay')!==-1"><span class="badge badge-danger grid-margin mr-2">Lay</span></h5>
+            <h5 *ngIf="value.toLowerCase().indexOf('chunks')!==-1"><span class="badge badge-warning grid-margin">Chunks</span></h5>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Tools" prop="">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button type="button" class="btn btn-icon btn-outline-success mr-2" (click)="onDuplicateClick(value)">
+              <i class="feather icon-copy"></i>
+            </button>
+
+            <button type="button" class="btn btn-icon mr-2 " [ngClass]="selectedEntryId === value._id ? 'btn-info' : 'btn-outline-info'" (click)="onClick(value._id)">
+              <i class="feather icon-eye"></i>
+            </button>
+
+            <app-delete-modal [name]="value.entry.name"
+                              [id]="value._id" [type]="'Entry'"
+                              (deleteEmitter)="deleteModal($event)">
+            </app-delete-modal>
+          </div>
+
+        </ng-template>
+      </ngx-datatable-column>
+
+
+    </ngx-datatable>
+
+  </div>
+  <div class="card footer">
+    <div class="d-flex flex-row-reverse">
+      <button type="button"
+              class="btn btn-icon btn-secondary mr-2"
+              (click)="reset()">
+        <i class="feather icon-rotate-cw"></i>
+        Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+
+

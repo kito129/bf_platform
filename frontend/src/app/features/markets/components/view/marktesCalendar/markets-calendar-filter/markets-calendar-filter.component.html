@@ -1,0 +1,54 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Filter</h6>
+      <!-- CARD OPTIONS -->
+      <div ngbDropdown class="mb-2">
+        <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton">
+          <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="eye" appFeatherIcon class="icon-sm mr-2"></i> <span class="">View</span></a>
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="edit-2" appFeatherIcon class="icon-sm mr-2"></i> <span class="">Edit</span></a>
+        </div>
+      </div>
+    </div><!-- /CARD OPTIONS -->
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+    <div class="row mb-2">
+      <div class="col-6">
+        <button type="button" class="btn btn-primary">Horse Racing</button>
+      </div>
+      <div class="col-6 text-right">
+        <p>23485</p>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6">
+        <button type="button" class="btn btn-warning">Tennis</button>
+      </div>
+      <div class="col-6 text-right">
+        <p>3465</p>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6">
+        <button type="button" class="btn btn-success">Football</button>
+      </div>
+      <div class="col-6 text-right">
+        <p>45765</p>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6">
+        <button type="button" class="btn btn-outline-danger">Other..</button>
+      </div>
+      <div class="col-6 text-right">
+        <p>45657</p>
+      </div>
+    </div>
+
+  </div><!-- / BODY -->
+</div>

@@ -1,0 +1,160 @@
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Monte Carlo Params</h6>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col">
+
+      </div>
+      <div class="col">
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group mr-2">
+          <label for="winRate" class="text-gray">WinRate</label>
+          <input type="number" step='0.01'
+                 class="form-control"
+                 id="winRate"
+                 [(ngModel)]="data.winRate"
+                 name="winRate"
+                 min="0"
+                 max="1"
+                 #odds="ngModel"
+                 [gt]="0"
+                 [lt]="1">
+          <p class="text-danger" *ngIf="odds.errors?.gt">Must be greater than 0</p>
+          <p class="text-danger" *ngIf="odds.errors?.lt">Must be less than 1</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group mr-2">
+          <label for="winRateStdv" class="text-gray">WinRate Stdv</label>
+          <input type="number" step='0.01'
+                 class="form-control"
+                 id="winRateStdv"
+                 [(ngModel)]="data.winRateStdv"
+                 name="winRateStdv"
+                 min="0"
+                 max="1">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group mr-2">
+          <label for="toWin" class="text-gray">Win</label>
+          <input type="number" step='1'
+                 class="form-control"
+                 id="toWin"
+                 [(ngModel)]="data.toWin"
+                 name="toWin"
+                 min="0">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group mr-2">
+          <label for="toWinStdv" class="text-gray">Win Stdv</label>
+          <input type="number" step='1'
+                 class="form-control"
+                 id="toWinStdv"
+                 [(ngModel)]="data.toWinStdv"
+                 name="toWinStdv"
+                 min="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group mr-2">
+          <label for="toLoss" class="text-gray">Loss</label>
+          <input type="number" step='1'
+                 class="form-control"
+                 id="toLoss"
+                 [(ngModel)]="data.toLoss"
+                 name="toLoss"
+                 max="0">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group mr-2">
+          <label for="toLossStdv" class="text-gray">Loss Stdv</label>
+          <input type="number" step='1'
+                 class="form-control"
+                 id="toLossStdv"
+                 [(ngModel)]="data.toLossStdv"
+                 name="toLossStdv"
+                 max="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group mr-2">
+          <label for="size" class="text-gray">Size</label>
+          <input type="number" step='1'
+                 class="form-control"
+                 id="size"
+                 [(ngModel)]="size"
+                 name="size"
+                 min="10"
+                 max="1000">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group mr-2">
+          <label for="length" class="text-gray">Length</label>
+          <input type="number" step='1'
+                 class="form-control"
+                 id="length"
+                 [(ngModel)]="length"
+                 name="length"
+                 min="10"
+                 max="10000">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group mr-2">
+          <label for="histogram" class="text-gray">Histogram Size</label>
+          <input type="number" step='1'
+                 class="form-control"
+                 id="histogram"
+                 [(ngModel)]="histogram"
+                 name="histogram"
+                 min="0"
+                 max="50">
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-footer">
+    <div class="d-flex flex-row-reverse">
+      <button type="button"
+              class="btn btn-icon btn-danger btn-icon-text "
+              (click)="calculate()">
+        <i class="btn-icon-prepend" data-feather="fast-forward" appFeatherIcon></i>
+        Calculate
+      </button>
+
+      <button type="button"
+              class="btn btn-icon btn-secondary btn-icon-text mr-2"
+              (click)="resetMonteParams()">
+        <i class="btn-icon-prepend" data-feather="x-octagon" appFeatherIcon></i>
+        Reset
+      </button>
+    </div>
+  </div>
+</div>
+

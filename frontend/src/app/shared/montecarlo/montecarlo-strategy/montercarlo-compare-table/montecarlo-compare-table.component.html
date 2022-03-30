@@ -1,0 +1,54 @@
+<ngx-datatable
+  class="dark table-dark"
+  style="max-height: 1000px"
+  [rows]="rows"
+  [columnMode]="ColumnMode.force"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="40"
+  [scrollbarV]="true"
+  [sorts]="[{prop: 'result.dd.max.percent', dir: 'asc'}]">
+  >
+  <ngx-datatable-column name="Name" prop="name" [sortable]="true" [width]="220" [frozenLeft]="true">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <p>{{ value }}</p>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Max" prop="result.dd.max.dd" [sortable]="true" >
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <p>{{ value | currency}}</p>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Max DD % " prop="result.dd.max.percent" [sortable]="true" >
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <p>{{ value | percent:'0.2'}}</p>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Avg DD" prop="result.dd.avg.dd" [sortable]="true" >
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <p>{{ value | currency}}</p>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Avg DD % " prop="result.dd.avg.percent" [sortable]="true" >
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <p>{{ value | percent:'0.2'}}</p>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Stdv DD" prop="result.dd.stdv.dd" [sortable]="true" >
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <p>{{ value | number:'0.2'}}</p>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Stdv DD %" prop="result.dd.stdv.percent" [sortable]="true" >
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <p>{{ value | number:'0.2'}}</p>
+    </ng-template>
+  </ngx-datatable-column>
+
+</ngx-datatable>

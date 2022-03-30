@@ -1,0 +1,77 @@
+<div class="card" *ngIf="marketAdditionalInfo">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Market Additional</h6>
+    </div>
+  </div>
+  <div class="card-body" *ngIf="marketAdditionalInfo.marketAdditionalInfoTennis">
+    <!-- INFO TABLES-->
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Info</th>
+          <th>Location</th>
+          <th>Tournament</th>
+          <th>Tournament Data</th>
+          <th>Final Result</th>
+          <th>Rank</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <tr>
+          <td>
+            <h5> {{marketAdditionalInfo.marketAdditionalInfoTennis.federation}} - {{marketAdditionalInfo.marketAdditionalInfoTennis.season}}</h5>
+          </td>
+          <td>
+            <h5> {{marketAdditionalInfo.marketAdditionalInfoTennis.tennisTournament.location}}</h5>
+          </td>
+          <td>
+            <h5> {{marketAdditionalInfo.marketAdditionalInfoTennis.tennisTournament.tournament}}</h5>
+            <h5> {{marketAdditionalInfo.marketAdditionalInfoTennis.tennisTournament.series}}</h5>
+            <h5> {{marketAdditionalInfo.marketAdditionalInfoTennis.tennisTournament.surface}}</h5>
+          </td>
+          <td>
+            <h5> {{marketAdditionalInfo.marketAdditionalInfoTennis.tennisTournament.round}}</h5>
+            <h5> BestOf: {{marketAdditionalInfo.marketAdditionalInfoTennis.tennisTournament.bestOf}}</h5>
+          </td>
+          <td>
+            <h4>{{finalResult | tennisPoint}}</h4>
+          </td>
+          <td>
+            <h5>Winner: {{marketAdditionalInfo.marketAdditionalInfoTennis.tennisRank.winnerRank}} ({{marketAdditionalInfo.marketAdditionalInfoTennis.tennisRank.winnerPoint}}) </h5>
+            <h5>Loser: {{marketAdditionalInfo.marketAdditionalInfoTennis.tennisRank.loserRank}} ({{marketAdditionalInfo.marketAdditionalInfoTennis.tennisRank.loserPoint}}) </h5>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- ODDS TABLES-->
+    <div class="table-responsive">
+      <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>BET 365 [w-l]</th>
+        <th>PINNACLE [w-l]</th>
+        <th>AVERAGE [w-l]</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <tr>
+        <td>
+          <h4>{{ marketAdditionalInfo.marketAdditionalInfoTennis.bookOdds.bet365.winner }} - {{ marketAdditionalInfo.marketAdditionalInfoTennis.bookOdds.bet365.loser }} </h4>
+        </td>
+        <td>
+          <h4>{{ marketAdditionalInfo.marketAdditionalInfoTennis.bookOdds.pinnacle.winner }} - {{ marketAdditionalInfo.marketAdditionalInfoTennis.bookOdds.pinnacle.loser }} </h4>
+        </td>
+        <td>
+          <h4>{{ marketAdditionalInfo.marketAdditionalInfoTennis.bookOdds.avgOddsPortal.winner }} - {{ marketAdditionalInfo.marketAdditionalInfoTennis.bookOdds.avgOddsPortal.loser }} </h4>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>

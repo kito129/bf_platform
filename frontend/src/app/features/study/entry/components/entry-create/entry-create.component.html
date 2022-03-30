@@ -1,0 +1,163 @@
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">{{data.create? 'Create' : 'Update'}} Entry</h6>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="card-body">
+
+    <form ngForm *ngIf="bug">
+      <div class="form-group">
+        <label for="entryName" class="text-gray">Entry Name</label>
+        <input class="form-control"
+               id="entryName"
+               type="text"
+               placeholder="Entry Name"
+               name="entryName"
+               [(ngModel)]="data.name">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control"
+                  id="description"
+                  rows="5"
+                  placeholder="Description"
+                  name="description"
+                  [(ngModel)]="data.description">
+
+        </textarea>
+      </div>
+
+
+
+      <div class="col">
+        <div class="d-flex justify-content-around align-items-baseline mt-2 mb-2">
+          <button type="button" class="btn btn-primary" (click)="addEntry()">+ Entry</button>
+        </div>
+
+        <ul class="list-group mt-2">
+          <li class="list-group-item" *ngFor="let bet of bets, index as i">
+            <h5> {{i+1}}) Bets</h5>
+
+            <app-options-selectors [title]="'Entry Is Back or Lay?'"
+                                   [option]="bet.entry.isBack"
+                                   [options]="['Back', 'Lay']"
+                                   (isOptionEmitter)="updateIsBackEntry($event, i)">
+            </app-options-selectors>
+
+            <app-options-selectors [title]="'Have Profit Exit?'"
+                                   [option]="bet.haveProfit"
+                                   [options]="['Yes', 'No']"
+                                   (isOptionEmitter)="updateHaveExit($event, i, true)">
+            </app-options-selectors>
+
+            <app-options-selectors [title]="'Have Loss Exit?'"
+                                   [option]="bet.haveLoss"
+                                   [options]="['Yes', 'No']"
+                                   (isOptionEmitter)="updateHaveExit($event, i, false)">
+            </app-options-selectors>
+
+            <div class="col">
+
+
+
+
+              <ul class="list-group mt-2">
+                <li class="list-group-item">
+                  <!-- ENTRY -->
+                  <h5> {{i+1}}) Entry</h5>
+                  <app-bets-form [isBack]="bet.entry.isBack"
+                                 [isUpdate]="true"
+                                 [stake]="bet.entry.stake"
+                                 [odds]="bet.entry.odds"
+                                 [bank]="bet.entry.bank"
+                                 [liability]="bet.entry.liability"
+                                 (betsFormEmitter)="updateOdds($event, i,true, false)">
+                  </app-bets-form>
+                  <label for="timeEntry{{i}}">Time limit [minute]</label>
+                  <input type="number"
+                         class="form-control"
+                         id="timeEntry{{i}}"
+                         [(ngModel)]="bet.entry.timeLimit"
+                         name="timeEntry{{i}}"
+                         step="1">
+                  <app-options-selectors [title]="'Up or Down?'"
+                                         [option]="bet.entry.isUp"
+                                         [options]="['Up', 'Down']"
+                                         (isOptionEmitter)="updateIsUp($event, i, true, false)">
+                  </app-options-selectors>
+                </li>
+                <li class="list-group-item">
+                  <div class="row">
+                    <!-- PROFIT EXIT -->
+                    <div class="col"  *ngIf="bet.haveProfit">
+                      <h5 class="text-success"> {{i+1}}) Profit Exit</h5>
+                      <app-bets-form [isBack]="bet.profitExit.isBack"
+                                     [isUpdate]="true"
+                                     [stake]="bet.profitExit.stake"
+                                     [odds]="bet.profitExit.odds"
+                                     [bank]="bet.profitExit.bank"
+                                     [liability]="bet.profitExit.liability"
+                                     (betsFormEmitter)="updateOdds($event, i,false, true)">
+                      </app-bets-form>
+                      <label for="timeProfit{{i}}">Time limit [minute]</label>
+                      <input type="number"
+                             class="form-control"
+                             id="timeProfit{{i}}"
+                             [(ngModel)]="bet.profitExit.timeLimit"
+                             name="timeProfit{{i}}"
+                             step="1">
+                      <app-options-selectors [title]="'Up or Down?'"
+                                             [option]="bet.profitExit.isUp"
+                                             [options]="['Up', 'Down']"
+                                             (isOptionEmitter)="updateIsUp($event, i, false, true)">
+                      </app-options-selectors>
+                    </div>
+                    <!-- LOSS EXIT -->
+                    <div class="col" *ngIf="bet.haveLoss">
+                      <h5 class="text-danger"> {{i+1}}) Loss Exit</h5>
+                      <app-bets-form [isBack]="bet.lossExit.isBack"
+                                     [isUpdate]="true"
+                                     [stake]="bet.lossExit.stake"
+                                     [odds]="bet.lossExit.odds"
+                                     [bank]="bet.lossExit.bank"
+                                     [liability]="bet.lossExit.liability"
+                                     (betsFormEmitter)="updateOdds($event, i,false, false)">
+                      </app-bets-form>
+                      <label for="timeExit{{i}}">Time limit [minute]</label>
+                      <input type="number"
+                             class="form-control"
+                             id="timeExit{{i}}"
+                             [(ngModel)]="bet.lossExit.timeLimit"
+                             name="timeExit{{i}}"
+                             step="1">
+                      <app-options-selectors [title]="'Up or Down?'"
+                                             [option]="bet.lossExit.isUp"
+                                             [options]="['Up', 'Down']"
+                                             (isOptionEmitter)="updateIsUp($event, i, false, false)">
+                      </app-options-selectors>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-xs btn-outline-danger mt-2 mb-2" (click)="removeEntry(bet.id)" [disabled]="bets.length===1">x</button>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+  <!-- FOOTER -->
+  <div class="card-footer">
+    <button type="button"
+            class="btn btn-icon-text"
+            [ngClass]="data.create? 'btn-primary' : 'btn-light'"
+            (click)="submit()">
+      <i class="btn-icon-prepend" data-feather="save" appFeatherIcon></i>
+      {{data.create? 'Create' : 'Update'}}
+    </button>
+  </div>
+</div>

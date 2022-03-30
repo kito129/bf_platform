@@ -1,0 +1,97 @@
+<ul class="list-group">
+  <li class="list-group-item disabled">
+    <h4> {{title}} </h4></li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Gross [€]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyResume.grossCash | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-8">
+        <h5>Operation [#]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyResume.count}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-4">
+        <h5>Average [€]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyResume.averageCash | currency}}</h4>
+      </div>
+      <div class="col">
+        <h4 class="text-right" [ngClass]="strategyResume.stdvCash>strategyResume.averageCash ? 'text-danger' :'text-success'">(&#177;{{strategyResume.stdvCash | currency}})</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Max [€]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyResume.maxCash | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Max [%]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyResume.maxPercent | percent: '.2'}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Consecutive [#]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyResume.consecutiveNumber | number}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Consecutive [€]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyResume.consecutiveCash | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Consecutive € [%]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyResume.consecutivePercent | percent:'.2'}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h5>Avg Consecutive [#]:</h5>
+      </div>
+      <div class="col">
+        <h4 class="text-right">{{strategyResume.consecutiveAvgNumber | number}}</h4>
+      </div>
+    </div>
+  </li>
+</ul>

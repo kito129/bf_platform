@@ -1,0 +1,140 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Notes</h6>
+    </div><!-- /HEADER -->
+  </div>
+  <div class="card-body"><!-- BODY -->
+  <div class="d-flex justify-content-around align-items-center">
+      <app-note-create-modal class="mr-2"
+                             (addNoteEmitter)="createModal($event)">
+
+      </app-note-create-modal>
+
+      <div class="row">
+        <button type="button" [ngClass]="state.all ? 'btn btn-info mr-2' :'btn btn-outline-info mr-2'" (click)="typeFilter('All')">All</button>
+        <button type="button" [ngClass]="state.medical ? 'btn btn-danger mr-2' :'btn btn-outline-danger mr-2'" (click)="typeFilter('Medical')">Medical</button>
+        <button type="button" [ngClass]="state.note ? 'btn btn-secondary mr-2' :'btn btn-outline-secondary mr-2'" (click)="typeFilter('Note')">Note</button>
+        <button type="button" [ngClass]="state.walkover ? 'btn btn-warning mr-2' :'btn btn-outline-warning mr-2'" (click)="typeFilter('Walkover')">Walkover</button>
+        <button type="button" [ngClass]="state.nmRetired ? 'btn btn-primary mr-2' :'btn btn-outline-primary mr-2'" (click)="typeFilter('No Med Retired')">Nm Retired</button>
+        <button type="button" [ngClass]="state.retired ? 'btn btn-light mr-2' :'btn btn-outline-light mr-2'" (click)="typeFilter('Retired')">Retired</button>
+        <button type="button" [ngClass]="state.fsRetired ? 'btn btn-danger mr-2' :'btn btn-outline-danger mr-2'" (click)="typeFilter('FsRetired')">FS Retired</button>
+      </div>
+
+      <form class="form-group mr-2" #searchFormRunner="ngForm">
+        <div class="row">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Search..."
+            (keyup)="updateFilter($event)"
+          />
+        </div>
+      </form>
+
+  </div>
+
+    <ngx-datatable
+      class="dark"
+      [rows]="rows"
+      [columns]="columns"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [limit]="10"
+      rowHeight="auto"
+      [reorderable]="true"
+      [sorts]="[{prop: 'created', dir: 'desc'}]">
+
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <app-note-row-detail [noteDetail]="row"></app-note-row-detail>
+        </ng-template>
+      </ngx-datatable-row-detail>
+
+      <!-- Column Templates -->
+      <ngx-datatable-column
+        [width]="15"
+        [resizeable]="false"
+        [sortable]="false"
+        [draggable]="false"
+      >
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <a
+            href="javascript:void(0)"
+            [class.datatable-icon-right]="!expanded"
+            [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row"
+            (click)="toggleExpandRow(row)"
+          >
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Date" prop="created">
+        <ng-template let-row="row" ngx-datatable-cell-template >
+          <p class="pointer"
+             (click)="toggleExpandRow(row)">
+            {{ row.created | date:'M/d/yy, H:mm' }}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Type" prop="note" [width]="110">
+        <ng-template let-value="value" ngx-datatable-cell-template >
+          <div class="col text-center">
+            <h5 *ngIf="value.type.indexOf('Note')!=-1"><span class="badge badge-secondary">{{value.type}}</span></h5>
+            <h5 *ngIf="value.type.indexOf('Medical')!=-1"><span class="badge badge-danger">{{value.type}}</span></h5>
+            <h5 *ngIf="value.type.indexOf('WalkOver')!=-1"><span class="badge badge-warning">{{value.type}}</span></h5>
+            <h5 *ngIf="value.type.indexOf('No Med Retired')!=-1"><span class="badge badge-primary">{{value.type}}</span></h5>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="A" prop="">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5 (click)="clickOnRunners(value.note.selection.runnerA.id)" [ngClass]="value.note.selection.runnerA.id === value.note.selection.injuredId ? 'text-primary' : 'text-gray'">{{ value.note.selection.runnerA.name }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="B" prop="">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5 (click)="clickOnRunners(value.note.selection.runnerB.id)" [ngClass]="value.note.selection.runnerB.id === value.note.selection.injuredId ? 'text-primary' : 'text-gray'">{{ value.note.selection.runnerB.name }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Description" prop="note" [width]="300">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{value.description}}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Finale" prop="">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p *ngIf="value.note.validation.detailValidation.win" class="mb-1"><span class="badge badge-success">Win</span> </p>
+          <p *ngIf="value.note.validation.detailValidation.lose" class="mb-1"><span class="badge badge-danger">Lose</span> </p>
+          <p *ngIf="value.note.validation.detailValidation.retired" class="mb-1"><span class="badge badge-warning">Retired</span> </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column name="Tolls" prop="">
+        <ng-template let-value="value"  ngx-datatable-cell-template>
+
+          <div class="d-flex justify-content-end align-items-baseline">
+            <app-runner-note-delete-modal [noteInput]="value"
+                                          (noteDeleteEmitter)="deleteModal($event)">
+
+            </app-runner-note-delete-modal>
+            <app-runner-notes-updates-modal [noteInput]="value"
+                                            (noteEmitter)="updateModal($event)">
+            </app-runner-notes-updates-modal>
+          </div>
+
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+    <!-- /NO MARKET -->
+  </div><!-- /BODY -->
+</div>

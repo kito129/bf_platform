@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col">
+    <ul class="list-group">
+      <li class="list-group-item active">
+        <h4>Info</h4>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h4 *ngIf="strategyReport.strategy">
+              {{strategyReport.strategy.strategy.info.name}}
+            </h4>
+            <h4 *ngIf="strategyReport.title">
+              {{strategyReport.title}}
+            </h4>
+          </div>
+          <div class="col" *ngIf="strategyReport.strategy">
+            <app-sport-text [sport]="strategyReport.strategy.strategy.info.sport"></app-sport-text>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h5 class="mb-2 pb-2"># Of trade: {{strategyReport.trades.total}}</h5>
+          </div>
+          <div class="col">
+            <h5><span class="text-success">Win :</span> {{strategyReport.trades.detail.profit.count}}
+              ({{strategyReport.trades.detail.profit.count / strategyReport.trades.total | percent: '0.2'}})</h5>
+          </div>
+          <div class="col">
+            <h5><span class="text-danger">Loss :</span> {{strategyReport.trades.detail.loss.count}}
+              ({{strategyReport.trades.detail.loss.count / strategyReport.trades.total | percent: '0.2'}})</h5>
+          </div>
+          <div class="col">
+            <h5><span class="text-warning">Void :</span>
+              {{strategyReport.trades.total - (strategyReport.trades.detail.profit.count + strategyReport.trades.detail.loss.count)}}
+              ({{strategyReport.trades.total - (strategyReport.trades.detail.profit.count + strategyReport.trades.detail.loss.count) / strategyReport.trades.total | percent: '0.2'}})
+            </h5>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h5>PL:</h5>
+          </div>
+          <div class="col">
+            <h4 class="text-right" [ngClass]="strategyReport.cash.pl>0 ? 'text-success' : 'text-danger'">
+              {{strategyReport.cash.pl | currency}}
+            </h4>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+

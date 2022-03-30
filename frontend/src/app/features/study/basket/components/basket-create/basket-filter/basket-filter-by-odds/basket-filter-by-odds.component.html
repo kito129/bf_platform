@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col">
+    <app-odd-form [title]="'min'"
+                  [odds]="odds.min"
+                  (oddsPointEmitter)="setMin($event)">
+    </app-odd-form>
+  </div>
+  <div class="col">
+    <app-odd-form [title]="'MAX'"
+                  [odds]="odds.max"
+                  (oddsPointEmitter)="setMax($event)">
+    </app-odd-form>
+  </div>
+</div>
+<div class="row" *ngIf="!valid">
+  <div class="col">
+    <p class="text-danger" >Not valid! min must be >= MAX</p>
+  </div>
+</div>

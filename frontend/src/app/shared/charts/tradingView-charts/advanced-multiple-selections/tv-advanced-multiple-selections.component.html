@@ -1,0 +1,72 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Graph</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body" id="TvContainer"><!-- BODY -->
+
+    <div class="col">
+      <div class="row grid-margin"><!-- RUNNERS -->
+        <div class="col justify-content-start align-items-center">
+          <button *ngFor="let run of runnersData, index as i"
+                  type="button"
+                  class="btn btn mr-2"
+                  [ngClass]="[run.visible == true ? 'btn btn-dark mr-2' : 'btn btn-outline-dark mr-2']" [style.color]="run.color"
+                  (click)="changeRunnerState(run.runnerId)"> {{run.name}}
+          </button>
+          <button type="button" class="btn btn-secondary btn-icon-text mr-2"
+                  (click)="fitClick()">
+            <i class="feather icon-maximize btn-icon-prepend"></i>
+            Fit
+          </button>
+        </div>
+
+        <div class="col justify-content-start align-items-center">
+          <button *ngFor="let timeFrame of timeFrameState, index as i"
+                  type="button"
+                  class="btn btn mr-2"
+                  [ngClass]="[timeFrame.state == true ? 'btn btn-light mr-2' : 'btn btn-outline-info mr-2']" [style.color]="timeFrame.color"
+                  (click)="changeTimeFrameClick(i)"> {{timeFrame.name}}
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-1 grid-margin"> <!-- LEGEND -->
+        <div class="col-2">
+          <h5>{{legend.time | date:'longTime'}}</h5>
+          <h5 [ngClass]="legend.time - legend.openTime <0 ? 'text-warning' : ''"> {{legend.time - legend.openTime <0 ? '-' : ''}}({{(legend.time - legend.openTime) | secAndMinute}})</h5>
+        </div>
+        <div class="col" *ngFor="let leg of legend.value, index as i ">
+          <div class="row" [hidden]="!runnersData[i].visible">
+            <h4 class="mr-2" >{{runnersData[i].name}}</h4>
+            <h4 class="mr-2" *ngIf="lineSeriesData.length"> {{leg | number: '0.2'}}</h4>
+            <div class="mr-2" *ngIf="!lineSeriesData.length" [innerHTML]="(leg | ohcl)"></div>
+            <h5 class="mr-2"><b>({{totalVolume(i)}})</b></h5>
+            <h5 class="mr-2" *ngIf="legend.volume[i]>0"> {{legend.volume[i] | currency : 'EUR' : 'symbol' : '1.0-0'}}</h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHART -->
+      <div class="align-content-center" id="TVCharts" style="width: 100%; height: 100%"></div>
+
+
+    </div>
+  </div>
+  <div class="card-footer" [ngbCollapse]="collapsedAdvanced"><!-- BODY -->
+    <div class="col-4">
+      <app-advanced-grid [inputGrid]="dataGrid"></app-advanced-grid>
+    </div>
+    <app-column-chart [title]="[market.marketRunners.marketRunners[0].name, market.marketRunners.marketRunners[1].name]"
+                      [isCurrency]="false"
+                      [isPercent]="false"
+                      [height]="600"
+                      [colors]="['red', 'blue']"
+                      [labels]="ladder.ladderLabels"
+                      [data]="ladderData">
+    </app-column-chart>
+  </div>
+</div>

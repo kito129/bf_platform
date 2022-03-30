@@ -1,0 +1,23 @@
+<!-- Button trigger trade-modal -->
+<button type="button" class="btn btn-outline-danger btn-xs mr-2" (click)="openVerticalCenteredModal(verticalCenteredModal)">
+  <i class="feather icon-x"></i>
+</button>
+
+<!-- Modal -->
+<ng-template #verticalCenteredModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Delete Strategy</h5>
+    <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <p class="text-center">Are you sure to delete this strategy?</p>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('cancel')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('delete')">Delete</button>
+  </div>
+</ng-template>

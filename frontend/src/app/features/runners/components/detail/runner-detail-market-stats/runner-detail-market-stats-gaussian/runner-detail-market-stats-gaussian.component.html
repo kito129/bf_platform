@@ -1,0 +1,41 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Gaussian</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+    <apx-chart
+      [series]="lineChartOptions.series"
+      [chart]="lineChartOptions.chart"
+      [dataLabels]="lineChartOptions.dataLabels"
+      [plotOptions]="lineChartOptions.plotOptions"
+      [legend]="lineChartOptions.legend"
+      [fill]="lineChartOptions.fill"
+      [stroke]="lineChartOptions.stroke"
+      [tooltip]="lineChartOptions.tooltip"
+      [xaxis]="lineChartOptions.xaxis"
+      [yaxis]="lineChartOptions.yaxis"
+      [theme]="lineChartOptions.theme"
+      [colors]="lineChartOptions.colors"
+    ></apx-chart>
+
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <h5>Mean: {{marketsGaussian.mean | number: '0.2'}}</h5>
+        </div>
+        <div class="col">
+          <h5>StDev: {{marketsGaussian.stDev | number:'0.2'}}</h5>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /BODY -->
+</div>
+<!-- /CARD 1-->
+
+

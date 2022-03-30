@@ -1,0 +1,45 @@
+<nav class="navbar">
+  <a href="" class="sidebar-toggler" (click)="toggleSidebar($event)">
+    <i class="feather icon-menu"></i>
+  </a>
+  <div class="navbar-content">
+    <form class="search-form">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <i class="feather icon-search"></i>
+          </div>
+        </div>
+        <input id="typeahead-basic"
+               type="search"
+               class="form-control"
+               [(ngModel)]="model"
+               name="model"
+               [ngbTypeahead]="search"
+               [resultFormatter]="formatter"
+               placeholder="Search advanced market.."
+               (selectItem)="goToMarket()"/>
+      </div>
+    </form>
+    <div class="row">
+      <div class="d-flex align-items-center">
+
+        <button type="button" class="btn btn-outline-info btn-icon-text mr-2"
+                (click)="refreshAll()">
+          <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
+          Refresh
+        </button>
+
+
+        <button type="button" class="btn btn-outline-warning btn-icon-text mr-2" [routerLink]="'/live'" >
+          <i class="btn-icon-prepend" data-feather="play" appFeatherIcon></i>
+          Live
+        </button>
+        <button type="button" class="btn btn-primary btn-icon-text" (click)="onLogout()" >
+          <i class="btn-icon-prepend" data-feather="log-out" appFeatherIcon></i>
+          LogOut
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

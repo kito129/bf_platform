@@ -1,0 +1,159 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Back/Lay Calculator</h6>
+      <!-- CARD OPTIONS -->
+      <div ngbDropdown class="mb-2">
+        <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton">
+          <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="eye" appFeatherIcon class="icon-sm mr-2"></i> <span class="">View</span></a>
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="edit-2" appFeatherIcon class="icon-sm mr-2"></i> <span class="">Edit</span></a>
+        </div>
+      </div>
+    </div><!-- /CARD OPTIONS -->
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+    <form class="forms-sample" #backLayForm="ngForm" >
+      <div class="row"><!-- ROW 0-->
+        <div class="col-2"><!-- COL 1-->
+          <div class="form-check form-check-flat form-check-primary">
+            <label class="form-check-label grid-margin">
+              <input type="checkbox" class="form-check-input grid-margin" [(ngModel)]="data.isBackBefore" name="isBackBefore" checked  (input)="inputChange()">
+              <i class="input-frame"></i>
+              Back before
+            </label>
+          </div>
+        </div>
+        <div class="col-4"><!-- COL 1-->
+          <h4 class="grid-margin" *ngIf="data.isBackBefore"> <span class="badge badge-primary grid-margin">Back</span> - <span class="badge badge-danger grid-margin">Lay</span> </h4>
+          <h4 class="grid-margin" *ngIf="!data.isBackBefore"> <span class="badge badge-danger grid-margin">Lay</span> - <span class="badge badge-primary grid-margin">Back</span> </h4>
+        </div>
+        <div class="col"><!-- COL 2-->
+          <div class="form-group">
+            <label for="commission" class="text-gray">Commission</label>
+            <input type="number" class="form-control" id="commission" autocomplete="off" placeholder="Commision" [(ngModel)]="data.commission" name="commission"  (input)="inputChange()">
+          </div>
+        </div><!-- /COL 2-->
+      </div><!-- /ROW 0-->
+      <div class="row" *ngIf="data.isBackBefore"><!-- ROW 1 A-->
+        <div class="col"><!-- COL 1-->
+          <app-odd-form [title]="'Back Odds'"
+                        (oddsPointEmitter)="updateBackOdds($event)">
+          </app-odd-form>
+        </div><!-- /COL 1-->
+        <div class="col"><!-- COL 2-->
+          <app-odd-form [title]="'Lay Odds'"
+                        (oddsPointEmitter)="updateLayOdds($event)">
+          </app-odd-form>
+        </div><!-- /COL 2-->
+      </div><!-- /ROW 1 A-->
+      <div class="row" *ngIf="!data.isBackBefore"><!-- ROW 1 B-->
+        <div class="col"><!-- COL 2-->
+          <app-odd-form [title]="'Lay Odds'"
+                        (oddsPointEmitter)="updateLayOdds($event)">
+          </app-odd-form>
+        </div><!-- /COL 2-->
+        <div class="col"><!-- COL 1-->
+          <app-odd-form [title]="'Back Odds'"
+                        (oddsPointEmitter)="updateBackOdds($event)">
+          </app-odd-form>
+        </div><!-- /COL 1-->
+      </div><!-- /ROW 1 B-->
+      <div class="row"><!-- ROW 2-->
+        <div class="col" *ngIf="data.isBackBefore"><!-- COL 1-->
+          <div class="form-group">
+            <label for="stake">Stake</label>
+            <input type="number"
+                   class="form-control"
+                   id="stake"
+                   autocomplete="off"
+                   placeholder="Stake €"
+                   [(ngModel)]="data.stakeBack"
+                   name="stake"
+                   (input)="inputChange()">
+          </div>
+        </div><!-- /COL 1-->
+        <div class="col" *ngIf="!data.isBackBefore"><!-- COL 2-->
+          <div class="form-group">
+            <label for="bank">Bank</label>
+            <input type="number"
+                   class="form-control"
+                   id="bank"
+                   autocomplete="off"
+                   placeholder="Bank €"
+                   [(ngModel)]="data.bank"
+                   name="layOdds"
+                   (input)="inputChange()">
+          </div>
+          <div class="form-group">
+            <label for="liability">Or Liability</label>
+            <input type="number"
+                   class="form-control"
+                   id="liability"
+                   autocomplete="off"
+                   placeholder="Liability €"
+                   [(ngModel)]="data.liability"
+                   name="liability" (input)="inputChange()" >
+          </div>
+        </div><!-- /COL 2-->
+      </div><!-- /ROW 2-->
+      <div *ngIf="data.isValid">
+        <div class="row"><!-- ROW 3-->
+          <div class="col justify-content-left align-items-baseline "><!-- COL 1-->
+            <h4 class="grid-margin">Bets:</h4>
+            <div *ngIf="data.isBackBefore">
+              <app-bets-formatter [type]="'back'"
+                                  [title]="'Back'"
+                                  [odds]="data.backOdds"
+                                  [stake]="data.stakeBack"
+                                  [toWin]="data.winBack">
+              </app-bets-formatter>
+              <app-bets-formatter [type]="'lay'"
+                                  [title]="'Lay'"
+                                  [odds]="data.layOdds"
+                                  [bank]="data.bank"
+                                  [liability]="data.liability">
+              </app-bets-formatter>
+            </div>
+            <div *ngIf="!data.isBackBefore">
+              <app-bets-formatter [type]="'lay'"
+                                  [title]="'Lay'"
+                                  [odds]="data.layOdds"
+                                  [bank]="data.bank"
+                                  [liability]="data.liability">
+              </app-bets-formatter>
+              <app-bets-formatter [type]="'back'"
+                                  [title]="'Back'"
+                                  [odds]="data.backOdds"
+                                  [stake]="data.stakeBack"
+                                  [toWin]="data.winBack">
+              </app-bets-formatter>
+            </div>
+          </div><!-- /COL 1-->
+        </div><!-- /ROW 3-->
+        <div class="row"><!-- ROW 4-->
+          <div class="col justify-content-left align-items-center "><!-- COL 1-->
+            <h4 class="grid-margin">Net:</h4>
+            <h5 [ngClass]=" [data.net>=0? 'text-success' : 'text-danger']">{{data.net | currency}}</h5>
+            <p class="text-warning" *ngIf="data.commissionPaid>0">Commission: (-{{data.commissionPaid| currency}})</p>
+          </div>
+          <div class="col justify-content-left align-items-center "><!-- COL 1-->
+            <h4 class="grid-margin">Rating:</h4>
+            <h5 [ngClass]=" [data.rating>=1? 'text-success' : 'text-danger']">{{data.rating | percent:'0.02'}}</h5>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div><!-- /BODY -->
+  <div class="card-footer"><!-- FOOTER -->
+    <div class="d-flex flex-row-reverse">
+      <button type="button" class="btn btn-secondary" (click)="resetData()">Reset</button>
+    </div>
+  </div><!-- / FOOTER -->
+</div>

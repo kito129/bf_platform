@@ -1,0 +1,77 @@
+<!-- Button trigger trade-modal -->
+<button type="button" class="btn btn-xs btn-outline-light" (click)="openVerticalCenteredModal(verticalCenteredModal)">
+  <i class="feather icon-edit"></i>
+</button>
+
+<!-- Modal -->
+<ng-template #verticalCenteredModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Update Strategy</h5>
+    <button type="button" class="close" (click)="modal.close('close')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form class="forms-sample grid-margin" #strategyForm="ngForm" *ngIf="strategyOutput!= undefined" >
+
+      <div class="form-group">
+        <label for="name" class="text-gray">Name</label>
+        <input class="form-control"
+               id="name"
+               type="text"
+               placeholder="Name"
+               name="name"
+               [(ngModel)]="strategyOutput.strategy.info.name">
+      </div>
+      <div class="form-group">
+        <label class="text-gray">Sport</label>
+        <ng-select [items]="sport"
+                   id="sport"
+                   name="sport"
+                   bindLabel="value"
+                   bindValue="value"
+                   placeholder="Color"
+                   [(ngModel)]="strategyOutput.strategy.info.sport">
+        </ng-select>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="description" class="text-gray">Description</label>
+          <textarea class="form-control" id="description" rows="5"  placeholder="Description" name="description"
+                    [(ngModel)]="strategyOutput.strategy.info.detail.description"></textarea>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="entryDescription" class="text-gray">Entry Description</label>
+          <textarea class="form-control" id="entryDescription" rows="2"  placeholder="Entry Description" name="entryDescription"
+                    [(ngModel)]="strategyOutput.strategy.info.detail.entryDescription"></textarea>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="exitDescription" class="text-gray">Exit Description</label>
+          <textarea class="form-control" id="exitDescription" rows="2"  placeholder="Exit Description" name="exitDescription"
+                    [(ngModel)]="strategyOutput.strategy.info.detail.exitDescription"></textarea>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="MMDescription" class="text-gray">MM Description</label>
+          <textarea class="form-control" id="MMDescription" rows="3"  placeholder="MM Description" name="MMDescription"
+                    [(ngModel)]="strategyOutput.strategy.info.detail.mmDescription"></textarea>
+        </div>
+      </div>
+    </form>
+
+    <p>Strategy created: {{strategyOutput.created | date:'short'}}</p>
+    <p *ngIf="strategyOutput.lastUpdate !== strategyOutput.created">Strategy update: {{strategyOutput.lastUpdate | date:'short'}}</p>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('close')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('update')">Update</button>
+  </div>
+</ng-template>

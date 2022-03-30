@@ -1,0 +1,116 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Runners</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+    <div class="table-responsive" *ngIf="marketRunnersBasic && marketInfoBasic">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Runners</th>
+          <th>Status</th>
+          <!--
+          <th>Prematch Odds</th>
+          <th>InPlay Odds</th>
+          -->
+          <th>BSP</th>
+          <th>PreMatch</th>
+          <th>In Play</th>
+          <th>Tolls</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <tr *ngFor="let selection of marketRunnersBasic.marketRunners">
+          <td><h4>{{ selection.name }}</h4></td>
+          <td>
+            <app-winner-formatter [winner]="selection.status == 'WINNER'">
+
+            </app-winner-formatter>
+          </td>
+          <!--
+          <td><h4>{{ selection.lengthOddsPrematch }}</h4></td>
+          <td><h4>{{ selection.lengthOddsInPlay }}</h4></td>
+          -->
+          <td>
+            <app-bsp-odd [bspOdd]="selection.inPlayOdds"></app-bsp-odd>
+            <div *ngIf="selection.inPlayTime == marketInfoBasic.marketInfo.openDate" class="text-success">
+              <h4><i class="feather icon-check"></i></h4>
+            </div>
+            <div *ngIf="selection.inPlayTime != marketInfoBasic.marketInfo.openDate" class="text-warning">
+              <h4><i class="feather icon-x"></i></h4>
+            </div>
+          </td>
+          <td> <h4 class="text-danger">{{selection.minPrematch}}</h4>  <h4 class="text-primary">{{selection.maxPrematch}} </h4></td>
+          <td><h4 class="text-danger">{{selection.minInPlay}} </h4> <h4 class="text-primary"> {{selection.maxInPlay}} </h4></td>
+          <td>
+            <button  type="button" class="btn btn-primary" routerLink="/runners/detail/{{selection.id}}">
+              <i class="feather icon-external-link"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-responsive" *ngIf="marketRunnersAdvanced && marketInfoAdvanced">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Runners</th>
+          <th>Status</th>
+          <th>Prematch Odds</th>
+          <th>InPlay Odds</th>
+          <th>BSP</th>
+          <th>Volume</th>
+          <th>PreMatch</th>
+          <th>In Play</th>
+          <th>Tolls</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let runners of marketRunnersAdvanced.marketRunners">
+          <td><h4>{{ runners.name }}</h4></td>
+          <td>
+            <app-winner-formatter [winner]="runners.status == 'WINNER'">
+
+            </app-winner-formatter>
+          </td>
+          <!--
+          <td><h4>{{ runners.lengthOddsPrematch }}</h4></td>
+          <td><h4>{{ runners.lengthOddsInPlay }}</h4></td>
+          -->
+          <td>
+            <app-bsp-odd [bspOdd]="runners.inPlayOdds"></app-bsp-odd>
+            <div *ngIf="runners.inPlayTime == marketInfoAdvanced.marketInfo.openDate" class="text-success">
+              <h4><i class="feather icon-check"></i></h4>
+            </div>
+            <div *ngIf="runners.inPlayTime != marketInfoAdvanced.marketInfo.openDate" class="text-warning">
+              <h4><i class="feather icon-x"></i></h4>
+            </div>
+          </td>
+          <td>
+            <h6>TOT: {{ runners.tradedVolume | currency }} ({{ runners.tradedVolume / marketInfoAdvanced.marketInfo.volume.total| percent }})</h6>
+            <h6>PRE: {{ runners.preMatchVolume | currency }} ({{runners.preMatchVolume / runners.tradedVolume | percent }})</h6>
+            <h6>IP: {{ runners.inPlayVolume | currency }}</h6>
+          </td>
+          <td> <h4 class="text-danger">{{runners.minPrematch}}</h4>  <h4 class="text-primary">{{runners.maxPrematch}} </h4></td>
+          <td><h4 class="text-danger">{{runners.minInPlay}} </h4> <h4 class="text-primary"> {{runners.maxInPlay}} </h4></td>
+          <td>
+            <button  type="button" class="btn btn-primary" routerLink="/runners/detail/{{runners.id}}">
+              <i class="feather icon-external-link"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /BODY -->
+</div>
+
+

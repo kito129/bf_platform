@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Db Manager</h4>
+    <p>Here you can manipulate, check and update the db. </p>
+  </div>
+  <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block">
+      <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
+      Refresh
+    </button>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">BF</a></li>
+    <li class="breadcrumb-item active"><a routerLink="/dbManager">DB Manager</a></li>
+  </ol>
+</nav>
+<!-- /BREADCRUMB -->
+
+
+<!-- ROW 1-->
+<div class="col-12">
+  <!-- STATS COMPONENTS-->
+  <div class="row"><!-- ROW 1-->
+    <div class="col grid-margin">
+      <app-db-update-under-over-command></app-db-update-under-over-command>
+    </div>
+    <div class="col grid-margin">
+      <app-db-update-runners-stats></app-db-update-runners-stats>
+    </div>
+  </div><!-- /ROW 1-->
+  <div class="row"><!-- ROW 2-->
+    <div class="col grid-margin">
+      <app-db-update-runners-sport></app-db-update-runners-sport>
+    </div>
+    <div class="col grid-margin">
+
+    </div>
+  </div><!-- /ROW 2-->
+
+</div>
+<!-- /ROW 1-->
+
+

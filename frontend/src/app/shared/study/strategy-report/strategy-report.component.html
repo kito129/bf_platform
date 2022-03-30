@@ -1,0 +1,142 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0"> Strategy  Report</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body">
+    <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+      <li [ngbNavItem]="1">
+        <h5 class="text-light">
+          <a ngbNavLink>Info</a>
+        </h5>
+        <ng-template ngbNavContent>
+          <div class="row">
+            <div class="col">
+              <app-strategy-report-info
+                [strategyReport]="selectedStrategyReport">
+              </app-strategy-report-info>
+
+              <app-pie class="mt-2" [label]="['WIN', 'LOSS', 'VOID']"
+                       [data]="selectedStrategyPie"
+                       [height]="250">
+              </app-pie>
+            </div>
+            <div class="col">
+              <app-strategy-report-resume [title]="'Profit'"
+                                          [strategyResume]="selectedStrategyReport.trades.detail.profit">
+              </app-strategy-report-resume>
+            </div>
+            <div class="col">
+              <app-strategy-report-resume [title]="'Loss'"
+                                          [strategyResume]="selectedStrategyReport.trades.detail.loss">
+              </app-strategy-report-resume>
+            </div>
+            <div class="col">
+              <app-strategy-report-dd class="grid-margin"
+                                      [strategyReport]="selectedStrategyReport">
+              </app-strategy-report-dd>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <app-strategy-report-expected-value [strategyReport]="selectedStrategyReport">
+
+              </app-strategy-report-expected-value>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="2">
+        <h5>
+          <a ngbNavLink>Trades</a>
+        </h5>
+        <ng-template ngbNavContent>
+          <app-study-trade-datatable [trades$]="selectedStrategyTrades$"
+                                     [viewSelectors]="false">
+          </app-study-trade-datatable>
+        </ng-template>
+      </li>
+
+
+      <li [ngbNavItem]="3">
+        <h5 class="text-primary">
+          <a ngbNavLink>Equity</a>
+        </h5>
+        <ng-template ngbNavContent>
+          <app-trade-equity [allTrades]="selectedStrategyTrades$ | async"
+                            [labels]="tradeLabels"
+                            [wantBar]="true">
+          </app-trade-equity>
+
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="4">
+        <h5 class="text-warning">
+          <a ngbNavLink>DD</a>
+        </h5>
+        <ng-template ngbNavContent>
+          <app-trade-dd [allTrades]="selectedStrategyTrades$ | async"
+                        [labels]="tradeLabels">
+          </app-trade-dd>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="5">
+        <h5 class="text-warning">
+          <a ngbNavLink>Periodic</a>
+        </h5>
+        <ng-template ngbNavContent>
+          <app-strategy-report-month [allTrades]="(selectedStrategyTrades$ | async)">
+
+          </app-strategy-report-month>
+        </ng-template>
+      </li>
+
+
+      <li [ngbNavItem]="6">
+        <h5 class="text-info">
+          <a ngbNavLink>RR</a>
+        </h5>
+        <ng-template ngbNavContent>
+          <app-trade-bar-charts [title]="'RR'"
+                                [labels]="tradeLabels"
+                                [data]="tradeRR"
+                                [height]="chartHeight"
+                                [colors]="['#45acb5']"
+                                [isCurrency]="false"
+                                [isPercent]="true">
+          </app-trade-bar-charts>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="7">
+        <h5 class="text-danger">
+          <a ngbNavLink>Risk</a>
+        </h5>
+        <ng-template ngbNavContent>
+          <app-trade-bar-charts [title]="'Max Risk'"
+                                [labels]="tradeLabels"
+                                [data]="tradeMaxRisk"
+                                [height]="chartHeight"
+                                [colors]="['#b55b45']"
+                                [isCurrency]="true"
+                                [isPercent]="false">
+          </app-trade-bar-charts>
+
+          <app-trade-histogram [chartHeight]="chartHeight"
+                               [n]="15"
+                               [series]="tradeMaxRisk"
+                               [isPercent]="false">
+          </app-trade-histogram>
+        </ng-template>
+      </li>
+    </ul>
+
+    <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+  </div>
+</div>

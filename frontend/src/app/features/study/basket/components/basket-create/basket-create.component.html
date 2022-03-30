@@ -1,0 +1,162 @@
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">{{data.create? 'Create' : 'Update'}} Basket</h6>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="card-body">
+
+    <form ngForm>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="basketName" class="text-gray">Basket Name</label>
+            <input class="form-control"
+                   id="basketName"
+                   type="text"
+                   placeholder="Basket Name"
+                   name="basketName"
+                   [(ngModel)]="data.name">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="sport" class="text-gray">Sport</label>
+            <ng-select [items]="createStudyOptions.createStudy.sport"
+                       id="sport"
+                       name="sport"
+                       bindLabel="value"
+                       bindValue="value"
+                       placeholder="Sport"
+                       [(ngModel)]="data.sport">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control"
+                  id="description"
+                  rows="5"
+                  placeholder="Description"
+                  name="description"
+                  [(ngModel)]="data.description">
+
+        </textarea>
+      </div>
+
+      <div *ngIf="data.sport === 'TENNIS'">
+        <label >Tennis Options</label>
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-check-flat form-check-primary">
+              <label class="form-check-label grid-margin">
+                <input type="checkbox"
+                       class="form-check-input"
+                       [(ngModel)]="data.options.tennis.notDoubles"
+                       name="notDoubles">
+                <i class="input-frame"></i>
+                Not Doubles
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check form-check-flat form-check-primary">
+              <label class="form-check-label grid-margin">
+                <input type="checkbox"
+                       class="form-check-input"
+                       [(ngModel)]="data.options.tennis.delay3SecOnly"
+                       name="delay3SecOnly">
+                <i class="input-frame"></i>
+                Delay 3 Sec Only
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="oddsLimit">Odds Limits</label>
+              <input type="number"
+                     class="form-control"
+                     id="oddsLimit"
+                     [(ngModel)]="data.options.tennis.oddsLimit"
+                     name="oddsLimit">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="filterType" class="text-gray">Filter Type</label>
+        <ng-select id="filterType"
+                   name="filterType"
+                   placeholder="Filter Type"
+                   [(ngModel)]="createStudyOptions.createStudy.selectedFilter">
+          <ng-option *ngFor="let filter of createStudyOptions.createStudy.filters"
+                     [value]="filter.id">
+            {{filter.name}}
+          </ng-option>
+        </ng-select>
+      </div>
+
+      <div class="row" *ngIf="createStudyOptions.createStudy.selectedFilter!== null">
+        <div class="col">
+          <ng-container [ngSwitch]="createStudyOptions.createStudy.selectedFilter">
+            <ng-container *ngSwitchCase="0">
+              <app-basket-filter-by-odds [min]="bspFilter.min"
+                                         [max]="bspFilter.max"
+                                         (oddEmitter)="setBspFilter($event)">
+              </app-basket-filter-by-odds>
+            </ng-container>
+            <ng-container *ngSwitchCase="1">
+              <app-list-selection-form [type]="'players'"
+                                       [title]="'Players Filter'"
+                                       (listSelectedEmitter)="setCurrentPlayerFilter($event)">
+              </app-list-selection-form>
+            </ng-container>
+            <ng-container *ngSwitchCase="2">
+              <app-basket-filter-event-name></app-basket-filter-event-name>
+            </ng-container>
+            <ng-container *ngSwitchCase="3">
+              <app-basket-filter-by-date></app-basket-filter-by-date>
+            </ng-container>
+            <ng-container *ngSwitchCase="4">
+              <app-basket-filter-by-odds>
+
+              </app-basket-filter-by-odds>
+            </ng-container>
+          </ng-container>
+        </div>
+        <div class="col-2">
+          <button type="button" class="btn-xs btn-success mt-2" (click)="addFilter()" [disabled]="!bspFilter.valid">+</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="col">
+      <app-basket-active-filter *ngIf="createStudyOptions.createStudy.activeFilter.length || data.playersFilter.length"
+                                [bspFilter]="createStudyOptions.createStudy.activeFilter"
+                                [playersFilter]="data.playersFilter"
+                                (removeBSPEmitter)="removeActiveFilter($event)"
+                                (removePlayersEmitter)="removePlayersFilter($event)"
+                                [haveRemove]="true">
+      </app-basket-active-filter>
+    </div>
+
+  </div>
+  <!-- FOOTER -->
+  <div class="card-footer">
+    <button type="button"
+            class="btn btn-icon-text"
+            [ngClass]="data.create? 'btn-primary' : 'btn-light'"
+            (click)="submit()"
+            [disabled]="!createStudyOptions.createStudy.activeFilter.length>0">
+      <i class="btn-icon-prepend" data-feather="save" appFeatherIcon></i>
+      {{data.create? 'Create' : 'Update'}}
+    </button>
+  </div>
+</div>
+
+{{data | json}}

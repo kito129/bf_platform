@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Filters</h6>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <div class="row" *ngIf="filter.length">
+      <div class="d-flex justify-content-between align-items-baseline" *ngFor="let f of filter">
+        <div *ngIf="f" class="mr-1">
+          <app-filter-element [filter]="f">
+          </app-filter-element>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-footer">
+    <div class="d-flex">
+      <button type="button"
+              class="btn btn-outline-secondary mr-2"
+              (click)="reset()">
+        Reset
+      </button>
+      <button type="button"
+              class="btn btn-outline-primary mr-2"
+              (click)="submit()">
+        Filter
+      </button>
+    </div>
+  </div>
+</div>

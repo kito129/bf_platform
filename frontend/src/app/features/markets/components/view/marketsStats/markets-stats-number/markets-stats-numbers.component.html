@@ -1,0 +1,39 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Markets in Db</h6>
+      <!-- CARD OPTIONS -->
+      <div ngbDropdown class="mb-2">
+        <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton">
+          <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="eye" appFeatherIcon class="icon-sm mr-2"></i> <span class="">View</span></a>
+          <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="edit-2" appFeatherIcon class="icon-sm mr-2"></i> <span class="">Edit</span></a>
+        </div>
+      </div>
+    </div><!-- /CARD OPTIONS -->
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+    <div class="row">
+      <div class="col">
+        <h3 >Total Markets</h3>
+        <h4 class="mb-1">{{dbState.sportStats.total}}</h4>
+        <div class="d-flex align-items-baseline">
+          <p>Last Db update: <span class="badge badge-primary">{{dbState.sportStats.lastUpdate | date :'M/d, H:mm'}}</span></p>
+        </div>
+      </div>
+    </div>
+  </div><!-- /BODY -->
+  <div class="card-footer"><!-- FOOTER -->
+    <div class="d-flex flex-row-reverse">
+
+      <button type="button" class="btn btn-primary" routerLink="/markets/list/all">View All</button>
+
+    </div>
+  </div>
+</div>
+<!-- /CARD 1-->
+

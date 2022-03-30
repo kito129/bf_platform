@@ -1,0 +1,152 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">All Study</h6>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <div class="d-flex justify-content-end align-items-center">
+
+      <div class="col">
+        <div class="form-group">
+          <ng-select id="basketSelection"
+                     name="basketSelection"
+                     placeholder="Basket Filter"
+                     [(ngModel)]="selectedBasketFilter"
+                     (ngModelChange)="setBasketFilter()">
+            <ng-option *ngFor="let basket of basketFilter"
+                       [value]="basket">
+              Basket {{basket}}
+            </ng-option>
+          </ng-select>
+        </div>
+      </div>
+
+
+      <div class="col">
+        <div class="form-group">
+          <ng-select id="typeSelection"
+                     name="typeSelection"
+                     placeholder="Type Selection"
+                     [(ngModel)]="selectedType"
+                     (ngModelChange)="setType()">
+            <ng-option *ngFor="let t of type"
+                       [value]="t">
+              <p [ngClass]="t.indexOf('back')!==-1 ? 'text-primary' : t.indexOf('lay')!==-1 ? 'text-danger' : 'text-warning' ">{{t}}</p>
+            </ng-option>
+          </ng-select>
+        </div>
+      </div>
+
+      <form class="form-group mr-2" #searchFormRunner="ngForm">
+        <div class="row">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Search..."
+            (keyup)="updateFilter($event)"
+          />
+        </div>
+      </form>
+    </div>
+
+    <ngx-datatable
+      class="dark"
+      style="height: 600px"
+      [rows]="rows"
+      [columns]="columns"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [scrollbarV]="true"
+      [scrollbarH]="false"
+      [rowHeight]="60"
+      [sorts]="[{prop: 'lastUpdate', dir: 'desc'}]">
+
+      <ngx-datatable-column name="Date" prop="lastUpdate" [width]="230">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{ value | date:'M/d/yy, H:mm' }}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Name" prop="study.name" [width]="400">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{ value }}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Type" prop="study.name" [width]="60">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <div class="row">
+            <h5 *ngIf="value.toLowerCase().indexOf('back')!==-1"><span class="badge badge-primary grid-margin mr-2">Back</span></h5>
+            <h5 *ngIf="value.toLowerCase().indexOf('lay')!==-1"><span class="badge badge-danger grid-margin mr-2">Lay</span></h5>
+            <h5 *ngIf="value.toLowerCase().indexOf('chunks')!==-1"><span class="badge badge-warning grid-margin">Chunks</span></h5>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column name="Tools" prop="">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+
+          <div class="d-flex justify-content-end align-items-center">
+            <button type="button"
+                    class="btn btn-icon mr-4"
+                    [ngClass]="compareList.indexOf(value._id)===0 ? 'btn-warning': compareList.indexOf(value._id)!==-1 ? 'btn-success' :  'btn-outline-success'"
+                    (click)="addToCompare(value._id)"
+                    (contextmenu)="firstToCompare($event,value._id)">
+              <i class="feather icon-plus-circle"></i>
+            </button>
+            <button type="button"
+                    class="btn btn-icon mr-4"
+                    [ngClass]="selectedStudyId === value._id ? 'btn-info' : 'btn-outline-info'"
+                    (click)="selectClick(value._id)">
+              <i class="feather icon-eye"></i>
+            </button>
+            <app-delete-modal [type]="'Study'"
+                              [id]="value._id"
+                              [name]="value.study.name"
+                              (deleteEmitter)="deleteModal($event)">
+            </app-delete-modal>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </div>
+  <div class="card-footer">
+    <div class="d-flex flex-row-reverse">
+
+      <button type="button"
+              class="btn btn-icon btn-primary btn-icon-text"
+              (click)="compare()"
+              [disabled]="!(compareList.length>=1)">
+        <i class="btn-icon-prepend" data-feather="share-2" appFeatherIcon></i>
+        Compare
+      </button>
+
+      <button type="button"
+              class="btn btn-icon btn-warning btn-icon-text mr-2"
+              (click)="addAllInFilterToCompare()">
+        <i class="btn-icon-prepend" data-feather="search" appFeatherIcon></i>
+        Add all filtered
+      </button>
+
+      <button type="button"
+              class="btn btn-icon btn-secondary btn-icon-text mr-2"
+              (click)="resetCompare()">
+        <i class="btn-icon-prepend" data-feather="rotate-cw" appFeatherIcon></i>
+        Reset
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+
+

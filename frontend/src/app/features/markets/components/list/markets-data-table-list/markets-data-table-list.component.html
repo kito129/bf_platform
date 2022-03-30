@@ -1,0 +1,93 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">All Markets</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+
+
+    <div class="d-flex justify-content-end align-items-baseline">
+      <form class="forms-sample grid-margin" #searchForm="ngForm">
+        <div class="row">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Type name..."
+            (keyup)="updateFilter($event)"
+          />
+        </div>
+      </form>
+    </div>
+
+
+    <ngx-datatable
+      class="dark"
+      [rows]="rows"
+      [loadingIndicator]="loadingIndicator"
+      [columns]="columns"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="40"
+      [footerHeight]="50"
+      [limit]="10"
+      rowHeight="auto"
+      [reorderable]="true"
+      [sorts]="[{prop: 'openDate', dir: 'asc'}]">
+    >
+      <ngx-datatable-column name="Date" prop="marketInfo.openDate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{ value | date:'short' }}</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Name" prop="marketInfo.eventName" [width]="300">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Sport"  prop="marketInfo.sport">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <div>
+            <app-sport-text [sport]="value"></app-sport-text>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Market"  prop="marketInfo.eventName">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <div>
+            <app-event-name-text [eventName]="value"></app-event-name-text>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Winner"  prop="marketInfo.winner">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <p class="text" *ngIf="value">{{value.name}}</p>
+          <p class="text text-warning" *ngIf="!value">Retired</p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Open Winner" prop="marketInfo.winner.id">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <button type="button" routerLink='/runners/detail/{{value}}'  class="btn btn-info btn-icon">
+            <i class="feather icon-external-link"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Open Market" prop="marketId">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <button type="button" routerLink='/markets/detail/{{value}}'  class="btn btn-primary btn-icon">
+            <i class="feather icon-external-link"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </div><!-- /BODY -->
+</div>

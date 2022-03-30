@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">Markets List</h4>
+    <p>Navigate in markets list </p>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">BF</a></li>
+    <li class="breadcrumb-item"><a routerLink="/markets">Markets</a></li>
+    <li class="breadcrumb-item active" aria-current="page">List</li>
+  </ol>
+</nav>
+<!-- /BREADCRUMB -->
+
+
+
+<!-- ROW 1-->
+<div class="col-12">
+  <!-- LIST COMPONENT-->
+  <app-loading-cards *ngIf="(isLoadingAllMarkets$ | async).isLoading"></app-loading-cards>
+  <app-markets-data-table-list *ngIf="(isLoadingAllMarkets$ | async).isLoadingSuccess"
+                               [markets]="allMarkets$ | async">
+
+  </app-markets-data-table-list>
+</div>
+<!-- /ROW 1-->
+
+
+

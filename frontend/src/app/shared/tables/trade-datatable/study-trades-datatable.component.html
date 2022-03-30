@@ -1,0 +1,122 @@
+<div class="d-flex justify-content-around align-items-baseline">
+
+  <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block" (click)="table.rowDetail.expandAllRows()">
+    <i class="btn-icon-prepend" data-feather="chevrons-down" appFeatherIcon></i>
+    Expand All
+  </button>
+  <button type="button" class="btn btn-outline-light btn-icon-text mr-2 d-none d-md-block" (click)="table.rowDetail.collapseAllRows()">
+    <i class="btn-icon-prepend" data-feather="chevrons-up" appFeatherIcon></i>
+    Close All
+  </button>
+
+  <form class="forms-sample grid-margin">
+    <div class="row">
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Type name..."
+        (keyup)="updateFilter($event)"
+      />
+    </div>
+  </form>
+
+</div>
+
+<ngx-datatable
+  class="dark expandable"
+  [rows]="rows"
+  [loadingIndicator]="loadingIndicator"
+  [columnMode]="ColumnMode.force"
+  [rowHeight]="'auto'"
+  [headerHeight]="40"
+  [footerHeight]="50"
+  [limit]="10"
+  rowHeight="auto"
+  [reorderable]="true"
+  [sorts]="[{prop: 'trade.trade.info.date', dir: 'desc'}]">
+
+  <!-- Row Detail Template -->
+  <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+      <app-trade-row-detail-shared [trade]="row.trade"></app-trade-row-detail-shared>
+    </ng-template>
+  </ngx-datatable-row-detail>
+
+  <!-- Column Templates -->
+  <ngx-datatable-column
+    [width]="50"
+    [resizeable]="false"
+    [sortable]="false"
+    [draggable]="false"
+    [canAutoResize]="true"
+  >
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a
+        href="javascript:void(0)"
+        [class.datatable-icon-right]="!expanded"
+        [class.datatable-icon-down]="expanded"
+        title="Expand/Collapse Row"
+        (click)="toggleExpandRow(row)"
+      >
+      </a>
+    </ng-template>
+  </ngx-datatable-column>
+
+
+
+  <ngx-datatable-column name="Date" prop="trade.trade.info.date">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <p>{{ value | date:'short'}}</p>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Name" prop="trade.trade.info.marketInfo">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <a [routerLink]="'/markets/detail/' + value.marketId ">
+        <p>{{ value.marketName }}</p>
+      </a>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="PL" prop="trade.trade.result.netProfit">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5 [ngClass]="value>0? 'text-success' : 'text-danger'">{{ value | currency }}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Stock" prop="data.stockPl">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5 [ngClass]="value>0? 'text-success' : 'text-danger'">{{ value | currency }}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="rR" prop="trade.trade.result.rr">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5 class="text-info">{{ value | percent: '.2' }}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="View" prop="">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <app-trade-and-market-details-modal [trade]="value.trade">
+
+      </app-trade-and-market-details-modal>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Tolls" prop="" *ngIf="viewSelectors">
+    <ng-template let-value="value"  ngx-datatable-cell-template>
+
+      <div class="d-flex justify-content-end align-items-baseline">
+
+        <button type="button" class="btn btn-icon" [ngClass]="selectedMarketId === value.trade.trade.info.marketInfo.marketId ? 'btn-info' : 'btn-outline-info'"
+                (click)="onClick(value.trade.trade.info.marketInfo.marketId,
+                value.trade.trade.selections[0].avg.back.odds>0 || value.trade.trade.selections[0].avg.lay.odds>0 ? value.trade.trade.selections[0].runnerId : value.trade.trade.selections[1].runnerId, value.trade)">
+          <i class="feather icon-eye"></i>
+        </button>
+      </div>
+
+    </ng-template>
+  </ngx-datatable-column>
+
+</ngx-datatable>

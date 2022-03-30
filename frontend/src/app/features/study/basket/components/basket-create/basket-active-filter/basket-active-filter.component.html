@@ -1,0 +1,39 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let bsp of bspFilter, index as i ">
+    <div class="row">
+      <div class="col-10">
+        <h6>{{i+1}}) SELECTION BSP FILTER</h6>
+        <div class="row">
+          <div class="col">
+            <app-bsp-odd  [text]="'min'"
+                          [bspOdd]="bsp.props.odds.min">
+            </app-bsp-odd>
+          </div>
+          <div class="col">
+            <app-bsp-odd  [text]="'MAX'"
+                          [bspOdd]="bsp.props.odds.max">
+            </app-bsp-odd>
+          </div>
+        </div>
+      </div>
+      <div class="col-2" *ngIf="haveRemove">
+        <button type="button" class="btn-xs btn-danger mt-2" (click)="removeFilter(bsp.id)">X</button>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item" *ngFor="let players of playersFilter, index as i ">
+    <div class="row" placement="left" [ngbTooltip]="playerFilterTooltip">
+      <div class="col-10">
+        <h6 class="text-warning">{{i+1}}) PLAYERS FILTER</h6>
+        <h5> {{players | playersFilterNamePipe: store}}</h5>
+      </div>
+      <div class="col-2" *ngIf="haveRemove">
+        <button type="button" class="btn-xs btn-danger mt-2" (click)="removePlayerFilter(players)">X</button>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<ng-template #playerFilterTooltip>
+</ng-template>
+

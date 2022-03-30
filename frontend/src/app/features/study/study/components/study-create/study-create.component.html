@@ -1,0 +1,78 @@
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">{{data.create? 'Create' : 'Update'}} Study</h6>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="card-body">
+
+    <form ngForm>
+      <div class="form-group">
+        <label for="studyName" class="text-gray">Study Name</label>
+        <input class="form-control"
+               id="studyName"
+               type="text"
+               placeholder="Study Name"
+               name="studyName"
+               [(ngModel)]="data.name">
+      </div>
+
+      <div class="form-group" >
+        <label for="description" class="text-gray">Description</label>
+        <textarea class="form-control"
+                  id="description"
+                  rows="5"
+                  placeholder="Description"
+                  name="description"
+                  [(ngModel)]="data.description">
+
+        </textarea>
+      </div>
+
+      <div *ngIf="validBug">
+
+        <app-list-selection-form [type]="'strategy'"
+                                 [selectedId]="data.strategyId"
+                                 (listSelectedEmitter)="setStrategy($event)">
+        </app-list-selection-form>
+
+        <app-list-selection-form [type]="'basket'"
+                                 [selectedId]="options.element.baskets[0]"
+                                 (listSelectedEmitter)="setBasket($event)">
+        </app-list-selection-form>
+
+        <div class="col" *ngIf="options.element.baskets.length">
+          <app-basket-active-filter [bspFilter]="returnBasketFilter(options.element.baskets[0]) | async"
+                                    [haveRemove]="false">
+          </app-basket-active-filter>
+          <h5 class="mt-1"> Basket Size: {{returnBasketSize(options.element.baskets[0]) | async}}</h5>
+        </div>
+
+        <app-list-selection-form [type]="'entry'"
+                                 [selectedId]="options.element.entry[0]"
+                                 (listSelectedEmitter)="setEntry($event)">
+        </app-list-selection-form>
+
+        <div *ngIf="options.element.entry.length">
+          <app-entry-detail [bets]="returnBets(options.element.entry[0]) | async">
+          </app-entry-detail>
+        </div>
+      </div>
+
+
+    </form>
+  </div>
+  <!-- FOOTER -->
+  <div class="card-footer">
+    <button type="button"
+            class="btn btn-icon-text"
+            [ngClass]="data.create? 'btn-primary' : 'btn-light'"
+            (click)="submit()"
+            [disabled]="!options.element.entry.length ||  !options.element.baskets.length || !data.strategyId">
+      <i class="btn-icon-prepend" data-feather="save" appFeatherIcon></i>
+      {{data.create? 'Create' : 'Update'}}
+    </button>
+  </div>
+</div>

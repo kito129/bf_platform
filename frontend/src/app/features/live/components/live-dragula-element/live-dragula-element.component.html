@@ -1,0 +1,413 @@
+<div class="d-flex flex-row noSelect" [ngClass]="index / multiple <= 1
+? 'selectedA' : index / multiple <= 2
+? 'selectedB' : index / multiple <= 3
+? 'selectedC' : ''">
+  <!-- OPTIONS -->
+  <div class="col-1" *ngIf="row.valid" style="max-width: 50px">
+    <div class="row">
+      <h2 class="mr-2">
+        {{index}}
+      </h2>
+      <button type="button" class="btn btn-xs btn-outline-danger mr-2 mb-2" (click)="removeRow()">
+        <i class="feather icon-x"></i>
+      </button>
+      <button *ngIf="toUpdate"
+              type="button"
+              class="btn btn-xs btn-primary"
+              (click)="update()">
+        <i class="feather icon-save"></i>
+      </button>
+    </div>
+  </div>
+  <!-- RUNNER A -->
+  <div class="col" *ngIf="row.valid">
+    <div class="row" *ngFor="let run of row.a, index as i">
+      <div class="col-6" *ngIf="(!row.isDouble && i ===0)">
+        <div class="row">
+          <div class="col-2">
+            <div class="form-check form-check-flat form-check-primary">
+              <label class="form-check-label">
+                <input type="checkbox"
+                       class="form-check-input"
+                       [(ngModel)]="run.notInDb"
+                       (ngModelChange)="notInDb(i, true)">
+                <i class="input-frame"></i>
+              </label>
+            </div>
+            <p *ngIf="i===0"
+               class="text-left pointer"
+               [ngClass]="run.side.indexOf('up')!==-1 ? 'text-warning' : 'text-secondary' "
+               (click)="setSide(i,true, 'up')"
+               (contextmenu)="setSideNull($event, i)">
+              <i class="bigFeather" data-feather="arrow-up" appFeatherIcon></i>
+            </p>
+            <p *ngIf="i===0"
+               class="text-left pointer"
+               [ngClass]="run.side.indexOf('down')!==-1 ? 'text-danger' : 'text-secondary' "
+               (click)="setSide(i,true, 'down')"
+               (contextmenu)="setSideNull($event, i)">
+              <i class="bigFeather" data-feather="arrow-down" appFeatherIcon></i>
+            </p>
+          </div>
+
+          <div class="col-10">
+            <app-runners-selection-form *ngIf="!run.notInDb && ((runnerAid[i]| async)!==9000000000000000 || (runnerAid[i] | async) ) "
+                                        [runnerId$]="runnerAid[i]"
+                                        [isLive]="true"
+                                        (runnerSelectedEmitter)="setRunner(true,$event, i)">
+            </app-runners-selection-form>
+            <div class="form-group" *ngIf="run.notInDb">
+              <input class="form-control"
+                     (keyup.enter)="update()"
+                     type="text"
+                     placeholder="Name"
+                     name="name{{i}}"
+                     [(ngModel)]="run.name"
+                     (ngModelChange)="updateText()">
+            </div>
+
+            <h2 *ngIf="run.name!==''">{{run.name}}
+              <app-live-dragula-notes [runnerId$]="runnerAid[i]"
+                                      [runnerName]="row.a[0].name">
+              </app-live-dragula-notes>
+            </h2>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-6" *ngIf="(!row.isDouble && i ===0)">
+        <div class="row">
+          <div class="col">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>
+                  <h4>M</h4>
+                </th>
+                <th>
+                  <h4>P</h4>
+                </th>
+                <th>
+                  <h4>C</h4>
+                </th>
+                <th>
+                  <h4>S</h4>
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'shirt',true,0)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[0].shirt"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'shirt', $event, true,0)">
+                  </div>
+
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'pants',true,0)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[0].pants"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'pants', $event, true,0)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'cap',true,0)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[0].cap"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'cap', $event, true,0)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'shoes',true,0)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[0].shoes"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'shoes', $event, true,0)">
+                  </div>
+                </td>
+              </tr>
+              <!-- SECONDARY COLOR-->
+              <tr>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'shirt',true,1)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[1].shirt"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'shirt', $event, true,1)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'pants',true,1)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[1].pants"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'pants', $event, true,1)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'cap',true,1)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[1].cap"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'cap', $event, true,1)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'shoes',true,1)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[1].shoes"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'shoes', $event, true,1)">
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+              <textarea *ngIf="i===0"
+                        style="font-size: 22px;"
+                        class="form-control text-light"
+                        name="note"
+                        rows="4"
+                        [(ngModel)]="run.note"
+                        (ngModelChange)="updateText()"
+                        (keyup.enter)="update()">
+              </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- RUNNER B -->
+  <div class="col" *ngIf="row.valid">
+    <div class="row" *ngFor="let run of row.b, index as i">
+      <div class="col-6" *ngIf="(!row.isDouble && i ===0)">
+        <div class="row">
+          <div class="col-2">
+            <div class="form-check form-check-flat form-check-primary">
+              <label class="form-check-label">
+                <input type="checkbox"
+                       class="form-check-input"
+                       [(ngModel)]="run.notInDb"
+                       (ngModelChange)="notInDb(i, false)">
+                <i class="input-frame"></i>
+              </label>
+            </div>
+            <p *ngIf="i===0"
+               class="text-left pointer"
+               [ngClass]="run.side.indexOf('up')!==-1 ? 'text-warning' : 'text-secondary' "
+               (click)="setSide(i,false, 'up')"
+               (contextmenu)="setSideNull($event, i)">
+              <i class="bigFeather" data-feather="arrow-up" appFeatherIcon></i>
+            </p>
+            <p *ngIf="i===0"
+               class="text-left pointer"
+               [ngClass]="run.side.indexOf('down')!==-1 ? 'text-danger' : 'text-secondary' "
+               (click)="setSide(i,false, 'down')"
+               (contextmenu)="setSideNull($event, i)">
+              <i class="bigFeather" data-feather="arrow-down" appFeatherIcon></i>
+            </p>
+          </div>
+
+          <div class="col-10">
+            <app-runners-selection-form *ngIf="!run.notInDb && ((runnerBid[i]| async)!==9000000000000000 || (runnerBid[i] | async) ) "
+                                        [runnerId$]="runnerBid[i]"
+                                        [isLive]="true"
+                                        (runnerSelectedEmitter)="setRunner(false,$event, i)">
+            </app-runners-selection-form>
+            <div class="form-group" *ngIf="run.notInDb">
+              <input class="form-control"
+                     (keyup.enter)="update()"
+                     type="text"
+                     placeholder="Name"
+                     name="name{{i}}"
+                     [(ngModel)]="run.name"
+                     (ngModelChange)="updateText()">
+            </div>
+
+            <h2 *ngIf="run.name!==''">{{run.name}}
+              <app-live-dragula-notes [runnerId$]="runnerBid[i]"
+                                      [runnerName]="row.b[0].name">
+              </app-live-dragula-notes>
+            </h2>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-6" *ngIf="(!row.isDouble && i ===0)">
+        <div class="row">
+          <div class="col">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>
+                  <h4>M</h4>
+                </th>
+                <th>
+                  <h4>P</h4>
+                </th>
+                <th>
+                  <h4>C</h4>
+                </th>
+                <th>
+                  <h4>S</h4>
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'shirt',false,0)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[0].shirt"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'shirt', $event, false,0)">
+                  </div>
+
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'pants',false,0)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[0].pants"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'pants', $event, false,0)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'cap',false,0)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[0].cap"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'cap', $event, false,0)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'shoes',false,0)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[0].shoes"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'shoes', $event, false,0)">
+                  </div>
+                </td>
+              </tr>
+              <!-- SECONDARY COLOR-->
+              <tr>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'shirt',false,1)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[1].shirt"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'shirt', $event, false,1)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'pants',false,1)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[1].pants"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'pants', $event, false,1)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'cap',false,1)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[1].cap"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'cap', $event, false,1)">
+                  </div>
+                </td>
+                <td class="colorLive pointer"
+                    (contextmenu)="removeColor($event,i,'shoes',false,1)">
+                  <div
+                    ngx-colors-trigger
+                    class="picker"
+                    [palette]="colorPalette"
+                    [style.background]="run.color[1].shoes"
+                    [hideTextInput]="true"
+                    (input)="setColor(i,'shoes', $event, false,1)">
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+              <textarea *ngIf="i===0"
+                        style="font-size: 24px;"
+                        class="form-control text-light"
+                        name="note"
+                        rows="4"
+                        [(ngModel)]="run.note"
+                        (ngModelChange)="updateText()"
+                        (keyup.enter)="update()">
+              </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- EMPTY CELL -->
+  <div class="row" *ngIf="!row.valid">
+    <div class="col-3">
+      <h2 class="text-gray">
+        {{index}}
+      </h2>
+    </div>
+    <div class="col-2">
+      <button type="button" class="btn btn-outline-success ml-2" (click)="generateRow()">
+        <i class="feather icon-plus"></i>
+      </button>
+    </div>
+  </div>
+</div>

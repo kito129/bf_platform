@@ -1,0 +1,53 @@
+<!-- CARD 1-->
+<div class="card mt-2">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Market and Trade</h6>
+      <!-- CARD OPTIONS -->
+      <button class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton" (click)="closePanel()">
+        <i class="icon-lg text-muted pb-3px" data-feather="x" appFeatherIcon></i>
+      </button>
+    </div><!-- /CARD OPTIONS -->
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BODY -->
+    <div class="row grid-margin">
+      <div class="col">
+        <app-tv-single-selection-price [runnerPrices]="selectedMarketData.price"
+                                       [selectedTrades]="selectedTrades"
+                                       [haveTrade]="haveTrades"
+                                       [basketBspTime]="basketBspTime"
+                                       [basketBspOdd]="basketBspOdds">
+        </app-tv-single-selection-price>
+      </div>
+    </div>
+    <div class="row grid-margin" *ngIf="haveTrades">
+      <div class="col">
+        <app-trade-row-detail-shared [trade]="trade"></app-trade-row-detail-shared>
+      </div>
+    </div>
+    <div  *ngIf="detail">
+      <div class="row grid-margin">
+        <div class="col-9">
+          <app-market-info-card [marketInfoBasic]="selectedMarketData.marketInfo">
+          </app-market-info-card>
+        </div>
+        <div class="col-3">
+          <app-market-update-card [marketUpdates]="selectedMarketData.marketUpdates">
+          </app-market-update-card>
+        </div>
+      </div>
+      <div class="row grid-margin">
+        <div class="col">
+          <app-market-runners-card [marketRunnersBasic]="selectedMarketData.marketSelections">
+          </app-market-runners-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

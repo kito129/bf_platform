@@ -1,0 +1,111 @@
+<!-- LIST AND CREATE -->
+<div class="row grid-margin">
+  <div class="col-8">
+    <app-loading-cards *ngIf="(isLoadingAllStudy$ | async).isLoading"></app-loading-cards>
+    <app-study-list *ngIf="(isLoadingAllStudy$ | async).isLoadingSuccess"
+                    [studies]="allStudies$ | async"
+                    [selectedStudyId]="selectedStudyId$ | async"
+                    [compareList]="compareList$ | async">
+    </app-study-list>
+
+  </div>
+  <div class="col">
+    <app-study-create [selectedStudy$]="selectedStudy$">
+    </app-study-create>
+  </div>
+</div>
+
+<!-- SELECTED STUDY -->
+<app-loading-cards *ngIf="(isLoadingAllStudy$ | async).isLoading
+                          || (isLoadingSelectedStudyTrades$ | async).isLoading">
+</app-loading-cards>
+
+<div class="col" *ngIf="(isLoadingAllStudy$ | async).isLoadingSuccess
+                        && (selectedStudyId$ | async)
+                        && (isLoadingSelectedStudyTrades$ | async).isLoadingSuccess
+                        && visibleReport">
+  <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <h5>
+        <a ngbNavLink>Study Report</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <app-strategy-report [selectedStrategyReport]="selectedStrategyReport"
+                             [selectedStrategyPie]="selectedStrategyPie"
+                             [selectedStrategyTrades$]="selectedStudyTrades$">
+        </app-strategy-report>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="2">
+      <h5>
+        <a ngbNavLink>Entry Details</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div class="col grid-margin">
+          <!-- DATATABLE FOR ALL TRADES-->
+          <app-study-trade-datatable [trades$]="selectedStudyTrades$"
+                                     [selectedMarketId]="selectedStudyMarketId$ | async"
+                                     [viewSelectors]="true">
+          </app-study-trade-datatable>
+        </div>
+
+        <div class="col grid-margin">
+          <!-- CHARTS FOR SELECTED TRADE MARKET -->
+          <app-loading-cards *ngIf="(isLoadingSelectedStudyMarket$ | async).isLoading"></app-loading-cards>
+          <app-study-markets-selected-detail *ngIf="(isLoadingSelectedStudyMarket$ | async).isLoadingSuccess && (selectedStudyMarketId$ | async)"
+                                             [selectedMarketData]="selectedStudyMarket$ | async"
+                                             [detail]="true"
+                                             [selectedTrades]="selectedTrades"
+                                             [haveTrades]="true"
+                                             [trade]="selectedStudyMarketTrade$ | async">
+          </app-study-markets-selected-detail>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <h5>
+        <a ngbNavLink>Montecarlo</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <app-montecarlo-strategy [trades]="selectedStudyTrades$ | async">
+        </app-montecarlo-strategy>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <h5>
+        <a ngbNavLink>MM</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <app-study-mm [trades]="selectedStudyTrades$ | async"
+                      [strategyReport]="selectedStrategyReport">
+        </app-study-mm>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+</div>
+
+
+<!-- COMPARE STUDY -->
+<app-loading-cards class="mt-2" *ngIf="(isLoadingCompare$ | async).isLoading"></app-loading-cards>
+<div class="col" *ngIf="(isLoadingCompare$ | async).isLoadingSuccess && (comparedStudy$ | async).length">
+
+  <app-study-comparator class="mb-2" [studyList$]="comparedStudy$">
+  </app-study-comparator>
+
+  <app-loading-cards class="mt-2" *ngIf="(isLoadingSelectedStudyMarket$ | async).isLoading"></app-loading-cards>
+  <app-study-markets-selected-detail class="mt-2" *ngIf="(isLoadingSelectedStudyMarket$ | async).isLoadingSuccess && (selectedStudyMarketId$ | async)"
+                                     [selectedMarketData]="selectedStudyMarket$ | async"
+                                     [detail]="true"
+                                     [selectedTrades]="selectedTrades"
+                                     [haveTrades]="true"
+                                     [trade]="selectedStudyMarketTrade$ | async">
+  </app-study-markets-selected-detail>
+
+</div>
+
+
+
+
+

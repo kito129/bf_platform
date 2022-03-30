@@ -1,0 +1,81 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Market Info - [{{marketInfoBasic ? marketInfoBasic.marketId : marketAdvancedInfo._id}}]</h6>
+    </div>
+  </div><!-- /HEADER -->
+  <div class="card-body"><!-- BASIC -->
+    <div class="table-responsive" *ngIf="marketInfoBasic">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>OpenDate</th>
+          <th>Duration</th>
+          <th>Name</th>
+          <th>Market Type</th>
+          <th>Sport</th>
+          <th>InPlayDelay</th>
+          <th>Country Code</th>
+          <th>Venue</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <tr>
+          <td> <h5> {{marketInfoBasic.marketInfo.openDate | date:'shortDate'}} </h5></td>
+          <td> <h5> {{marketInfoBasic.marketInfo.metadata.inPlayDuration | secAndMinute}} </h5></td>
+          <td> <h5> {{marketInfoBasic.marketInfo.eventName}} </h5></td>
+          <td> <app-event-name-text [eventName]="marketInfoBasic.marketInfo.name"></app-event-name-text></td>
+          <td> <h5>   <app-sport-text [sport]="marketInfoBasic.marketInfo.sport"></app-sport-text> </h5></td>
+          <td> <h5> {{marketInfoBasic.marketInfo.delay}} </h5></td>
+          <td> <h5> {{marketInfoBasic.marketInfo.countryCode}} </h5></td>
+          <td> <h5> {{marketInfoBasic.marketInfo.venue}} </h5></td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-responsive" *ngIf="marketAdvancedInfo">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>OpenDate</th>
+          <th>Duration</th>
+          <th>Name</th>
+          <th>Market Type</th>
+          <th>Sport</th>
+          <th>Volume</th>
+          <th>InPlayDelay</th>
+          <th>Country Code</th>
+          <th>Venue</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <tr>
+          <td> <h5> {{marketAdvancedInfo.marketInfo.id}} </h5></td>
+          <td> <h5> {{marketAdvancedInfo.marketInfo.openDate | date:'shortDate'}} </h5></td>
+          <td> <h5> {{marketAdvancedInfo.marketInfo.metadata.inPlayDuration | secAndMinute}} </h5></td>
+          <td> <h5> {{marketAdvancedInfo.marketInfo.eventName}} </h5></td>
+          <td> <app-event-name-text [eventName]="marketAdvancedInfo.marketInfo.name"></app-event-name-text></td>
+          <td> <h5>   <app-sport-text [sport]="marketAdvancedInfo.marketInfo.sport"></app-sport-text> </h5></td>
+          <td>
+            <h5> TOT: {{marketAdvancedInfo.marketInfo.volume.total | currency}}</h5>
+            <h5> PRE: {{marketAdvancedInfo.marketInfo.volume.preMatch | currency}} ({{marketAdvancedInfo.marketInfo.volume.preMatch /marketAdvancedInfo.marketInfo.volume.total | percent }})</h5>
+            <h5> IP: {{marketAdvancedInfo.marketInfo.volume.inPlay | currency}}</h5>
+          </td>
+          <td> <h5> {{marketAdvancedInfo.marketInfo.delay}} </h5></td>
+          <td> <h5> {{marketAdvancedInfo.marketInfo.countryCode}} </h5></td>
+          <td> <h5> {{marketAdvancedInfo.marketInfo.venue}} </h5></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+
+
+

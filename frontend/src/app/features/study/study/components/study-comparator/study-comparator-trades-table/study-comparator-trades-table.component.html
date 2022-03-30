@@ -1,0 +1,53 @@
+<div class="table-responsive tableFixHead tradesCompareTable">
+  <table class="table table-hover table-bordered">
+    <thead>
+    <tr>
+      <th *ngFor="let name of studyName, index as l" class="table-dark text-light text-center" (click)="setCol(l)">
+        <div class="row">
+          <div class="col">
+            <h5>{{name}}</h5>
+          </div>
+          <div class="col">
+            <h6 class="text-success">Better: {{better[l]}}, {{betterCash[l] | currency}}</h6>
+            <h6 class="text-danger">Worse: {{worse[l]}},  {{worseCash[l] | currency}}</h6>
+            <h5 class="mt-2" [ngClass]="betterCash[l] + worseCash[l]>0 ? 'text-success': 'text-danger'">Net: {{betterCash[l] + worseCash[l] | currency}}</h5>
+          </div>
+        </div>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of rowsInput, index as i">
+      <td *ngFor="let study of studyName, index as j"
+          [ngClass]="rowsInput[i][j]!==null && rowsInput[i][j].compare<0 ? 'table-warning text-dark' :
+                     rowsInput[i][j]!==null && rowsInput[i][j].compare>0 ?'table-info text-dark': rowsInput[i][j]!==null && rowsInput[i][j].compare===null ? 'table-dark text-light' :''"
+          [class]="j===selectedCol ? 'headcol pointer' : 'pointer' "
+          (click)="setMarketAndTrade(rowsInput[i][j])">
+
+        <div *ngIf="rowsInput[i][j] !== null">
+          <div class="row">
+            <div class="col-3">
+              <button type="button"
+                      class="btn bt-xs mb-1"
+                      [ngClass]="rowsInput[i][j].tradeId === selectedTradeId ? 'btn-success' : 'btn-outline-success' ">
+                {{rowsInput[i][j].n}}
+              </button>
+
+              <p>{{rowsInput[i][j].date | date:'shortDate'}}</p>
+            </div>
+            <div class="col-9">
+              <strong class="text-left">{{rowsInput[i][j].name}}</strong>
+              <h5 [ngClass]="rowsInput[i][j].pl>0 ? 'text-success text-right' : 'text-danger text-right'">Pl: {{rowsInput[i][j].pl | currency}}</h5>
+              <h5 class="text-right" *ngIf="!(rowsInput[i][j].compare===0) && rowsInput[i][j].compare!==null">
+                ({{rowsInput[i][j].compare | currency}})
+              </h5>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+

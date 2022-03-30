@@ -1,0 +1,10 @@
+<h5 class="mt-1 mb-1">
+  <span [ngClass]="isBack ? 'badge-primary' : 'badge-danger' " class="badge">
+    {{isBack ? 'Back' : 'Lay'}}
+  </span> @ <span [ngClass]="isBack ? 'badge-primary' : 'badge-danger' " class="badge">
+  {{odds |number}}
+</span>
+  {{isBack ? 'Stake: ' : 'Bank: '}}
+  {{isBack ? (stake | currency) : (bank | currency)}}, {{isBack ? 'to win: ' : 'liability: '}}
+  {{isBack ? (toWin | currency) : (liability | currency)}}
+</h5>

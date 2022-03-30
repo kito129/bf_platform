@@ -1,0 +1,47 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let bet of bets">
+    <div class="row">
+      <div class="col">
+        <h5 class="text-primary">Entry: </h5>
+        <app-bets-formatter class="mt-2" [type]="bet.entry.isBack ? 'back' : 'lay'"
+                            [odds]="bet.entry.odds"
+                            [stake]="bet.entry.stake"
+                            [bank]="bet.entry.bank"
+                            [liability]="bet.entry.liability"
+                            [toWin]=" bet.entry.isBack ?(bet.entry.odds - 1) * bet.entry.stake : bet.entry.bank">
+        </app-bets-formatter>
+        <h6 [ngClass]="bet.entry.isUp ? 'text-primary' : 'text-danger'">{{bet.entry.isUp ? 'UP' : 'DOWN'}}</h6>
+      </div>
+      <div class="col" *ngIf="bet.haveLoss">
+        <h5 class="text-danger">Loss Exit:
+          {{ bet.entry.isBack
+          ? (((bet.entry.odds -1) * bet.entry.stake) - bet.lossExit.liability | currency)
+          : (bet.entry.liability - (bet.lossExit.stake * (bet.lossExit.odds-1)) | currency)
+          }} / {{((bet.lossExit.bank - bet.entry.stake) | currency)}}</h5>
+        <app-bets-formatter class="mt-2" [type]="bet.lossExit.isBack ? 'back' : 'lay'"
+                            [odds]="bet.lossExit.odds"
+                            [stake]="bet.lossExit.stake"
+                            [bank]="bet.lossExit.bank"
+                            [liability]="bet.lossExit.liability"
+                            [toWin]=" bet.lossExit.isBack ?(bet.lossExit.odds - 1) * bet.lossExit.stake : bet.lossExit.bank">
+        </app-bets-formatter>
+        <h6 [ngClass]="bet.lossExit.isUp ? 'text-primary' : 'text-danger'">{{bet.lossExit.isUp ? 'UP' : 'DOWN'}}</h6>
+      </div>
+      <div class="col" *ngIf="bet.haveProfit">
+        <h5 class="text-success">Profit Exit: {{ bet.entry.isBack
+          ? (((bet.entry.odds -1) * bet.entry.stake) - bet.profitExit.liability | currency)
+          : (bet.entry.liability - (bet.profitExit.stake * (bet.profitExit.odds-1)) | currency)
+        }} / {{((bet.profitExit.bank - bet.entry.stake) | currency)}}</h5>
+        <app-bets-formatter class="mt-2" [type]="bet.profitExit.isBack ? 'back' : 'lay'"
+                            [odds]="bet.profitExit.odds"
+                            [stake]="bet.profitExit.stake"
+                            [bank]="bet.profitExit.bank"
+                            [liability]="bet.profitExit.liability"
+                            [toWin]=" bet.profitExit.isBack ?(bet.entry.odds - 1) * bet.profitExit.stake : bet.profitExit.bank">
+        </app-bets-formatter>
+        <h6 [ngClass]="bet.profitExit.isUp ? 'text-primary' : 'text-danger'">{{bet.profitExit.isUp ? 'UP' : 'DOWN'}}</h6>
+      </div>
+    </div>
+
+  </li>
+</ul>

@@ -1,0 +1,104 @@
+<div class="col">
+
+  <!-- BUTTON -->
+  <div class="row">
+    <button type="button"
+            class="btn mb-3"
+            [ngClass]="filter.active ? 'btn-warning' : 'btn-outline-primary'"
+            (click)="activate()">
+      {{filter.name}}
+    </button>
+  </div>
+
+  <!-- RUNNERS SELECTION FORM -->
+  <div class="row" *ngIf="filter.name ==='runners'">
+    <ng-select
+      [items]="runnersList$ | async"
+      [multiple]=true
+      [closeOnSelect]="false"
+      [searchable]="true"
+      bindLabel="name"
+      bindValue="id"
+      placeholder="Select Runners"
+      [(ngModel)]="filter.listElement"
+      [clearable]="true"
+      [selectOnTab]="true"
+      [virtualScroll]="true"
+      [ngModelOptions]="{standalone: true}">
+    </ng-select>
+  </div>
+
+  <!-- TYPE FORM -->
+  <div class="row">
+    <ng-select [(ngModel)]="filter.type" *ngIf="filter.name.indexOf('haveAdditionalInfo')===-1
+        && filter.name.indexOf('matchOdds')===-1
+        && filter.name.indexOf('setWinner')===-1
+        && filter.name.indexOf('set1Winner')===-1
+        && filter.name.indexOf('set2Winner')===-1
+        && filter.name.indexOf('runner')===-1">
+      <ng-option *ngFor="let type of filterTypeArray" [value]="type.index">
+        {{type.name}}
+      </ng-option>
+    </ng-select>
+  </div>
+
+  <div class="row">
+    <!-- NORMAL FORM -->
+    <form class="forms-sample grid-margin"
+          *ngIf="filter.name.indexOf('haveAdditionalInfo')===-1
+          && filter.name !== 'date'
+          && filter.name.indexOf('matchOdds')===-1
+          && filter.name.indexOf('setWinner')===-1
+          && filter.name.indexOf('set1Winner')===-1
+          && filter.name.indexOf('set2Winner')===-1
+          && filter.name.indexOf('runners')===-1">
+      <div class="form-group">
+        <label for="min">{{filter.type === filterType.between || filter.type === filterType.outside ? 'Min:' : 'Value:'}}</label>
+        <input class="form-control"
+               id="min"
+               type="number"
+               [(ngModel)]="filter.min"
+               name="min"
+               [min]="filter.name.indexOf('bsp')!==-1 ? 1.01 : 0"
+               [max]="filter.name.indexOf('bsp')!==-1 ? 1000 : 1000000000">
+
+        <div *ngIf="filter.type === filterType.between || filter.type === filterType.outside">
+          <label for="max">Max: </label>
+          <input class="form-control"
+                 id="max"
+                 type="number"
+                 [(ngModel)]="filter.max"
+                 name="max"
+                 [min]="filter.name.indexOf('bsp')!==-1 ? 1.01 : 0"
+                 [max]="filter.name.indexOf('bsp')!==-1 ? 1000 : 1000000000">
+        </div>
+      </div>
+    </form>
+
+    <!-- DATE FORM -->
+    <div *ngIf="filter.name === 'date'">
+      <label for="min">{{filter.type === filterType.between || filter.type === filterType.outside ? 'From:' : 'Value:'}}</label>
+      <app-date-form [time]="filter.min"
+                     (dateEmitter)="setDate($event, true)"
+                     [showDate]="true"
+                     [showTime]="false">
+      </app-date-form>
+
+      {{filter.min | date}}
+
+      <div *ngIf="filter.type === filterType.between || filter.type === filterType.outside">
+        <label for="max">To: </label>
+        <app-date-form [time]="filter.max"
+                       (dateEmitter)="setDate($event, false)"
+                       [showDate]="true"
+                       [showTime]="false">
+        </app-date-form>
+        {{filter.max | date}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

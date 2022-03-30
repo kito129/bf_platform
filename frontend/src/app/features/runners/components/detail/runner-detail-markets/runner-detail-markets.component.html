@@ -1,0 +1,119 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Runner Markets</h6>
+      <button type="button" [ngClass]="openState ? 'btn btn-outline-primary btn-icon' : 'btn btn-primary btn-icon'" (click)="changeOpenState()">
+        <i class="feather icon-chevron-down"></i>
+      </button>
+    </div>
+  </div><!-- /HEADER -->
+
+  <div [ngbCollapse]="openState"><!-- BODY -->
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-end">
+          <form class="forms-sample grid-margin" #searchForm="ngForm">
+            <div class="row">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Type name..."
+                (keyup)="updateFilter($event)"
+              />
+            </div>
+          </form>
+        </div>
+        <ngx-datatable
+          class="dark"
+          [rows]="rows"
+          [columns]="columns"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="40"
+          [footerHeight]="50"
+          [limit]="15"
+          rowHeight="35"
+          [reorderable]="true"
+          [sorts]="[{prop: 'openDate', dir: 'desc'}]">
+
+          <ngx-datatable-column name="Date" prop="openDate">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <p>{{ value | date:'short' }}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Name" prop="" [width]="320">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <app-market-details-modal [isBasic]="true"
+                                        [marketId]="value.marketId"
+                                        [asString]="true"
+                                        [text]="value.name"
+                                        [wantUpdate]="true">
+              </app-market-details-modal>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Selection BSP" [width]="70" prop="selectionBSP">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div class="row">
+                <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Selection Min" [width]="70"  prop="selectionMin">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div class="row">
+                <h6 *ngIf="value>1.01">{{value}}</h6>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Selection Max" [width]="70"  prop="selectionMax">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div class="row">
+                <h6>{{value}}</h6>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Winner" [width]="50"  prop="selectionWin">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div *ngIf="value" class="text-success">
+                <h4><i class="feather icon-check"></i></h4>
+              </div>
+              <div *ngIf="!value" class="text-danger">
+                <h4><i class="feather icon-x"></i></h4>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Winner BSP" [width]="70"  prop="winnerBSP">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <app-bsp-odd *ngIf="value" [bspOdd]="value">
+              </app-bsp-odd>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Winner MAX" [width]="70"  prop="winnerMax">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <h6>{{value}}</h6>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Open" prop="marketId">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <app-market-details-modal [isBasic]="true"
+                                        [marketId]="value">
+              </app-market-details-modal>
+            </ng-template>
+          </ngx-datatable-column>
+
+        </ngx-datatable>
+      </div>
+    </div>
+  </div><!-- /BODY -->
+</div>
+<!-- /CARD 1-->
+

@@ -1,7 +1,11 @@
 const Trade = require("../models/report/trade");
-const Strategy = require("../models/report/newStrategy");
+const Strategy = require("../models/report/strategy");
+
+const NewTrade = require("../models/report/newTrade");
 
 let mongoose = require('mongoose');
+const { count } = require("../models/report/newTrade");
+const { copy } = require("../routes/newReportRoutes");
 
 
 // TRADE
@@ -284,22 +288,33 @@ exports.fix_trades_schema = (req, res, next) => {
                 });
         })
         .catch(err => {
-            console.log("ERROR:\n" + err);
+            console.log("ERRO in cathcR:\n" + err);
             res.status(500).json({
                 error: err
             });
         }).then( ()=>{
         let temp = {}
-
         for(let resp of response) {
+            // generate temp newTrade and set info
             temp = {
                 created: resp.created,
                 lastUpdate: resp.lastUpdate,
                 trade: {
                     info: {
+                        setTime: {
+                            second: null,
+                            third: null,
+                        },
                         strategyId: resp.trade.info.strategyId,
+                        tennisTournamentId: resp.trade.info.tennisTournamentId,
                         date:resp.trade.info.date,
-                        marketInfo: resp.trade.info.marketInfo,
+                        marketInfo: {
+                            marketName: resp.trade.info.marketInfo.marketName,
+                            marketId: resp.trade.info.marketInfo.marketName,
+                            marketType: "MATCH_ODDS",
+                            eventName: "Match Odds",
+                            sport: resp.trade.info.marketInfo.marketName,
+                        },
                         executor: resp.trade.info.executor,
                         exchange: resp.trade.info.exchange,
                         note: {
@@ -313,194 +328,128 @@ exports.fix_trades_schema = (req, res, next) => {
                         }
                     },
                     selections: [],
-                    trades: {
-                        back: [],
-                        lay: []
-                    },
-                    exposition: resp.trade.exposition,
-                    result: {
-                        grossProfit: resp.trade.result.grossProfit,
-                        netProfit: resp.trade.result.netProfit,
-                        rr: resp.trade.result.rr,
-                        commissionPaid: resp.trade.result.commissionPaid,
-                        maxRisk: resp.trade.result.maxRisk,
-                        correctionPl: resp.trade.result.correctionPl,
-                        finalScore: {
-                            tennis: {
-                                set1: {
-                                    runnerA: resp.trade.result.finalScore.tennis.set1.runnerA,
-                                    runnerB: resp.trade.result.finalScore.tennis.set1.runnerB,
-                                },
-                                set2: {
-                                    runnerA: resp.trade.result.finalScore.tennis.set2.runnerA,
-                                    runnerB: resp.trade.result.finalScore.tennis.set2.runnerA,
-                                },
-                                set3: {
-                                    runnerA: resp.trade.result.finalScore.tennis.set3.runnerA,
-                                    runnerB: resp.trade.result.finalScore.tennis.set3.runnerA,
-                                },
-                                set4: {
-                                    runnerA: resp.trade.result.finalScore.tennis.set4.runnerA,
-                                    runnerB: resp.trade.result.finalScore.tennis.set4.runnerA,
-                                },
-                                set5: {
-                                    runnerA: resp.trade.result.finalScore.tennis.set5.runnerA,
-                                    runnerB: resp.trade.result.finalScore.tennis.set5.runnerA,
-                                },
-                                currentGame: {
-                                    runnerA: resp.trade.result.finalScore.tennis.currentGame.runnerA,
-                                    runnerB: resp.trade.result.finalScore.tennis.currentGame.runnerB,
-                                    server: resp.trade.result.finalScore.tennis.currentGame.server,
-                                }
-                            },
-                            football: {
-                                home: 0,
-                                away: 0,
-                            }
-                        }
-                    },
+                    trades: [],
+                    results: resp.trade.result,
+                    params: [],
+                    stats: []
                 }
             }
+            // add trade
             let backTrade = resp.trade.trades.back
             let layTrade = resp.trade.trades.lay
-
+            let copyTrade = []
+            let inc =0
             for (let bt of backTrade){
+                inc++
                 tempBack = {
+                    id: inc,
                     selectionN: bt.selectionN,
                     odds: bt.odds,
                     stake: bt.stake,
-                    ifWin: bt.ifWin,
-                    condition: {
-                        tennis: {
-                            isTennis:  bt.condition.tennis.isTennis,
-                            point: {
-                                set1: {
-                                    runnerA: bt.condition.tennis.point.set1.runnerA,
-                                    runnerB: bt.condition.tennis.point.set1.runnerB,
-                                },
-                                set2: {
-                                    runnerA: bt.condition.tennis.point.set2.runnerA,
-                                    runnerB: bt.condition.tennis.point.set2.runnerB,
-                                },
-                                set3: {
-                                    runnerA: bt.condition.tennis.point.set3.runnerA,
-                                    runnerB: bt.condition.tennis.point.set3.runnerB,
-                                },
-                                set4: {
-                                    runnerA: bt.condition.tennis.point.set4.runnerA,
-                                    runnerB: bt.condition.tennis.point.set4.runnerB,
-                                },
-                                set5: {
-                                    runnerA:  bt.condition.tennis.point.set5.runnerA,
-                                    runnerB:  bt.condition.tennis.point.set5.runnerB,
-                                },
-                                currentGame: {
-                                    runnerA: bt.condition.tennis.point.currentGame.runnerA,
-                                    runnerB: bt.condition.tennis.point.currentGame.runnerB,
-                                    server: bt.condition.tennis.point.currentGame.server,
-                                }
-                            }
-                        },
-                        football: {
-                            isFootball: bt.condition.football.isFootball,
-                            point: {
-                                home: 0,
-                                away: 0,
-                            }
-                        },
-                        horse: {
-                            isHorse: bt.condition.horse.isHorse,
-                        },
-                        note: bt.condition.note,
-                        time: bt.condition.time,
-                    }
+                    liability: bt.stake,
+                    ifWin: bt.stake*(bt.odds-1),
+                    options: "",
+                    type: "back",
+                    condition: bt.condition
                 }
-                temp.trade.trades.back.push(tempBack)
+                copyTrade.push(tempBack)
             }
-
+            inc =0
             for (let lt of layTrade){
+                inc++
                 tempLay = {
+                    id: inc,
                     selectionN: lt.selectionN,
                     odds: lt.odds,
-                    bank: lt.bank,
+                    stake: lt.bank,
                     liability: lt.liability,
                     ifWin: lt.ifWin,
-                    condition: {
-                        tennis: {
-                            isTennis:  lt.condition.tennis.isTennis,
-                            point: {
-                                set1: {
-                                    runnerA: lt.condition.tennis.point.set1.runnerA,
-                                    runnerB: lt.condition.tennis.point.set1.runnerB,
-                                },
-                                set2: {
-                                    runnerA: lt.condition.tennis.point.set2.runnerA,
-                                    runnerB: lt.condition.tennis.point.set2.runnerB,
-                                },
-                                set3: {
-                                    runnerA: lt.condition.tennis.point.set3.runnerA,
-                                    runnerB: lt.condition.tennis.point.set3.runnerB,
-                                },
-                                set4: {
-                                    runnerA: lt.condition.tennis.point.set4.runnerA,
-                                    runnerB: lt.condition.tennis.point.set4.runnerB,
-                                },
-                                set5: {
-                                    runnerA:  lt.condition.tennis.point.set5.runnerA,
-                                    runnerB:  lt.condition.tennis.point.set5.runnerB,
-                                },
-                                currentGame: {
-                                    runnerA: lt.condition.tennis.point.currentGame.runnerA,
-                                    runnerB: lt.condition.tennis.point.currentGame.runnerB,
-                                    server: lt.condition.tennis.point.currentGame.server,
-                                }
-                            }
-                        },
-                        football: {
-                            isFootball: lt.condition.football.isFootball,
-                            point: {
-                                home: 0,
-                                away: 0,
-                            }
-                        },
-                        horse: {
-                            isHorse: lt.condition.horse.isHorse,
-                        },
-                        note: lt.condition.note,
-                        time: lt.condition.time,
-                    }
+                    options: "",
+                    type: "lay",
+                    condition: lt.condition
                 }
-                temp.trade.trades.lay.push(tempLay)
+                copyTrade.push(tempLay)
             }
 
+            // reorder by time and reassign id
+            let count=0
+            copyTrade = copyTrade
+            .sort((a,b) =>
+                a.condition.time-b.condition.time>0 ? 1 : a.condition.time-b.condition.time==0 ? 0 : -1)
+                .map(x=> {
+                count++
+                let copy = JSON.parse(JSON.stringify(x))
+                copy.id=count
+                return copy
+            })
+
+            temp.trade.trades = copyTrade
+
+            // add selection
+            selN = 0
             for(let selection of resp.trade.selections){
+                // calculate avg
+                let backOddsWeight =0
+                let backStake=0
+                let backFound = false
+                let layOddsWeight=0
+                let layStake=0
+                let layFound = false
+
+                temp.trade.trades.forEach(element => {
+                    if(element.type==="back" && element.selectionN===selN && element.odds>1){
+                        backFound=true
+                        backStake += element.stake
+                        backOddsWeight += (element.odds * element.stake)
+                    }
+                    if(element.type==="lay" && element.selectionN===selN && element.odds>1){
+                        layFound=true
+                        layStake += element.stake
+                        layOddsWeight += (element.odds * element.stake)
+                    }
+                });
+                // avg odds
+                let backOdds= backFound ? backOddsWeight / backStake : 0
+                let layOdds= layFound ? layOddsWeight / layStake : 0
+
+                // generate selection
                 let tempSelection = {
+                    selectionN: selN,
                     runnerId: selection.runnerId,
                     runnerName: selection.runnerName,
                     winner: selection.winner,
                     bsp: selection.bsp,
                     avg: {
                         back: {
-                            odds: 1.01,
-                            stake: 0,
+                            odds: backOdds,
+                            stake: backFound ? backStake : 0,
+                            toWin: backFound ? backStake*(backOdds-1) : 0,
+                            liability: backFound ? backStake : 0,
                         },
                         lay: {
-                            odds: 1.01,
-                            bank: 0,
-                            liability: 0,
+                            odds: layOdds,
+                            stake: layFound ? layStake: 0,
+                            toWin: layFound ? layStake: 0,
+                            liability: layFound ? layStake*(layOdds-1): 0,
                         }
-                    }
+                    },
+                    sets: {
+                        secondSet: 0,
+                        thirdSet: 0
+                    },
+                    
                 }
                 temp.trade.selections.push(tempSelection)
+                selN++
             }
 
-            let trade = new Trade({
+
+            let newTrade = new NewTrade({
                 _id: new mongoose.Types.ObjectId(),
                 created: temp.created,
-                lastUpdate: temp.lastUpdate,
+                updated: temp.lastUpdate,
                 trade: temp.trade,
             });
-
 
             /*
             let trade = new Trade({
@@ -511,13 +460,15 @@ exports.fix_trades_schema = (req, res, next) => {
             });
 
              */
-            trade
+
+    
+            newTrade
                 .save()
                 .then(result => {
                     console.log(result)
                 })
+    
         }
-
 
         res.status(200).json({
             message: 'ok'
@@ -526,7 +477,7 @@ exports.fix_trades_schema = (req, res, next) => {
 
 
     }).catch(err => {
-        console.log("ERROR:\n" + err);
+        console.log("ERROR in eleaborate:\n" + err);
         res.status(500).json({
             error: err
         });

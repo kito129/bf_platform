@@ -33,14 +33,15 @@ exports.get_all_new_trades = (req, res, next) => {
 };
 
 exports.update_new_strategy =  (req, res, next) => {
-    Strategy.find()
+    NewStrategy.find()
         .select("_id created lastUpdate strategy")
         .exec()
         .then(docs => {
             let newList = []
+            
             docs.forEach(element => {
-                console.log(element)
-                let newStrategy = new NewStrategy({
+
+                let newStrategy = new Strategy({
                     _id: element._id,
                     created: element.created,
                     lastUpdate: element.lastUpdate,
@@ -50,6 +51,9 @@ exports.update_new_strategy =  (req, res, next) => {
                             sport: element.strategy.info.sport,
                             bank: 2000,
                             stake: 20,
+                            executor: "",
+                            moneyManagement: "",
+                            executor: "",
                             typeOfStake: "fixed",
                             detail: {
                                 description: element.strategy.info.detail.description,
@@ -60,14 +64,22 @@ exports.update_new_strategy =  (req, res, next) => {
                         },
                     }
                 });
+
                 newStrategy.save().then(result => {
-                    newList.push
+                    newList.push()
                 })
+
+                .catch(err => {
+                    console.log("ERROR in create :\n" + err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
             });
         
         })
         .catch(err => {
-            console.log("ERROR:\n" + err);
+            console.log("ERROR in cathc:\n" + err);
             res.status(500).json({
                 error: err
             });

@@ -13,7 +13,8 @@
 
 
 # ENTRY 
-- [] create comp, main, list, form edit
+- [] create comp, main, list, 
+- [] form edit
 - [] create model and first typo of form
 - [] use reactive form angular
 - []

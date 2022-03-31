@@ -19,13 +19,13 @@ export class StrategyDatatableComponent implements OnInit {
   loadingIndicator = true
   ColumnMode = ColumnMode;
   tableSize = 20
+  page = 1
 
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.rows = this.strategyDatatable
     this.temp = [... this.strategyDatatable]
-
   }
 
   updateFilter(event) {

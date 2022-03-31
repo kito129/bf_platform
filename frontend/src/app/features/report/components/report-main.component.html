@@ -29,6 +29,7 @@
         <a ngbNavLink>New Report</a>
       </h5>
       <ng-template ngbNavContent>
+
         <div class="col grid-margin">
           <app-loading-cards *ngIf="(isLoadingAllStrategy$ | async).isLoading || (isLoadingAllNewTrade$ | async).isLoading"></app-loading-cards>
           <app-strategy-datatable *ngIf="(isLoadingAllStrategy$ | async).isLoadingSuccess && (isLoadingAllNewTrade$ | async).isLoadingSuccess"

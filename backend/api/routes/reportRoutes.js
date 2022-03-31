@@ -18,7 +18,7 @@ router.delete("/strategy/:strategyId", checkAuth,  ReportController.delete_strat
 router.post("/strategyInfoByName", ReportController.strategy_get_info_by_name);
 
 
-router.get("/trade/fix", checkAuth,  ReportController.fix_trades_schema);
+router.get("/trade/fix",  ReportController.fix_trades_schema);
 
 
 module.exports = router;

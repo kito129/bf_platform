@@ -9,7 +9,7 @@ const checkAuth = require('../middleware/check-auth');
 router.get("/newTrade/all", checkAuth,  newReportController.get_all_new_trades);
 
 
-//router.get("/updateStrategy",  newReportController.update_new_strategy);
+router.get("/updateStrategy",  newReportController.update_new_strategy);
 
 /*
 router.put("/newTrade/create", checkAuth,  ReportController.create_trade);

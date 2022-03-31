@@ -21,16 +21,18 @@ export class TradeBetsViewComponent implements OnInit {
     for(let i=0; i< this.trade.trade.trades.length; i++){
       const selected = this.trade.trade.trades[i]
       this.bets.push({
+        id: selected.id,
         type: selected.type,
         selectionN: this.trade.trade.trades[i].selectionN,
         selectionName: this.trade.trade.selections[this.trade.trade.trades[i].selectionN].runnerName,
-        odds: this.trade.trade.trades[i].odds,
-        stake: this.trade.trade.trades[i].stake,
-        toWin: this.trade.trade.trades[i].stake *(this.trade.trade.trades[i].odds -1),
-        liability: this.trade.trade.trades[i].stake,
-        time: this.trade.trade.trades[i].condition.time,
-        point: this.trade.trade.trades[i].condition.tennis.point,
-        note: this.trade.trade.trades[i].condition.note
+        odds: selected.odds,
+        stake: selected.stake,
+        toWin: selected.ifWin,
+        liability: selected.liability,
+        time: selected.condition.time,
+        point: selected.condition.tennis.point,
+        note: selected.condition.note,
+        options: selected.options
       })
     }
     // sort by time

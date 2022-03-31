@@ -83,7 +83,6 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     // -- NEW TRADE --
     this.allNewTrade$ = this.store.pipe(select(reportSelectors.getAllNewTrade))
     this.isLoadingAllNewTrade$ = this.store.pipe(select(reportSelectors.isLoadingAllNewTrade))
-
     this.strategyDatatable$ = this.store.pipe(select(reportSelectors.getStrategyDatatable))
 
     // generate strategyReport

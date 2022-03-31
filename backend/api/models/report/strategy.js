@@ -7,16 +7,19 @@ const strategySchema = mongoose.Schema({
     strategy: {
         info: {
             name: {type: String},
-            openDate: {type: Number},
-            stopDate: {type: Number},
             sport: {type: String},
+            bank: {type: Number},
+            executor: {type: String},
+            moneyManagement:{type: String},
+            stake: {type: Number},
+            typeOfStake: {type: String},
             detail: {
-                description: {type: String},
-                entryDescription: {type: String},
-                exitDescription: {type: String},
-                mmDescription: {type: String},
+              description: {type: String},
+              entryDescription: {type: String},
+              exitDescription: {type: String},
+              mmDescription: {type: String},
             }
-        },
+        }
     }
 })
 

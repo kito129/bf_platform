@@ -6,6 +6,11 @@ export interface StrategyDatatable{
   sport: string
   numberOfTrade: number
   currentBank: number
+  executor: string
+  moneyManagement: string
+  bank: number
+  stake: number
+  typeOfStake: string
   pl: number
   maxDD: number
   maxDDPercent: number

@@ -5,10 +5,12 @@
       <th>#</th>
       <th>Time</th>
       <th>Point</th>
+      <th>Options</th>
       <th>Selection</th>
       <th>Odds</th>
       <th>Stake</th>
       <th>Liability</th>
+      <th>To Win</th>
       <th>A</th>
       <th>B</th>
     </tr>
@@ -18,7 +20,7 @@
           [ngbTooltip]="popContent"
           [autoClose]="'outside'">
         <td>
-          {{i+1}}
+          {{bet.id}}
         </td>
         <td>
           <b> {{bet.time | date:'HH:mm:ss'}}</b>
@@ -27,8 +29,11 @@
           <b>{{bet.point | tennisPoint}}</b>
         </td>
         <td>
-          <p *ngIf="bet.selectionN===0" class="text-danger">A</p>
-          <p *ngIf="bet.selectionN===1" class="text-primary">B</p>
+          <b>{{bet.options}}</b>
+        </td>
+        <td>
+          <p *ngIf="bet.selectionN===0" class="text-danger">A ({{bet.selectionName}})</p>
+          <p *ngIf="bet.selectionN===1" class="text-primary">B ({{bet.selectionName}})</p>
         </td>
         <td>
           <b>{{bet.odds}}</b>
@@ -39,6 +44,9 @@
         <td>
           <b *ngIf="bet.type==='lay'">{{bet.liability | currency}}</b>
           <b *ngIf="bet.type==='back'"> -- </b>
+        </td>
+        <td>
+          <b>{{bet.toWin | currency}}</b>
         </td>
         <td>
           <h6 [ngClass]="getSide(i, 0)>0 ? 'text-success' : getSide(i, 0)===0 ? 'text-warning' : 'text-danger' "> {{getSide(i, 0) | currency}}</h6>

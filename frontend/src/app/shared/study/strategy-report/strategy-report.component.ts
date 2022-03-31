@@ -3,6 +3,7 @@ import {StrategyReport} from '../../../model/report/starategyReport';
 import {Trade} from '../../../model/report/trade';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {NewTrade} from '../../../model/report/new/newTrade';
 
 @Component({
   selector: 'app-strategy-report',
@@ -11,7 +12,7 @@ import {takeUntil} from 'rxjs/operators';
 export class StrategyReportComponent implements OnInit, OnDestroy {
 
   @Input() selectedStrategyReport: StrategyReport
-  @Input() selectedStrategyTrades$: Observable<Trade[]>
+  @Input() selectedStrategyTrades$: Observable<NewTrade[]>
   @Input() selectedStrategyPie: number[] = [0,0,0]
 
   defaultNavActiveId = 1
@@ -45,15 +46,15 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return i.toString() + ') ' + new  Date(x.trade.info.date).getFullYear().toString().substring(2) + '/' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
           })
           this.tradeRR = data.map(x => {
-            if(x.trade.result.rr){
-              return +x.trade.result.rr.toFixed(2)
+            if(x.trade.results.rr){
+              return +x.trade.results.rr.toFixed(2)
             } else {
               return 0
             }
           })
           this.tradeMaxRisk = data.map(x => {
-            if(x.trade.result.maxRisk){
-              return +x.trade.result.maxRisk.toFixed(2)
+            if(x.trade.results.maxRisk){
+              return +x.trade.results.maxRisk.toFixed(2)
             } else {
               return 0
             }

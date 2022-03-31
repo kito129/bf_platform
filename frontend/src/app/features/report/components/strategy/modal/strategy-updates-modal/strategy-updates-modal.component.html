@@ -13,7 +13,7 @@
   </div>
   <div class="modal-body">
 
-    <form class="forms-sample grid-margin" #strategyForm="ngForm" *ngIf="strategyOutput!= undefined" >
+    <form class="forms-sample grid-margin" #startegyForm="ngForm" *ngIf="strategyOutput!= undefined" >
 
       <div class="form-group">
         <label for="name" class="text-gray">Name</label>
@@ -31,8 +31,53 @@
                    name="sport"
                    bindLabel="value"
                    bindValue="value"
-                   placeholder="Color"
+                   placeholder="Sport"
                    [(ngModel)]="strategyOutput.strategy.info.sport">
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="executor">Money Management</label>
+        <ng-select [items]="['FIXED', 'STOP LOSS', 'EQUITY LINE', 'DD', 'BLACKSWAN']"
+                   id="moneyManagement"
+                   name="moneyManagement"
+                   placeholder="moneyManagement"
+                   [(ngModel)]="strategyOutput.strategy.info.moneyManagement">
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="bank">Bank</label>
+        <input class="form-control"
+               id="bank"
+               type="number"
+               placeholder="Bank"
+               name="bank"
+               [(ngModel)]="strategyOutput.strategy.info.bank">
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="stake">Stake</label>
+        <input class="form-control"
+               id="stake"
+               type="number"
+               placeholder="Stake"
+               name="stake"
+               [(ngModel)]="strategyOutput.strategy.info.stake">
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="typeOfStake">Type of Stake</label>
+        <ng-select [items]="['fixed', 'percent', 'kelly']"
+                   id="typeOfStake"
+                   name="typeOfStake"
+                   placeholder="typeOfStake"
+                   [(ngModel)]="strategyOutput.strategy.info.typeOfStake">
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="executor">Executor</label>
+        <ng-select [items]="['BAGNA', 'KEVIN', 'KITO', 'ALL', 'DEMO', 'PLATFORM']"
+                   id="executor"
+                   name="executor"
+                   placeholder="executor"
+                   [(ngModel)]="strategyOutput.strategy.info.executor">
         </ng-select>
       </div>
       <div class="col">
@@ -65,8 +110,9 @@
       </div>
     </form>
 
+
     <p>Strategy created: {{strategyOutput.created | date:'short'}}</p>
-    <p *ngIf="strategyOutput.lastUpdate !== strategyOutput.created">Strategy update: {{strategyOutput.lastUpdate | date:'short'}}</p>
+    <p *ngIf="strategyOutput.lastUpdate !== strategyOutput.created">Strategy last update: {{strategyOutput.lastUpdate | date:'short'}}</p>
 
 
   </div>

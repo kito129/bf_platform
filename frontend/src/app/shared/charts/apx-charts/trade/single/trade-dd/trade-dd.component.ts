@@ -4,15 +4,21 @@ import {ChartComponent} from 'ng-apexcharts';
 import {ChartOptions} from '../../../../../../model/chartOptions';
 import {Utils} from '../../../../../../model/calculator/utils';
 import {CurrencyPipe, PercentPipe} from '@angular/common';
+import {NewTrade} from '../../../../../../model/report/new/newTrade';
+import {Observable, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'app-trade-dd',
   templateUrl: './trade-dd.component.html',})
 export class TradeDDComponent implements OnInit {
 
-  @Input() allTrades: Trade[]
+  @Input() allTrades: Observable<NewTrade[]>
   @Input() labels: string[]
   ddPercent: number[]
   ddMonetary: number[]
+  @Input() bank: number
+  @Input() wantPercent: boolean
+  @Input() wantMonetary: boolean
 
   utils = new Utils()
 
@@ -21,14 +27,22 @@ export class TradeDDComponent implements OnInit {
   public lineChartOptionsMonetary: Partial<ChartOptions>;
   public lineChartOptionsPercent: Partial<ChartOptions>;
 
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(private currencyPipe: CurrencyPipe,
               private percentPipe: PercentPipe) { }
 
   ngOnInit(): void {
 
-    this.ddPercent = this.utils.ddOfTrades(this.allTrades.map(x => x.trade.result.netProfit), true, 10000)
-    this.ddMonetary = this.utils.ddOfTrades(this.allTrades.map(x => x.trade.result.netProfit), false, 10000)
-    this.generateChart()
+    this.allTrades.pipe(takeUntil(this.destroy$))
+      .subscribe( trades => {
+        const net = trades.map(x => x.trade.results.netProfit)
+        this.ddPercent = this.utils.ddOfTrades(net, true, this.bank ? this.bank: 10000)
+        this.ddMonetary = this.utils.ddOfTrades(net, false, this.bank ? this.bank: 10000)
+        this.generateChart()
+      })
+
+
   }
 
   generateChart() {

@@ -19,7 +19,7 @@ import {
     NgbCollapseModule,
     NgbDatepickerModule,
     NgbNavModule,
-    NgbPopoverModule,
+    NgbPopoverModule, NgbProgressbarModule,
     NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { TennisPointComponent } from './form-components/point-forms/tennis-point/tennis-point.component';
@@ -138,7 +138,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
         NgbNavModule,
         NgbPopoverModule,
         NgbTooltipModule,
-        NgbCollapseModule
+        NgbCollapseModule,
+        NgbProgressbarModule
     ],
   declarations: [
     NoteDataTableComponent,

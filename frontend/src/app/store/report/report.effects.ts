@@ -98,7 +98,7 @@ export class ReportEffects {
         exhaustMap(action =>
           this.reportServices.getAllStrategy().pipe(
             map(response => {
-              console.log('response:::', response)
+              // console.log('response:::', response)
 
               return reportActions.getAllStrategySuccess({response})
             }),
@@ -117,7 +117,7 @@ export class ReportEffects {
         exhaustMap(action =>
           this.reportServices.createStrategy(action.strategy).pipe(
             map(response => {
-              //console.log('response:::', response)
+              // console.log('response:::', response)
 
               return reportActions.createStrategySuccess({response})
             }),
@@ -175,7 +175,7 @@ export class ReportEffects {
         exhaustMap(action =>
           this.newReportServices.getAllNewTrades().pipe(
             map(response => {
-              console.log('response:::', response)
+              // console.log('response:::', response)
 
               return reportActions.getAllNewTradesSuccess({response})
             }),

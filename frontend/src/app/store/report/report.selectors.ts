@@ -114,6 +114,7 @@ export const getSelectedStrategyTrades = createSelector(
 export const getStrategyDatatable = createSelector(
   getReportState,
   (state) => {
+
     const utils = new Utils()
     const temp: StrategyDatatable[] = []
 
@@ -128,6 +129,7 @@ export const getStrategyDatatable = createSelector(
           _id: strategy._id,
           name: strategy.strategy.info.name,
           sport: strategy.strategy.info.sport,
+          year: strategy.strategy.info.year,
           numberOfTrade: trades.length,
           currentBank: strategy.strategy.info.bank + pl,
           stake: strategy.strategy.info.stake,
@@ -136,6 +138,7 @@ export const getStrategyDatatable = createSelector(
           moneyManagement: strategy.strategy.info.moneyManagement,
           bank: strategy.strategy.info.bank,
           pl,
+          plPercent: pl/strategy.strategy.info.bank,
           maxDD: utils.maxDDOfTrades(tradePLValue, false, strategy.strategy.info.bank),
           maxDDPercent: utils.maxDDOfTrades(tradePLValue, true, strategy.strategy.info.bank),
           winRatio: utils.getWinRatioTrades(trades),
@@ -146,14 +149,16 @@ export const getStrategyDatatable = createSelector(
           _id: strategy._id,
           name: strategy.strategy.info.name,
           sport: strategy.strategy.info.sport,
+          year: strategy.strategy.info.year,
           numberOfTrade: trades.length,
           currentBank: 0,
-          stake: 0,
-          typeOfStake: '',
-          executor: '',
-          moneyManagement: '',
+          stake: strategy.strategy.info.stake,
+          typeOfStake: strategy.strategy.info.typeOfStake,
+          executor: strategy.strategy.info.executor,
+          moneyManagement: strategy.strategy.info.moneyManagement,
           bank: 0,
           pl: 0,
+          plPercent: 0,
           maxDD: 0,
           maxDDPercent: 0,
           winRatio: 0,
@@ -169,7 +174,7 @@ export const getStrategyDatatable = createSelector(
 export const getAllNewTrade = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades
+    return state.allNewTrades.sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
   })
 
 export const isLoadingAllNewTrade = createSelector(

@@ -36,6 +36,15 @@
         </ng-select>
       </div>
       <div class="form-group">
+        <label class="text-gray" for="year">Year</label>
+        <input class="form-control"
+               id="year"
+               type="number"
+               placeholder="Year"
+               name="year"
+               [(ngModel)]="strategyOutput.strategy.info.year">
+      </div>
+      <div class="form-group">
         <label class="text-gray" for="executor">Money Management</label>
         <ng-select [items]="['FIXED', 'STOP LOSS', 'EQUITY LINE', 'DD', 'BLACKSWAN']"
                    id="moneyManagement"

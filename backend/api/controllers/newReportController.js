@@ -45,24 +45,7 @@ exports.update_new_strategy =  (req, res, next) => {
                     _id: element._id,
                     created: element.created,
                     lastUpdate: element.lastUpdate,
-                    strategy: {
-                        info: {
-                            name: element.strategy.info.name,
-                            sport: element.strategy.info.sport,
-                            bank: 2000,
-                            stake: 20,
-                            executor: "",
-                            moneyManagement: "",
-                            executor: "",
-                            typeOfStake: "fixed",
-                            detail: {
-                                description: element.strategy.info.detail.description,
-                                entryDescription: element.strategy.info.detail.entryDescription,
-                                exitDescription: element.strategy.info.detail.exitDescription,
-                                mmDescription: element.strategy.info.detail.mmDescription,
-                            }
-                        },
-                    }
+                    strategy: element.strategy,
                 });
 
                 newStrategy.save().then(result => {

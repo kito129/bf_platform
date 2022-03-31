@@ -166,27 +166,27 @@
       </div>
       <div class="card-body">
         <ul class="list-group">
-          <li class="list-group-item" *ngIf="trade.trade.info.note.description !== null">
+          <li class="list-group-item" *ngIf="trade.trade.info.note.description !== null && trade.trade.info.note.description !== ''">
             <h6 class="text-gray">Description: </h6>
             <p>{{trade.trade.info.note.description}}</p>
           </li>
-          <li class="list-group-item" *ngIf="trade.trade.info.note.entry!== null">
+          <li class="list-group-item" *ngIf="trade.trade.info.note.entry!== null && trade.trade.info.note.entry !== ''">
             <h6 class="text-gray">Entry: </h6>
             <p>{{trade.trade.info.note.entry}}</p>
           </li>
-          <li class="list-group-item" *ngIf="trade.trade.info.note.position!== null">
+          <li class="list-group-item" *ngIf="trade.trade.info.note.position!== null && trade.trade.info.note.position !== ''">
             <h6 class="text-gray">Position: </h6>
             <p>{{trade.trade.info.note.position}}</p>
           </li>
-          <li class="list-group-item" *ngIf="trade.trade.info.note.exit!== null">
+          <li class="list-group-item" *ngIf="trade.trade.info.note.exit!== null && trade.trade.info.note.exit !== ''">
             <h6 class="text-gray">Exit: </h6>
             <p>{{trade.trade.info.note.exit}}</p>
           </li>
-          <li class="list-group-item" *ngIf="trade.trade.info.note.mm!== null">
+          <li class="list-group-item" *ngIf="trade.trade.info.note.mm!== null && trade.trade.info.note.mm !== ''">
             <h6 class="text-gray">MM: </h6>
             <p>{{trade.trade.info.note.mm}}</p>
           </li>
-          <li class="list-group-item" *ngIf="trade.trade.info.note.post!== null">
+          <li class="list-group-item" *ngIf="trade.trade.info.note.post!== null && trade.trade.info.note.post !== ''">
             <h6 class="text-gray">Post: </h6>
             <p>{{trade.trade.info.note.post}}</p>
           </li>

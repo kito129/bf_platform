@@ -31,15 +31,13 @@
       <ng-template ngbNavContent>
 
         <div class="col grid-margin">
-          <app-loading-cards *ngIf="(isLoadingAllStrategy$ | async).isLoading || (isLoadingAllNewTrade$ | async).isLoading"></app-loading-cards>
-          <app-strategy-datatable *ngIf="(isLoadingAllStrategy$ | async).isLoadingSuccess && (isLoadingAllNewTrade$ | async).isLoadingSuccess"
+          <app-strategy-datatable
                                   [strategyDatatable]="strategyDatatable$ | async"
                                   [selectedStrategyId]="selectedStrategyId$ | async">
           </app-strategy-datatable>
         </div>
 
         <div class="col grid-margin">
-          <app-loading-cards *ngIf="(isLoadingAllStrategy$ | async).isLoading|| (isLoadingAllTrade$ | async).isLoading"></app-loading-cards>
           <app-strategy-report *ngIf="(selectedStrategy$ | async)"
                                [selectedStrategyReport]="selectedStrategyReport"
                                [selectedStrategyPie]="selectedStrategyPie"

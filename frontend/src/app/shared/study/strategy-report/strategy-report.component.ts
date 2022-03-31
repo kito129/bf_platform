@@ -33,26 +33,30 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.selectedStrategyTrades$
       .pipe(takeUntil(this.destroy$))
-      .subscribe( data => {
-        if(data){
+      .subscribe(tradesList => {
+        if(tradesList){
           // check for reset tab position when selected change
-          if(data.length !== this.prevSize){
-            this.defaultNavActiveId = 1
+          if(tradesList.length !== this.prevSize && this.defaultNavActiveId in [4,5,6]){
+            //this.defaultNavActiveId = 1
           }
-          // create data for charts
+          this.prevSize=tradesList.length
+          // create labels for charts
           let i =0
-          this.tradeLabels = data.map(x => {
+          this.tradeLabels = tradesList.reverse().map(x => {
             i++
-            return i.toString() + ') ' + new  Date(x.trade.info.date).getFullYear().toString().substring(2) + '/' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
+            // + new  Date(x.trade.info.date).getFullYear().toString().substring(2) + '/' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' +
+            return i.toString() + ') ' + x.trade.info.marketInfo.marketName
           })
-          this.tradeRR = data.map(x => {
+          // create rr data
+          this.tradeRR = tradesList.map(x => {
             if(x.trade.results.rr){
               return +x.trade.results.rr.toFixed(2)
             } else {
               return 0
             }
           })
-          this.tradeMaxRisk = data.map(x => {
+          // create max risk data
+          this.tradeMaxRisk = tradesList.map(x => {
             if(x.trade.results.maxRisk){
               return +x.trade.results.maxRisk.toFixed(2)
             } else {

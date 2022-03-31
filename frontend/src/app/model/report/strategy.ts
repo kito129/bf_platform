@@ -6,6 +6,7 @@ export interface Strategy {
     info: {
       name: string
       sport: string
+      year: number
       bank: number
       executor: string
       moneyManagement: string

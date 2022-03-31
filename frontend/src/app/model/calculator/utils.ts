@@ -110,8 +110,9 @@ export class Utils{
 
   getWinRatioTrades(trade: NewTrade[]): number{
     const win = trade.reduce((acc, val) =>{
-      return val.trade.results.netProfit>0 ? acc++ : acc},0)
-    return win/ trade.length
+      return val.trade.results.netProfit>0 ? acc+=1 : acc},0)
+
+    return win / trade.length
   }
 
   maxDDOfTrades(trades: number[], percent: boolean, initialStake: number): number{

@@ -13,6 +13,7 @@ export interface StrategyReport{
   trades: {
     total: number
     detail: {
+      total: StrategyResume
       loss: StrategyResume
       profit: StrategyResume
     }

@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {StrategyReport} from "../../../../model/report/starategyReport";
-import {ComparatorTableRow} from "../../../../model/study/study/comparatorTableRow";
-import {DatatableComponent, ColumnMode} from "@swimlane/ngx-datatable";
-import {CompareStudyCsvGeneratorService} from "../../../../services/compare-study-csv-generator.service";
+import {StrategyReport} from '../../../../model/report/starategyReport';
+import {ComparatorTableRow} from '../../../../model/study/study/comparatorTableRow';
+import {DatatableComponent, ColumnMode} from '@swimlane/ngx-datatable';
+import {CompareStudyCsvGeneratorService} from '../../../../services/compare-study-csv-generator.service';
 
 @Component({
   selector: 'app-strategy-report-tables',
@@ -28,7 +28,7 @@ export class StrategyReportTablesComponent implements OnInit {
   temp =[] ;
   ColumnMode = ColumnMode;
 
-  clicked: boolean = false
+  clicked = false
 
 
   // width
@@ -56,7 +56,7 @@ export class StrategyReportTablesComponent implements OnInit {
   }
 
   saveAsCSV() {
-    let date = new Date()
+    const date = new Date()
     this.compareStudyCsv.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_report.csv`,
       this.strategyTable.sort((a,b) => {
         if(a.studyName < b.studyName) { return -1; }
@@ -68,7 +68,7 @@ export class StrategyReportTablesComponent implements OnInit {
 
   generateDataForTable(){
     let i=0
-    for (let report of this.strategyReports){
+    for (const report of this.strategyReports){
       this.strategyTable.push({
         studyName: report.title,
         match: report.trades.total,

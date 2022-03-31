@@ -77,9 +77,6 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     this.allRunners$ = this.store.pipe(select(runnerSelectors.getAllRunners))
     this.isLoadingAllRunners$ = this.store.pipe(select(runnerSelectors.isLoadingAllRunners))
 
-
-
-
     // -- NEW TRADE --
     this.allNewTrade$ = this.store.pipe(select(reportSelectors.getAllNewTrade))
     this.isLoadingAllNewTrade$ = this.store.pipe(select(reportSelectors.isLoadingAllNewTrade))
@@ -106,7 +103,8 @@ export class ReportMainComponent implements OnInit, OnDestroy {
       }
     })
 
-    // generate all trade lables list
+    /*
+    // generate all trade labels list
     this.allTrade$
       .pipe(takeUntil(this.destroy$))
       .subscribe( trades => {
@@ -116,6 +114,8 @@ export class ReportMainComponent implements OnInit, OnDestroy {
         return i.toString() + ') ' + new  Date(x.trade.info.date).getFullYear().toString().substring(2) + '/' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
       })
     })
+
+     */
 
 
   }
@@ -133,6 +133,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(reportActions.getAllStrategies())
     this.store.dispatch(reportActions.getAllTrades())
+    this.store.dispatch(reportActions.getAllNewTrades())
   }
 
 }

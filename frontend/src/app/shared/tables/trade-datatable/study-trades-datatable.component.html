@@ -1,16 +1,6 @@
-<div class="d-flex justify-content-around align-items-baseline">
-
-  <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block" (click)="table.rowDetail.expandAllRows()">
-    <i class="btn-icon-prepend" data-feather="chevrons-down" appFeatherIcon></i>
-    Expand All
-  </button>
-  <button type="button" class="btn btn-outline-light btn-icon-text mr-2 d-none d-md-block" (click)="table.rowDetail.collapseAllRows()">
-    <i class="btn-icon-prepend" data-feather="chevrons-up" appFeatherIcon></i>
-    Close All
-  </button>
-
-  <form class="forms-sample grid-margin">
-    <div class="row">
+<div class="d-flex justify-content-end align-items-baseline">
+  <form class="form-group grid-margin" #searchForm="ngForm">
+    <div class="form-group">
       <input
         class="form-control"
         type="text"
@@ -18,8 +8,17 @@
         (keyup)="updateFilter($event)"
       />
     </div>
+    <div class="form-group">
+      <!-- OPTIONS -->
+      <label for="tabelSize">Table size</label>
+      <ng-select id="tabelSize"
+                 name="options"
+                 [(ngModel)]="tableSize"
+                 [items]="[5, 10,15,20,25,30,40,50,100,1000]"
+                 [clearable]="false">
+      </ng-select>
+    </div>
   </form>
-
 </div>
 
 <ngx-datatable
@@ -27,58 +26,26 @@
   [rows]="rows"
   [loadingIndicator]="loadingIndicator"
   [columnMode]="ColumnMode.force"
-  [rowHeight]="'auto'"
+  [rowHeight]="50"
   [headerHeight]="40"
   [footerHeight]="50"
-  [limit]="10"
-  rowHeight="auto"
+  [limit]="tableSize"
   [reorderable]="true"
   [sorts]="[{prop: 'trade.trade.info.date', dir: 'desc'}]">
 
-  <!-- Row Detail Template -->
-  <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
-    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-      <app-trade-row-detail-shared [trade]="row.trade"></app-trade-row-detail-shared>
-    </ng-template>
-  </ngx-datatable-row-detail>
-
-  <!-- Column Templates -->
-  <ngx-datatable-column
-    [width]="50"
-    [resizeable]="false"
-    [sortable]="false"
-    [draggable]="false"
-    [canAutoResize]="true"
-  >
-    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-      <a
-        href="javascript:void(0)"
-        [class.datatable-icon-right]="!expanded"
-        [class.datatable-icon-down]="expanded"
-        title="Expand/Collapse Row"
-        (click)="toggleExpandRow(row)"
-      >
-      </a>
-    </ng-template>
-  </ngx-datatable-column>
-
-
-
   <ngx-datatable-column name="Date" prop="trade.trade.info.date">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <p>{{ value | date:'short'}}</p>
+      <h5>{{ value | date:'shortDate'}}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Name" prop="trade.trade.info.marketInfo">
+  <ngx-datatable-column name="Name" prop="trade.trade.info.marketInfo.marketName">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <a [routerLink]="'/markets/detail/' + value.marketId ">
-        <p>{{ value.marketName }}</p>
-      </a>
+      <h5>{{ value }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="PL" prop="trade.trade.result.netProfit">
+  <ngx-datatable-column name="PL" prop="trade.trade.results.netProfit">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 [ngClass]="value>0? 'text-success' : 'text-danger'">{{ value | currency }}</h5>
     </ng-template>
@@ -90,7 +57,13 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="rR" prop="trade.trade.result.rr">
+  <ngx-datatable-column name="Risk" prop="trade.trade.results.maxRisk">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5 class="text-warning">{{ value | currency }}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="rR" prop="trade.trade.results.rr">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-info">{{ value | percent: '.2' }}</h5>
     </ng-template>

@@ -9,7 +9,9 @@ export class StrategyReportResumeComponent implements OnInit {
 
   @Input() title: string
 
-  @Input() strategyResume: StrategyResume
+  @Input() strategyResumeProfit: StrategyResume
+  @Input() strategyResumeLoss: StrategyResume
+  @Input() strategyResumeTotal: StrategyResume
 
 
   constructor() { }

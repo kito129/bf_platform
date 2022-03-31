@@ -1,16 +1,18 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Trade} from '../../../../../../model/report/trade';
 import {ChartComponent} from 'ng-apexcharts';
 import {CurrencyPipe} from '@angular/common';
 import {NewTrade} from '../../../../../../model/report/new/newTrade';
+import {Observable, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-trade-equity',
   templateUrl: './trade-equity.component.html',
 })
-export class TradeEquityComponent implements OnInit {
+export class TradeEquityComponent implements OnInit, OnDestroy {
 
-  @Input() allTrades: NewTrade[]
+  @Input() allTrades: Observable<NewTrade[]>
   @Input() labels: string[]
 
   @Input()
@@ -22,16 +24,22 @@ export class TradeEquityComponent implements OnInit {
   public lineChartOptions: Partial<any>;
   public stockArray = []
 
+  destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private currencyPipe: CurrencyPipe) { }
 
   ngOnInit(): void {
 
-    this.generateChart()
+    this.allTrades
+      .pipe(takeUntil(this.destroy$))
+      .subscribe( trades => {
+      this.generateChart(trades)
+    })
+
   }
 
-  generateChart() {
+  generateChart(trades: NewTrade[]) {
 
-    this.updateStock()
+    this.updateStock(trades)
 
     // check if want P/L bar or not
     let series = []
@@ -47,7 +55,7 @@ export class TradeEquityComponent implements OnInit {
         {
           name: 'P/L',
           type: 'column',
-          data: this.allTrades.map(x =>x.trade.results.netProfit.toFixed(2)),
+          data: trades.map(x =>x.trade.results.netProfit.toFixed(2)),
           axisName: 'axis2'
         },
       ]
@@ -169,13 +177,19 @@ export class TradeEquityComponent implements OnInit {
     };
   }
 
-  updateStock(){
+  updateStock(trades: NewTrade[]){
     this.stockArray = []
     let stock=0
-    for (const trade of this.allTrades){
+    for (const trade of trades){
       stock+= trade.trade.results.netProfit
       this.stockArray.push(+stock.toFixed(2))
     }
+  }
+
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
 }

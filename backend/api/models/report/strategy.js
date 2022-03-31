@@ -8,6 +8,7 @@ const strategySchema = mongoose.Schema({
         info: {
             name: {type: String},
             sport: {type: String},
+            year: {type: Number},
             bank: {type: Number},
             executor: {type: String},
             moneyManagement:{type: String},

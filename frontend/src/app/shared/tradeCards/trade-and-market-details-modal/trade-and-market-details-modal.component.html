@@ -7,6 +7,7 @@
        appFeatherIcon></i>
   </button>
 
+
   <ng-template #charts let-modal>
     <div class="modal-header">
       <h4 class="modal-title">Trade Detail</h4>
@@ -28,6 +29,12 @@
       </div>
 
       <div>
+        <h4 *ngIf="notFound" class="text-warning mt-3 mb-3">Searching for</h4>
+        <pre *ngIf="notFound">
+          {{trade.trade.info.marketInfo.marketName}}
+          {{trade.trade.info.date | date}}
+          {{trade.trade.info.date}}
+        </pre>
         <h4 *ngIf="notFound" class="text-warning mt-3 mb-3">Chart not available, Market id not found...</h4>
         <app-loading-cards *ngIf="(isLoadingMarketDetails$ | async).isLoading"></app-loading-cards>
         <app-tv-market-prices-and-trades *ngIf="(isLoadingMarketDetails$ | async).isLoadingSuccess"

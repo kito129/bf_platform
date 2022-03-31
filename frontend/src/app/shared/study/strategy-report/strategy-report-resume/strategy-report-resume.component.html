@@ -1,10 +1,124 @@
+<div class="table-responsive">
+  <table class="table table-hover table-bordered">
+    <thead>
+    <tr>
+      <th><h4>Props</h4></th>
+      <th><h4 class="text-primary">Total</h4></th>
+      <th><h4 class="text-success">Profit</h4></th>
+      <th><h4 class="text-danger">Loss</h4></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><h4>Gross</h4></td>
+      <td><h5>{{strategyResumeTotal.grossCash | currency}}</h5></td>
+      <td><h5>{{strategyResumeProfit.grossCash | currency}}</h5></td>
+      <td><h5>{{strategyResumeLoss.grossCash | currency}}</h5></td>
+    </tr>
+    <tr>
+      <td><h4>Operation</h4></td>
+      <td>
+        <h5>{{strategyResumeTotal.count }}</h5>
+      </td>
+      <td>
+        <h5>{{strategyResumeProfit.count}}</h5>
+        <ngb-progressbar type="success"
+                         [value]="strategyResumeProfit.count / strategyResumeTotal.count *100 "
+                         [showValue]="true">
+        </ngb-progressbar>
+      </td>
+      <td>
+        <h5>{{strategyResumeLoss.count}}</h5>
+        <ngb-progressbar type="danger"
+                         [value]="strategyResumeLoss.count / strategyResumeTotal.count *100 "
+                         [showValue]="true">
+        </ngb-progressbar>
+      </td>
+    </tr>
+    <tr>
+      <td><h4>Rate</h4></td>
+      <td>
+        <h5>--</h5>
+      </td>
+      <td><h5>{{strategyResumeProfit.count / strategyResumeTotal.count | percent:'.2'}}</h5></td>
+      <td><h5>{{strategyResumeLoss.count / strategyResumeTotal.count | percent:'.2'}}</h5></td>
+    </tr>
+    <tr>
+      <td><h4>Exp Value</h4></td>
+      <td>
+        <h5 [ngClass]=" (strategyResumeLoss.averageCash * (strategyResumeLoss.count / strategyResumeTotal.count)) +
+          (strategyResumeProfit.averageCash * (strategyResumeProfit.count /  strategyResumeTotal.count))>0?'text-success':'text-danger'">
+          {{((strategyResumeLoss.averageCash * (strategyResumeLoss.count / strategyResumeTotal.count)) +
+          (strategyResumeProfit.averageCash * (strategyResumeProfit.count /  strategyResumeTotal.count)))| currency}}</h5>
+
+      </td>
+      <td>
+        <h5>
+          {{strategyResumeProfit.averageCash * (strategyResumeProfit.count / strategyResumeTotal.count) | currency}}
+        </h5>
+      </td>
+      <td>
+        <h5>
+          {{strategyResumeLoss.averageCash * (strategyResumeLoss.count / strategyResumeTotal.count) | currency}}
+        </h5>
+      </td>
+    </tr>
+    <tr>
+      <td><h4>Average PL</h4></td>
+      <td><h5>{{strategyResumeTotal.averageCash | currency  }}</h5></td>
+      <td><h5>{{strategyResumeProfit.averageCash | currency }}</h5></td>
+      <td><h5>{{strategyResumeLoss.averageCash | currency }}</h5></td>
+    </tr>
+    <tr>
+      <td><h4>StDv</h4></td>
+      <td><h5>{{strategyResumeTotal.stdvCash | currency  }}</h5></td>
+      <td><h5>{{strategyResumeProfit.stdvCash | currency }}</h5></td>
+      <td><h5>{{strategyResumeLoss.stdvCash | currency }}</h5></td>
+    </tr>
+    <tr>
+      <td><h4>Max</h4></td>
+      <td><h5>{{strategyResumeTotal.maxCash | currency  }}</h5></td>
+      <td><h5>{{strategyResumeProfit.maxCash | currency }}</h5></td>
+      <td><h5>{{strategyResumeLoss.maxCash | currency }}</h5></td>
+    </tr>
+    <tr>
+      <td><h4>Max%</h4></td>
+      <td><h5>{{strategyResumeTotal.maxPercent | percent }}</h5></td>
+      <td><h5>{{strategyResumeProfit.maxPercent | percent}}</h5></td>
+      <td><h5>{{strategyResumeLoss.maxPercent | percent}}</h5></td>
+    </tr>
+    <tr>
+      <td><h4>Consecutive ##</h4></td>
+      <td><h5>{{strategyResumeTotal.consecutiveNumber }}</h5></td>
+      <td><h5>{{strategyResumeProfit.consecutiveNumber}}</h5></td>
+      <td><h5>{{strategyResumeLoss.consecutiveNumber}}</h5></td>
+    </tr>
+    <tr>
+      <td><h4>Consecutive %</h4></td>
+      <td><h5>{{strategyResumeTotal.consecutivePercent | percent }}</h5></td>
+      <td><h5>{{strategyResumeProfit.consecutivePercent| percent}}</h5></td>
+      <td><h5>{{strategyResumeLoss.consecutivePercent| percent}}</h5></td>
+    </tr>
+    <tr>
+      <td><h4>Consecutive €</h4></td>
+      <td><h5>{{strategyResumeTotal.consecutiveCash | currency }}</h5></td>
+      <td><h5>{{strategyResumeProfit.consecutiveCash | currency}}</h5></td>
+      <td><h5>{{strategyResumeLoss.consecutiveCash|  currency}}</h5></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+<!--
 <ul class="list-group">
   <li class="list-group-item disabled">
     <h4> {{title}} </h4></li>
   <li class="list-group-item">
     <div class="row">
       <div class="col-5">
-        <h5>Gross [€]:</h5>
+       Gross [€]:
       </div>
       <div class="col">
         <h4 class="text-right">{{strategyResume.grossCash | currency}}</h4>
@@ -14,7 +128,7 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col-8">
-        <h5>Operation [#]:</h5>
+       Operation [#]:
       </div>
       <div class="col">
         <h4 class="text-right">{{strategyResume.count}}</h4>
@@ -24,7 +138,7 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col-4">
-        <h5>Average [€]:</h5>
+       Average [€]:
       </div>
       <div class="col">
         <h4 class="text-right">{{strategyResume.averageCash | currency}}</h4>
@@ -37,7 +151,7 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col-5">
-        <h5>Max [€]:</h5>
+       Max [€]:
       </div>
       <div class="col">
         <h4 class="text-right">{{strategyResume.maxCash | currency}}</h4>
@@ -47,7 +161,7 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col-5">
-        <h5>Max [%]:</h5>
+       Max [%]:
       </div>
       <div class="col">
         <h4 class="text-right">{{strategyResume.maxPercent | percent: '.2'}}</h4>
@@ -57,7 +171,7 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col-5">
-        <h5>Consecutive [#]:</h5>
+       Consecutive [#]:
       </div>
       <div class="col">
         <h4 class="text-right">{{strategyResume.consecutiveNumber | number}}</h4>
@@ -67,7 +181,7 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col-5">
-        <h5>Consecutive [€]:</h5>
+       Consecutive [€]:
       </div>
       <div class="col">
         <h4 class="text-right">{{strategyResume.consecutiveCash | currency}}</h4>
@@ -77,7 +191,7 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col-5">
-        <h5>Consecutive € [%]:</h5>
+       Consecutive € [%]:
       </div>
       <div class="col">
         <h4 class="text-right">{{strategyResume.consecutivePercent | percent:'.2'}}</h4>
@@ -87,7 +201,7 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col-5">
-        <h5>Avg Consecutive [#]:</h5>
+       Avg Consecutive [#]:
       </div>
       <div class="col">
         <h4 class="text-right">{{strategyResume.consecutiveAvgNumber | number}}</h4>
@@ -95,3 +209,4 @@
     </div>
   </li>
 </ul>
+-->

@@ -25,6 +25,7 @@ export class StudyTradesDatatableComponent implements OnInit, OnDestroy {
   temp =[] ;
   loadingIndicator = true
   ColumnMode = ColumnMode;
+  tableSize = 10
 
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -38,7 +39,7 @@ export class StudyTradesDatatableComponent implements OnInit, OnDestroy {
     this.trades$
       .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
-        const trade = this.tradeServices.addCumulativeInTrade(data)
+        const trade = this.tradeServices.addCumulativeInTrade(data.reverse())
         this.rows = trade
         this.temp = [... trade]
       })

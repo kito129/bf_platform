@@ -4,6 +4,7 @@ export interface StrategyDatatable{
   _id: string
   name: string
   sport: string
+  year: number
   numberOfTrade: number
   currentBank: number
   executor: string
@@ -12,6 +13,7 @@ export interface StrategyDatatable{
   stake: number
   typeOfStake: string
   pl: number
+  plPercent: number
   maxDD: number
   maxDDPercent: number
   winRatio: number

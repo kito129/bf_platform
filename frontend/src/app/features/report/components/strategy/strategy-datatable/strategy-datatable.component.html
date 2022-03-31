@@ -7,49 +7,35 @@
     </div>
   </div><!-- /HEADER -->
   <div class="card-body"><!-- BODY -->
-
     <app-strategy-create-modal class="mr-2" (addStrategyCreateEmitter)="createModal($event)"></app-strategy-create-modal>
-
-
     <div class="d-flex justify-content-end align-items-baseline">
       <form class="form-group grid-margin" #searchForm="ngForm">
         <div class="form-group">
+          <label for="nameFind">Find</label>
           <input
+            id="nameFind"
             class="form-control"
             type="text"
             placeholder="Type name..."
             (keyup)="updateFilter($event)"
           />
         </div>
-        <div class="row">
-          <div class="form-group">
-            <!-- OPTIONS -->
-            <label for="tabelSize">Table size</label>
-            <ng-select id="tabelSize"
-                       name="options"
-                       [(ngModel)]="tableSize"
-                       [items]="[5, 10,15,20,25,30,40,50,100,1000]"
-                       [clearable]="false">
-            </ng-select>
-          </div>
-          <div class="form-group">
-            <!-- OPTIONS -->
-            <label for="page">Page</label>
-            <input
-              class="form-control"
-              type="number"
-              id="page"
-              placeholder="Page"
-              name="page"
-              [(ngModel)]="page"/>
-          </div>
+        <div class="form-group">
+          <!-- OPTIONS -->
+          <label for="tableSize">Table size</label>
+          <ng-select id="tableSize"
+                     name="options"
+                     [(ngModel)]="tableSize"
+                     [items]="[5, 10,15,20,25,30,40,50,100,1000]"
+                     [clearable]="false">
+          </ng-select>
         </div>
       </form>
     </div>
 
     <ngx-datatable
       class="dark"
-      [rows]="rows"
+      [rows]="strategyDatatable"
       [loadingIndicator]="loadingIndicator"
       [columnMode]="ColumnMode.force"
       [headerHeight]="40"
@@ -58,106 +44,119 @@
       rowHeight="auto"
       [reorderable]="true"
       [sorts]="[{prop: 'pl', dir: 'desc'}]">
-      <ngx-datatable-column name="Name" prop="name">
+      <ngx-datatable-column name="Name" prop="name" [width]="3">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Sport" prop="sport">
+      <ngx-datatable-column name="Sport" prop="sport" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <app-sport-text [sport]="value"></app-sport-text>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="# of Trade" prop="numberOfTrade">
+      <ngx-datatable-column name="Year" prop="year" [width]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5 [ngClass]="value===2021 ? 'text-info' : 'text-light'">{{ value }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="# of Trade" prop="numberOfTrade" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-
-      <ngx-datatable-column name="Bank" prop="currentBank">
+      <ngx-datatable-column name="Bank" prop="bank" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value | currency}}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Executor" prop="executor">
+      <ngx-datatable-column name="Executor" prop="executor" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value}}</h5>
         </ng-template>
       </ngx-datatable-column>
 
 
-      <ngx-datatable-column name="Money Management" prop="moneyManagement">
+      <ngx-datatable-column name="Money Management" prop="moneyManagement" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Stake" prop="stake">
+      <ngx-datatable-column name="Stake" prop="stake" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value | currency}}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Type Of Stake" prop="typeOfStake">
+      <ngx-datatable-column name="Type Of Stake" prop="typeOfStake" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value}}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Pl" prop="pl">
+      <ngx-datatable-column name="Pl" prop="pl" [width]="3">
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <h5>{{ value | currency }}</h5>
+          <h4 [ngClass]="value>0 ? 'text-success' : value ===0 ? 'text-warning' : 'text-danger'">{{ value | currency }}</h4>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Max DD" prop="maxDD">
+      <ngx-datatable-column name="Pl %" prop="plPercent" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <h5>{{ value | currency }}</h5>
+          <h5 class="text-primary">{{ value | percent }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Max DD %" prop="maxDDPercent">
+      <ngx-datatable-column name="Max DD" prop="maxDD" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <h5>{{ value | percent }}</h5>
+          <h5 class="text-danger">{{ value | currency }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Win ratio" prop="winRatio">
+      <ngx-datatable-column name="Max DD %" prop="maxDDPercent" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <h5>{{ value | percent }}</h5>
+          <h5 class="text-danger">{{ value | percent }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Win ratio" prop="winRatio" [width]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5 [ngClass]="value>0.60 ? 'text-success' : value>0.30 ? 'text-warning' : 'text-danger'">{{ value | percent }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
 
-      <ngx-datatable-column name="Tolls" prop="strategy">
+      <ngx-datatable-column name="Tolls" prop=""  [width]="2">
         <ng-template let-value="value"  ngx-datatable-cell-template>
 
           <div class="d-flex justify-content-center align-items-center">
 
-            <button type="button" class="btn btn-icon mr-2" [ngClass]="selectedStrategyId === value._id ? 'btn-info' : 'btn-outline-info'"
-                    (click)="clickSelectStrategy(value._id)" >
+            <button type="button" class="btn btn-icon mr-2"
+                    [ngClass]="selectedStrategyId === value._id ? 'btn-info' : 'btn-outline-info'"
+                    (click)="clickSelectStrategy(value._id)"
+                    [disabled]="value.numberOfTrade===0">
               <i class="feather icon-eye"></i>
             </button>
 
-            <app-delete-modal [id]="value._id"
+            <!--
+            <app-delete-modal [id]="value.strategy._id"
                               [options]="'Delete'"
                               [type]="'strategy'"
                               (deleteEmitter)="deleteModal($event)">
             </app-delete-modal>
+            -->
 
-            <app-strategy-updates-modal [strategyInput$]="value"
+            <app-strategy-updates-modal [strategyInput$]="value.strategy"
                                         (strategyUpdateEmitter)="updateModal($event)">
-
             </app-strategy-updates-modal>
           </div>
 
         </ng-template>
       </ngx-datatable-column>
-
 
     </ngx-datatable>
 

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {NgbDateStruct, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {TennisTournament} from "../../../../../../model/tennisTournament/tennisTournament";
-import {Strategy} from "../../../../../../model/report/strategy";
+import {NgbDateStruct, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {TennisTournament} from '../../../../../../model/tennisTournament/tennisTournament';
+import {Strategy} from '../../../../../../model/report/strategy';
 
 @Component({
   selector: 'app-strategy-create-modal',
@@ -12,7 +12,6 @@ export class StrategyCreateModalComponent implements OnInit {
   @Output()
   addStrategyCreateEmitter = new EventEmitter();
 
-  public color = ['primary', 'secondary', 'danger', 'warning']
   public sport = ['TENNIS', 'FOOTBALL', 'HORSE RACING']
 
   public strategy: Strategy
@@ -41,16 +40,19 @@ export class StrategyCreateModalComponent implements OnInit {
       lastUpdate: new Date().getTime(),
       strategy: {
         info: {
-          name: "",
-          sport: "",
+          name: '',
+          sport: '',
+          year: 200,
+          moneyManagement: '',
+          executor: "",
           bank: 0,
           stake: 0,
-          typeOfStake: "",
+          typeOfStake: '',
           detail: {
-            description: "",
-            entryDescription: "",
-            exitDescription: "",
-            mmDescription: "",
+            description: '',
+            entryDescription: '',
+            exitDescription: '',
+            mmDescription: '',
           }
         }
       }

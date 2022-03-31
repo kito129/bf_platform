@@ -197,31 +197,24 @@
                           [height]="600"
                           [data]="strategyMatch">
     </app-trade-bar-charts>
+    <div class="col">
+      <app-trade-bar-charts [title]="'Win Rate'"
+                            [labels]="strategyLabels"
+                            [isPercent]="true"
+                            [isCurrency]="false"
+                            [height]="600"
+                            [data]="strategyWinRate">
+      </app-trade-bar-charts>
+    </div>
+    <div class="col">
+      <app-trade-bar-charts [title]="'PL'"
+                            [labels]="strategyLabels"
+                            [isPercent]="false"
+                            [isCurrency]="true"
+                            [height]="600"
+                            [data]="strategyPl">
+      </app-trade-bar-charts>
+    </div>
   </div>
 </div>
-
-<div class="row mb-2">
-  <div class="col">
-    <app-trade-bar-charts [title]="'Win Rate'"
-                          [labels]="strategyLabels"
-                          [isPercent]="true"
-                          [isCurrency]="false"
-                          [height]="600"
-                          [data]="strategyWinRate">
-    </app-trade-bar-charts>
-  </div>
-</div>
-
-<div class="row mb-2">
-  <div class="col">
-    <app-trade-bar-charts [title]="'PL'"
-                          [labels]="strategyLabels"
-                          [isPercent]="false"
-                          [isCurrency]="true"
-                          [height]="600"
-                          [data]="strategyPl">
-    </app-trade-bar-charts>
-  </div>
-</div>
-
 

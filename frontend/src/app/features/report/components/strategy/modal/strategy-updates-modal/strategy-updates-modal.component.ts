@@ -17,7 +17,6 @@ export class StrategyUpdatesModalComponent implements OnInit {
   @Input()
   strategyInput$: Observable<Strategy>
 
-  public color = ['primary', 'secondary', 'danger', 'warning']
   public sport = ['TENNIS', 'FOOTBALL', 'HORSE RACING']
   public strategyOutput: Strategy;
 

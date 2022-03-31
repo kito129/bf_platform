@@ -3,7 +3,7 @@
   <!-- HEADER -->
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h6 class="card-title mb-0"> Strategy  Report</h6>
+      <h3 >{{selectedStrategyReport.strategy.strategy.info.name}} Report</h3>
     </div>
   </div><!-- /HEADER -->
   <div class="card-body">
@@ -13,43 +13,36 @@
           <a ngbNavLink>Info</a>
         </h5>
         <ng-template ngbNavContent>
-          <div class="row">
-            <div class="col">
-              <app-strategy-report-info
-                [strategyReport]="selectedStrategyReport">
-              </app-strategy-report-info>
+          <!-- RESUME -->
+          <div>
+            <div class="row">
+              <div class="col-3">
+                <app-strategy-report-info
+                  [strategyReport]="selectedStrategyReport">
+                </app-strategy-report-info>
 
-              <app-pie class="mt-2" [label]="['WIN', 'LOSS', 'VOID']"
-                       [data]="selectedStrategyPie"
-                       [height]="250">
-              </app-pie>
-            </div>
-            <div class="col">
-              <app-strategy-report-resume [title]="'Profit'"
-                                          [strategyResume]="selectedStrategyReport.trades.detail.profit">
-              </app-strategy-report-resume>
-            </div>
-            <div class="col">
-              <app-strategy-report-resume [title]="'Loss'"
-                                          [strategyResume]="selectedStrategyReport.trades.detail.loss">
-              </app-strategy-report-resume>
-            </div>
-            <div class="col">
-              <app-strategy-report-dd class="grid-margin"
-                                      [strategyReport]="selectedStrategyReport">
-              </app-strategy-report-dd>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <app-strategy-report-expected-value [strategyReport]="selectedStrategyReport">
-
-              </app-strategy-report-expected-value>
+                <app-pie class="mt-2" [label]="['WIN', 'LOSS', 'VOID']"
+                         [data]="selectedStrategyPie"
+                         [height]="250">
+                </app-pie>
+              </div>
+              <div class="col">
+                <app-strategy-report-resume [title]="'Profit'"
+                                            [strategyResumeProfit]="selectedStrategyReport.trades.detail.profit"
+                                            [strategyResumeLoss]="selectedStrategyReport.trades.detail.loss"
+                                            [strategyResumeTotal]="selectedStrategyReport.trades.detail.total">
+                </app-strategy-report-resume>
+              </div>
+              <div class="col-2">
+                <app-strategy-report-dd class="grid-margin"
+                                        [strategyReport]="selectedStrategyReport">
+                </app-strategy-report-dd>
+              </div>
             </div>
           </div>
         </ng-template>
       </li>
-
+      <!-- TRADES -->
       <li [ngbNavItem]="2">
         <h5>
           <a ngbNavLink>Trades</a>
@@ -60,35 +53,30 @@
           </app-study-trade-datatable>
         </ng-template>
       </li>
-
-
+      <!-- EQUITY CHART -->
       <li [ngbNavItem]="3">
         <h5 class="text-primary">
           <a ngbNavLink>Equity</a>
         </h5>
         <ng-template ngbNavContent>
-          <app-trade-equity [allTrades]="selectedStrategyTrades$ | async"
+          <!-- EQUITY CHART -->
+          <app-trade-equity [allTrades]="selectedStrategyTrades$"
                             [labels]="tradeLabels"
                             [wantBar]="true">
           </app-trade-equity>
-
-        </ng-template>
-      </li>
-
-      <li [ngbNavItem]="4">
-        <h5 class="text-warning">
-          <a ngbNavLink>DD</a>
-        </h5>
-        <ng-template ngbNavContent>
-          <app-trade-dd [allTrades]="selectedStrategyTrades$ | async"
-                        [labels]="tradeLabels">
+          <!-- DD CHART -->
+          <app-trade-dd [allTrades]="selectedStrategyTrades$"
+                        [labels]="tradeLabels"
+                        [bank]="selectedStrategyReport.strategy.strategy.info.bank"
+                        [wantMonetary]="false"
+                        [wantPercent]="true">
           </app-trade-dd>
         </ng-template>
       </li>
-
-      <li [ngbNavItem]="5">
+      <!-- MONTHLY -->
+      <li [ngbNavItem]="4">
         <h5 class="text-warning">
-          <a ngbNavLink>Periodic</a>
+          <a ngbNavLink>Monthly</a>
         </h5>
         <ng-template ngbNavContent>
           <app-strategy-report-month [allTrades]="(selectedStrategyTrades$ | async)">
@@ -96,9 +84,8 @@
           </app-strategy-report-month>
         </ng-template>
       </li>
-
-
-      <li [ngbNavItem]="6">
+      <!-- RR -->
+      <li [ngbNavItem]="5">
         <h5 class="text-info">
           <a ngbNavLink>RR</a>
         </h5>
@@ -111,10 +98,11 @@
                                 [isCurrency]="false"
                                 [isPercent]="true">
           </app-trade-bar-charts>
+
         </ng-template>
       </li>
-
-      <li [ngbNavItem]="7">
+      <!-- RISK -->
+      <li [ngbNavItem]="6">
         <h5 class="text-danger">
           <a ngbNavLink>Risk</a>
         </h5>

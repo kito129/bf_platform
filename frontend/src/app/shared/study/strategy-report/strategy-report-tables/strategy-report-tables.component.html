@@ -188,7 +188,7 @@
 </ngx-datatable>
 
 
-<div class="row mb-2">
+<div class="row mb-2" *ngIf="wantChart">
   <div class="col">
     <app-trade-bar-charts [title]="'Match #'"
                           [labels]="strategyLabels"

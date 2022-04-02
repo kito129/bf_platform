@@ -26,7 +26,7 @@
     </div>
     <div class="col">
       <h3 class="text-gray" *ngIf="note.note.type.indexOf('WalkOver')===-1 && note.note.type.indexOf('Note')===-1 ">
-        {{note.note.validation.tennisPoints | tennisPoint}}
+        {{note.note.validation.tennisPoints | tennisPoint: true : true}}
       </h3>
     </div>
   </div>
@@ -41,8 +41,8 @@
         <h3 *ngIf="note.note.validation.detailValidation.retired" class="mb-1"><span class="badge badge-warning">Retired</span> </h3>
       </li>
       <li *ngIf="note.note.type.indexOf('WalkOver')===-1">
-        <h3>Point: <b>{{note.note.tennisPoints | tennisPoint}}</b></h3>
-        <h3>Result: <b>{{note.note.validation.tennisPoints | tennisPoint}}</b></h3>
+        <h3>Point: <b>{{note.note.tennisPoints | tennisPoint: true : true}}</b></h3>
+        <h3>Result: <b>{{note.note.validation.tennisPoints | tennisPoint: true : true}}</b></h3>
       </li>
       <li *ngIf="note.note.type.indexOf('WalkOver')===-1">
         <h3 *ngIf="note.note.selection.runnerA.id === note.note.selection.injuredId">BSP: <b>{{note.note.selection.runnerA.bsp}}</b> - {{note.note.selection.runnerB.bsp}} </h3>

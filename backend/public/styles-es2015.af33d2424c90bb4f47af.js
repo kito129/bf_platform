@@ -35,8 +35,8 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\00_PROJECTs\47_BFv2\bfv2\frontend\src\styles.scss */"+EN/");
-module.exports = __webpack_require__(/*! D:\00_PROJECTs\47_BFv2\bfv2\frontend\src\assets\scss\style.scss */"eKdF");
+__webpack_require__(/*! D:\00_PROJECTs\50_platform\lastBF\frontend\src\styles.scss */"+EN/");
+module.exports = __webpack_require__(/*! D:\00_PROJECTs\50_platform\lastBF\frontend\src\assets\scss\style.scss */"eKdF");
 
 
 /***/ }),

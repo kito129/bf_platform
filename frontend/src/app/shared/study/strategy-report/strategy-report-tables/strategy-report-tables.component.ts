@@ -13,6 +13,7 @@ export class StrategyReportTablesComponent implements OnInit {
 
   @Input() strategyReports: StrategyReport[]
   @Input() strategyWinners: number[][]
+  @Input() wantChart: boolean
 
   strategyTable: ComparatorTableRow[] = []
 
@@ -70,7 +71,7 @@ export class StrategyReportTablesComponent implements OnInit {
     let i=0
     for (const report of this.strategyReports){
       this.strategyTable.push({
-        studyName: report.title,
+        studyName: report.strategy.strategy.info.name ? report.strategy.strategy.info.name : report.title,
         match: report.trades.total,
         win: this.strategyWinners[i][0],
         loss: this.strategyWinners[i][1],

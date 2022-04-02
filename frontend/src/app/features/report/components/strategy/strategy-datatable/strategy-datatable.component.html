@@ -7,28 +7,35 @@
     </div>
   </div><!-- /HEADER -->
   <div class="card-body"><!-- BODY -->
-    <app-strategy-create-modal class="mr-2" (addStrategyCreateEmitter)="createModal($event)"></app-strategy-create-modal>
-    <div class="d-flex justify-content-end align-items-baseline">
+
+    <div class="d-flex justify-content-space-around align-items-center">
+      <app-strategy-create-modal class="mr-2" (addStrategyCreateEmitter)="createModal($event)"></app-strategy-create-modal>
       <form class="form-group grid-margin" #searchForm="ngForm">
-        <div class="form-group">
-          <label for="nameFind">Find</label>
-          <input
-            id="nameFind"
-            class="form-control"
-            type="text"
-            placeholder="Type name..."
-            (keyup)="updateFilter($event)"
-          />
-        </div>
-        <div class="form-group">
-          <!-- OPTIONS -->
-          <label for="tableSize">Table size</label>
-          <ng-select id="tableSize"
-                     name="options"
-                     [(ngModel)]="tableSize"
-                     [items]="[5, 10,15,20,25,30,40,50,100,1000]"
-                     [clearable]="false">
-          </ng-select>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="nameFind">Find</label>
+              <input
+                id="nameFind"
+                class="form-control"
+                type="text"
+                placeholder="Type name..."
+                (keyup)="updateFilter($event)"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <!-- OPTIONS -->
+              <label for="tableSize">Table size</label>
+              <ng-select id="tableSize"
+                         name="options"
+                         [(ngModel)]="tableSize"
+                         [items]="[5, 10,15,20,25,30,40,50,100,1000]"
+                         [clearable]="false">
+              </ng-select>
+            </div>
+          </div>
         </div>
       </form>
     </div>
@@ -44,6 +51,7 @@
       rowHeight="auto"
       [reorderable]="true"
       [sorts]="[{prop: 'pl', dir: 'desc'}]">
+
       <ngx-datatable-column name="Name" prop="name" [width]="3">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value }}</h5>

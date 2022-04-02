@@ -60,7 +60,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
     this.generateChart()
     this.setRunnerTvDataInChart()
 
-    this.winnerOnly()
+    // this.winnerOnly()
 
     // this.setMarkersAndData()
 

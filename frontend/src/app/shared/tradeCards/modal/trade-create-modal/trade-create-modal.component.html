@@ -394,7 +394,7 @@
                                         [toWin]="tradeBack.ifWin">
                     </app-bets-formatter>
                     <!-- POINT -->
-                    <h5 class="text-gray mt-2 mb-2">Point: {{tradeBack.condition.tennis.point | tennisPoint}}</h5>
+                    <h5 class="text-gray mt-2 mb-2">Point: {{tradeBack.condition.tennis.point | tennisPoint: true : true}}</h5>
                     <!-- TIME -->
                     <app-date-form [time]="tradeBack.condition.time"
                                    [showDate]="true"
@@ -430,7 +430,7 @@
                                         [liability]="tradeLay.liability">
                     </app-bets-formatter>
                     <!-- POINT -->
-                    <h5 class="text-gray mt-2 mb-2">Point: {{tradeLay.condition.tennis.point | tennisPoint}}</h5>
+                    <h5 class="text-gray mt-2 mb-2">Point: {{tradeLay.condition.tennis.point | tennisPoint: true : true}}</h5>
                     <!-- TIME -->
                     <app-date-form [time]="tradeLay.condition.time"
                                    [showDate]="true"

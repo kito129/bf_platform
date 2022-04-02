@@ -1,24 +1,37 @@
 <div class="d-flex justify-content-end align-items-baseline">
-  <form class="form-group grid-margin" #searchForm="ngForm">
-    <div class="form-group">
-      <input
-        class="form-control"
-        type="text"
-        placeholder="Type name..."
-        (keyup)="updateFilter($event)"
-      />
+  <button type="button" class="btn btn"
+          [ngClass]="viewTrades ? 'btn-secondary' : 'btn-outline-secondary' "
+          (click)="viewTrades= !viewTrades">
+    View Trades
+  </button>
+  <form class="form-group grid-margin">
+    <div class="row ">
+      <div class="col">
+        <div class="form-group">
+          <label for="name">Find by Name</label>
+          <input
+            class="form-control"
+            type="text"
+            id="name"
+            placeholder="Type name..."
+            (keyup)="updateFilter($event)"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <!-- OPTIONS -->
+          <label for="tableSize">Table size</label>
+          <ng-select id="tableSize"
+                     name="options"
+                     [(ngModel)]="tableSize"
+                     [items]="[5, 10,15,20,25,30,40,50,100,1000]"
+                     [clearable]="false">
+          </ng-select>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <!-- OPTIONS -->
-      <label for="tabelSize">Table size</label>
-      <ng-select id="tabelSize"
-                 name="options"
-                 [(ngModel)]="tableSize"
-                 [items]="[5, 10,15,20,25,30,40,50,100,1000]"
-                 [clearable]="false">
-      </ng-select>
-    </div>
-  </form>
+    </form>
 </div>
 
 <ngx-datatable
@@ -26,46 +39,58 @@
   [rows]="rows"
   [loadingIndicator]="loadingIndicator"
   [columnMode]="ColumnMode.force"
-  [rowHeight]="50"
+  [rowHeight]="'auto'"
   [headerHeight]="40"
   [footerHeight]="50"
   [limit]="tableSize"
   [reorderable]="true"
   [sorts]="[{prop: 'trade.trade.info.date', dir: 'desc'}]">
 
-  <ngx-datatable-column name="Date" prop="trade.trade.info.date">
+  <ngx-datatable-column name="Date" prop="trade.trade.info.date" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5>{{ value | date:'shortDate'}}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Name" prop="trade.trade.info.marketInfo.marketName">
+  <ngx-datatable-column name="Name" prop="trade.trade.info.marketInfo.marketName" [width]="2">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5>{{ value }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="PL" prop="trade.trade.results.netProfit">
+  <ngx-datatable-column name="PL" prop="trade.trade.results.netProfit" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 [ngClass]="value>0? 'text-success' : 'text-danger'">{{ value | currency }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Stock" prop="data.stockPl">
+  <ngx-datatable-column name="Stock" prop="data.stockPl" *ngIf="!viewTrades" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 [ngClass]="value>0? 'text-success' : 'text-danger'">{{ value | currency }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Risk" prop="trade.trade.results.maxRisk">
+  <ngx-datatable-column name="Risk" prop="trade.trade.results.maxRisk" *ngIf="!viewTrades" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-warning">{{ value | currency }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="rR" prop="trade.trade.results.rr">
+  <ngx-datatable-column name="rR" prop="trade.trade.results.rr" *ngIf="!viewTrades" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-info">{{ value | percent: '.2' }}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Trades #" prop="trade.trade.trades.length" *ngIf="!viewTrades" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{ value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Trades" prop="trade" *ngIf="viewTrades" [width]="900">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <app-trade-bets-view [trade]="value"></app-trade-bets-view>
     </ng-template>
   </ngx-datatable-column>
 

@@ -98,7 +98,7 @@
               </div>
               <div class="col">
                 <h6 *ngIf="tradeDetail.trade.trade.info.marketInfo?.sport.indexOf('TENNIS')!==-1">
-                  {{tradeDetail.trade.trade.results.finalScore.tennis | tennisPoint}}
+                  {{tradeDetail.trade.trade.results.finalScore.tennis | tennisPoint: true : true}}
                 </h6>
                 <h6 *ngIf="tradeDetail.trade.trade.info.marketInfo?.sport.indexOf('FOOTBALL')!==-1">
                   {{tradeDetail.trade.trade.results.finalScore.football.home + ' - ' + tradeDetail.trade.trade.results.finalScore.football.away}}

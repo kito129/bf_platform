@@ -18,8 +18,10 @@ export class StudyTradesDatatableComponent implements OnInit, OnDestroy {
   @Input() trades$: Observable<NewTrade[]>
   @Input() selectedMarketId: string
   @Input() viewSelectors: boolean
-
   @ViewChild(DatatableComponent) table: DatatableComponent;
+
+
+  viewTrades = false
 
   rows = [];
   temp =[] ;

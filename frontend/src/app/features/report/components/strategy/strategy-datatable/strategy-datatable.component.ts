@@ -28,13 +28,15 @@ export class StrategyDatatableComponent implements OnInit {
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
+    console.log(val)
     // filter our data
     // update the rows
     this.rows = this.strategyDatatable.filter((d: StrategyDatatable) => {
-      return (d.name.toLowerCase().indexOf(val) !== -1 || d.sport.toLowerCase().indexOf(val) !== -1 || !val);
+      return (d.name.toLowerCase().indexOf(val) !== -1 || d.sport.toLowerCase().indexOf(val) !== -1);
     });
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
+    console.log(val)
   }
 
 

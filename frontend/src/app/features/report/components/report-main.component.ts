@@ -23,6 +23,8 @@ export class ReportMainComponent implements OnInit, OnDestroy {
 
   defaultNavActiveId = 1
 
+  bug = false
+
   // trade
   allTrade$: Observable<Trade[]>
   isLoadingAllTrade$: Observable<IsLoading>
@@ -101,6 +103,8 @@ export class ReportMainComponent implements OnInit, OnDestroy {
       } else {
         this.visibleReport = false
       }
+
+      this.bugFix()
     })
 
     /*
@@ -127,6 +131,16 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.complete();
+  }
+
+  // temp to fix odds bug
+  bugFix(){
+    this.bug = false
+    setTimeout(() =>
+      {
+        this.bug = true
+      },
+      100);
   }
 
   public refresh(){

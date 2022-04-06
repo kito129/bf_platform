@@ -70,8 +70,14 @@ export class StrategyReportTablesComponent implements OnInit {
   generateDataForTable(){
     let i=0
     for (const report of this.strategyReports){
+      let title = ''
+      if(report.strategy){
+        title = report.strategy.strategy.info.name
+      } else {
+        title = report.title
+      }
       this.strategyTable.push({
-        studyName: report.strategy.strategy.info.name ? report.strategy.strategy.info.name : report.title,
+        studyName: title,
         match: report.trades.total,
         win: this.strategyWinners[i][0],
         loss: this.strategyWinners[i][1],

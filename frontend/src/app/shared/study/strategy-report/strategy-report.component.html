@@ -79,6 +79,13 @@
                         [wantMonetary]="false"
                         [wantPercent]="true">
           </app-trade-dd>
+          <!-- DD MONETARY CHART -->
+          <app-trade-dd [allTrades]="selectedStrategyTrades$"
+                        [labels]="tradeLabels"
+                        [bank]="selectedStrategyReport.strategy.strategy.info.bank"
+                        [wantMonetary]="false"
+                        [wantPercent]="false">
+          </app-trade-dd>
         </ng-template>
       </li>
       <!-- MONTHLY -->

@@ -73,4 +73,9 @@ export class StrategyDatatableComponent implements OnInit {
       this.store.dispatch(reportActions.setSelectedStrategy({ _id: id}));
     }
   }
+
+  // filter
+  set2021(){
+
+  }
 }

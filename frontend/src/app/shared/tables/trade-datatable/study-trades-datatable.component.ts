@@ -41,7 +41,7 @@ export class StudyTradesDatatableComponent implements OnInit, OnDestroy {
     this.trades$
       .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
-        const trade = this.tradeServices.addCumulativeInTrade(data.reverse())
+        const trade = this.tradeServices.addCumulativeInTrade(data)
         this.rows = trade
         this.temp = [... trade]
       })

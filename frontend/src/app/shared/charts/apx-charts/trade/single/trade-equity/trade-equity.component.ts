@@ -39,7 +39,9 @@ export class TradeEquityComponent implements OnInit, OnDestroy {
 
   generateChart(trades: NewTrade[]) {
 
-    this.updateStock(trades)
+    const netProfit = trades.map(x =>+x.trade.results.netProfit.toFixed(2))
+
+    this.updateStock(netProfit)
 
     // check if want P/L bar or not
     let series = []
@@ -55,7 +57,7 @@ export class TradeEquityComponent implements OnInit, OnDestroy {
         {
           name: 'P/L',
           type: 'column',
-          data: trades.map(x =>x.trade.results.netProfit.toFixed(2)),
+          data: netProfit,
           axisName: 'axis2'
         },
       ]
@@ -177,12 +179,12 @@ export class TradeEquityComponent implements OnInit, OnDestroy {
     };
   }
 
-  updateStock(trades: NewTrade[]){
+  updateStock(trades: number[]){
     this.stockArray = []
     let stock=0
     for (const trade of trades){
-      stock+= trade.trade.results.netProfit
-      this.stockArray.push(+stock.toFixed(2))
+      stock+= trade
+      this.stockArray.push(stock)
     }
   }
 

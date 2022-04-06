@@ -37,12 +37,12 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
         if(tradesList){
           // check for reset tab position when selected change
           if(tradesList.length !== this.prevSize && this.defaultNavActiveId in [4,5,6]){
-            //this.defaultNavActiveId = 1
+            // this.defaultNavActiveId = 1
           }
           this.prevSize=tradesList.length
           // create labels for charts
           let i =0
-          this.tradeLabels = tradesList.reverse().map(x => {
+          this.tradeLabels = tradesList.map(x => {
             i++
             // + new  Date(x.trade.info.date).getFullYear().toString().substring(2) + '/' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' +
             return i.toString() + ') ' + x.trade.info.marketInfo.marketName

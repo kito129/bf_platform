@@ -8,33 +8,31 @@
   </div><!-- /HEADER -->
   <div class="card-body"><!-- BODY -->
 
-    <div class="d-flex justify-content-space-around align-items-center">
+    <div class="d-flex justify-content-space-between align-items-center">
       <app-strategy-create-modal class="mr-2" (addStrategyCreateEmitter)="createModal($event)"></app-strategy-create-modal>
       <form class="form-group grid-margin" #searchForm="ngForm">
         <div class="row">
+          <!--
           <div class="col">
-            <div class="form-group">
-              <label for="nameFind">Find</label>
-              <input
-                id="nameFind"
-                class="form-control"
-                type="text"
-                placeholder="Type name..."
-                (keyup)="updateFilter($event)"
-              />
+            <div class="d-flex justify-content-space-around align-items-center">
+              <button type="button" class="btn btn-icon mr-2"
+                      [ngClass]=""
+                      (click)="set2021()">
+                <i class="feather icon-eye"></i>
+                2021
+              </button>
             </div>
           </div>
-          <div class="col">
-            <div class="form-group">
-              <!-- OPTIONS -->
-              <label for="tableSize">Table size</label>
-              <ng-select id="tableSize"
-                         name="options"
-                         [(ngModel)]="tableSize"
-                         [items]="[5, 10,15,20,25,30,40,50,100,1000]"
-                         [clearable]="false">
-              </ng-select>
-            </div>
+          -->
+          <div class="form-group">
+            <!-- OPTIONS -->
+            <label for="tableSize">Table size</label>
+            <ng-select id="tableSize"
+                       name="options"
+                       [(ngModel)]="tableSize"
+                       [items]="[5, 10,15,20,25,30,40,50,100,1000]"
+                       [clearable]="false">
+            </ng-select>
           </div>
         </div>
       </form>

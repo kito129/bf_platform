@@ -5,6 +5,7 @@ import {Utils} from "../../../../model/calculator/utils";
 import {StrategyReportService} from "../../../../services/strategy-report.service";
 import {StrategyReport} from "../../../../model/report/starategyReport";
 import {NewTrade} from '../../../../model/report/new/newTrade';
+import {Strategy} from '../../../../model/report/strategy';
 
 @Component({
   selector: 'app-strategy-report-month',

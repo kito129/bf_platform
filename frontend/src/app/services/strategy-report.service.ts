@@ -142,7 +142,10 @@ export class StrategyReportService {
     const consecutiveProfit = consecutive[0]
     const consecutiveLoss = consecutive[1]
 
-    const stake = this.selectedStrategy.strategy.info.bank>0 ? this.selectedStrategy.strategy.info.bank : 10000
+    let stake = 1000
+    if(this.selectedStrategy){
+      stake = this.selectedStrategy.strategy.info.bank>0 ? this.selectedStrategy.strategy.info.bank : 1000
+    }
 
     const dd = this.utils.ddOfTrades(this.trades,false, stake)
     const ddPercent = this.utils.ddOfTrades(this.trades,true, stake)

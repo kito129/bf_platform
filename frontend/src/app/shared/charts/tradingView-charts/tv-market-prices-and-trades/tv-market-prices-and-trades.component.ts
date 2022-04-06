@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Trade} from '../../../../model/report/trade';
 import {MarketBasic, } from '../../../../model/market/basic/marketBasic';
 import {SelectedTradeCharts} from '../../../../model/study/selectedTradeCharts';
 import {NewTrade} from '../../../../model/report/new/newTrade';

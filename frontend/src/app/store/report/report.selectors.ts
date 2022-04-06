@@ -108,7 +108,7 @@ export const getSelectedStrategyTrades = createSelector(
     if(state.selectedStrategyId){
       return x.trade.info.strategyId === state.selectedStrategyId
     }
-  })
+  }).sort((a,b) => a.trade.info.date - b.trade.info.date>0 ? 1 : a.trade.info.date - b.trade.info.date===0 ? 0 : -1)
 );
 
 export const getStrategyDatatable = createSelector(

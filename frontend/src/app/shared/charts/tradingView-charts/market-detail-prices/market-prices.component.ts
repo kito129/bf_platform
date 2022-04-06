@@ -32,7 +32,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
   utc = 0
   toAdd = 0
 
-  updates = []
+  updateMarkers = []
 
   legend: {
     name: string,
@@ -44,7 +44,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
   constructor(public datePipe: DatePipe) {  }
 
   ngOnInit(): void {
-    this.creatTvData();
+    this.createTvData()
     this.generateUpdatesPoint()
 
     this.legend ={
@@ -97,7 +97,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
     for (const update of this.marketDetail.marketUpdates.marketUpdates){
       if(update.status.indexOf('OPEN')!==-1 && update.betDelay>0 && update.inPlay){
         color = incrementColor(color, 20000)
-        this.updates.push({
+        this.updateMarkers.push({
           time: update.timestamp/1000 + this.toAdd as UTCTimestamp,
           position: 'inBar',
           color,
@@ -159,7 +159,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
   }
 
   // generate correct TV data form runner data
-  private creatTvData(){
+  private createTvData(){
     // generate data for all runner
     let firstColor = '#c86f6f'
     let i =0
@@ -177,6 +177,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
         visible: true
       }
 
+      // calculate time zone and offset
       this.utc = new Date(odd.odds[0].timestamp).getTimezoneOffset()
 
       if(this.utc===-120){
@@ -190,7 +191,6 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
 
       // add odds for this runner
       for (const  o of odd.odds){
-
         const t =  (o.timestamp/1000) + this.toAdd as UTCTimestamp
         const temp = {
           time: t,
@@ -198,6 +198,41 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
         }
         tempRunner.data.push(temp)
       }
+
+      //check for day, here add a const based on form value
+      // add trades value
+      if(this.trades){
+        for (const trade of this.trades){
+          let temp = {}
+          const time = (trade.time/1000) + this.toAdd as UTCTimestamp
+          if (i===0 && trade.sideA){
+            temp = {
+              time,
+              value: trade.odds,
+            }
+          } else if (i===1 && !trade.sideA) {
+            temp = {
+              time,
+              value: trade.odds,
+            }
+          }
+          console.log(temp)
+          this.updateMarkers.push({
+            time,
+            position: 'inBar',
+            color: "yellow",
+            size:2,
+            shape: 'arrowUp',
+            id: 'update Runner',
+          },)
+          tempRunner.data.push(temp)
+        }
+      }
+
+      // reorder
+      tempRunner.data = tempRunner.data.sort((a,b) => a.time - b.time > 0 ? 1 : a.time - b.time === 0 ? 0 : -1)
+
+
       // add this runner to list of data
       this.runnersData.push(tempRunner)
       i++
@@ -226,13 +261,16 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
 
          */
       });
+      // set data
       runnerSerie.setData(this.runnersData[i].data);
+      // chart options
       runnerSerie.applyOptions({
         priceLineVisible: false,
         color: this.runnersData[i].color,
         priceLineColor: this.runnersData[i].color,
         lastValueVisible: false,
       });
+      // charts horiz price line
       runnerSerie.createPriceLine({
         title: 'end',
         price: 1,
@@ -254,7 +292,8 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
       if(this.marketDetail.marketInfo.marketInfo.sport==='FOOTBALL'){
 
       } else {
-        runnerSerie.setMarkers(this.updates);
+        // only for tennis market
+        runnerSerie.setMarkers(this.updateMarkers);
       }
 
       this.lineSeriesData.push(runnerSerie)
@@ -310,18 +349,6 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
     this.chart.timeScale().fitContent();
   }
 
-
-  // prematch only click
-  public preMatchOnlyClick(){
-
-
-
-  }
-
-  // go to Inplay click
-  public goToInPlayClick(){
-
-  }
 
   // change the visibility for the runner in this position
   private changeRunnerVisibility(runnerPos: number, status:boolean){

@@ -132,6 +132,9 @@
   },
   "defaultProject": "nobleui-angular",
   "cli": {
+    "cache": {
+      "enabled": true
+    },
     "analytics": false,
     "defaultCollection": "@ngrx/schematics"
   }

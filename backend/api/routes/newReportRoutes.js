@@ -11,6 +11,8 @@ router.get("/newTrade/all", checkAuth,  newReportController.get_all_new_trades);
 
 router.get("/updateStrategy",  newReportController.update_new_strategy);
 
+router.get("/delete2022Trade",  newReportController.delete_2022_trade);
+
 /*
 router.put("/newTrade/create", checkAuth,  ReportController.create_trade);
 router.post("/newTrade/:tradeId", checkAuth,  ReportController.update_trade_by_id);

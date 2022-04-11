@@ -1,4 +1,5 @@
 export  interface SelectedTradeCharts{
+  id: number
   odds: number
   stake: number
   liability: number

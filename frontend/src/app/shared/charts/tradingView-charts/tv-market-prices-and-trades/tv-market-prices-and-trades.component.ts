@@ -23,6 +23,7 @@ export class TvMarketPricesAndTradesComponent implements OnInit {
     // set selected trade proprieties
     for(const trade of this.trade.trade.trades){
       this.trades.push({
+        id: trade.id,
         isBackTrade: trade.type === 'back',
         odds: trade.odds,
         stake: trade.stake,

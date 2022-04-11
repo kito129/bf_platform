@@ -27,6 +27,7 @@
         </td>
         <td>
           <b> {{bet.time | date:'HH:mm:ss'}}</b>
+          <!--          <b> {{bet.time | date:'HH:mm:ss'}}</b>-->
         </td>
         <td>
           <h6>{{bet.point | tennisPoint: false:false}}</h6>
@@ -49,8 +50,8 @@
           <h5 *ngIf="bet.options === 'ADJ'"><span class="badge badge-light">{{bet.options}}</span></h5>
         </td>
         <td>
-          <h5 *ngIf="bet.selectionN===0" class="text-primary">A</h5>
-          <h5 *ngIf="bet.selectionN===1" class="text-danger">B</h5>
+          <h6 *ngIf="bet.selectionN===0" class="text-primary">(A) {{bet.selectionName}}</h6>
+          <h6 *ngIf="bet.selectionN===1" class="text-danger">(B) {{bet.selectionName}}</h6>
         </td>
         <td>
           <h4>{{bet.odds}}</h4>

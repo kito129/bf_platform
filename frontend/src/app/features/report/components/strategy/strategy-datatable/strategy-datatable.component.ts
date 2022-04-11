@@ -18,7 +18,7 @@ export class StrategyDatatableComponent implements OnInit {
   temp =[] ;
   loadingIndicator = true
   ColumnMode = ColumnMode;
-  tableSize = 10
+  tableSize = 20
   page = 1
 
   constructor(private readonly store: Store) {}

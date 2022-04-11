@@ -98,6 +98,7 @@ export class StudyMainComponent implements OnInit, OnDestroy {
         for(const backTrade of trade.trade.trades){
           const selectionN = backTrade.selectionN
           this.selectedTrades.push({
+            id: backTrade.id,
             isBackTrade: true,
             odds: backTrade.odds,
             stake: backTrade.stake,

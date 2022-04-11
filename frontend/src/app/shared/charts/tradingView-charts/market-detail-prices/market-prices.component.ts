@@ -7,7 +7,8 @@ import {SelectedTradeCharts} from '../../../../model/study/selectedTradeCharts';
 
 export interface RunnerData{
   runnerId: string,
-  data: any[],
+  originalData: any[],
+  tradeData: any[]
   color: string,
   name: string,
   visible: boolean
@@ -26,13 +27,20 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
 
   // initialize chart
   public lineSeriesData =[];
-  private tv: any;
+  private tv: HTMLElement;
   private chart: any;
+
+  timeCorrect= '+1h'
 
   utc = 0
   toAdd = 0
 
-  updateMarkers = []
+  showTrades = true
+  bug = true
+
+  updateMarkers= []
+  tradeMarkersA= []
+  tradeMarkersB= []
 
   legend: {
     name: string,
@@ -56,7 +64,10 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.startChart()
+  }
 
+  private startChart(){
     this.generateChart()
     this.setRunnerTvDataInChart()
 
@@ -69,7 +80,6 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
     this.chart.subscribeCrosshairMove((param) =>{
       this.subscriber(param)
     });
-
   }
 
   subscriber(param) {
@@ -104,7 +114,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
           size:2,
           shape: 'circle',
           id: 'update Runner' + index,
-        },)
+        })
       }
       index++
     }
@@ -171,7 +181,8 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
       // initialize runner data
       const tempRunner: RunnerData = {
         runnerId: odd.runnerId,
-        data: [],
+        originalData: [],
+        tradeData: [],
         color: firstColor,
         name: this.marketDetail.marketRunners.marketRunners[i].name,
         visible: true
@@ -196,42 +207,38 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
           time: t,
           value: o.ltp,
         }
-        tempRunner.data.push(temp)
+        tempRunner.originalData.push(temp)
+        tempRunner.tradeData.push(temp)
       }
 
-      //check for day, here add a const based on form value
+      // check for day, here add a const based on form value
       // add trades value
+      let prevTime = 0
       if(this.trades){
         for (const trade of this.trades){
           let temp = {}
-          const time = (trade.time/1000) + this.toAdd as UTCTimestamp
+          const time = (trade.time/1000) - 3600 + this.toAdd as UTCTimestamp
           if (i===0 && trade.sideA){
             temp = {
               time,
               value: trade.odds,
             }
+            this.tradeMarkersA.push(this.generateTradeMarker(trade,time))
+            prevTime !== time ? tempRunner.tradeData.push(temp)  : console.log()
           } else if (i===1 && !trade.sideA) {
             temp = {
               time,
               value: trade.odds,
             }
+            this.tradeMarkersB.push(this.generateTradeMarker(trade,time))
+            prevTime !== time ? tempRunner.tradeData.push(temp)  : console.log()
           }
-          console.log(temp)
-          this.updateMarkers.push({
-            time,
-            position: 'inBar',
-            color: "yellow",
-            size:2,
-            shape: 'arrowUp',
-            id: 'update Runner',
-          },)
-          tempRunner.data.push(temp)
+          prevTime =  time
         }
       }
-
       // reorder
-      tempRunner.data = tempRunner.data.sort((a,b) => a.time - b.time > 0 ? 1 : a.time - b.time === 0 ? 0 : -1)
-
+      tempRunner.tradeData = tempRunner.tradeData.sort((a, b) => a.time - b.time > 0 ? 1 : a.time - b.time === 0 ? 0 : -1)
+      tempRunner.originalData = tempRunner.originalData.sort((a, b) => a.time - b.time > 0 ? 1 : a.time - b.time === 0 ? 0 : -1)
 
       // add this runner to list of data
       this.runnersData.push(tempRunner)
@@ -262,7 +269,12 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
          */
       });
       // set data
-      runnerSerie.setData(this.runnersData[i].data);
+      if(this.showTrades){
+        runnerSerie.setData(this.runnersData[i].tradeData);
+      } else {
+        runnerSerie.setData(this.runnersData[i].originalData);
+      }
+
       // chart options
       runnerSerie.applyOptions({
         priceLineVisible: false,
@@ -293,7 +305,8 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
 
       } else {
         // only for tennis market
-        runnerSerie.setMarkers(this.updateMarkers);
+        this.setMarkers(runnerSerie,i)
+
       }
 
       this.lineSeriesData.push(runnerSerie)
@@ -349,6 +362,23 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
     this.chart.timeScale().fitContent();
   }
 
+  public showTrade(){
+    this.showTrades = !this.showTrades
+    let i=0
+    // switch tradeData to originalData
+    for(const serie of this.lineSeriesData){
+      if(this.showTrades){
+        this.lineSeriesData[i].setData(this.runnersData[i].tradeData);
+      } else {
+        this.lineSeriesData[i].setData(this.runnersData[i].originalData);
+      }
+      // update markers
+      this.setMarkers(serie,i)
+      i++
+    }
+
+  }
+
 
   // change the visibility for the runner in this position
   private changeRunnerVisibility(runnerPos: number, status:boolean){
@@ -359,31 +389,39 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
 
   }
 
-  private setTradesMarkers() {
-    if (this.trades) {
-      const markersA = []
-      const markersB = []
-
-      for (const [index, value] of this.trades.entries()) {
-        const text = (index+1) + ' @ '
-        const color = value.isBackTrade ? '#30d6e5' : '#ce86ea'
-        const arrow = value.isBackTrade ? 'arrowDown' : 'arrowUp'
-        const position = value.isBackTrade ? 'aboveBar' : 'belowBar'
-
-        const temp = {
-          time: (value.time /1000) + this.toAdd as UTCTimestamp,
-          position,
-          color,
-          shape: arrow,
-          size: 2,
-          id: 'entry ' + index,
-          text: text + value.odds + ', ' + +value.stake.toFixed(2) + ' €'
-        }
-        value.sideA ? markersA.push(temp) : markersB.push(temp)
+  private setMarkers(runnerSerie, i){
+    if(+i===0) {
+      if (this.showTrades) {
+        runnerSerie.setMarkers(this.updateMarkers.concat(this.tradeMarkersA))
+      } else {
+        runnerSerie.setMarkers(this.updateMarkers)
       }
-
-
+    } else {
+      if (this.showTrades) {
+        runnerSerie.setMarkers(this.updateMarkers.concat(this.tradeMarkersB))
+      } else {
+        runnerSerie.setMarkers(this.updateMarkers)
+      }
     }
+  }
+
+  private generateTradeMarker(trade: SelectedTradeCharts, time: number){
+
+    // markers
+    const color = trade.isBackTrade ? '#30d6e5' : '#ce86ea'
+    const arrow = trade.isBackTrade ? 'arrowDown' : 'arrowUp'
+    const position = trade.isBackTrade ? 'aboveBar' : 'belowBar'
+
+    return {
+      time,
+      position,
+      color,
+      shape: arrow,
+      size: 2,
+      id: 'entry' ,
+      text: trade.id + ') ' + trade.stake.toFixed(2) + '€ @ ' + trade.odds
+    }
+
   }
 }
 
@@ -401,4 +439,6 @@ export function incrementColor(color, step){
   }
   return color;
 }
+
+
 

@@ -3,13 +3,17 @@
                             [trades]="trades">
   </app-market-detail-prices>
 
-
   <app-market-runners-card [marketInfoBasic]="marketDetail.marketInfo"
                            [marketRunnersBasic]="marketDetail.marketRunners">
   </app-market-runners-card>
 
   <app-market-info-card [marketInfoBasic]="marketDetail.marketInfo">
   </app-market-info-card>
+
+  <app-market-update-card [marketInfoBasic]="marketDetail.marketInfo"
+                          [marketUpdates]="marketDetail.marketUpdates"
+                          [marketUpdateOnlyData]="">
+  </app-market-update-card>
 
 </div>
 

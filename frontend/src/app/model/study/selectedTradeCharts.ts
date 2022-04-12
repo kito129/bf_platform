@@ -6,7 +6,6 @@ export  interface SelectedTradeCharts{
   time: number
   isBackTrade: boolean,
   note: string
-  bsp?: number
-  bspTime?: number
-  sideA?: boolean
+  sideA: boolean
+  options: string
 }

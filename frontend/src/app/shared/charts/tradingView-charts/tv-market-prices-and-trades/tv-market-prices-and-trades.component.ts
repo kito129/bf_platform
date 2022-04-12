@@ -30,7 +30,8 @@ export class TvMarketPricesAndTradesComponent implements OnInit {
         time: trade.condition.time,
         note: trade.condition.note,
         liability: trade.stake,
-        sideA: trade.selectionN===0
+        sideA: trade.selectionN===0,
+        options: trade.options
       })
     }
   }

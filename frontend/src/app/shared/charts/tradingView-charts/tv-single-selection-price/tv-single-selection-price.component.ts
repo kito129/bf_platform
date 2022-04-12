@@ -274,14 +274,6 @@ export class TvSingleSelectionPriceComponent implements OnInit, AfterViewInit {
 
     // set bsp price line
     if(this.haveTrade){
-      this.runnerSeries.createPriceLine({
-        price: this.selectedTrades[0].bsp,
-        color: '#dbc535',
-        lineWidth: 2,
-        lineStyle: LineStyle.LargeDashed,
-        axisLabelVisible: true,
-        title: 'BSP',
-      });
     } else {
       this.runnerSeries.createPriceLine({
         price: this.basketBspOdd,

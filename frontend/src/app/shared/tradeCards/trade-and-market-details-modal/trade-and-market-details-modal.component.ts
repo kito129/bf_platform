@@ -13,6 +13,19 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 @Component({
   selector: 'app-trade-and-market-details-modal',
   templateUrl: './trade-and-market-details-modal.component.html',
+  styles:  [` .modal-dialog {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .modal-content {
+    height: auto;
+    min-height: 100%;
+    border-radius: 0;
+  }
+  `]
 })
 export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
 

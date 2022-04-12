@@ -30,7 +30,8 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
   private tv: HTMLElement;
   private chart: any;
 
-  timeCorrect= '+1h'
+  timeCorrect= '-1h'
+  timeCorrection = 0
 
   utc = 0
   toAdd = 0
@@ -52,7 +53,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
   constructor(public datePipe: DatePipe) {  }
 
   ngOnInit(): void {
-    this.createTvData()
+    this.createTvData(false)
     this.generateUpdatesPoint()
 
     this.legend ={
@@ -169,7 +170,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
   }
 
   // generate correct TV data form runner data
-  private createTvData(){
+  public createTvData(isUpdate: boolean){
     // generate data for all runner
     let firstColor = '#c86f6f'
     let i =0
@@ -212,12 +213,53 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
       }
 
       // check for day, here add a const based on form value
+      let timeCorrection = 0
+      switch (this.timeCorrect){
+        case ('-1d'):
+          timeCorrection = -86400
+          break
+        case ('+1d'):
+          timeCorrection = +86400
+          break
+        case ('+0h'):
+          timeCorrection = 0
+          break
+        case ('-1h'):
+          timeCorrection = -3600
+          break
+        case ('-2h'):
+          timeCorrection = -7200
+          break
+        case ('-3h'):
+          timeCorrection = -10800
+          break
+        case ('-4h'):
+          timeCorrection = -14400
+          break
+        case ('+1h'):
+          timeCorrection = +3600
+          break
+        case ('+2h'):
+          timeCorrection = +7200
+          break
+        case ('+3h'):
+          timeCorrection = +10800
+          break
+        case ('+4h'):
+          timeCorrection = +14400
+          break
+      }
+
       // add trades value
+      // empty last markers
+      this.tradeMarkersA = []
+      this.tradeMarkersB = []
+      // iterate over trade
       let prevTime = 0
       if(this.trades){
         for (const trade of this.trades){
           let temp = {}
-          const time = (trade.time/1000) - 3600 + this.toAdd as UTCTimestamp
+          const time = (trade.time/1000)  + timeCorrection + this.toAdd as UTCTimestamp
           if (i===0 && trade.sideA){
             temp = {
               time,
@@ -240,8 +282,16 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
       tempRunner.tradeData = tempRunner.tradeData.sort((a, b) => a.time - b.time > 0 ? 1 : a.time - b.time === 0 ? 0 : -1)
       tempRunner.originalData = tempRunner.originalData.sort((a, b) => a.time - b.time > 0 ? 1 : a.time - b.time === 0 ? 0 : -1)
 
-      // add this runner to list of data
-      this.runnersData.push(tempRunner)
+      // check if update data or push the new as the first time
+      if(isUpdate){
+        // update data for the runner
+        this.runnersData[i].tradeData = tempRunner.tradeData
+        this.runnersData[i].originalData = tempRunner.originalData
+        this.showTrade(false)
+      } else {
+        // add this runner to list of data
+        this.runnersData.push(tempRunner)
+      }
       i++
     }
   }
@@ -362,8 +412,10 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
     this.chart.timeScale().fitContent();
   }
 
-  public showTrade(){
-    this.showTrades = !this.showTrades
+  public showTrade(changeStatus: boolean){
+    if(changeStatus){
+      this.showTrades = !this.showTrades
+    }
     let i=0
     // switch tradeData to originalData
     for(const serie of this.lineSeriesData){
@@ -417,9 +469,9 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
       position,
       color,
       shape: arrow,
-      size: 2,
-      id: 'entry' ,
-      text: trade.id + ') ' + trade.stake.toFixed(2) + '€ @ ' + trade.odds
+      size: 1,
+      id: 'entry' + trade.id,
+      text: trade.id + ') ' + trade.odds + ', ' + trade.options
     }
 
   }

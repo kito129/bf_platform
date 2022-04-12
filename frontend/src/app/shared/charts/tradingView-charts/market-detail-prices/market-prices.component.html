@@ -7,7 +7,7 @@
       <button type="button"
               class="btn mr-2"
               [ngClass]="showTrades ? 'btn-primary' : 'btn-outline-primary'"
-              (click)="showTrade()">
+              (click)="showTrade(true)">
         Show Trades
       </button>
       <form>
@@ -15,10 +15,11 @@
           <!-- OPTIONS -->
           <label for="tableSize">Time Correction</label>
           <ng-select id="tableSize"
+                     [disabled]="!showTrades"
                      name="options"
                      [(ngModel)]="timeCorrect"
-                     [items]="['-1d','-4h','-3h','-2h','-1h','+1h','+2h','+3h','+4h','+1d']"
-                     [clearable]="false">
+                     [items]="['-1d','-4h','-3h','-2h','-1h','0h','+1h','+2h','+3h','+4h','+1d']"
+                     [clearable]="false" (change)="createTvData(true)">
           </ng-select>
         </div>
       </form>

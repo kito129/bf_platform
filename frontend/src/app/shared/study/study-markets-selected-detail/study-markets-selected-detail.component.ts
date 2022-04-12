@@ -1,10 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SelectedTradeCharts} from "../../../model/study/selectedTradeCharts";
-import {Trade} from "../../../model/report/trade";
 import * as studyActions from "../../../store/study/study/study.actions";
 import * as basketActions from "../../../store/study/basket/basket.actions";
 import {Store} from "@ngrx/store";
-import {MarketSinglePrices} from '../../../model/market/marketSinglePrices';
+import {NewTrade} from '../../../model/report/new/newTrade';
 
 @Component({
   selector: 'app-study-markets-selected-detail',
@@ -18,7 +17,7 @@ export class StudyMarketsSelectedDetailComponent implements OnInit {
   @Input() haveTrades: boolean
   @Input() basketBspTime: number
   @Input() basketBspOdds: number
-  @Input() trade: Trade
+  @Input() trade: NewTrade
 
 
   constructor(private readonly store: Store) { }

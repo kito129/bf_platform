@@ -19,7 +19,8 @@
                      name="options"
                      [(ngModel)]="timeCorrect"
                      [items]="['-1d','-4h','-3h','-2h','-1h','0h','+1h','+2h','+3h','+4h','+1d']"
-                     [clearable]="false" (change)="createTvData(true)">
+                     [clearable]="false"
+                     (change)="createTvData(true)">
           </ng-select>
         </div>
       </form>

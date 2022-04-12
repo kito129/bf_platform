@@ -3,8 +3,8 @@ import {Action, createReducer, on} from '@ngrx/store';
 import * as reportActions from './report.actions';
 import {Strategy} from '../../model/report/strategy';
 import {
-  addElement,
-  deleteElement,
+  addElement, addMultipleStudyCompare, addStudyCompare,
+  deleteElement, removeStudyCompare, reset,
   setterLoading,
   setterLoadingFailure,
   setterLoadingSuccess,
@@ -12,6 +12,9 @@ import {
 } from '../supportFunction';
 import {StrategyList} from '../../model/report/strategyList';
 import {NewTrade} from '../../model/report/new/newTrade';
+import {CompareStudy} from '../../model/report/compareStudy';
+import * as studyActions from '../study/study/study.actions';
+import {CompareStrategy} from '../../model/report/new/compareStrategy';
 
 
 export interface ReportStates {
@@ -38,6 +41,9 @@ export interface ReportStates {
     isLoadingSuccess: boolean,
     isLoadingError: boolean,
   },
+  // compare
+  compareList: string[]
+  compareStatus: boolean
 }
 
 // this is the initial state of the app, before all HTTP call,
@@ -65,6 +71,8 @@ export const reportInitialState: ReportStates = {
     isLoadingSuccess: false,
     isLoadingError: false,
   },
+  compareList: [],
+  compareStatus: false
 }
 
 // reducer that catch the reportActions
@@ -215,6 +223,29 @@ const reportReducers = createReducer(
 
   on(reportActions.setSelectedStrategy, (state,result) => (
     {...state, selectedStrategyId: result._id})
+  ),
+
+  /*
+  **  COMPARE
+  */
+  on(reportActions.addStrategyInCompare, (state, result) => (
+    {...state, compareList: addStudyCompare(state.compareList, result.strategyId, result.first)
+    })
+  ),
+
+  on(reportActions.removeStrategyInCompare, (state, result) => (
+    {...state, compareList: removeStudyCompare(state.compareList, result.strategyId)
+    })
+  ),
+
+  on(reportActions.resetStrategyCompare, (state, result) => (
+    {...state, compareList: [], compareStudies: [], compareStatus: false
+    })
+  ),
+
+  on(reportActions.compareStrategy, (state, result) => (
+    {...state, compareStatus: !state.compareStatus
+    })
   ),
 
 

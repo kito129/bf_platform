@@ -211,12 +211,14 @@ export class TvSingleSelectionPriceComponent implements OnInit, AfterViewInit {
         })
       }
       // check for bspTime
+      /*
       for (const odds2 of this.data){
         if(odds2.time>= this.selectedTrades[0].bspTime/1000){
           bspTime = odds2.time
           break
         }
       }
+       */
     } else {
       // i have basket
 

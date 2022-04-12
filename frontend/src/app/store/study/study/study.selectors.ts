@@ -82,7 +82,7 @@ export const getComparedData = createSelector(
 export const getTradeById = (id: string) => createSelector(
   getStudyState,
   (state) => {
-    let response = state.compareStudies.map(x => x.trades.filter( x => x._id === id)[0])
+    const response = state.compareStudies.map(x => x.trades.filter( y => y._id === id)[0])
     return response.filter( x => x!==undefined)[0]
   }
 );

@@ -44,8 +44,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
           let i =0
           this.tradeLabels = tradesList.map(x => {
             i++
-            // + new  Date(x.trade.info.date).getFullYear().toString().substring(2) + '/' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' +
-            return i.toString() + ') ' + x.trade.info.marketInfo.marketName
+            return i.toString() + ') ' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
           })
           // create rr data
           this.tradeRR = tradesList.map(x => {

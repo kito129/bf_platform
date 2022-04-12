@@ -13,18 +13,12 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 @Component({
   selector: 'app-trade-and-market-details-modal',
   templateUrl: './trade-and-market-details-modal.component.html',
-  styles:  [` .modal-dialog {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  .modal-content {
-    height: auto;
-    min-height: 100%;
-    border-radius: 0;
-  }
+  styles:  [`
+    ::ng-deep .gr-modal-full .modal-dialog .modal-xl  {
+      width:100% !important;
+      height:100vh !important;
+      max-width: 100% !important;
+    }
   `]
 })
 export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
@@ -85,6 +79,7 @@ export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
         this.modalService.open(content, {
           ariaLabelledBy: 'modal-basic-title',
           size: 'xl',
+          windowClass: 'gr-modal-full'
           // centered: true
         }).result.then((result) => {
           this.store.dispatch(marketActions.resetMarketDetail())

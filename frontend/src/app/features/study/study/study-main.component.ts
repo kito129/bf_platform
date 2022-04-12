@@ -104,10 +104,9 @@ export class StudyMainComponent implements OnInit, OnDestroy {
             stake: backTrade.stake,
             liability: backTrade.liability,
             time: backTrade.condition.time,
-            bsp: market.marketRunners.marketRunners[selectionN].inPlayOdds,
-            bspTime: market.marketRunners.marketRunners[selectionN].inPlayTime,
             sideA: backTrade.selectionN ===0,
-            note: backTrade.condition.note
+            note: backTrade.condition.note,
+            options: backTrade.options
           })
         }
       } else {

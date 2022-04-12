@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {ChartComponent} from "ng-apexcharts";
-import {ChartOptions} from "../../../../../../model/chartOptions";
-import {CurrencyPipe} from "@angular/common";
+import {ChartComponent} from 'ng-apexcharts';
+import {ChartOptions} from '../../../../../../model/chartOptions';
+import {CurrencyPipe} from '@angular/common';
 
 @Component({
   selector: 'app-multi-pl-trades',
@@ -28,7 +28,7 @@ export class MultiPlTradesComponent implements OnInit {
   generateChart() {
 
     // set stock
-    let stockSeries = []
+    const stockSeries = []
     for (let  i=0; i<this.pl.length; i++){
       stockSeries.push( {
         name: this.seriesName[i],
@@ -43,13 +43,13 @@ export class MultiPlTradesComponent implements OnInit {
         {
           opposite: false,
           title: {
-            text: "Stock",
+            text: 'Stock',
           },
           decimalsInFloat: 2
         },
       ],
       tooltip: {
-        shared: true,
+        shared: false,
         style: {
           fontSize: '16px',
           fontFamily: undefined
@@ -59,7 +59,7 @@ export class MultiPlTradesComponent implements OnInit {
             if(x){
               return (this.currencyPipe.transform(x))
             } else {
-              return ""
+              return ''
             }
           },
           title: {
@@ -68,11 +68,11 @@ export class MultiPlTradesComponent implements OnInit {
         },
       },
       legend: {
-        horizontalAlign: "left",
+        horizontalAlign: 'left',
         offsetX: 40
       },
       chart: {
-        type: "bar",
+        type: 'bar',
         height: 900,
         animations: {
           enabled: false

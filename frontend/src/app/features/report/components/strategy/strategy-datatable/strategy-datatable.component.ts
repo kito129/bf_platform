@@ -1,8 +1,9 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
-import * as reportActions from '../../../../../store/report/report.actions';
 import { Store} from '@ngrx/store';
 import {StrategyDatatable} from '../../../../../model/report/strategyDatatable';
+import * as reportActions from '../../../../../store/report/report.actions';
+import * as studyActions from '../../../../../store/study/study/study.actions';
 
 @Component({
   selector: 'app-strategy-datatable',
@@ -11,6 +12,8 @@ import {StrategyDatatable} from '../../../../../model/report/strategyDatatable';
 export class StrategyDatatableComponent implements OnInit {
 
   @Input() strategyDatatable: StrategyDatatable[]
+  @Input() compareList: string[]
+  @Input() compareStatus: boolean
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @Input() selectedStrategyId: string
 
@@ -78,4 +81,35 @@ export class StrategyDatatableComponent implements OnInit {
   set2021(){
 
   }
+
+  addToCompare(id: string){
+    this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    if(this.compareList.indexOf(id) !==-1){
+      this.store.dispatch(reportActions.removeStrategyInCompare({strategyId: id}))
+    } else {
+      this.store.dispatch(reportActions.addStrategyInCompare({strategyId: id, first:false}))
+    }
+  }
+
+
+  compare(){
+    this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    this.store.dispatch(reportActions.compareStrategy())
+  }
+
+  resetCompare(){
+    this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    this.store.dispatch(reportActions.resetStrategyCompare())
+  }
+
+  firstToCompare($event, id: string){
+    $event.preventDefault();
+    if(this.compareList.indexOf(id) !==-1){
+      this.store.dispatch(reportActions.removeStrategyInCompare({strategyId: id}))
+      this.store.dispatch(reportActions.addStrategyInCompare({strategyId: id, first:true}))
+    } else {
+      this.store.dispatch(reportActions.addStrategyInCompare({strategyId: id, first:true}))
+    }
+  }
+
 }

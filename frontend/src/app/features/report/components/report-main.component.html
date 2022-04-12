@@ -11,21 +11,77 @@
   </div>
 </div>
 
+{{compareList$ | async | json}}
 
-<div class="col grid-margin">
-  <app-strategy-datatable
-    [strategyDatatable]="strategyDatatable$ | async"
-    [selectedStrategyId]="selectedStrategyId$ | async">
-  </app-strategy-datatable>
+<div class="col">
+  <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+
+    <li [ngbNavItem]="1">
+      <h5>
+        <a ngbNavLink>Strategy</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div class="col grid-margin">
+          <app-strategy-datatable
+            [strategyDatatable]="strategyDatatable$ | async"
+            [selectedStrategyId]="selectedStrategyId$ | async"
+            [compareList]="compareList$ | async">
+          </app-strategy-datatable>
+        </div>
+
+        <div class="col grid-margin">
+          <app-strategy-report *ngIf="(selectedStrategy$ | async) && bug"
+                               [selectedStrategyReport]="selectedStrategyReport"
+                               [selectedStrategyPie]="selectedStrategyPie"
+                               [selectedStrategyTrades$]="selectedStrategyTrades$">
+          </app-strategy-report>
+        </div>
+
+        <div class="col grid-margin" *ngIf="(comparedStrategy$ | async).length && (compareStatus$ | async)">
+          <app-strategy-compare class="mb-2" [strategyList$]="comparedStrategy$">
+          </app-strategy-compare>
+        </div>
+
+
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <h5>
+        <a ngbNavLink>All 2022 Trades</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <app-study-trade-datatable [trades$]="allNewTrade2022$"
+                                   [viewSelectors]="false">
+        </app-study-trade-datatable>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <h5>
+        <a ngbNavLink>All 2021 Trades</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <app-study-trade-datatable [trades$]="allNewTrade2021$"
+                                   [viewSelectors]="false">
+        </app-study-trade-datatable>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <h5>
+        <a ngbNavLink>Kevin Trades</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <app-study-trade-datatable [trades$]="allNewTradeKevin$"
+                                   [viewSelectors]="false">
+        </app-study-trade-datatable>
+      </ng-template>
+    </li>
+  </ul>
+
+  <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
 </div>
 
-<div class="col grid-margin">
-  <app-strategy-report *ngIf="(selectedStrategy$ | async) && bug"
-                       [selectedStrategyReport]="selectedStrategyReport"
-                       [selectedStrategyPie]="selectedStrategyPie"
-                       [selectedStrategyTrades$]="selectedStrategyTrades$">
-  </app-strategy-report>
-</div>
+
+
 
 <!--
 <div class="col">

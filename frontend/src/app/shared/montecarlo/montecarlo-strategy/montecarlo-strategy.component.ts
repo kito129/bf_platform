@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Trade} from "../../../model/report/trade";
 import {MontecarloService} from "../../../services/montecarlo.service";
 import {TradePlSeries} from "../../../model/calculator/montecarlo";
+import {NewTrade} from '../../../model/report/new/newTrade';
 
 @Component({
   selector: 'app-montecarlo-strategy',
@@ -9,7 +10,7 @@ import {TradePlSeries} from "../../../model/calculator/montecarlo";
 })
 export class MontecarloStrategyComponent implements OnInit {
 
-  @Input() trades: Trade[]
+  @Input() trades: NewTrade[]
 
   montecarlo: TradePlSeries[] = []
   montecarloSeries: number[][] = []
@@ -22,9 +23,9 @@ export class MontecarloStrategyComponent implements OnInit {
 
   defaultNavActiveId = 1
 
-  chartHeight: number = 500
-  size: number = 100
-  histogram: number = 15
+  chartHeight = 500
+  size = 50
+  histogram = 15
   visibleOk = true
 
   constructor(private montecarloService :MontecarloService) { }

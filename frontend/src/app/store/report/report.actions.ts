@@ -1,6 +1,12 @@
 import {createAction, props} from "@ngrx/store";
 import {Trade} from "../../model/report/trade";
 import {Strategy} from "../../model/report/strategy";
+import {
+  ADD_STUDIES_IN_COMPARE,
+  ADD_STUDY_IN_COMPARE, COMPARE_STUDY, COMPARE_STUDY_FAILURE, COMPARE_STUDY_SUCCESS,
+  REMOVE_STUDY_IN_COMPARE,
+  RESET_STUDY_COMPARE
+} from '../study/study/study.actions';
 
 
 export const GET_ALL_TRADES = '[Trades] Get all Trades';
@@ -47,6 +53,15 @@ export const SET_SELECTED_STRATEGY_TRADES_FAILURE = '[Strategy] Set selected Tra
 export const GET_ALL_NEW_TRADES = '[New Trade] Get all new Trades';
 export const GET_ALL_NEW_TRADES_SUCCESS = '[New Trade] Get all new Trades Success';
 export const GET_ALL_NEW_TRADES_FAILURE = '[New Trade] Get all new Trades Failure';
+
+// comparator
+export const ADD_STRATEGY_IN_COMPARE = '[Strategy] Add Strategy in compare list';
+export const REMOVE_STRATEGY_IN_COMPARE = '[Strategy] Remove Strategy in compare list';
+export const RESET_STRATEGY_COMPARE = '[Strategy] Reset Strategy compare list';
+
+export const COMPARE_STRATEGY = '[Strategy] Compare Strategy';
+
+
 
 
 
@@ -238,5 +253,29 @@ export const getAllNewTradesFailure = createAction(
   props<any>()
 );
 
+
+/*
+**  COMPARE ACTIONS
+ */
+
+export const addStrategyInCompare = createAction(
+  ADD_STRATEGY_IN_COMPARE,
+  props<{strategyId: string, first: boolean}>()
+);
+
+
+export const removeStrategyInCompare = createAction(
+  REMOVE_STRATEGY_IN_COMPARE,
+  props<{strategyId: string}>()
+);
+
+export const resetStrategyCompare = createAction(
+  RESET_STRATEGY_COMPARE,
+);
+
+// compare actions
+export const compareStrategy = createAction(
+  COMPARE_STRATEGY,
+);
 
 

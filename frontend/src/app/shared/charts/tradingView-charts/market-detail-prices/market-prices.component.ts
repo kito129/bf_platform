@@ -72,11 +72,6 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
     this.generateChart()
     this.setRunnerTvDataInChart()
 
-    // this.winnerOnly()
-
-    // this.setMarkersAndData()
-
-
     // cross hair subscribe
     this.chart.subscribeCrosshairMove((param) =>{
       this.subscriber(param)
@@ -279,8 +274,8 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
         }
       }
       // reorder
-      tempRunner.tradeData = tempRunner.tradeData.sort((a, b) => a.time - b.time > 0 ? 1 : a.time - b.time === 0 ? 0 : -1)
-      tempRunner.originalData = tempRunner.originalData.sort((a, b) => a.time - b.time > 0 ? 1 : a.time - b.time === 0 ? 0 : -1)
+      tempRunner.tradeData = tempRunner.tradeData.sort((a, b) => a.time - b.time)
+      tempRunner.originalData = tempRunner.originalData.sort((a, b) => a.time - b.time)
 
       // check if update data or push the new as the first time
       if(isUpdate){
@@ -355,7 +350,7 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
 
       } else {
         // only for tennis market
-        this.setMarkers(runnerSerie,i)
+        this.setMarkers(runnerSerie,+i)
 
       }
 
@@ -441,8 +436,8 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
 
   }
 
-  private setMarkers(runnerSerie, i){
-    if(+i===0) {
+  private setMarkers(runnerSerie, i: number){
+    if(i===0) {
       if (this.showTrades) {
         runnerSerie.setMarkers(this.updateMarkers.concat(this.tradeMarkersA))
       } else {

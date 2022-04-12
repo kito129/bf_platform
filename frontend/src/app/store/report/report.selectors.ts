@@ -2,6 +2,7 @@ import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {ReportStates} from './report.reducers';
 import {StrategyDatatable} from '../../model/report/strategyDatatable';
 import {Utils} from '../../model/calculator/utils';
+import {CompareStrategy} from '../../model/report/new/compareStrategy';
 
 const getReportState = createFeatureSelector<ReportStates>(
   'reportState'
@@ -182,6 +183,73 @@ export const isLoadingAllNewTrade = createSelector(
   (state) => {
     return state.isLoadingAllNewTrades
   })
+
+export const getAllNewTrade2021 = createSelector(
+  getReportState,
+  (state) => {
+    return state.allNewTrades.filter(x => x.trade.info.date<1640991600000)
+      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+  })
+
+export const getAllNewTrade2022 = createSelector(
+  getReportState,
+  (state) => {
+    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && !x.trade.info.executor.includes('DEMO'))
+      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+  })
+
+export const getAllNewTradeKevin = createSelector(
+  getReportState,
+  (state) => {
+    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('KEVIN'))
+      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+  })
+
+export const getAllNewTradeBagna = createSelector(
+  getReportState,
+  (state) => {
+    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('BAGNA'))
+      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+  })
+
+export const getAllNewTradeKito = createSelector(
+  getReportState,
+  (state) => {
+    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('KITO'))
+      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+  })
+
+export const getAllNewTradeInjury = createSelector(
+  getReportState,
+  (state) => {
+    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && x.trade.info.strategyId).sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+  })
+
+
+// compare
+export const getCompareList = createSelector(
+  getReportState,
+  (state ) => state.compareList
+);
+
+export const getComparedData = createSelector(
+  getReportState,
+  (state ) => {
+    const compare = []
+    for (const st of state.compareList){
+      compare.push({
+        strategy: state.allStrategy.filter(x=> x._id === st)[0],
+        trades: state.allNewTrades.filter( x=> x.trade.info.strategyId === st)
+      })
+    }
+    return compare
+  }
+);
+
+export const getCompareStatus = createSelector(
+  getReportState,
+  (state ) => state.compareStatus
+);
 
 
 

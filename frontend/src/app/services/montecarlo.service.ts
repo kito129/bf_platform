@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import {TradePlSeries} from "../model/calculator/montecarlo";
-import {Trade} from "../model/report/trade";
-import {StrategyReport} from "../model/report/starategyReport";
-import {StrategyReportService} from "./strategy-report.service";
-import {Utils} from "../model/calculator/utils";
-import {MontecarloParams} from "../model/calculator/montecarloParams";
+import {TradePlSeries} from '../model/calculator/montecarlo';
+import {Trade} from '../model/report/trade';
+import {StrategyReport} from '../model/report/starategyReport';
+import {StrategyReportService} from './strategy-report.service';
+import {Utils} from '../model/calculator/utils';
+import {MontecarloParams} from '../model/calculator/montecarloParams';
+import {NewTrade} from '../model/report/new/newTrade';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,13 @@ export class MontecarloService {
 
   constructor() {}
 
-  setTrade(trades: Trade[]){
-    this.originalTradesPL = trades.map( x => x.trade.result.netProfit)
+  setTrade(trades: NewTrade[]){
+    this.originalTradesPL = trades.map( x => x.trade.results.netProfit)
     this.originalSeries = this.utils.getTradesSeries(this.originalTradesPL, 'original')
   }
 
   getMontecarlo(size: number ): TradePlSeries[]{
-    let temp = []
+    const temp = []
     for (let i=0; i<size; i++){
       temp.push(this.utils.getTradesSeries(this.shuffleArray(this.originalTradesPL),i.toString()))
     }
@@ -52,15 +53,17 @@ export class MontecarloService {
   }
 
   generateWin(params): boolean[][]{
-    let win: boolean[][] = []
+    const win: boolean[][] = []
     for (let j=0;j<params.size;j++){
-      let temp = []
+      const temp = []
+      // tslint:disable-next-line:prefer-for-of
       for (let i=0; i<params.length; i++){
-        let u = 0, v = 0;
-        while(u === 0) u = Math.random() //Converting [0,1) to (0,1)
+        let u = 0
+        let v = 0;
+        while(u === 0) u = Math.random() // Converting [0,1) to (0,1)
         while(v === 0) v = Math.random()
-        let value = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )
-        let x = ( value * params.data.winRateStdv) + params.data.winRate
+        const value = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )
+        const x = ( value * params.data.winRateStdv) + params.data.winRate
         if(x<=Math.random()){
           temp.push(true)
         } else {

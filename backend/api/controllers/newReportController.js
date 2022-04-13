@@ -84,3 +84,19 @@ exports.delete_2022_trade =  (req, res, next) => {
             }
         })
 }
+
+
+exports.delete_2021_trade =  (req, res, next) => {
+    newTrade.deleteMany({"trade.info.date":{ $lte:1640991600000}})
+        .select("_id created updated trade")
+        .exec()
+        .then(docs => {
+            if (docs.length >= 0) {
+                res.status(200).json(docs.length);
+            } else {
+                res.status(404).json({
+                    message: 'No new trades found in DB'
+                });
+            }
+        })
+}

@@ -123,6 +123,32 @@ export interface NewTrade{
       params8: number
       params9: number
       params10: number
-    }]
+    }],
+    statistic:{
+      runnerA: {
+        stats1: number
+        stats2: number
+        stats3: number
+        stats4: number
+        stats5: number
+        stats6: number
+        stats7: number
+        stats8: number
+        stats9: number
+        stats10: number
+      },
+      runnerB: {
+        stats1: number
+        stats2: number
+        stats3: number
+        stats4: number
+        stats5: number
+        stats6: number
+        stats7: number
+        stats8: number
+        stats9: number
+        stats10: number
+      }
+    }
   }
 }

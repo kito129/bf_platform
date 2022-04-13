@@ -330,8 +330,64 @@ exports.fix_trades_schema = (req, res, next) => {
                     selections: [],
                     trades: [],
                     results: resp.trade.result,
-                    params: [],
-                    stats: []
+                    params: [
+                        {
+                            runnerId: 0,
+                            params1: 0,
+                            params2: 0,
+                            params3: 0,
+                            params4: 0,
+                            params5: 0,
+                            params6: 0,
+                            params7: 0,
+                            params8: 0,
+                            params9: 0,
+                            params10: 0,
+
+                        },
+                        {
+                            runnerId: 0,
+                            params1: 0,
+                            params2: 0,
+                            params3: 0,
+                            params4: 0,
+                            params5: 0,
+                            params6: 0,
+                            params7: 0,
+                            params8: 0,
+                            params9: 0,
+                            params10: 0,
+
+                        }
+                    ],
+                    stats: [
+                        {
+                            runnerId: 0,
+                            stats1: 0,
+                            stats2: 0,
+                            stats3: 0,
+                            stats4: 0,
+                            stats5: 0,
+                            stats6: 0,
+                            stats7: 0,
+                            stats8: 0,
+                            stats9: 0,
+                            stats10: 0,
+                        },
+                        {
+                            runnerId: 0,
+                            stats1: 0,
+                            stats2: 0,
+                            stats3: 0,
+                            stats4: 0,
+                            stats5: 0,
+                            stats6: 0,
+                            stats7: 0,
+                            stats8: 0,
+                            stats9: 0,
+                            stats10: 0,
+                        },
+                    ]
                 }
             }
             // add trade

@@ -22,6 +22,7 @@ export class StudyTradesDatatableComponent implements OnInit, OnDestroy {
 
 
   viewTrades = false
+  viewStats = false
 
   rows = [];
   temp =[] ;

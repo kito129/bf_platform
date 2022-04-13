@@ -34,9 +34,9 @@
                 <h6>Exchange: </h6>
               </div>
               <div class="col">
-                <div *ngIf="trade.trade.info.exchange.name==='UK KEVIN'"><h4><span class="badge badge-danger">UK</span></h4></div>
+                <div *ngIf="trade.trade.info.exchange.name==='UK KEVIN' || trade.trade.info.exchange.name==='UK KEVIN'"><h4><span class="badge badge-danger">UK</span></h4></div>
                 <div *ngIf="trade.trade.info.exchange.name==='ITA WILLO'"><h4><span class="badge badge-warning">OLD W-ITA</span></h4></div>
-                <div *ngIf="trade.trade.info.exchange.name==='ITA KITO'"><h4><span class="badge badge-primary">KITO</span></h4></div>
+                <div *ngIf="trade.trade.info.exchange.name==='ITA KITO' || trade.trade.info.exchange.name==='KITO'"><h4><span class="badge badge-primary">KITO</span></h4></div>
                 <div *ngIf="trade.trade.info.exchange.name==='ITA PIDO'"><h4><span class="badge badge-info">OLD P-ITA</span></h4></div>
               </div>
             </div>
@@ -149,13 +149,12 @@
     </div>
   </div>
 </div>
-<div class="row grid-margin" *ngIf="trade.trade.info.note.description !== null
-                                  || trade.trade.info.note.mm !== null
-                                  || trade.trade.info.note.exit !== null
-                                  || trade.trade.info.note.position !== null
-                                  || trade.trade.info.note.entry !== null
-                                  || trade.trade.info.note.odds !== null
-                                  || trade.trade.info.note.post !== null
+<div class="row grid-margin" *ngIf="(trade.trade.info.note.description !== null && trade.trade.info.note.description !== '')
+                                  || (trade.trade.info.note.entry!== null && trade.trade.info.note.entry !== '')
+                                  || (trade.trade.info.note.position!== null && trade.trade.info.note.position !== '')
+                                  || (trade.trade.info.note.exit!== null && trade.trade.info.note.exit !== '')
+                                  || (trade.trade.info.note.mm!== null && trade.trade.info.note.mm !== '')
+                                  || (trade.trade.info.note.post!== null && trade.trade.info.note.post !== '')
                                   ">
   <div class="col">
     <div class="card">
@@ -193,5 +192,150 @@
         </ul>
       </div>
     </div>
+  </div>
+</div>
+<div class="row grid-margin" *ngIf="
+      trade.trade.stats[0].stats1>0
+      || trade.trade.stats[0].stats2>0
+      || trade.trade.stats[0].stats3>0
+      || trade.trade.stats[0].stats4>0
+      || trade.trade.stats[0].stats5>0
+      || trade.trade.stats[0].stats6>0
+      || trade.trade.stats[0].stats7>0
+      || trade.trade.stats[0].stats8>0
+      || trade.trade.stats[0].stats9>0
+      || trade.trade.stats[0].stats10>0
+      || trade.trade.stats[1].stats1>0
+      || trade.trade.stats[1].stats2>0
+      || trade.trade.stats[1].stats3>0
+      || trade.trade.stats[1].stats4>0
+      || trade.trade.stats[1].stats5>0
+      || trade.trade.stats[1].stats6>0
+      || trade.trade.stats[1].stats7>0
+      || trade.trade.stats[1].stats8>0
+      || trade.trade.stats[1].stats9>0
+      || trade.trade.stats[1].stats10>0">
+  <div class="col">
+  <div class="card">
+    <div class="card-header">
+      <div class="d-flex justify-content-between align-items-baseline">
+        <h6 class="card-title mb-0">Stats</h6>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive pt-3">
+        <table class="table table-sm table-bordered text-center table-hover">
+          <thead>
+          <tr>
+            <th class="text-left"><h4>Props</h4></th>
+            <th><h4>{{trade.trade.selections[0].runnerName}}</h4></th>
+            <th><h4>{{trade.trade.selections[1].runnerName}}</h4></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <h4 class="text-left">Service Hold %</h4>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[0].stats1>trade.trade.stats[1].stats1 ? 'text-success' : 'text-danger'">{{trade.trade.stats[0].stats1}}</h5>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[1].stats1>trade.trade.stats[0].stats1 ? 'text-success' : 'text-danger'">{{trade.trade.stats[1].stats1}}</h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4 class="text-left">Return Games W%</h4>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[0].stats2>trade.trade.stats[1].stats2 ? 'text-success' : 'text-danger'">{{trade.trade.stats[0].stats2}}</h5>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[1].stats2>trade.trade.stats[0].stats2 ? 'text-success' : 'text-danger'">{{trade.trade.stats[1].stats2}}</h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4 class="text-left">Break back %</h4>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[0].stats3>trade.trade.stats[1].stats3 ? 'text-success' : 'text-danger'">{{trade.trade.stats[0].stats3}}</h5>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[1].stats3>trade.trade.stats[0].stats3 ? 'text-success' : 'text-danger'">{{trade.trade.stats[1].stats3}}</h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4 class="text-left">Win set 1, wins in 2 sets %</h4>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[0].stats4>trade.trade.stats[1].stats4 ? 'text-success' : 'text-danger'">{{trade.trade.stats[0].stats4}}</h5>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[1].stats4>trade.trade.stats[0].stats4 ? 'text-success' : 'text-danger'">{{trade.trade.stats[1].stats4}}</h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4 class="text-left">Lost set 1, won set 2 %</h4>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[0].stats5>trade.trade.stats[1].stats5 ? 'text-success' : 'text-danger'">{{trade.trade.stats[0].stats5}}</h5>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[1].stats5>trade.trade.stats[0].stats5 ? 'text-success' : 'text-danger'">{{trade.trade.stats[1].stats5}}</h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4 class="text-left">Set and break win %</h4>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[0].stats6>trade.trade.stats[1].stats6 ? 'text-success' : 'text-danger'">{{trade.trade.stats[0].stats6}}</h5>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[1].stats6>trade.trade.stats[0].stats6 ? 'text-success' : 'text-danger'">{{trade.trade.stats[1].stats6}}</h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4 class="text-left">Current rank #</h4>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[0].stats7<trade.trade.stats[1].stats7 ? 'text-success' : 'text-danger'">{{trade.trade.stats[0].stats7}}</h5>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[1].stats7<trade.trade.stats[0].stats7 ? 'text-success' : 'text-danger'">{{trade.trade.stats[1].stats7}}</h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4 class="text-left">Highest Carrer rank #</h4>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[0].stats8<trade.trade.stats[1].stats8 ? 'text-success' : 'text-danger'">{{trade.trade.stats[0].stats8}}</h5>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[1].stats8<trade.trade.stats[0].stats8 ? 'text-success' : 'text-danger'">{{trade.trade.stats[1].stats8}}</h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4 class="text-left">TP Surface rank #</h4>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[0].stats9<trade.trade.stats[1].stats9 ? 'text-success' : 'text-danger'">{{trade.trade.stats[0].stats9}}</h5>
+            </td>
+            <td>
+              <h5 [ngClass]="trade.trade.stats[1].stats9<trade.trade.stats[0].stats9 ? 'text-success' : 'text-danger'">{{trade.trade.stats[1].stats9}}</h5>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
   </div>
 </div>

@@ -28,6 +28,7 @@ import { DateFormComponent } from './form-components/date-form/date-form.compone
 import { TennisPointPipe } from '../core/pipe/tennis-point.pipe';
 import { NoteLastWeekPipe } from '../core/pipe/note-last-week.pipe';
 import { NoteLast2WeekPipe } from '../core/pipe/note-last2-week.pipe';
+import { TournamentPipe} from '../core/pipe/tournament.pipe'
 import { NoteRowDetailComponent } from './notes/note-data-table/note-row-detail/note-row-detail.component';
 import {LoadingCardsComponent} from './cards/loading-cards/loading-cards.component';
 import { RunnersSelectionFormComponent } from './form-components/selection-forms/runners-selection-form/runners-selection-form.component';
@@ -239,7 +240,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     TradeRowDetailComponent,
     CrudListComponent,
     StrategyCompareComponent,
-    StrategyCompareReportComponent
+    StrategyCompareReportComponent,
+    TournamentPipe
   ],
   exports: [
     CommonModule,
@@ -321,7 +323,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     TradeDatatableComponent,
     TradeRowDetailComponent,
     CrudListComponent,
-    StrategyCompareComponent
+    StrategyCompareComponent,
+    TournamentPipe
 
   ]
 })

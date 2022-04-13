@@ -169,6 +169,9 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
     // generate data for all runner
     let firstColor = '#c86f6f'
     let i =0
+    // empty last markers
+    this.tradeMarkersA = []
+    this.tradeMarkersB = []
     for (const odd of this.marketDetail.marketOdds.marketOdds){
 
       // increment the color for each runner
@@ -213,8 +216,26 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
         case ('-1d'):
           timeCorrection = -86400
           break
+        case ('-1d-1h'):
+          timeCorrection = -86400-3600
+          break
+        case ('-1d-0h'):
+          timeCorrection = -86400
+          break
+        case ('-1d+1'):
+          timeCorrection = -86400+3600
+          break
         case ('+1d'):
           timeCorrection = +86400
+          break
+        case ('+1d-1h'):
+          timeCorrection = 86400-3600
+          break
+        case ('+1d-0h'):
+          timeCorrection = 86400
+          break
+        case ('+1d+1'):
+          timeCorrection = 86400+3600
           break
         case ('+0h'):
           timeCorrection = 0
@@ -246,9 +267,6 @@ export class MarketPricesComponent implements OnInit, AfterViewInit {
       }
 
       // add trades value
-      // empty last markers
-      this.tradeMarkersA = []
-      this.tradeMarkersB = []
       // iterate over trade
       let prevTime = 0
       if(this.trades){

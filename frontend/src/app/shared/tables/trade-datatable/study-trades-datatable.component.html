@@ -1,8 +1,13 @@
-<div class="d-flex justify-content-end align-items-baseline">
-  <button type="button" class="btn btn"
+<div class="d-flex justify-content-end align-items-center">
+  <button type="button" class="btn btn mr-2"
           [ngClass]="viewTrades ? 'btn-secondary' : 'btn-outline-secondary' "
           (click)="viewTrades= !viewTrades">
     View Trades
+  </button>
+  <button type="button" class="btn btn mr-2"
+          [ngClass]="viewStats ? 'btn-primary' : 'btn-outline-primary' "
+          (click)="viewStats= !viewStats">
+    View Stats
   </button>
   <form class="form-group grid-margin">
     <div class="row ">
@@ -37,13 +42,12 @@
 <ngx-datatable
   class="dark expandable"
   [rows]="rows"
-  [loadingIndicator]="loadingIndicator"
   [columnMode]="ColumnMode.force"
   [rowHeight]="'auto'"
   [headerHeight]="40"
   [footerHeight]="50"
   [limit]="tableSize"
-  [reorderable]="true"
+  [scrollbarH]="true"
   [sorts]="[{prop: 'trade.trade.info.date', dir: 'desc'}]">
 
   <ngx-datatable-column name="Date" prop="trade.trade.info.date" [width]="1">
@@ -64,29 +68,139 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Stock" prop="data.stockPl" *ngIf="!viewTrades" [width]="1">
+  <ngx-datatable-column name="Stock" prop="data.stockPl" *ngIf="!viewTrades && !viewStats" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 [ngClass]="value>0? 'text-success' : 'text-danger'">{{ value | currency }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Risk" prop="trade.trade.results.maxRisk" *ngIf="!viewTrades" [width]="1">
+  <ngx-datatable-column name="Risk" prop="trade.trade.results.maxRisk" *ngIf="!viewTrades && !viewStats" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-warning">{{ value | currency }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="rR" prop="trade.trade.results.rr" *ngIf="!viewTrades" [width]="1">
+  <ngx-datatable-column name="rR" prop="trade.trade.results.rr" *ngIf="!viewTrades && !viewStats" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-info">{{ value | percent: '.2' }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Trades #" prop="trade.trade.trades.length" *ngIf="!viewTrades" [width]="1">
+  <ngx-datatable-column name="Trades #" prop="trade.trade.trades.length" *ngIf="!viewTrades && !viewStats" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5>{{ value}}</h5>
     </ng-template>
   </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Service Hold %" prop="trade.trade.statistic.runnerA.stats1" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Service Hold %" prop="trade.trade.statistic.runnerB.stats1" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Return Games W%" prop="trade.trade.statistic.runnerA.stats2" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Return Games W%" prop="trade.trade.statistic.runnerB.stats2" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Break Back %" prop="trade.trade.statistic.runnerA.stats3" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Break Back %" prop="trade.trade.statistic.runnerB.stats3" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Win S1, wins in 2 %" prop="trade.trade.statistic.runnerA.stats4" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Win S1, wins in 2 %" prop="trade.trade.statistic.runnerB.stats4" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Lost set 1, won set 2 %" prop="trade.trade.statistic.runnerA.stats5" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Lost set 1, won set 2 %" prop="trade.trade.statistic.runnerB.stats5" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Set & Break win %" prop="trade.trade.statistic.runnerA.stats6" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Set & Break win 2 %" prop="trade.trade.statistic.runnerB.stats6" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Current rank" prop="trade.trade.statistic.runnerA.stats7" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Current rank" prop="trade.trade.statistic.runnerB.stats7" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Highest Carrer rank" prop="trade.trade.statistic.runnerA.stats8" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Highest Carrer rank" prop="trade.trade.statistic.runnerB.stats8" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A TP Surface rank" prop="trade.trade.statistic.runnerA.stats9" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B TP Surface rank" prop="trade.trade.statistic.runnerB.stats9" *ngIf="viewStats" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+
 
   <ngx-datatable-column name="Trades" prop="trade" *ngIf="viewTrades" [width]="900">
     <ng-template let-value="value" ngx-datatable-cell-template>

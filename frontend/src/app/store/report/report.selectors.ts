@@ -3,6 +3,7 @@ import {ReportStates} from './report.reducers';
 import {StrategyDatatable} from '../../model/report/strategyDatatable';
 import {Utils} from '../../model/calculator/utils';
 import {CompareStrategy} from '../../model/report/new/compareStrategy';
+import {NewTrade} from '../../model/report/new/newTrade';
 
 const getReportState = createFeatureSelector<ReportStates>(
   'reportState'
@@ -105,7 +106,7 @@ export const getStrategySportById  = (id: string) => createSelector(
 
 export const getSelectedStrategyTrades = createSelector(
   getReportState,
-  (state) => state.allNewTrades.filter( x=> {
+  (state) => state.allNewTrades.map( y=> newTradeStats(y)).filter( x=> {
     if(state.selectedStrategyId){
       return x.trade.info.strategyId === state.selectedStrategyId
     }
@@ -175,7 +176,7 @@ export const getStrategyDatatable = createSelector(
 export const getAllNewTrade = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+    return state.allNewTrades.map( y=> newTradeStats(y)).sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 
 export const isLoadingAllNewTrade = createSelector(
@@ -187,42 +188,43 @@ export const isLoadingAllNewTrade = createSelector(
 export const getAllNewTrade2021 = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.filter(x => x.trade.info.date<1640991600000)
-      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date<1640991600000)
+      .sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 
 export const getAllNewTrade2022 = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && !x.trade.info.executor.includes('DEMO'))
-      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && !x.trade.info.executor.includes('DEMO'))
+      .sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 
 export const getAllNewTradeKevin = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('KEVIN'))
-      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('KEVIN'))
+      .sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 
 export const getAllNewTradeBagna = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('BAGNA'))
-      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('BAGNA'))
+      .sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 
 export const getAllNewTradeKito = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('KITO'))
-      .sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('KITO'))
+      .sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 
 export const getAllNewTradeInjury = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.filter(x => x.trade.info.date>1640991600000 && x.trade.info.strategyId).sort((a, b) => b.trade.info.date - a.trade.info.date > 0 ? 1 : b.trade.info.date - a.trade.info.date === 0 ? 0 : -1)
+    // to complete
+    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000).sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 
 
@@ -239,7 +241,7 @@ export const getComparedData = createSelector(
     for (const st of state.compareList){
       compare.push({
         strategy: state.allStrategy.filter(x=> x._id === st)[0],
-        trades: state.allNewTrades.filter( x=> x.trade.info.strategyId === st)
+        trades: state.allNewTrades.map( y=> newTradeStats(y)).filter( x=> x.trade.info.strategyId === st)
       })
     }
     return compare
@@ -250,6 +252,59 @@ export const getCompareStatus = createSelector(
   getReportState,
   (state ) => state.compareStatus
 );
+
+function newTradeStats(trade: NewTrade): NewTrade{
+  const t =  {
+    _id: trade._id,
+    created: trade.created,
+    updated: trade.updated,
+    trade: {
+      info: trade.trade.info,
+      selections: trade.trade.selections,
+      trades: trade.trade.trades,
+      results: trade.trade.results,
+      stats: trade.trade.stats,
+      params: trade.trade.params,
+      statistic: {
+        runnerA: {
+          stats1: trade.trade.stats[0].stats1,
+          stats2: trade.trade.stats[0].stats2,
+          stats3: trade.trade.stats[0].stats3,
+          stats4: trade.trade.stats[0].stats4,
+          stats5: trade.trade.stats[0].stats5,
+          stats6: trade.trade.stats[0].stats6,
+          stats7: trade.trade.stats[0].stats7,
+          stats8: trade.trade.stats[0].stats8,
+          stats9: trade.trade.stats[0].stats9,
+          stats10: trade.trade.stats[0].stats10,
+        },
+        runnerB: {
+          // @ts-ignore
+          stats1: trade.trade.stats[1].stats1,
+          // @ts-ignore
+          stats2: trade.trade.stats[1].stats2,
+          // @ts-ignore
+          stats3: trade.trade.stats[1].stats3,
+          // @ts-ignore
+          stats4: trade.trade.stats[1].stats4,
+          // @ts-ignore
+          stats5: trade.trade.stats[1].stats5,
+          // @ts-ignore
+          stats6: trade.trade.stats[1].stats6,
+          // @ts-ignore
+          stats7: trade.trade.stats[1].stats7,
+          // @ts-ignore
+          stats8: trade.trade.stats[1].stats8,
+          // @ts-ignore
+          stats9: trade.trade.stats[1].stats9,
+          // @ts-ignore
+          stats10: trade.trade.stats[1].stats10,
+        }
+      }
+    }
+  }
+  return t
+}
 
 
 

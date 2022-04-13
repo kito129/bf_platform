@@ -12,6 +12,7 @@ router.get("/newTrade/all", checkAuth,  newReportController.get_all_new_trades);
 router.get("/updateStrategy",  newReportController.update_new_strategy);
 
 router.get("/delete2022Trade",  newReportController.delete_2022_trade);
+router.get("/delete2021Trade",  newReportController.delete_2022_trade);
 
 /*
 router.put("/newTrade/create", checkAuth,  ReportController.create_trade);

@@ -59,11 +59,11 @@ import {MarketsModule} from "./features/markets/markets.module";
 import {FeahterIconModule} from "./core/feather-icon/feather-icon.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ErrorPageComponent,
-    MarketMetaListBasicComponent
-  ],
+    declarations: [
+        AppComponent,
+        ErrorPageComponent,
+        MarketMetaListBasicComponent,
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -101,30 +101,30 @@ import {FeahterIconModule} from "./core/feather-icon/feather-icon.module";
         MarketsModule,
         FeahterIconModule
     ],
-  providers: [
-    AuthGuard,
-    {
-      provide: HIGHLIGHT_OPTIONS, // https://www.npmjs.com/package/ngx-highlightjs
-      useValue: {
-        coreLibraryLoader: () => import('highlight.js/lib/core'),
-        languages: {
-          xml: () => import('highlight.js/lib/languages/xml'),
-          typescript: () => import('highlight.js/lib/languages/typescript'),
-          scss: () => import('highlight.js/lib/languages/scss'),
-        }
-      }
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    },
-    DatePipe,
-    CurrencyPipe,
-    PercentPipe,
-    {provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR'},
-    {provide: LOCALE_ID, useValue: 'en-GB'}
-  ],
-  bootstrap: [AppComponent]
+    providers: [
+        AuthGuard,
+        {
+            provide: HIGHLIGHT_OPTIONS, // https://www.npmjs.com/package/ngx-highlightjs
+            useValue: {
+                coreLibraryLoader: () => import('highlight.js/lib/core'),
+                languages: {
+                    xml: () => import('highlight.js/lib/languages/xml'),
+                    typescript: () => import('highlight.js/lib/languages/typescript'),
+                    scss: () => import('highlight.js/lib/languages/scss'),
+                }
+            }
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        },
+        DatePipe,
+        CurrencyPipe,
+        PercentPipe,
+        {provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR'},
+        {provide: LOCALE_ID, useValue: 'en-GB'}
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -47,7 +47,7 @@ function checkSet(point: TennisPoint){
 
   if((point.set1.runnerA === 0 || point.set1.runnerA===null)  && (point.set1.runnerB ===0 || point.set1.runnerB===null)){
     return 0
-  } else if((point.set2.runnerA === 0 || point.set2.runnerA===null)  && (point.set3.runnerB ===0 || point.set2.runnerB===null)){
+  } else if((point.set2.runnerA === 0 || point.set2.runnerA===null)  && (point.set2.runnerB ===0 || point.set2.runnerB===null)){
     return 1
   } else if((point.set3.runnerA === 0 || point.set3.runnerA===null)  && (point.set3.runnerB ===0 || point.set3.runnerB===null)){
     return 2

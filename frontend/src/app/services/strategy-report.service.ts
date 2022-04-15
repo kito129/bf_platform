@@ -156,7 +156,7 @@ export class StrategyReportService {
 
     this.strategyReport = {
       cash: {
-        pl: this.utils.getPlTrades(this.trades),
+        pl: this.utils.getSumOfArrayNumber(this.trades),
         stake: 0,
         stakePercent: 0,
         bank: 0,
@@ -166,7 +166,7 @@ export class StrategyReportService {
         detail: {
           total: {
             count: Math.round((this.trades).length*100)/100,
-            grossCash: Math.round(this.utils.getPlTrades(this.trades)*100)/100,
+            grossCash: Math.round(this.utils.getSumOfArrayNumber(this.trades)*100)/100,
             averageCash: Math.round(this.utils.avgOfArrayNumber(this.trades)*100)/100,
             stdvCash: Math.round(this.utils.stdvOfTrades(this.trades)*100)/100,
             maxCash: Math.round(this.utils.maxNumberArray(this.trades)*100)/100,
@@ -179,7 +179,7 @@ export class StrategyReportService {
           },
           profit: {
             count: Math.round((this.profitTrades).length*100)/100,
-            grossCash: Math.round(this.utils.getPlTrades(this.profitTrades)*100)/100,
+            grossCash: Math.round(this.utils.getSumOfArrayNumber(this.profitTrades)*100)/100,
             averageCash: Math.round(this.utils.avgOfArrayNumber(this.profitTrades)*100)/100,
             stdvCash: Math.round(this.utils.stdvOfTrades(this.profitTrades)*100)/100,
             maxCash: Math.round(this.utils.maxNumberArray(this.profitTrades)*100)/100,
@@ -187,12 +187,12 @@ export class StrategyReportService {
             consecutiveNumber: Math.round(this.utils.maxOfConsecutive(consecutiveProfit)*100)/100,
             consecutiveAvgNumber: Math.round(this.utils.avgOfConsecutive(consecutiveProfit)*100)/100,
             consecutiveCash: Math.round(this.utils.maxOfConsecutivePl(consecutiveProfit)*100)/100,
-            consecutivePercent: Math.round(this.utils.maxOfConsecutivePl(consecutiveProfit) / this.utils.getPlTrades(this.profitTrades)*100)/100,
+            consecutivePercent: Math.round(this.utils.maxOfConsecutivePl(consecutiveProfit) / this.utils.getSumOfArrayNumber(this.profitTrades)*100)/100,
             trades: consecutiveProfit
           },
           loss: {
             count: Math.round((this.lossTrades).length*100)/100,
-            grossCash: Math.round(this.utils.getPlTrades(this.lossTrades)*100)/100,
+            grossCash: Math.round(this.utils.getSumOfArrayNumber(this.lossTrades)*100)/100,
             averageCash: Math.round(this.utils.avgOfArrayNumber(this.lossTrades)*100)/100,
             stdvCash: Math.round(this.utils.stdvOfTrades(this.lossTrades)*100)/100,
             maxCash: Math.round(this.utils.minOfNumberArray(this.lossTrades)*100)/100,
@@ -200,7 +200,7 @@ export class StrategyReportService {
             consecutiveNumber: Math.round(this.utils.maxOfConsecutive(consecutiveLoss)*100)/100,
             consecutiveAvgNumber: Math.round(this.utils.avgOfConsecutive(consecutiveLoss)*100)/100,
             consecutiveCash: Math.round(this.utils.minOfConsecutivePl(consecutiveLoss)*100)/100,
-            consecutivePercent: Math.round(this.utils.minOfConsecutivePl(consecutiveLoss) / this.utils.getPlTrades(this.lossTrades)*100)/100,
+            consecutivePercent: Math.round(this.utils.minOfConsecutivePl(consecutiveLoss) / this.utils.getSumOfArrayNumber(this.lossTrades)*100)/100,
             trades: consecutiveLoss
           },
           void: {

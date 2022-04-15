@@ -14,10 +14,10 @@ import {NewTrade} from '../../../../model/report/new/newTrade';
 export class TradeUpdatesModalComponent implements OnInit {
 
   @Input()
-  tradeInput: NewTrade
+  tradeInput: Trade
   @Output()
   tradeUpdateEmitter = new EventEmitter()
-  public tradeOutput: NewTrade
+  public tradeOutput: Trade
   // tradeOutput.trade support data
   public executor = ['BAGNA', 'KEVIN', 'KITO']
   public exchange = ['UK KEVIN', 'ITA WILLO', 'ITA PIDO', 'ITA KITO' ]
@@ -108,10 +108,10 @@ export class TradeUpdatesModalComponent implements OnInit {
 
       // action before pass to action
 
-      const trade: NewTrade ={
+      const trade: Trade ={
         _id: this.tradeOutput._id,
         created: this.tradeOutput.created,
-        updated: new Date().getTime(),
+        lastUpdate: new Date().getTime(),
         trade: this.tradeOutput.trade
       }
       this.tradeUpdateEmitter.emit([trade, result]);
@@ -182,9 +182,9 @@ export class TradeUpdatesModalComponent implements OnInit {
 
       // remove all back of this selection
       let k =0
-      for (const trade of this.tradeOutput.trade.trades){
+      for (const trade of this.tradeOutput.trade.trades.back){
         if(trade.selectionN === selectionIndex){
-          this.tradeOutput.trade.trades.splice(k, 1);
+          this.tradeOutput.trade.trades.back.splice(k, 1);
           k--
         }
         k++
@@ -281,7 +281,7 @@ export class TradeUpdatesModalComponent implements OnInit {
         if (selection.runnerId === this.supportBets.selection.runnerId) {
           // push to back array
           backBet.selectionN = i
-          this.tradeOutput.trade.trades.push(backBet)
+          this.tradeOutput.trade.trades.back.push(backBet)
         }
         i++
       }
@@ -292,7 +292,7 @@ export class TradeUpdatesModalComponent implements OnInit {
       for (const selection of this.tradeOutput.trade.selections) {
         if (selection.runnerId === this.supportBets.selection.runnerId) {
           layBet.selectionN = j
-          this.tradeOutput.trade.trades.push(layBet)
+          this.tradeOutput.trade.trades.lay.push(layBet)
         }
         j++
       }

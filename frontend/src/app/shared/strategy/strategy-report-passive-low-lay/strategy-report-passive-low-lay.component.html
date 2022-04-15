@@ -1,16 +1,19 @@
 <!-- RECAP -->
 <div class="table-responsive pt-3">
-  <table class="table table-sm table-bordered">
+  <table class="table table-sm table-bordered text-right table-hover">
     <caption>LowLay</caption>
     <thead>
     <tr>
       <th><h5>Type</h5></th>
       <th><h5>Count</h5></th>
       <th><h5>%</h5></th>
-      <th><h5>RR1 # [1.16]</h5></th>
-      <th><h5>RR1 % [1.16]</h5></th>
-      <th><h5>RR2 # [1.23]</h5></th>
-      <th><h5>RR2 % [1.23]</h5></th>
+      <th><h5>RR 0.5 [66%]</h5></th>
+      <th><h5>RR 1 [50%]</h5></th>
+      <th><h5>RR 2 [33%]</h5></th>
+      <th><h5>RR 3 [25%]</h5></th>
+      <th><h5>RR 4 [12.5%]</h5></th>
+      <th><h5>RR 5 [7%]</h5></th>
+      <th><h5>RR 6 [3.5%]</h5></th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +23,36 @@
       </td>
       <td>
         <h5>{{lowLayReport.count}}</h5>
+      </td>
+    </tr>
+    <!-- 1.10 -->
+    <tr class="text-white">
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+        <h4>[1.16]</h4>
+      </td>
+      <td>
+        <h4>[1.23]</h4>
+      </td>
+      <td>
+        <h4>[1.39]</h4>
+      </td>
+      <td>
+        <h4>[1.59]</h4>
+      </td>
+      <td>
+        <h4>[1.86]</h4>
+      </td>
+      <td>
+        <h4>[2.26]</h4>
+      </td>
+      <td>
+        <h4>[2.84]</h4>
       </td>
     </tr>
     <tr>
@@ -34,15 +67,214 @@
       </td>
       <td>
         <h5>{{lowLayReport.oneTen.rr.o116.count}}</h5>
-      </td>
-      <td>
-        <h5>{{lowLayReport.oneTen.rr.o116.percent | percent}}</h5>
+        <h5>({{lowLayReport.oneTen.rr.o116.percent | percent}})</h5>
       </td>
       <td>
         <h5>{{lowLayReport.oneTen.rr.o123.count}}</h5>
+        <h5>({{lowLayReport.oneTen.rr.o123.percent | percent}})</h5>
       </td>
       <td>
-        <h5>{{lowLayReport.oneTen.rr.o123.percent | percent}}</h5>
+        <h5>{{lowLayReport.oneTen.rr.o139.count}}</h5>
+        <h5>({{lowLayReport.oneTen.rr.o139.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTen.rr.o159.count}}</h5>
+        <h5>({{lowLayReport.oneTen.rr.o159.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTen.rr.o186.count}}</h5>
+        <h5>({{lowLayReport.oneTen.rr.o186.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTen.rr.o226.count}}</h5>
+        <h5>({{lowLayReport.oneTen.rr.o226.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTen.rr.o284.count}}</h5>
+        <h5>({{lowLayReport.oneTen.rr.o284.percent | percent}})</h5>
+      </td>
+    </tr>
+    <!-- 1.20 -->
+    <tr class="text-white">
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+        <h4>[1.34]</h4>
+      </td>
+      <td>
+        <h4>[1.51]</h4>
+      </td>
+      <td>
+        <h4>[2.04]</h4>
+      </td>
+      <td>
+        <h4>[3.10]</h4>
+      </td>
+      <td>
+        <h4>[10]</h4>
+      </td>
+      <td>
+        <h4> -- </h4>
+      </td>
+      <td>
+        <h4> -- </h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h4>1.20</h4>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTwenty.count}}</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTwenty.countPercent | percent}}</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTwenty.rr.o134.count}}</h5>
+        <h5>({{lowLayReport.oneTwenty.rr.o134.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTwenty.rr.o151.count}}</h5>
+        <h5>({{lowLayReport.oneTwenty.rr.o151.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTwenty.rr.o204.count}}</h5>
+        <h5>({{lowLayReport.oneTwenty.rr.o204.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTwenty.rr.o310.count}}</h5>
+        <h5>({{lowLayReport.oneTwenty.rr.o310.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneTwenty.rr.o10.count}}</h5>
+        <h5>({{lowLayReport.oneTwenty.rr.o10.percent | percent}})</h5>
+      </td>
+    </tr>
+    <!-- 1.30 -->
+    <tr class="text-white">
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+        <h4>[1.54]</h4>
+      </td>
+      <td>
+        <h4>[1.88]</h4>
+      </td>
+      <td>
+        <h4>[2.42]</h4>
+      </td>
+      <td>
+        <h4>[3.4]</h4>
+      </td>
+      <td>
+        <h4>[10]</h4>
+      </td>
+      <td>
+        <h4> -- </h4>
+      </td>
+      <td>
+        <h4> -- </h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h4>1.30</h4>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneThirty.count}}</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneThirty.countPercent | percent}}</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneThirty.rr.o154.count}}</h5>
+        <h5>({{lowLayReport.oneThirty.rr.o154.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneThirty.rr.o188.count}}</h5>
+        <h5>({{lowLayReport.oneThirty.rr.o188.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneThirty.rr.o242.count}}</h5>
+        <h5>({{lowLayReport.oneThirty.rr.o242.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneThirty.rr.o340.count}}</h5>
+        <h5>({{lowLayReport.oneThirty.rr.o340.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneThirty.rr.o10.count}}</h5>
+        <h5>({{lowLayReport.oneThirty.rr.o10.percent | percent}})</h5>
+      </td>
+    </tr>
+    <!-- 1.40 -->
+    <tr class="text-white">
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+        <h4>[1.76]</h4>
+      </td>
+      <td>
+        <h4>[2.38]</h4>
+      </td>
+      <td>
+        <h4>[3.65]</h4>
+      </td>
+      <td>
+        <h4>[7.8]</h4>
+      </td>
+      <td>
+        <h4>[10]</h4>
+      </td>
+      <td>
+        <h4> -- </h4>
+      </td>
+      <td>
+        <h4> -- </h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h4>1.40</h4>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneForty.count}}</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneForty.countPercent | percent}}</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneForty.rr.o176.count}}</h5>
+        <h5>({{lowLayReport.oneForty.rr.o176.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneForty.rr.o238.count}}</h5>
+        <h5>({{lowLayReport.oneForty.rr.o238.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneForty.rr.o365.count}}</h5>
+        <h5>({{lowLayReport.oneForty.rr.o365.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneForty.rr.o780.count}}</h5>
+        <h5>({{lowLayReport.oneForty.rr.o780.percent | percent}})</h5>
+      </td>
+      <td>
+        <h5>{{lowLayReport.oneForty.rr.o10.count}}</h5>
+        <h5>({{lowLayReport.oneForty.rr.o10.percent | percent}})</h5>
       </td>
     </tr>
     </tbody>

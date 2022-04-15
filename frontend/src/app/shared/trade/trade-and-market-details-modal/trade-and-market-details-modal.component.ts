@@ -43,7 +43,7 @@ export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
     this.isLoadingMarketDetails$ = this.store.pipe(select(marketSelectors.isLoadingSelectedMarket))
     this.marketDetails$ = this.store.pipe(select(marketSelectors.getSelectedMarket))
 
-    // subscribe to API response
+    /*
     this.marketService.getMarketIdByNameAndDate(this.trade.trade.info.marketInfo.marketName,this.trade.trade.info.date)
       .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
@@ -53,6 +53,7 @@ export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
           this.notFound = true
         }
       })
+     */
 
   }
 
@@ -84,8 +85,12 @@ export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
         }).result.then((result) => {
           this.store.dispatch(marketActions.resetMarketDetail())
           this.closeResult = `Closed with: ${result}`;
+          this.destroy$.next(true);
+          this.destroy$.complete();
         }, (reason) => {
           this.closeResult = `Dismissed`;
+          this.destroy$.next(true);
+          this.destroy$.complete();
         });
       })
 

@@ -5,6 +5,7 @@ import {Trade} from "../model/report/trade";
 
 import { environment } from '../../environments/environment';
 import {Strategy} from "../model/report/strategy";
+import {NewTrade} from '../model/report/new/newTrade';
 
 const headers = {'Content-Type': 'application/json'};
 
@@ -22,11 +23,11 @@ export class ReportService {
     return this.http.get(`${baseUrl}/trade/all`);
   }
 
-  createTrade(trade: Trade): Observable<any> {
+  createTrade(trade: NewTrade): Observable<any> {
     return this.http.put(`${baseUrl}/trade/create`,trade,{headers});
   }
 
-  updateTrade(id,trade: Trade): Observable<any> {
+  updateTrade(id,trade: NewTrade): Observable<any> {
     const body = JSON.stringify(trade)
     return this.http.post(`${baseUrl}/trade/${id}`,body, {headers});
   }

@@ -67,7 +67,7 @@ export class Utils{
       length: trades.length,
       series,
       result: {
-        pl: this.getPlTrades(trades),
+        pl: this.getSumOfArrayNumber(trades),
         dd: {
           max: {
             dd:  Math.min( ...dd ),
@@ -104,7 +104,7 @@ export class Utils{
     return stocks
   }
 
-  getPlTrades(trade: number[]){
+  getSumOfArrayNumber(trade: number[]){
     return trade.reduce((a, b) => a + b, 0);
   }
 
@@ -157,7 +157,7 @@ export class Utils{
   }
 
   maxPercentNumberArray(trade: number[]){
-    return Math.max.apply(Math, trade) / this.getPlTrades(trade)
+    return Math.max.apply(Math, trade) / this.getSumOfArrayNumber(trade)
   }
 
   minOfNumberArray(trade: number[]){
@@ -165,7 +165,7 @@ export class Utils{
   }
 
    minPercentOfNumberArray(trade: number[]){
-    return Math.min.apply(Math, trade) / this.getPlTrades(trade)
+    return Math.min.apply(Math, trade) / this.getSumOfArrayNumber(trade)
   }
 
 
@@ -184,7 +184,7 @@ export class Utils{
   maxOfConsecutivePl(trades: any[][]){
     return Math.max.apply(Math,trades.map( x => {
       if(x.length){
-        return  this.getPlTrades(x.map(y => y.pl))
+        return  this.getSumOfArrayNumber(x.map(y => y.pl))
       } else {
         return 0
       }
@@ -194,7 +194,7 @@ export class Utils{
   minOfConsecutivePl(trades: any[][]){
     return Math.min.apply(Math,trades.map( x => {
       if(x.length){
-        return  this.getPlTrades(x.map(y => y.pl))
+        return  this.getSumOfArrayNumber(x.map(y => y.pl))
       } else {
         return 0
       }

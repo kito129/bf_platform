@@ -126,7 +126,7 @@ export const getStrategyDatatable = createSelector(
         const tradePLValue = trades.map(x=> {
           return x.trade.results.netProfit
         })
-        const pl = utils.getPlTrades(tradePLValue)
+        const pl = utils.getSumOfArrayNumber(tradePLValue)
         temp.push({
           _id: strategy._id,
           name: strategy.strategy.info.name,

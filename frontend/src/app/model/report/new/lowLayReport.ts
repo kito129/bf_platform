@@ -39,4 +39,82 @@ export interface LowLayReport{
       }
     }
   }
+  oneTwenty: {
+    count: number
+    countPercent: number
+    rr:{
+      o134:{
+        count:number
+        percent:number
+      }
+      o151:{
+        count:number
+        percent:number
+      }
+      o204:{
+        count:number
+        percent:number
+      }
+      o310:{
+        count:number
+        percent:number
+      }
+      o10:{
+        count:number
+        percent:number
+      }
+    }
+  }
+  oneThirty: {
+    count: number
+    countPercent: number
+    rr:{
+      o154:{
+        count:number
+        percent:number
+      }
+      o188:{
+        count:number
+        percent:number
+      }
+      o242:{
+        count:number
+        percent:number
+      }
+      o340:{
+        count:number
+        percent:number
+      }
+      o10:{
+        count:number
+        percent:number
+      }
+    }
+  }
+  oneForty: {
+    count: number
+    countPercent: number
+    rr:{
+      o176:{
+        count:number
+        percent:number
+      }
+      o238:{
+        count:number
+        percent:number
+      }
+      o365:{
+        count:number
+        percent:number
+      }
+      o780:{
+        count:number
+        percent:number
+      }
+      o10:{
+        count:number
+        percent:number
+      }
+    }
+  }
 }

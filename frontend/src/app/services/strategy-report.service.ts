@@ -5,6 +5,7 @@ import {Strategy} from '../model/report/strategy';
 
 import {Utils} from '../model/calculator/utils';
 import {NewTrade} from '../model/report/new/newTrade';
+import {number} from 'mathjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +38,9 @@ export class StrategyReportService {
     this.selectedStrategy = strategy
     this.selectedTrades = selectedTrades
     this.trades = selectedTrades.map(x => x.trade.results.netProfit)
-    this.profitTrades = selectedTrades.filter( x=> x.trade.results.netProfit>0).map(x => x.trade.results.netProfit)
-    this.lossTrades = selectedTrades.filter( x=> x.trade.results.netProfit<0).map(x => x.trade.results.netProfit)
-    this.voidTrades = selectedTrades.filter( x=> x.trade.results.netProfit === 0).map(x => x.trade.results.netProfit)
+    this.profitTrades = selectedTrades.filter( x=> x.trade.results.netProfit > 0.5).map(x => x.trade.results.netProfit)
+    this.lossTrades = selectedTrades.filter( x=> x.trade.results.netProfit < -0.5).map(x => x.trade.results.netProfit)
+    this.voidTrades = selectedTrades.filter( x=>  x.trade.results.netProfit <= 0.5 && x.trade.results.netProfit >= -0.5 ).map(x => x.trade.results.netProfit)
     this.generateStrategyReport()
   }
 
@@ -47,9 +48,9 @@ export class StrategyReportService {
     this.title = title
     this.selectedTrades = selectedTrades
     this.trades = selectedTrades.map(x => x.trade.results.netProfit)
-    this.profitTrades = selectedTrades.filter( x=> x.trade.results.netProfit>0).map(x => x.trade.results.netProfit)
-    this.lossTrades = selectedTrades.filter( x=> x.trade.results.netProfit<0).map(x => x.trade.results.netProfit)
-    this.voidTrades = selectedTrades.filter( x=> x.trade.results.netProfit === 0).map(x => x.trade.results.netProfit)
+    this.profitTrades = selectedTrades.filter( x=> x.trade.results.netProfit > 0.5).map(x => x.trade.results.netProfit)
+    this.lossTrades = selectedTrades.filter( x=> x.trade.results.netProfit < -0.5).map(x => x.trade.results.netProfit)
+    this.voidTrades = selectedTrades.filter( x=>  x.trade.results.netProfit <= 0.5 && x.trade.results.netProfit >= -0.5 ).map(x => x.trade.results.netProfit)
     this.generateStrategyReport()
   }
 
@@ -110,6 +111,9 @@ export class StrategyReportService {
             consecutivePercent: 0,
             trades: [],
           },
+          void: {
+            count: 0,
+          }
         },
         dd: {
           max: {
@@ -131,9 +135,9 @@ export class StrategyReportService {
 
   getStrategyPie(): number[]{
     return [
-      this.utils.counterOfTrades(this.profitTrades),
-      this.utils.counterOfTrades(this.lossTrades),
-      this.utils.counterOfTrades(this.voidTrades),
+      this.profitTrades.length,
+      this.lossTrades.length,
+      this.voidTrades.length,
     ]
   }
 
@@ -158,12 +162,12 @@ export class StrategyReportService {
         bank: 0,
       },
       trades: {
-        total: this.utils.counterOfTrades(this.trades),
+        total: this.trades.length,
         detail: {
           total: {
-            count: Math.round(this.utils.counterOfTrades(this.trades)*100)/100,
+            count: Math.round((this.trades).length*100)/100,
             grossCash: Math.round(this.utils.getPlTrades(this.trades)*100)/100,
-            averageCash: Math.round(this.utils.avgOfTrades(this.trades)*100)/100,
+            averageCash: Math.round(this.utils.avgOfArrayNumber(this.trades)*100)/100,
             stdvCash: Math.round(this.utils.stdvOfTrades(this.trades)*100)/100,
             maxCash: Math.round(this.utils.maxNumberArray(this.trades)*100)/100,
             maxPercent: Math.round(this.utils.maxPercentNumberArray(this.trades)*100)/100,
@@ -174,9 +178,9 @@ export class StrategyReportService {
             trades: []
           },
           profit: {
-            count: Math.round(this.utils.counterOfTrades(this.profitTrades)*100)/100,
+            count: Math.round((this.profitTrades).length*100)/100,
             grossCash: Math.round(this.utils.getPlTrades(this.profitTrades)*100)/100,
-            averageCash: Math.round(this.utils.avgOfTrades(this.profitTrades)*100)/100,
+            averageCash: Math.round(this.utils.avgOfArrayNumber(this.profitTrades)*100)/100,
             stdvCash: Math.round(this.utils.stdvOfTrades(this.profitTrades)*100)/100,
             maxCash: Math.round(this.utils.maxNumberArray(this.profitTrades)*100)/100,
             maxPercent: Math.round(this.utils.maxPercentNumberArray(this.profitTrades)*100)/100,
@@ -187,9 +191,9 @@ export class StrategyReportService {
             trades: consecutiveProfit
           },
           loss: {
-            count: Math.round(this.utils.counterOfTrades(this.lossTrades)*100)/100,
+            count: Math.round((this.lossTrades).length*100)/100,
             grossCash: Math.round(this.utils.getPlTrades(this.lossTrades)*100)/100,
-            averageCash: Math.round(this.utils.avgOfTrades(this.lossTrades)*100)/100,
+            averageCash: Math.round(this.utils.avgOfArrayNumber(this.lossTrades)*100)/100,
             stdvCash: Math.round(this.utils.stdvOfTrades(this.lossTrades)*100)/100,
             maxCash: Math.round(this.utils.minOfNumberArray(this.lossTrades)*100)/100,
             maxPercent: Math.round(this.utils.minPercentOfNumberArray(this.lossTrades)*100)/100,
@@ -199,6 +203,9 @@ export class StrategyReportService {
             consecutivePercent: Math.round(this.utils.minOfConsecutivePl(consecutiveLoss) / this.utils.getPlTrades(this.lossTrades)*100)/100,
             trades: consecutiveLoss
           },
+          void: {
+            count: this.voidTrades.length,
+          }
         },
         dd: {
           max: {
@@ -283,6 +290,9 @@ export class StrategyReportService {
             consecutivePercent: 0,
             trades: [[]]
           },
+          void: {
+            count: 0,
+          }
         },
         dd: {
           max: {

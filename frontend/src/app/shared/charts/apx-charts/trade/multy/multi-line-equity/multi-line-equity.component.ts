@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Trade} from "../../../../../../model/report/trade";
-import {ChartComponent} from "ng-apexcharts";
-import {CurrencyPipe} from "@angular/common";
-import {ChartOptions} from "../../../../../../model/chartOptions";
+import {Trade} from '../../../../../../model/report/trade';
+import {ChartComponent} from 'ng-apexcharts';
+import {CurrencyPipe} from '@angular/common';
+import {ChartOptions} from '../../../../../../model/chartOptions';
 
 @Component({
   selector: 'app-multi-line-equity',
@@ -34,7 +34,7 @@ export class MultiLineEquityComponent implements OnInit {
     let legend
     if(this.wantLegend){
       legend= {
-        horizontalAlign: "left",
+        horizontalAlign: 'left',
           offsetX: 40
       }
     } else {
@@ -57,7 +57,7 @@ export class MultiLineEquityComponent implements OnInit {
             if(x){
               return (x).toFixed(2) + '€'
             } else {
-              return ""
+              return ''
             }
           },
           title: {
@@ -72,11 +72,11 @@ export class MultiLineEquityComponent implements OnInit {
     }
 
     // set stock
-    let stockSeries = []
+    const stockSeries = []
     for (let  i=0; i<this.stock.length; i++){
       stockSeries.push( {
         name: this.seriesName[i],
-        data: this.stock[i],
+        data: [0].concat(this.stock[i]),
       })
     }
 
@@ -87,15 +87,15 @@ export class MultiLineEquityComponent implements OnInit {
         {
           opposite: false,
           title: {
-            text: "Stock",
+            text: 'Stock',
           },
           decimalsInFloat: 2
         },
       ],
       tooltip: tool,
-      legend: legend,
+      legend,
       chart: {
-        type: "line",
+        type: 'line',
         height: this.height,
         animations: {
           enabled: false

@@ -129,12 +129,7 @@ export class Utils{
     }
   }
 
-  counterOfTrades(trade: number[]){
-    return trade.reduce((acc, val) =>{
-      return val ? acc+=1 : acc},0)
-  }
-
-  avgOfTrades(trade: number[]){
+  avgOfArrayNumber(trade: number[]){
     return trade.reduce((acc, val)=>{
       return val ? acc+=val : acc},0) / trade.length
   }

@@ -1,0 +1,278 @@
+<div class="row grid-margin">
+  <!-- INFO -->
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h5 class="card-title mb-0">Info</h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Date: </h5>
+              </div>
+              <div class="col">
+                <h5> {{trade.trade.info.date | date: 'medium'}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Exchange: </h5>
+              </div>
+              <div class="col">
+                <div *ngIf="trade.trade.info.exchange.name==='UK KEVIN'"><h4><span class="badge badge-danger">UK</span></h4></div>
+                <div *ngIf="trade.trade.info.exchange.name==='ITA WILLO'"><h4><span class="badge badge-warning">OLD W-ITA</span></h4></div>
+                <div *ngIf="trade.trade.info.exchange.name==='ITA KITO'"><h4><span class="badge badge-primary">KITO</span></h4></div>
+                <div *ngIf="trade.trade.info.exchange.name==='ITA PIDO'"><h4><span class="badge badge-info">OLD P-ITA</span></h4></div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Commission %: </h5>
+              </div>
+              <div class="col">
+                <h5>{{trade.trade.info.exchange.commission | percent:'0.2'}}</h5>
+                <h5 *ngIf="trade.trade.results.commissionPaid>0" class="text-warning">{{trade.trade.results.commissionPaid | currency}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Executor: </h5>
+              </div>
+              <div class="col">
+                <h5 *ngFor="let exe of trade.trade.info.executor">{{exe}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Max Risk: </h5>
+              </div>
+              <div class="col">
+                <h5>{{trade.trade.results.maxRisk | currency}}</h5>
+              </div>
+              <div class="col">
+                <h5>rR: </h5>
+              </div>
+              <div class="col">
+                <h5>{{trade.trade.results.rr | percent}}</h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Pl:</h5>
+              </div>
+              <div class="col">
+                <h5 [ngClass]="trade.trade.results.netProfit>0 ? 'text-success' : 'text-danger'">{{trade.trade.results.netProfit | currency}}</h5>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- RESULT -->
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h5 class="card-title mb-0">Result</h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Final Result: </h5>
+              </div>
+              <div class="col">
+                <h5 *ngIf="trade.trade.info.marketInfo?.sport.indexOf('TENNIS')!==-1">
+                  {{trade.trade.results.finalScore.tennis | tennisPoint: true : true}}
+                </h5>
+                <h5 *ngIf="trade.trade.info.marketInfo?.sport.indexOf('FOOTBALL')!==-1">
+                  {{trade.trade.results.finalScore.football.home + ' - ' + trade.trade.results.finalScore.football.away}}
+                </h5>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" *ngFor="let selection of trade.trade.selections; index as i">
+            <div class="row">
+              <div class="col">
+                <div class="row"></div>
+                <h5>{{selection.runnerName}}</h5>
+              </div>
+              <div class="col">
+                <app-bsp-odd [bspOdd]="selection.bsp" ></app-bsp-odd>
+              </div>
+              <div class="col-1">
+                <div *ngIf="selection.winner">
+                  <i data-feather="check" appFeatherIcon class="text-success"></i>
+                </div>
+                <div *ngIf="!selection.winner">
+                  <i data-feather="x" appFeatherIcon class="text-danger"></i>
+                </div>
+              </div>
+              <div class="col-2">
+                <button type="button" routerLink="/runners/detail/{{selection.runnerId}}"  class="btn btn-primary btn-icon">
+                  <i class="feather icon-external-link"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- NOTE -->
+<div class="row grid-margin" *ngIf="(trade.trade.info.note.description !== null
+                                  || trade.trade.info.note.mm !== null
+                                  || trade.trade.info.note.exit !== null
+                                  || trade.trade.info.note.position !== null
+                                  || trade.trade.info.note.entry !== null
+                                  || trade.trade.info.note.odds !== null
+                                  || trade.trade.info.note.post !== null) ||
+                                  trade.trade.info.note.description !== ''
+                                  || trade.trade.info.note.mm !== ''
+                                  || trade.trade.info.note.exit !== ''
+                                  || trade.trade.info.note.position !== ''
+                                  || trade.trade.info.note.entry !== ''
+                                  || trade.trade.info.note.odds !== ''
+                                  || trade.trade.info.note.post !== ''
+                                  ">
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h5 class="card-title mb-0">Note</h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item" *ngIf="trade.trade.info.note.description !== null">
+            <h5 class="text-gray">Description: </h5>
+            <p>{{trade.trade.info.note.description}}</p>
+          </li>
+          <li class="list-group-item" *ngIf="trade.trade.info.note.entry!== null">
+            <h5 class="text-gray">Entry: </h5>
+            <p>{{trade.trade.info.note.entry}}</p>
+          </li>
+          <li class="list-group-item" *ngIf="trade.trade.info.note.position!== null">
+            <h5 class="text-gray">Position: </h5>
+            <p>{{trade.trade.info.note.position}}</p>
+          </li>
+          <li class="list-group-item" *ngIf="trade.trade.info.note.exit!== null">
+            <h5 class="text-gray">Exit: </h5>
+            <p>{{trade.trade.info.note.exit}}</p>
+          </li>
+          <li class="list-group-item" *ngIf="trade.trade.info.note.mm!== null">
+            <h5 class="text-gray">MM: </h5>
+            <p>{{trade.trade.info.note.mm}}</p>
+          </li>
+          <li class="list-group-item" *ngIf="trade.trade.info.note.post!== null">
+            <h5 class="text-gray">Post: </h5>
+            <p>{{trade.trade.info.note.post}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETS -->
+<div class="row grid-margin">
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h5 class="card-title mb-0">Odds Movement</h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive pt-3">
+          <table class="table table-sm table-bordered text-center text-monospace">
+            <thead>
+            <tr>
+              <th><h5>Type</h5></th>
+              <th>
+                <h5>{{ trade.trade.selections[0].runnerName}}</h5>
+              </th>
+              <th>
+                <h5>{{ trade.trade.selections[1].runnerName}}</h5>
+              </th>
+              <th><h5>Time</h5></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- BSP -->
+            <tr>
+              <td>
+                <h5>BSP</h5>
+              </td>
+              <td *ngFor="let selection of trade.trade.selections">
+                <h5>{{selection.bsp}}</h5>
+              </td>
+                <h5></h5>
+              <td>
+            </tr>
+            <!-- SECOND -->
+            <tr *ngIf="trade.trade.info.setTime.second">
+              <td>
+                <h5>Set 2</h5>
+              </td>
+              <td *ngFor="let selection of trade.trade.selections">
+                <h5>{{selection.sets.secondSet}}</h5>
+              </td>
+              <td>
+                <h5>{{trade.trade.info.setTime.second | date :'shortTime'}}</h5>
+              </td>
+            </tr>
+            <!-- THIRD -->
+            <tr *ngIf="trade.trade.info.setTime.third">
+              <td>
+                <h5>Set 3</h5>
+              </td>
+              <td *ngFor="let selection of trade.trade.selections">
+                <h5>{{selection.sets.thirdSet}}</h5>
+              </td>
+              <td>
+                <h5> {{trade.trade.info.setTime.third | date :'shortTime'}}</h5>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BETS -->
+<div class="row grid-margin">
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h5 class="card-title mb-0">Trades</h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <app-trade-bets-view [trade]="trade"></app-trade-bets-view>
+      </div>
+    </div>
+  </div>
+</div>
+

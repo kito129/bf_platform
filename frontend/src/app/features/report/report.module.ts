@@ -21,8 +21,6 @@ import {StrategyCreateModalComponent} from './components/strategy/modal/strategy
 import {StrategyDeleteModalComponent} from './components/strategy/modal/strategy-note-delete-modal/strategy-delete-modal.component';
 import { StrategyDatatableComponent } from './components/strategy/strategy-datatable/strategy-datatable.component';
 import { ReportMainComponent } from './components/report-main.component';
-import { StrategyUploaderMainComponent } from './components/strategyUploader/strategy-uploader-main.component';
-import { StrategyUploaderInsertComponent } from './components/strategyUploader/strategy-uploader-insert/strategy-uploader-insert.component';
 
 
 
@@ -42,8 +40,6 @@ const routes: Routes = [
     StrategyDeleteModalComponent,
     StrategyDatatableComponent,
     ReportMainComponent,
-    StrategyUploaderMainComponent,
-    StrategyUploaderInsertComponent,
   ],
   imports: [
     CommonModule,

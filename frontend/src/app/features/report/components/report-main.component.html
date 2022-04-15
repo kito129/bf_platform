@@ -50,9 +50,9 @@
         <a ngbNavLink>All 2022 Trades</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-study-trade-datatable [trades$]="allNewTrade2022$"
-                                   [viewSelectors]="false">
-        </app-study-trade-datatable>
+        <app-trades-datatable [trades$]="allNewTrade2022$"
+                              [viewSelectors]="false">
+        </app-trades-datatable>
       </ng-template>
     </li>
     <li [ngbNavItem]="3">
@@ -60,19 +60,20 @@
         <a ngbNavLink>All 2021 Trades</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-study-trade-datatable [trades$]="allNewTrade2021$"
-                                   [viewSelectors]="false">
-        </app-study-trade-datatable>
+        <app-trades-datatable [trades$]="allNewTrade2021$"
+                              [viewSelectors]="false">
+        </app-trades-datatable>
       </ng-template>
     </li>
+    <!--
     <li [ngbNavItem]="4">
       <h5>
         <a ngbNavLink>Bagna Trades</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-study-trade-datatable [trades$]="allNewTradeKevin$"
-                                   [viewSelectors]="false">
-        </app-study-trade-datatable>
+        <app-trades-datatable [trades$]="allNewTradeKevin$"
+                              [viewSelectors]="false">
+        </app-trades-datatable>
       </ng-template>
     </li>
     <li [ngbNavItem]="5">
@@ -80,9 +81,9 @@
         <a ngbNavLink>Kevin Trades</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-study-trade-datatable [trades$]="allNewTradeBagna$"
-                                   [viewSelectors]="false">
-        </app-study-trade-datatable>
+        <app-trades-datatable [trades$]="allNewTradeBagna$"
+                              [viewSelectors]="false">
+        </app-trades-datatable>
       </ng-template>
     </li>
     <li [ngbNavItem]="6">
@@ -90,11 +91,13 @@
         <a ngbNavLink>Kito Trades</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-study-trade-datatable [trades$]="allNewTradeKito$"
-                                   [viewSelectors]="false">
-        </app-study-trade-datatable>
+        <app-trades-datatable [trades$]="allNewTradeKito$"
+                              [viewSelectors]="false">
+        </app-trades-datatable>
       </ng-template>
     </li>
+
+    -->
 
   </ul>
 

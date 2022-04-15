@@ -44,10 +44,10 @@
       <ng-template ngbNavContent>
         <div class="col grid-margin">
           <!-- DATATABLE FOR ALL TRADES-->
-          <app-study-trade-datatable [trades$]="selectedStudyTrades$"
-                                     [selectedMarketId]="selectedStudyMarketId$ | async"
-                                     [viewSelectors]="true">
-          </app-study-trade-datatable>
+          <app-trades-datatable [trades$]="selectedStudyTrades$"
+                                [selectedMarketId]="selectedStudyMarketId$ | async"
+                                [viewSelectors]="true">
+          </app-trades-datatable>
         </div>
 
         <div class="col grid-margin">

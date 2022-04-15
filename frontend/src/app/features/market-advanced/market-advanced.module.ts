@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 
-import { MarketAdvancedDetailComponent } from '../../shared/cards/marketCards/market-advanced-detail/market-advanced-detail.component';
+import { MarketAdvancedDetailComponent } from '../../shared/marketCards/market-advanced-detail/market-advanced-detail.component';
 import {FormsModule} from '@angular/forms';
 import {SharedModule} from '../../shared/shared.module';
 import { MarketAdvancedListComponent } from './components/list/market-advanced-list/market-advanced-list.component';

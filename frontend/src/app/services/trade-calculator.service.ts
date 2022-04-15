@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Trade, TradeForm, TradeRowDetail} from '../model/report/trade';
+import {TradeForm, TradeDetail} from '../model/report/trade';
 import {Exposition} from '../model/report/exposition';
-import {TradeRowDetailComponent} from '../shared/tradeCards/trade-datatable/trade-row-detail/trade-row-detail.component';
 import {NewTrade} from '../model/report/new/newTrade';
 
 @Injectable({
@@ -216,7 +215,7 @@ export class TradeCalculatorService {
         lastMin = stockPl
       }
 
-      const tradeDetail: TradeRowDetail =  {
+      const tradeDetail: TradeDetail =  {
         trade: x,
         data: {
           stockPl,

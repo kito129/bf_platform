@@ -1,0 +1,98 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin" *ngIf="!marketIdInput">
+  <div>
+    <h4 class="mb-3 mb-md-0">MARKET BASIC</h4>
+    <p>Study and view single markets and charts with runners prices.</p>
+  </div>
+  <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <button type="button" class="btn btn-outline-light btn-icon-text mr-2 d-none d-md-block" routerLink="/markets/list">
+      <i class="btn-icon-prepend" data-feather="home" appFeatherIcon></i>
+      Go to List
+    </button>
+    <button *ngIf="haveAdvanced$ | async" type="button" class="btn btn-outline-danger btn-icon-text mr-2 d-none d-md-block" (click)="goToAdvanced()">
+      <i class="btn-icon-prepend" data-feather="activity" appFeatherIcon></i>
+      Go to Advanced
+    </button>
+    <button type="button" class="btn btn-outline-success btn-icon-text mr-2 d-none d-md-block" (click)="nextMarket()">
+      <i class="btn-icon-prepend" data-feather="arrow-right" appFeatherIcon></i>
+      Random Market
+    </button>
+  </div>
+</div>
+
+
+<!-- ROW 1-->
+<div class="col-12" *ngIf="!marketIdInput">
+  <!-- LIST COMPONENT-->
+  <div class="row grid-margin">
+    <app-loading-cards *ngIf="(isLoadingSelectedMarket$ | async).isLoading"></app-loading-cards>
+    <div class="col-6">
+      <app-market-info-card class="mb-3" *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
+                            [marketInfoBasic]="selectedMarketInfo$ | async">
+      </app-market-info-card>
+
+      <app-market-additional-info class="mt-3" *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
+                                  [marketAdditionalInfo]="selectedMarketAdditionalInfo$ | async">
+      </app-market-additional-info>
+
+    </div>
+    <div class="col-6">
+      <app-market-runners-card *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
+                               [marketRunnersBasic]="selectedMarketSelections$ | async"
+                               [marketInfoBasic]="selectedMarketInfo$ | async">
+      </app-market-runners-card>
+    </div>
+
+
+  </div>
+  <div class="row grid-margin"  *ngIf="!dontWantUpdate">
+    <div class="col">
+      <app-tv-market-detail-prices *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
+                                   [marketDetail]="selectedMarket$ | async">
+      </app-tv-market-detail-prices>
+    </div>
+    <div class="col-3">
+
+      <app-market-update-card *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
+                              [marketUpdates]="selectedMarketUpdates$ | async"
+                              [marketInfoBasic]="selectedMarketInfo$ | async">
+      </app-market-update-card>
+    </div>
+  </div>
+  <div class="row grid-margin">
+
+  </div>
+</div>
+
+<div class="col" *ngIf="marketIdInput">
+
+  <app-loading-cards *ngIf="(isLoadingSelectedMarket$ | async).isLoading"></app-loading-cards>
+
+
+  <app-market-info-card class="mb-3" *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
+                        [marketInfoBasic]="selectedMarketInfo$ | async">
+  </app-market-info-card>
+
+  <app-tv-market-detail-prices *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
+                               [marketDetail]="selectedMarket$ | async">
+  </app-tv-market-detail-prices>
+
+
+  <app-market-additional-info class="mt-3" *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
+                              [marketAdditionalInfo]="selectedMarketAdditionalInfo$ | async">
+  </app-market-additional-info>
+
+  <app-market-runners-card *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
+                           [marketRunnersBasic]="selectedMarketSelections$ | async"
+                           [marketInfoBasic]="selectedMarketInfo$ | async">
+  </app-market-runners-card>
+
+  <app-market-update-card *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess && !dontWantUpdate"
+                          [marketUpdates]="selectedMarketUpdates$ | async"
+                          [marketInfoBasic]="selectedMarketInfo$ | async">
+  </app-market-update-card>
+
+
+</div>
+
+
+

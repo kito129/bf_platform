@@ -132,7 +132,7 @@ export class StudyComparatorComponent implements OnInit,OnDestroy {
       const ddMonetary = this.utils.ddOfTrades(tempPl, false, 10000)
       const maDDMonetary = this.utils.minOfNumberArray(ddMonetary)
       const maxDDPercent = this.utils.minOfNumberArray(ddPercent)
-      const avgDDPercent = this.utils.avgOfTrades(ddPercent)
+      const avgDDPercent = this.utils.avgOfArrayNumber(ddPercent)
       // set to local props
       this.equity.push(tempStock)
       this.pl.push(tempPl)

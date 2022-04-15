@@ -113,7 +113,7 @@ export interface Trade {
   }
 }
 
-export interface TradeRowDetail{
+export interface TradeDetail {
   trade: NewTrade
   data: {
     stockPl: number,

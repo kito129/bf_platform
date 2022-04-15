@@ -30,7 +30,7 @@ import { MarketsDataTableListComponent } from './components/list/markets-data-ta
 import { SharedModule } from '../../shared/shared.module'
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {MarketMetaListBasicComponent} from './components/list/market-meta-list-basic/market-meta-list-basic.component';
-import {MarketsDetailComponent} from '../../shared/cards/marketCards/market-basic-details/markets-detail.component';
+import {MarketsDetailComponent} from '../../shared/marketCards/market-basic-details/markets-detail.component';
 
 
 

@@ -7,6 +7,7 @@ import {
   REMOVE_STUDY_IN_COMPARE,
   RESET_STUDY_COMPARE
 } from '../study/study/study.actions';
+import {NewTrade} from '../../model/report/new/newTrade';
 
 
 export const GET_ALL_TRADES = '[Trades] Get all Trades';
@@ -85,7 +86,7 @@ export const getAllTradesFailure = createAction(
 // create trade
 export const createTrade = createAction(
   CREATE_TRADE,
-  props<{trade: Trade}>()
+  props<{trade: NewTrade}>()
 );
 
 export const createTradeSuccess = createAction(
@@ -102,7 +103,7 @@ export const createTradeFailure = createAction(
 // update trade
 export const updateTrade = createAction(
   UPDATE_TRADE,
-  props<{ _id: string, trade: Trade }>()
+  props<{ _id: string, trade: NewTrade }>()
 );
 
 export const updateTradeSuccess = createAction(

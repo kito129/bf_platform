@@ -16,6 +16,9 @@ export interface StrategyReport{
       total: StrategyResume
       loss: StrategyResume
       profit: StrategyResume
+      void: {
+        count: number,
+      }
     }
     dd: {
       max: {

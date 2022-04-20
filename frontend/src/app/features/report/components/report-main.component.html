@@ -47,7 +47,7 @@
     </li>
     <li [ngbNavItem]="2">
       <h5>
-        <a ngbNavLink>All 2022 Trades</a>
+        <a ngbNavLink>2022 Trades</a>
       </h5>
       <ng-template ngbNavContent>
         <app-trades-datatable [trades$]="allNewTrade2022$"
@@ -57,10 +57,20 @@
     </li>
     <li [ngbNavItem]="3">
       <h5>
-        <a ngbNavLink>All 2021 Trades</a>
+        <a ngbNavLink>2021 Trades</a>
       </h5>
       <ng-template ngbNavContent>
         <app-trades-datatable [trades$]="allNewTrade2021$"
+                              [viewSelectors]="false">
+        </app-trades-datatable>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <h5>
+        <a ngbNavLink>2022 Strategy Trades</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <app-trades-datatable [trades$]="allNewTrade2022Demo$"
                               [viewSelectors]="false">
         </app-trades-datatable>
       </ng-template>

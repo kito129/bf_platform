@@ -3,8 +3,8 @@ import {Action, createReducer, on} from '@ngrx/store';
 import * as reportActions from './report.actions';
 import {Strategy} from '../../model/report/strategy';
 import {
-  addElement, addMultipleStudyCompare, addStudyCompare,
-  deleteElement, removeStudyCompare, reset,
+  addElement, addStudyCompare,
+  deleteElement, removeStudyCompare,
   setterLoading,
   setterLoadingFailure,
   setterLoadingSuccess,
@@ -12,13 +12,9 @@ import {
 } from '../supportFunction';
 import {StrategyList} from '../../model/report/strategyList';
 import {NewTrade} from '../../model/report/new/newTrade';
-import {CompareStudy} from '../../model/report/compareStudy';
-import * as studyActions from '../study/study/study.actions';
-import {CompareStrategy} from '../../model/report/new/compareStrategy';
 
 
 export interface ReportStates {
-  allTrades: Trade[],
   allNewTrades: NewTrade[],
   allStrategy: Strategy[],
   strategyList: StrategyList[],
@@ -26,11 +22,6 @@ export interface ReportStates {
   selectedStrategyTradeId: string,
   tradeError: string,
   strategyError: string,
-  isLoadingAllTrades:{
-    isLoading: boolean,
-    isLoadingSuccess: boolean,
-    isLoadingError: boolean,
-  },
   isLoadingAllNewTrades:{
     isLoading: boolean,
     isLoadingSuccess: boolean,
@@ -48,7 +39,6 @@ export interface ReportStates {
 
 // this is the initial state of the app, before all HTTP call,
 export const reportInitialState: ReportStates = {
-  allTrades: [],
   allNewTrades: [],
   allStrategy: [],
   selectedStrategyId: '',
@@ -56,11 +46,6 @@ export const reportInitialState: ReportStates = {
   selectedStrategyTradeId: '',
   tradeError: '',
   strategyError: '',
-  isLoadingAllTrades:{
-    isLoading: false,
-    isLoadingSuccess: false,
-    isLoadingError: false,
-  },
   isLoadingAllNewTrades:{
     isLoading: false,
     isLoadingSuccess: false,
@@ -83,59 +68,59 @@ const reportReducers = createReducer(
 
   // get all trades
   on(reportActions.getAllTrades, (state,result) => (
-    {...state, isLoadingAllTrades: setterLoading()
+    {...state, isLoadingAllNewTrades: setterLoading()
     })
   ),
   on(reportActions.getAllTradesSuccess, (state, result) =>
 
-    ({...state, allTrades: result.response, isLoadingAllTrades: setterLoadingSuccess()
+    ({...state, allNewTrades: result.response, isLoadingAllNewTrades: setterLoadingSuccess()
     })
   ),
   on(reportActions.getAllTradesFailure, (state, result) => (
-    {...state, tradeError: 'API error', isLoadingAllTrades: setterLoadingFailure()
+    {...state, tradeError: 'API error', isLoadingAllNewTrades: setterLoadingFailure()
     })
   ),
 
   // create trade
   on(reportActions.createTrade, (state, result) => (
-    {...state, isLoadingAllTrades: setterLoading()
+    {...state, isLoadingAllNewTrades: setterLoading()
     })
   ),
   on(reportActions.createTradeSuccess, (state, result) =>
-    ({...state, allTrades: addElement(state.allTrades,result.response), isLoadingAllTrades: setterLoadingSuccess()
+    ({...state, allNewTrades: addElement(state.allNewTrades,result.response), isLoadingAllNewTrades: setterLoadingSuccess()
     })
   ),
   on(reportActions.createTradeFailure, (state, result) => (
-    {...state, tradeError: 'API error', isLoadingAllTrades: setterLoadingFailure()
+    {...state, tradeError: 'API error', isLoadingAllNewTrades: setterLoadingFailure()
     })
   ),
 
 
   // update trade
   on(reportActions.updateTrade, (state,result) => (
-    {...state, isLoadingAllTrades: setterLoading()
+    {...state, isLoadingAllNewTrades: setterLoading()
     })
   ),
   on(reportActions.updateTradeSuccess, (state, result) =>
-    ({...state, allTrades: updateElement(state.allTrades,result.response), isLoadingAllTrades: setterLoadingSuccess()
+    ({...state, allNewTrades: updateElement(state.allNewTrades,result.response), isLoadingAllNewTrades: setterLoadingSuccess()
     })
   ),
   on(reportActions.updateTradeFailure, (state, result) => (
-    {...state, tradeError: 'API error', isLoadingAllTrades: setterLoadingFailure()
+    {...state, tradeError: 'API error', isLoadingAllNewTrades: setterLoadingFailure()
     })
   ),
 
   // delete trade
   on(reportActions.deleteTrade, (state,result) => (
-    {...state, isLoadingAllTrades: setterLoading()
+    {...state, isLoadingAllNewTrades: setterLoading()
     })
   ),
   on(reportActions.deleteTradeSuccess, (state, result) =>
-    ({...state, allTrades: deleteElement(state.allTrades,result.response), isLoadingAllTrades: setterLoadingSuccess()
+    ({...state, allNewTrades: deleteElement(state.allNewTrades,result.response), isLoadingAllNewTrades: setterLoadingSuccess()
     })
   ),
   on(reportActions.deleteTradeFailure, (state, result) => (
-    {...state, tradeError: 'API error', isLoadingAllTrades: setterLoadingFailure()
+    {...state, tradeError: 'API error', isLoadingAllNewTrades: setterLoadingFailure()
     })
   ),
 
@@ -259,12 +244,17 @@ export function reducer(state: ReportStates | undefined, action: Action): any {
 // return the report state
 export const getRunnersState = (state: ReportStates) => {
   return {
-    allTrades: state.allTrades,
+    allNewTrades: state.allNewTrades,
     allStrategy: state.allStrategy,
+    strategyList: state.strategyList,
+    selectedStrategyId: state.selectedStrategyId,
+    selectedStrategyTradeId: state.selectedStrategyTradeId,
     tradeError: state.tradeError,
     strategyError: state.strategyError,
-    isLoadingAllTrades: state.isLoadingAllTrades,
-    isLoadingAllStrategy: state.isLoadingAllStrategy,
+    isLoadingAllNewTrades:state.isLoadingAllNewTrades,
+    isLoadingAllStrategy:state.isLoadingAllStrategy,
+    compareList: state.compareList,
+    compareStatus: state.compareStatus,
   };
 };
 

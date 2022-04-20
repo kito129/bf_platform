@@ -191,7 +191,8 @@ export class TradeCalculatorService {
     let up = 0
     let lastMax =-1000000000
     let lastMin =+1000000000
-    return  trade.map( x =>{
+    const tradeDetail = []
+    trade.map( x =>{
 
       // check for stock, dd and up
       stockPl += x.trade.results.netProfit
@@ -215,7 +216,7 @@ export class TradeCalculatorService {
         lastMin = stockPl
       }
 
-      const tradeDetail: TradeDetail =  {
+      const temp: TradeDetail =  {
         trade: x,
         data: {
           stockPl,
@@ -227,8 +228,9 @@ export class TradeCalculatorService {
           ddPercent: dd / lastMax
         }
       }
-      return tradeDetail
+      tradeDetail.push(temp)
     })
+    return tradeDetail
   }
 
 

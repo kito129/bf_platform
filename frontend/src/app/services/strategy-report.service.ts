@@ -128,6 +128,20 @@ export class StrategyReportService {
             dd:  0,
             percent: 0,
           }
+        },
+        oddsStats: {
+          runnerA: {
+            back: 0,
+            lay: 0,
+          },
+          runnerB: {
+            back: 0,
+            lay: 0,
+          },
+          total: {
+            back: 0,
+            lay: 0,
+          }
         }
       }
     }
@@ -146,14 +160,15 @@ export class StrategyReportService {
     const consecutiveProfit = consecutive[0]
     const consecutiveLoss = consecutive[1]
 
-    let stake = 1000
+    let bank = 1000
     if(this.selectedStrategy){
-      stake = this.selectedStrategy.strategy.info.bank>0 ? this.selectedStrategy.strategy.info.bank : 1000
+      bank = this.selectedStrategy.strategy.info.bank>0 ? this.selectedStrategy.strategy.info.bank : 1000
     }
 
-    const dd = this.utils.ddOfTrades(this.trades,false, stake)
-    const ddPercent = this.utils.ddOfTrades(this.trades,true, stake)
+    const dd = this.utils.ddOfTrades(this.trades,false, bank)
+    const ddPercent = this.utils.ddOfTrades(this.trades,true, bank)
 
+    // @ts-ignore
     this.strategyReport = {
       cash: {
         pl: this.utils.getSumOfArrayNumber(this.trades),
@@ -165,42 +180,42 @@ export class StrategyReportService {
         total: this.trades.length,
         detail: {
           total: {
-            count: Math.round((this.trades).length*100)/100,
-            grossCash: Math.round(this.utils.getSumOfArrayNumber(this.trades)*100)/100,
-            averageCash: Math.round(this.utils.avgOfArrayNumber(this.trades)*100)/100,
-            stdvCash: Math.round(this.utils.stdvOfTrades(this.trades)*100)/100,
-            maxCash: Math.round(this.utils.maxNumberArray(this.trades)*100)/100,
-            maxPercent: Math.round(this.utils.maxPercentNumberArray(this.trades)*100)/100,
-            consecutiveNumber:0,
+            count: Math.round((this.trades).length * 100) / 100,
+            grossCash: Math.round(this.utils.getSumOfArrayNumber(this.trades) * 100) / 100,
+            averageCash: Math.round(this.utils.avgOfArrayNumber(this.trades) * 100) / 100,
+            stdvCash: Math.round(this.utils.stdvOfTrades(this.trades) * 100) / 100,
+            maxCash: Math.round(this.utils.maxNumberArray(this.trades) * 100) / 100,
+            maxPercent: Math.round(this.utils.maxPercentNumberArray(this.trades) * 100) / 100,
+            consecutiveNumber: 0,
             consecutiveAvgNumber: 0,
             consecutiveCash: 0,
             consecutivePercent: 0,
             trades: []
           },
           profit: {
-            count: Math.round((this.profitTrades).length*100)/100,
-            grossCash: Math.round(this.utils.getSumOfArrayNumber(this.profitTrades)*100)/100,
-            averageCash: Math.round(this.utils.avgOfArrayNumber(this.profitTrades)*100)/100,
-            stdvCash: Math.round(this.utils.stdvOfTrades(this.profitTrades)*100)/100,
-            maxCash: Math.round(this.utils.maxNumberArray(this.profitTrades)*100)/100,
-            maxPercent: Math.round(this.utils.maxPercentNumberArray(this.profitTrades)*100)/100,
-            consecutiveNumber: Math.round(this.utils.maxOfConsecutive(consecutiveProfit)*100)/100,
-            consecutiveAvgNumber: Math.round(this.utils.avgOfConsecutive(consecutiveProfit)*100)/100,
-            consecutiveCash: Math.round(this.utils.maxOfConsecutivePl(consecutiveProfit)*100)/100,
-            consecutivePercent: Math.round(this.utils.maxOfConsecutivePl(consecutiveProfit) / this.utils.getSumOfArrayNumber(this.profitTrades)*100)/100,
+            count: Math.round((this.profitTrades).length * 100) / 100,
+            grossCash: Math.round(this.utils.getSumOfArrayNumber(this.profitTrades) * 100) / 100,
+            averageCash: Math.round(this.utils.avgOfArrayNumber(this.profitTrades) * 100) / 100,
+            stdvCash: Math.round(this.utils.stdvOfTrades(this.profitTrades) * 100) / 100,
+            maxCash: Math.round(this.utils.maxNumberArray(this.profitTrades) * 100) / 100,
+            maxPercent: Math.round(this.utils.maxPercentNumberArray(this.profitTrades) * 100) / 100,
+            consecutiveNumber: Math.round(this.utils.maxOfConsecutive(consecutiveProfit) * 100) / 100,
+            consecutiveAvgNumber: Math.round(this.utils.avgOfConsecutive(consecutiveProfit) * 100) / 100,
+            consecutiveCash: Math.round(this.utils.maxOfConsecutivePl(consecutiveProfit) * 100) / 100,
+            consecutivePercent: Math.round(this.utils.maxOfConsecutivePl(consecutiveProfit) / this.utils.getSumOfArrayNumber(this.profitTrades) * 100) / 100,
             trades: consecutiveProfit
           },
           loss: {
-            count: Math.round((this.lossTrades).length*100)/100,
-            grossCash: Math.round(this.utils.getSumOfArrayNumber(this.lossTrades)*100)/100,
-            averageCash: Math.round(this.utils.avgOfArrayNumber(this.lossTrades)*100)/100,
-            stdvCash: Math.round(this.utils.stdvOfTrades(this.lossTrades)*100)/100,
-            maxCash: Math.round(this.utils.minOfNumberArray(this.lossTrades)*100)/100,
-            maxPercent: Math.round(this.utils.minPercentOfNumberArray(this.lossTrades)*100)/100,
-            consecutiveNumber: Math.round(this.utils.maxOfConsecutive(consecutiveLoss)*100)/100,
-            consecutiveAvgNumber: Math.round(this.utils.avgOfConsecutive(consecutiveLoss)*100)/100,
-            consecutiveCash: Math.round(this.utils.minOfConsecutivePl(consecutiveLoss)*100)/100,
-            consecutivePercent: Math.round(this.utils.minOfConsecutivePl(consecutiveLoss) / this.utils.getSumOfArrayNumber(this.lossTrades)*100)/100,
+            count: Math.round((this.lossTrades).length * 100) / 100,
+            grossCash: Math.round(this.utils.getSumOfArrayNumber(this.lossTrades) * 100) / 100,
+            averageCash: Math.round(this.utils.avgOfArrayNumber(this.lossTrades) * 100) / 100,
+            stdvCash: Math.round(this.utils.stdvOfTrades(this.lossTrades) * 100) / 100,
+            maxCash: Math.round(this.utils.minOfNumberArray(this.lossTrades) * 100) / 100,
+            maxPercent: Math.round(this.utils.minPercentOfNumberArray(this.lossTrades) * 100) / 100,
+            consecutiveNumber: Math.round(this.utils.maxOfConsecutive(consecutiveLoss) * 100) / 100,
+            consecutiveAvgNumber: Math.round(this.utils.avgOfConsecutive(consecutiveLoss) * 100) / 100,
+            consecutiveCash: Math.round(this.utils.minOfConsecutivePl(consecutiveLoss) * 100) / 100,
+            consecutivePercent: Math.round(this.utils.minOfConsecutivePl(consecutiveLoss) / this.utils.getSumOfArrayNumber(this.lossTrades) * 100) / 100,
             trades: consecutiveLoss
           },
           void: {
@@ -209,20 +224,40 @@ export class StrategyReportService {
         },
         dd: {
           max: {
-            dd:  Math.min( ...dd ),
-            percent: Math.min( ...ddPercent ),
+            dd: Math.min(...dd),
+            percent: Math.min(...ddPercent),
           },
           avg: {
-            dd: dd.reduce( (a,b) =>{
-              return a+b
-            })/this.trades.length,
-            percent: ddPercent.reduce( (a,b) =>{
-              return a+b
-            })/ddPercent.length,
+            dd: dd.reduce((a, b) => {
+              return a + b
+            }) / this.trades.length,
+            percent: ddPercent.reduce((a, b) => {
+              return a + b
+            }) / ddPercent.length,
           },
           stdv: {
-            dd:  this.utils.stdvOfTrades(dd),
+            dd: this.utils.stdvOfTrades(dd),
             percent: this.utils.stdvOfTrades(ddPercent),
+          }
+        },
+        oddsStats: {
+          runnerA: {
+            back: Math.round(this.utils.avgOfArrayNumber(this.selectedTrades.filter( x => x.trade.selections[0].avg.back.odds >0).map( y => y.trade.selections[0].avg.back.odds)) *100)/100,
+            lay: Math.round(this.utils.avgOfArrayNumber(this.selectedTrades.filter( x => x.trade.selections[0].avg.lay.odds >0).map( y => y.trade.selections[0].avg.lay.odds)) *100)/100,
+          },
+          runnerB: {
+             // @ts-ignore
+            back: Math.round(this.utils.avgOfArrayNumber(this.selectedTrades.filter( x => x.trade.selections[1].avg.back.odds >0).map( y => y.trade.selections[1].avg.back.odds)) *100)/100,
+            // @ts-ignore
+            lay: Math.round(this.utils.avgOfArrayNumber(this.selectedTrades.filter( x => x.trade.selections[1].avg.lay.odds >0).map( y => y.trade.selections[1].avg.lay.odds)) *100)/100,
+          },
+          total: {
+            // @ts-ignore
+            back: Math.round(this.utils.avgOfArrayNumber((this.selectedTrades.filter( x => x.trade.selections[1].avg.back.odds >0).map( y => y.trade.selections[1].avg.back.odds)).concat(
+              this.selectedTrades.filter( x => x.trade.selections[0].avg.back.odds >0).map( y => y.trade.selections[0].avg.back.odds))) *100)/100,
+            // @ts-ignore
+            lay: Math.round(this.utils.avgOfArrayNumber((this.selectedTrades.filter( x => x.trade.selections[1].avg.lay.odds >0).map( y => y.trade.selections[1].avg.lay.odds)).concat(
+              this.selectedTrades.filter( x => x.trade.selections[0].avg.lay.odds >0).map( y => y.trade.selections[0].avg.lay.odds))) *100)/100,
           }
         }
       }
@@ -232,83 +267,6 @@ export class StrategyReportService {
       this.strategyReport.title = this.title
     } else {
       this.strategyReport.strategy = this.selectedStrategy
-    }
-  }
-
-  /*
-  * Utils function
- */
-
-  resetStrategyReport(){
-    this.strategyReport = {
-      strategy: null,
-      cash: {
-        pl: 0,
-        stake: 0,
-        stakePercent: 0,
-        bank: 0,
-      },
-      trades: {
-        total: 0,
-        detail: {
-          total: {
-            count: 0,
-            grossCash: 0,
-            averageCash: 0,
-            stdvCash: 0,
-            maxCash: 0,
-            maxPercent: 0,
-            consecutiveNumber: 0,
-            consecutiveAvgNumber: 0,
-            consecutiveCash: 0,
-            consecutivePercent: 0,
-            trades: [[]]
-          },
-          loss: {
-            count: 0,
-            grossCash: 0,
-            averageCash: 0,
-            stdvCash: 0,
-            maxCash: 0,
-            maxPercent: 0,
-            consecutiveNumber: 0,
-            consecutiveAvgNumber: 0,
-            consecutiveCash: 0,
-            consecutivePercent: 0,
-            trades: [[]]
-          },
-          profit: {
-            count: 0,
-            grossCash: 0,
-            averageCash: 0,
-            stdvCash: 0,
-            maxCash: 0,
-            maxPercent: 0,
-            consecutiveNumber: 0,
-            consecutiveAvgNumber: 0,
-            consecutiveCash: 0,
-            consecutivePercent: 0,
-            trades: [[]]
-          },
-          void: {
-            count: 0,
-          }
-        },
-        dd: {
-          max: {
-            dd: 0,
-            percent: 0,
-          },
-          avg: {
-            dd: 0,
-            percent: 0,
-          },
-          stdv: {
-            dd: 0,
-            percent: 0,
-          }
-        }
-      }
     }
   }
 

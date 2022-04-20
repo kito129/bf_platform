@@ -1,5 +1,5 @@
-import {Strategy} from "./strategy";
-import {ConsecutiveTrade} from "./consecutiveTrade";
+import {Strategy} from './strategy';
+import {ConsecutiveTrade} from './consecutiveTrade';
 
 export interface StrategyReport{
   strategy?: Strategy
@@ -32,6 +32,20 @@ export interface StrategyReport{
       stdv: {
         dd: number
         percent: number
+      }
+    },
+    oddsStats: {
+      runnerA: {
+        back: number
+        lay: number
+      },
+      runnerB: {
+        back: number
+        lay: number
+      }
+      total: {
+        back: number
+        lay: number
       }
     }
   }

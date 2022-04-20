@@ -27,9 +27,6 @@ export class ReportMainComponent implements OnInit, OnDestroy {
 
   bug = false
 
-  // trade
-  allTrade$: Observable<Trade[]>
-  isLoadingAllTrade$: Observable<IsLoading>
   // strategy
   allStrategy$: Observable<Strategy[]>
   isLoadingAllStrategy$: Observable<IsLoading>
@@ -48,6 +45,8 @@ export class ReportMainComponent implements OnInit, OnDestroy {
 
   allNewTrade2021$: Observable<NewTrade[]>
   allNewTrade2022$: Observable<NewTrade[]>
+
+  allNewTrade2022Demo$: Observable<NewTrade[]>
 
   allNewTradeKevin$: Observable<NewTrade[]>
   allNewTradeBagna$: Observable<NewTrade[]>
@@ -81,9 +80,6 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     // get slice for state
-    this.allTrade$ = this.store.pipe(select(reportSelectors.getAllTrade))
-    this.isLoadingAllTrade$=this.store.pipe(select(reportSelectors.getAllTradeLoading))
-
     this.allStrategy$ = this.store.pipe(select(reportSelectors.getAllStrategy))
     this.isLoadingAllStrategy$=this.store.pipe(select(reportSelectors.getAllStrategyLoading))
 
@@ -102,6 +98,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     // filtered
     this.allNewTrade2021$ = this.store.pipe(select(reportSelectors.getAllNewTrade2021))
     this.allNewTrade2022$ = this.store.pipe(select(reportSelectors.getAllNewTrade2022))
+    this.allNewTrade2022Demo$ = this.store.pipe(select(reportSelectors.getAllNewTrade2022Demo))
 
     this.allNewTradeKevin$ = this.store.pipe(select(reportSelectors.getAllNewTradeKevin))
     this.allNewTradeBagna$ = this.store.pipe(select(reportSelectors.getAllNewTradeBagna))
@@ -175,7 +172,6 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   public refresh(){
 
     this.store.dispatch(reportActions.getAllStrategies())
-    this.store.dispatch(reportActions.getAllTrades())
     this.store.dispatch(reportActions.getAllNewTrades())
   }
 

@@ -9,15 +9,6 @@ const getReportState = createFeatureSelector<ReportStates>(
   'reportState'
 );
 
-export const getAllTrade = createSelector(
-  getReportState,
-  (state) => state.allTrades
-);
-
-export const getAllTradeLoading = createSelector(
-  getReportState,
-  (state) => state.isLoadingAllTrades
-);
 
 export const getAllStrategy = createSelector(
   getReportState,
@@ -42,7 +33,7 @@ export const getAllEquity = createSelector(
         name: state.allStrategy[i].strategy.info.name,
         trades: []
       }
-      temp.trades = state.allTrades.filter( x => x.trade.info.strategyId === id).map(y=> y.trade.result.netProfit)
+      temp.trades = state.allNewTrades.filter( x => x.trade.info.strategyId === id).map(y=> y.trade.results.netProfit)
       response.push(temp)
     }
     return response
@@ -64,25 +55,6 @@ export const getSelectedStrategy = createSelector(
   (state) => state.allStrategy.filter( x=> x._id === state.selectedStrategyId)[0]
 );
 
-export const getNofTradeByStrategyId  = (id: string) => createSelector(
-  getReportState,
-  (state) => state.allTrades.filter( x=> x.trade.info.strategyId === id).reduce((acc, val) =>{
-    return val
-      ? acc+=1
-      : acc;
-  },0),
-);
-
-export const getStrategyPlById  = (id: string) => createSelector(
-  getReportState,
-  (state) => state.allTrades.filter( x=> x.trade.info.strategyId === id).reduce((acc, val) =>{
-    return val
-      ? acc+=val.trade.result.netProfit
-      : acc;
-  },0),
-);
-
-
 export const getSelectedStrategyId = createSelector(
   getReportState,
   (state) => state.selectedStrategyId
@@ -97,12 +69,6 @@ export const getStrategyById  = (id: string) => createSelector(
   getReportState,
   (state) => state.allStrategy.filter( x=> x._id === id)[0]
 );
-
-export const getStrategySportById  = (id: string) => createSelector(
-  getReportState,
-  (state) => state.allStrategy.filter( x=> x._id === id)[0].strategy.info.sport
-);
-
 
 export const getSelectedStrategyTrades = createSelector(
   getReportState,
@@ -196,6 +162,13 @@ export const getAllNewTrade2022 = createSelector(
   getReportState,
   (state) => {
     return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && !x.trade.info.executor.includes('DEMO'))
+      .sort((a, b) => b.trade.info.date - a.trade.info.date)
+  })
+
+export const getAllNewTrade2022Demo = createSelector(
+  getReportState,
+  (state) => {
+    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('DEMO'))
       .sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 

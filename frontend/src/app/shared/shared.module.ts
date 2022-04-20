@@ -113,6 +113,7 @@ import { CrudListComponent } from './filters/crud-list/crud-list.component';
 import { StrategyCompareComponent } from './strategy/strategy-compare/strategy-compare.component';
 import { StrategyCompareReportComponent } from './strategy/strategy-compare/strategy-compare-report/strategy-compare-report.component';
 import { StrategyReportPassiveLowLayComponent } from './strategy/strategy-report-passive-low-lay/strategy-report-passive-low-lay.component';
+import { StrategyReportAvgOddsComponent } from './strategy/strategy-report/strategy-report-avg-odds/strategy-report-avg-odds.component';
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
@@ -233,7 +234,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyCompareComponent,
     StrategyCompareReportComponent,
     TournamentPipe,
-    StrategyReportPassiveLowLayComponent
+    StrategyReportPassiveLowLayComponent,
+    StrategyReportAvgOddsComponent
   ],
   exports: [
     CommonModule,

@@ -1,4 +1,4 @@
-const Trade = require("../models/report/trade");
+const Trade = require("../models/report/newTrade");
 const Strategy = require("../models/report/strategy");
 
 const NewTrade = require("../models/report/newTrade");
@@ -108,7 +108,7 @@ exports.delete_trade_by_id = (req, res, next) => {
         .then(docs => {
             removed = {
                 created: docs.created,
-                lastUpdate: docs.lastUpdate,
+                updated: docs.updated,
                 trade: docs.trade,
                 _id: docs._id,
             }

@@ -19,8 +19,9 @@
             type="text"
             id="name"
             placeholder="Type name..."
-            (keyup)="updateFilter($event)"
-          />
+            [(ngModel)]="search"
+            name="search"
+            (ngModelChange)="updateFilter()"/>
         </div>
       </div>
       <div class="col">
@@ -30,7 +31,7 @@
           <ng-select id="tableSize"
                      name="options"
                      [(ngModel)]="tableSize"
-                     [items]="[5, 10,15,20,25,30,40,50,100,1000]"
+                     [items]="[5, 10,15,20,25,30,40,50,100,200,1000]"
                      [clearable]="false">
           </ng-select>
         </div>
@@ -39,8 +40,85 @@
     </form>
 </div>
 
+<!-- SELECTED DETAILS-->
+<div class="row mt-2 mb-2" *ngIf="selected.length">
+  <div class="col-3">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h5>#: </h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right">{{selected.length}}</h5>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h5>Pl: </h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right">{{getPL(selected) | currency}}</h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right">({{getAvgPL(selected) | currency}})</h5>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h5>Risk: </h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right">{{getRisk(selected) | currency}}</h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right">({{getAvgRisk(selected) | currency}})</h5>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h5>r/R: </h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right">{{getPL(selected) / (-getRisk(selected)) | percent:'0.2'}}</h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right">({{getRR(selected) | percent:'0.2'}})</h5>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h5>Avg Odds:</h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right text-primary">{{getAvgBack(selected)}}</h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right text-danger">{{getAvgLay(selected)}}</h5>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-3">
+    <button type="button"
+            class="btn btn-outline-danger"
+            (click)="unselectAll()">
+      Unselect All
+    </button>
+  </div>
+</div>
+
 <ngx-datatable
-  class="dark expandable"
+  class="dark"
   [rows]="rows"
   [columnMode]="ColumnMode.force"
   [rowHeight]="'auto'"
@@ -48,6 +126,9 @@
   [footerHeight]="50"
   [limit]="tableSize"
   [scrollbarH]="true"
+  [selected]="selected"
+  [selectionType]="SelectionType.multiClick"
+  (select)="onSelect($event)"
   [sorts]="[{prop: 'trade.trade.info.date', dir: 'desc'}]">
 
   <ngx-datatable-column name="Date" prop="trade.trade.info.date" [width]="1">
@@ -83,18 +164,6 @@
   <ngx-datatable-column name="rR" prop="trade.trade.results.rr" *ngIf="!viewTrades && !viewStats" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-info">{{ value | percent: '.2' }}</h5>
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Trades #" prop="trade.trade.trades.length" *ngIf="!viewTrades && !viewStats" [width]="1">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5>{{ value}}</h5>
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column name="Trades #" prop="trade.trade.trades.length" *ngIf="!viewTrades && !viewStats" [width]="1">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5>{{ value}}</h5>
     </ng-template>
   </ngx-datatable-column>
 
@@ -212,8 +281,6 @@
     </ng-template>
   </ngx-datatable-column>
 
-
-
   <ngx-datatable-column name="Trades" prop="trade" *ngIf="viewTrades" [width]="900">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <app-trade-bets-view [trade]="value"></app-trade-bets-view>
@@ -222,32 +289,11 @@
 
   <ngx-datatable-column name="View" prop="">
     <ng-template let-value="value" ngx-datatable-cell-template>
-
-      <app-trade-and-market-details-modal [trade]="value.trade">
-
-      </app-trade-and-market-details-modal>
-
-      <!--
       <app-trade-tools-actions [trade]="value.trade">
 
       </app-trade-tools-actions>
-      -->
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Tolls" prop="" *ngIf="viewSelectors">
-    <ng-template let-value="value"  ngx-datatable-cell-template>
-
-      <div class="d-flex justify-content-end align-items-baseline">
-
-        <button type="button" class="btn btn-icon" [ngClass]="selectedMarketId === value.trade.trade.info.marketInfo.marketId ? 'btn-info' : 'btn-outline-info'"
-                (click)="onClick(value.trade.trade.info.marketInfo.marketId,
-                value.trade.trade.selections[0].avg.back.odds>0 || value.trade.trade.selections[0].avg.lay.odds>0 ? value.trade.trade.selections[0].runnerId : value.trade.trade.selections[1].runnerId, value.trade)">
-          <i class="feather icon-eye"></i>
-        </button>
-      </div>
-
-    </ng-template>
-  </ngx-datatable-column>
 
 </ngx-datatable>

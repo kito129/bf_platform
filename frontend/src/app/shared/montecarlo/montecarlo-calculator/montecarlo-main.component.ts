@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {TradePlSeries} from "../../../model/calculator/montecarlo";
-import {StrategyReportService} from "../../../services/strategy-report.service";
-import {MontecarloService} from "../../../services/montecarlo.service";
-import {MontecarloParams} from "../../../model/calculator/montecarloParams";
+import {TradePlSeries} from '../../../model/calculator/montecarlo';
+import {MontecarloService} from '../../../services/montecarlo.service';
+import {MontecarloParams} from '../../../model/calculator/montecarloParams';
 
 @Component({
   selector: 'app-montecarlo-main',
@@ -23,7 +22,7 @@ export class MontecarloMainComponent implements OnInit {
 
   montecarloWins: boolean[][] = []
 
-  bug: boolean = true
+  bug = true
 
 
   constructor(private montecarloService :MontecarloService) { }

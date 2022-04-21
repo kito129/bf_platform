@@ -4,9 +4,8 @@ import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {TradeComparator} from '../../../../../model/study/study/tradeComparator';
 import {StrategyReport} from '../../../../../model/report/starategyReport';
-import {StrategyReportService} from '../../../../../services/strategy-report.service';
-import {Trade} from '../../../../../model/report/trade';
 import {Utils} from '../../../../../model/calculator/utils';
+import {StrategyReportClass} from '../../../../../model/calculator/strategyReport';
 
 @Component({
   selector: 'app-study-comparator',
@@ -73,9 +72,9 @@ export class StudyComparatorComponent implements OnInit,OnDestroy {
   // generate and Array with all strategy report
   private generateStrategyReports(data: CompareStudy[]){
     for (const study of data){
-      const tempReport = new StrategyReportService()
+      const tempReport = new StrategyReportClass()
 
-      tempReport.setDataStudy(study.trades,study.study.study.name)
+      tempReport.setDataNoStrategy(study.study.study.name, 10000, study.trades)
       this.strategyPies.push(tempReport.getStrategyPie())
       this.strategyReports.push(tempReport.getStrategyReport())
     }
@@ -153,6 +152,7 @@ export class StudyComparatorComponent implements OnInit,OnDestroy {
     const maxLength = Math.max(...this.trades.map( x => x.length))
     this.tradesTable = []
     // generate tables
+    // tslint:disable-next-line:prefer-for-of
     for (let k=0;k<this.seriesName.length;k++){
       // columns
       this.tradesTable.push(this.generateEmptyArray(maxLength))

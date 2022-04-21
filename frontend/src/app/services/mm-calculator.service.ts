@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Mm, MmResult} from "../model/calculator/mm";
-import {Trade} from "../model/report/trade";
-import {Utils} from "../model/calculator/utils";
+import {Mm, MmResult} from '../model/calculator/mm';
+import {Trade} from '../model/report/trade';
+import {Utils} from '../model/calculator/utils';
+import {NewTrade} from '../model/report/new/newTrade';
 
 @Injectable({
   providedIn: 'root'
@@ -12,53 +13,70 @@ export class MmCalculatorService {
 
   constructor() { }
 
-  getMmResult(trade: Trade[], params: Mm): MmResult{
+  getMmResult(trade: NewTrade[], params: Mm): MmResult{
 
-    let originalPL = trade.map( x=>x.trade.result.netProfit)
-    let originalStock = this.utils.getStock(trade.map( x=>x.trade.result.netProfit))
+    const originalPL = trade.map( x=>x.trade.results.netProfit)
+    const originalRR = trade.map( x=>x.trade.results.rr)
+    const originalRisk = trade.map( x=> -Math.abs(x.trade.results.maxRisk))
+    const maringalaK =  this.getMartingalaK(params.params.fixedStake, params.params.martingalaK, originalRR, params.t0capital)
 
-    let result: MmResult = {
-      fixedStake: this.utils.getTradesSeries(originalPL,'fixedStake'),
-      martingalaK: this.utils.getTradesSeries(originalPL,'martingalaK'),
-      antimartingalaK: this.utils.getTradesSeries(originalPL,'antimartingalaK'),
-      fixedFractional: this.utils.getTradesSeries(originalPL,'fixedFractional'),
-      fixedRatio: this.utils.getTradesSeries(originalPL,'fixedRatio'),
+    return {
+      originalSeries: this.utils.getTradesSeries(originalPL,originalRisk,'originalSeries', params.t0capital),
+      fixedStake: this.utils.getTradesSeries(this.getFixedStake(params.params.fixedStake, originalRR), trade.map( x=> -params.params.fixedStake),'fixedStake', params.t0capital),
+      martingalaK: this.utils.getTradesSeries(maringalaK[0], maringalaK[1],'martingalaK', params.t0capital),
+      fixedFractional: this.utils.getTradesSeries(originalPL,originalRisk,'fixedFractional', params.t0capital),
+      fixedRatio: this.utils.getTradesSeries(originalPL,originalRisk,'fixedRatio', params.t0capital),
     }
-
-    return result
   }
 
-  getFixedStake(){
-    let pl: number[] = []
-    let risk: number[] = []
-
-    return [pl,risk]
+  getFixedStake(fixedStake: number, rr: number[]){
+    return rr.map( x => x*fixedStake)
   }
 
-  getMartingalaK(){
-    let pl: number[] = []
-    let risk: number[] = []
+  getMartingalaK(fixedStake: number, martingalaK: number, rr: number[], bank: number){
+    const pl: number[] = []
+    const risk: number[] = []
 
-    return [pl,risk]
-  }
+    let stake = fixedStake
+    let cum = bank
+    rr.forEach((r, i ) =>{
+      const p = stake*r
+      if(r===0){
+        pl.push(0)
+        risk.push(-stake)
+        stake = fixedStake
+      } else {
+        if(r>=0){
+          pl.push(p)
+          risk.push(-stake)
+          stake = fixedStake
+        } else {
+          pl.push(p)
+          risk.push(-stake)
+          stake = stake*martingalaK
+        }
+      }
+      cum = cum+p
+      // if stake > end bank
+      if(stake>cum){
+        stake = 0
+      }
 
-  getAntimartingalaK(){
-    let pl: number[] = []
-    let risk: number[] = []
+    })
 
-    return [pl,risk]
+    return [pl, risk]
   }
 
   getFixedFractional(){
-    let pl: number[] = []
-    let risk: number[] = []
+    const pl: number[] = []
+    const risk: number[] = []
 
     return [pl,risk]
   }
 
-  getFxedRatio(){
-    let pl: number[] = []
-    let risk: number[] = []
+  getFixedRatio(){
+    const pl: number[] = []
+    const risk: number[] = []
 
     return [pl,risk]
   }

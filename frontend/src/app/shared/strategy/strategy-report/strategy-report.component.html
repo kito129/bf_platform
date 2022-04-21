@@ -1,9 +1,10 @@
 <!-- CARD 1-->
-<div class="card">
+<div class="card" *ngIf="visibleReport && bug">
   <!-- HEADER -->
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h3 >{{selectedStrategyReport.strategy.strategy.info.name}} Report</h3>
+      <h3 *ngIf="haveStrategy">{{strategyReport.strategy.strategy.info.name}} Report</h3>
+      <h3 *ngIf="!haveStrategy">{{title}} Report</h3>
     </div>
   </div><!-- /HEADER -->
   <div class="card-body">
@@ -17,29 +18,31 @@
           <div>
             <div class="row">
               <div class="col-3">
-                <app-strategy-report-info
-                  [strategyReport]="selectedStrategyReport">
+                <app-strategy-report-info [haveStrategy]="haveStrategy"
+                                          [strategyReport]="strategyReport"
+                                          [bank]="bank">
                 </app-strategy-report-info>
 
                 <app-pie class="mt-2" [label]="['WIN', 'LOSS', 'VOID']"
-                         [data]="selectedStrategyPie"
+                         [data]="strategyValue"
                          [height]="250">
                 </app-pie>
               </div>
               <div class="col">
                 <app-strategy-report-resume [title]="'Profit'"
-                                            [strategyResumeProfit]="selectedStrategyReport.trades.detail.profit"
-                                            [strategyResumeLoss]="selectedStrategyReport.trades.detail.loss"
-                                            [strategyResumeTotal]="selectedStrategyReport.trades.detail.total">
+                                            [strategyResumeProfit]="strategyReport.trades.detail.profit"
+                                            [strategyResumeLoss]="strategyReport.trades.detail.loss"
+                                            [strategyResumeTotal]="strategyReport.trades.detail.total">
                 </app-strategy-report-resume>
               </div>
               <div class="col-2">
                 <app-strategy-report-dd class="grid-margin"
-                                        [strategyReport]="selectedStrategyReport">
+                                        [strategyReport]="strategyReport" [bank]="bank"
+                                        [haveStrategy]="haveStrategy">
                 </app-strategy-report-dd>
 
                 <app-strategy-report-avg-odds class="mt-2"
-                                              [strategyReport]="selectedStrategyReport">
+                                              [strategyReport]="strategyReport">
                 </app-strategy-report-avg-odds>
               </div>
             </div>
@@ -68,7 +71,7 @@
           <!-- DD CHART -->
           <app-trade-dd [allTrades]="selectedStrategyTrades$"
                         [labels]="tradeLabels"
-                        [bank]="selectedStrategyReport.strategy.strategy.info.bank"
+                        [bank]="haveStrategy ? strategyReport.strategy.strategy.info.bank : bank"
                         [wantMonetary]="false"
                         [wantPercent]="true">
           </app-trade-dd>
@@ -135,8 +138,19 @@
           </app-trade-histogram>
         </ng-template>
       </li>
-      <!-- RISK -->
+      <!-- MONTECARLO -->
       <li [ngbNavItem]="7">
+        <h5 class="text-danger">
+          <a ngbNavLink>Money Managment</a>
+        </h5>
+        <ng-template ngbNavContent>
+          <app-mm [strategyReport]="strategyReport"
+                  [trades]="selectedStrategyTrades$ | async">
+          </app-mm>
+        </ng-template>
+      </li>
+      <!-- MONTECARLO -->
+      <li [ngbNavItem]="8">
         <h5 class="text-danger">
           <a ngbNavLink>MonteCarlo</a>
         </h5>
@@ -148,7 +162,7 @@
       <!-- PASSIVE -->
 
       <!-- LOW LAY -->
-      <li [ngbNavItem]="8">
+      <li [ngbNavItem]="9">
         <h5 class="text-danger">
           <a ngbNavLink>Low Lay</a>
         </h5>

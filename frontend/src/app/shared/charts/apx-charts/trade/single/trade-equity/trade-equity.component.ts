@@ -39,7 +39,7 @@ export class TradeEquityComponent implements OnInit, OnDestroy {
 
   generateChart(trades: NewTrade[]) {
 
-    const netProfit = trades.map(x =>+x.trade.results.netProfit.toFixed(2))
+    const netProfit = trades.map(x => Math.round(x.trade.results.netProfit * 100)/100)
 
     this.updateStock(netProfit)
 

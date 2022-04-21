@@ -43,7 +43,7 @@ import { MaxComponent } from './formatter/odds-display/max/max.component';
 import { FilterNameFormatterComponent } from './formatter/filter-name-formatter/filter-name-formatter.component';
 import { WinnerFormatterComponent } from './formatter/winner-formatter/winner-formatter.component';
 import { PieComponent } from './charts/apx-charts/pie/pie.component';
-import {NgApexchartsModule} from 'ng-apexcharts';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { BetsFormComponent } from './form-components/bets-form/bets-form.component';
 import { MarketInfoCardComponent } from './marketCards/market-detail-info-card/market-detail-info-card.component';
 import { MarketUpdateCardComponent } from './marketCards/market-update-card/market-update-card.component';
@@ -71,7 +71,6 @@ import { MontecarloParamsComponent } from './montecarlo/montecarlo-calculator/mo
 import { MontecarloMainComponent } from './montecarlo/montecarlo-calculator/montecarlo-main.component';
 import { MontecarloCompareTableComponent } from './montecarlo/montecarlo-strategy/montercarlo-compare-table/montecarlo-compare-table.component';
 import { MontecarloRecapComponent } from './montecarlo/montecarlo-strategy/montecarlo-recap/montecarlo-recap.component';
-
 import { TradeHistogramComponent } from './charts/apx-charts/trade/single/trade-histogram/trade-histogram.component';
 import { DdMultiChartsComponent } from './charts/apx-charts/trade/dd-multi-charts/dd-multi-charts.component';
 import { StrategyReportDdComponent } from './strategy/strategy-report/strategy-report-dd/strategy-report-dd.component';
@@ -83,7 +82,6 @@ import { PlayersFilterPipe } from '../core/pipe/players-filter-name-pipe.pipe';
 import { StrategyReportMonthComponent } from './strategy/strategy-report/strategy-report-month/strategy-report-month.component';
 import { StrategyReportTablesComponent } from './strategy/strategy-report/strategy-report-tables/strategy-report-tables.component';
 import { TvAdvancedMultipleSelectionsComponent } from './charts/tradingView-charts/advanced-multiple-selections/tv-advanced-multiple-selections.component';
-
 import { OHLCPipe } from '../core/pipe/ohlc.pipe';
 import { CurrencyKPipe } from '../core/pipe/currency-k.pipe';
 import { WinnerOddsByMarketAdvancedPipe } from '../core/pipe/winner-odds-by-market-advanced.pipe';
@@ -111,9 +109,12 @@ import {TradeUpdatesModalComponent} from './trade/modal/trade-updates-modal/trad
 import {TradeDetailComponent} from './trade/trade-detail/trade-detail.component';
 import { CrudListComponent } from './filters/crud-list/crud-list.component';
 import { StrategyCompareComponent } from './strategy/strategy-compare/strategy-compare.component';
-import { StrategyCompareReportComponent } from './strategy/strategy-compare/strategy-compare-report/strategy-compare-report.component';
 import { StrategyReportPassiveLowLayComponent } from './strategy/strategy-report-passive-low-lay/strategy-report-passive-low-lay.component';
 import { StrategyReportAvgOddsComponent } from './strategy/strategy-report/strategy-report-avg-odds/strategy-report-avg-odds.component';
+import { MmComponent } from './strategy/strategy-mm/mm.component';
+import { MmParamsComponent } from './strategy/strategy-mm/mm-params/mm-params.component';
+import { MmDatatableComponent } from './strategy/strategy-mm/mm-datatable/mm-datatable.component';
+import { MmChartsComponent } from './strategy/strategy-mm/mm-charts/study-mm-charts.component';
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
@@ -232,10 +233,13 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     TradeDetailComponent,
     CrudListComponent,
     StrategyCompareComponent,
-    StrategyCompareReportComponent,
     TournamentPipe,
     StrategyReportPassiveLowLayComponent,
-    StrategyReportAvgOddsComponent
+    StrategyReportAvgOddsComponent,
+    MmComponent,
+    MmParamsComponent,
+    MmDatatableComponent,
+    MmChartsComponent
   ],
   exports: [
     CommonModule,
@@ -317,8 +321,11 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     TradeDetailComponent,
     CrudListComponent,
     StrategyCompareComponent,
-    TournamentPipe
-
+    TournamentPipe,
+    MmComponent,
+    MmParamsComponent,
+    MmDatatableComponent,
+    MmChartsComponent
   ]
 })
 export class SharedModule { }

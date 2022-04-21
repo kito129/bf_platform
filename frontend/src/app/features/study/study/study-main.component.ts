@@ -5,15 +5,12 @@ import {IsLoading} from '../../../model/isLoading';
 import {select, Store} from '@ngrx/store';
 import * as studySelectors from '../../../store/study/study/study.selectors';
 import * as strategySelectors from '../../../store/report/report.selectors';
-import {Trade} from '../../../model/report/trade';
-import {Strategy} from '../../../model/report/strategy';
 import {SelectedTradeCharts} from '../../../model/study/selectedTradeCharts';
-import {StrategyReport} from '../../../model/report/starategyReport';
-import {StrategyReportService} from '../../../services/strategy-report.service';
-import {takeUntil} from 'rxjs/operators';
+import {StrategyReport} from '../../../model/report/starategyReport';import {takeUntil} from 'rxjs/operators';
 import {MarketSinglePrices} from '../../../model/market/marketSinglePrices';
 import {CompareStudy} from '../../../model/report/compareStudy';
 import {NewTrade} from '../../../model/report/new/newTrade';
+import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 
 @Component({
   selector: 'app-study-main',
@@ -50,8 +47,9 @@ export class StudyMainComponent implements OnInit, OnDestroy {
   visibleReport= false
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private readonly store: Store,
-              public strategyReportService: StrategyReportService) {}
+  strategyReportService = new StrategyReportClass()
+
+  constructor(private readonly store: Store){}
 
   ngOnInit(): void {
 

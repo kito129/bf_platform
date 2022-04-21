@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {MontecarloParams} from "../../../../model/calculator/montecarloParams";
+import {MontecarloParams} from '../../../../model/calculator/montecarloParams';
 
 @Component({
   selector: 'app-montecarlo-params',
@@ -7,12 +7,12 @@ import {MontecarloParams} from "../../../../model/calculator/montecarloParams";
 })
 export class MontecarloParamsComponent implements OnInit {
 
-  @Output() calculateEmitter = new EventEmitter
+  @Output() calculateEmitter = new EventEmitter()
   data: MontecarloParams
 
-  size: number = 100
-  length: number = 1000
-  histogram: number = 20
+  size = 100
+  length = 1000
+  histogram = 20
 
   constructor() { }
 

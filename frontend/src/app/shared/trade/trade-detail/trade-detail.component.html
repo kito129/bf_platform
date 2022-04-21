@@ -138,21 +138,7 @@
   </div>
 </div>
 <!-- NOTE -->
-<div class="row grid-margin" *ngIf="(trade.trade.info.note.description !== null
-                                  || trade.trade.info.note.mm !== null
-                                  || trade.trade.info.note.exit !== null
-                                  || trade.trade.info.note.position !== null
-                                  || trade.trade.info.note.entry !== null
-                                  || trade.trade.info.note.odds !== null
-                                  || trade.trade.info.note.post !== null) ||
-                                  trade.trade.info.note.description !== ''
-                                  || trade.trade.info.note.mm !== ''
-                                  || trade.trade.info.note.exit !== ''
-                                  || trade.trade.info.note.position !== ''
-                                  || trade.trade.info.note.entry !== ''
-                                  || trade.trade.info.note.odds !== ''
-                                  || trade.trade.info.note.post !== ''
-                                  ">
+<div class="row grid-margin" *ngIf="notePresent">
   <div class="col">
     <div class="card">
       <div class="card-header">
@@ -276,9 +262,11 @@
   </div>
 </div>
 
+<!--
 <div class="row grid-margin">
   <pre>
     {{trade | json}}
   </pre>
 </div>
+-->
 

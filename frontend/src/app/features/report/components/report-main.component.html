@@ -1,7 +1,6 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-    <h4 class="mb-3 mb-md-0">Report</h4>
-    <p>Report </p>
+    <h3 class="mb-3">Report</h3>
   </div>
   <div class="d-flex align-items-center flex-wrap text-nowrap">
     <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block" (click)="refresh()">
@@ -11,11 +10,9 @@
   </div>
 </div>
 
-{{compareList$ | async | json}}
-
 <div class="col">
+  <app-loading-cards *ngIf="(isLoadingAllStrategy$ | async).isLoading || (isLoadingAllNewTrade$ | async).isLoading"></app-loading-cards>
   <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
-
     <li [ngbNavItem]="1">
       <h5>
         <a ngbNavLink>Strategy</a>
@@ -30,10 +27,9 @@
         </div>
 
         <div class="col grid-margin">
-          <app-strategy-report *ngIf="(selectedStrategy$ | async) && bug"
-                               [selectedStrategyReport]="selectedStrategyReport"
-                               [selectedStrategyPie]="selectedStrategyPie"
-                               [selectedStrategyTrades$]="selectedStrategyTrades$">
+          <app-strategy-report *ngIf="(selectedStrategy$ | async)"
+                               [selectedStrategyTrades$]="selectedStrategyTrades$"
+                               [selectedStrategy]="selectedStrategy$ | async">
           </app-strategy-report>
         </div>
 
@@ -42,7 +38,6 @@
           </app-strategy-compare>
         </div>
 
-
       </ng-template>
     </li>
     <li [ngbNavItem]="2">
@@ -50,29 +45,35 @@
         <a ngbNavLink>2022 Trades</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-trades-datatable [trades$]="allNewTrade2022$"
-                              [viewSelectors]="false">
-        </app-trades-datatable>
+        <app-strategy-report [selectedStrategyTrades$]="allNewTrade2022$"
+                             [selectedStrategy]="null"
+                             [title]="'2022 Trades'"
+                             [bank]="100000">
+        </app-strategy-report>
       </ng-template>
     </li>
     <li [ngbNavItem]="3">
       <h5>
-        <a ngbNavLink>2021 Trades</a>
+        <a ngbNavLink>2022 Passive Trades</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-trades-datatable [trades$]="allNewTrade2021$"
-                              [viewSelectors]="false">
-        </app-trades-datatable>
+        <app-strategy-report [selectedStrategyTrades$]="allNewTrade2022Demo$"
+                             [selectedStrategy]="null"
+                             [title]="'2022 Passive Trade'"
+                             [bank]="10000">
+        </app-strategy-report>
       </ng-template>
     </li>
     <li [ngbNavItem]="4">
       <h5>
-        <a ngbNavLink>2022 Strategy Trades</a>
+        <a ngbNavLink>2021 Trades</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-trades-datatable [trades$]="allNewTrade2022Demo$"
-                              [viewSelectors]="false">
-        </app-trades-datatable>
+        <app-strategy-report [selectedStrategyTrades$]="allNewTrade2021$"
+                             [selectedStrategy]="null"
+                             [title]="'2021 Trades'"
+                             [bank]="30000">
+        </app-strategy-report>
       </ng-template>
     </li>
     <!--

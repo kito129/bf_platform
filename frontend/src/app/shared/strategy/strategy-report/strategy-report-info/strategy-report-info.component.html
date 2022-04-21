@@ -7,10 +7,10 @@
       <li class="list-group-item">
         <div class="row">
           <div class="col">
-            <h4 *ngIf="strategyReport.strategy">
+            <h4 *ngIf="haveStrategy">
               {{strategyReport.strategy.strategy.info.name}}
             </h4>
-            <h4 *ngIf="strategyReport.title">
+            <h4 *ngIf="!haveStrategy">
               {{strategyReport.title}}
             </h4>
           </div>
@@ -19,29 +19,31 @@
           </div>
         </div>
       </li>
-      <li class="list-group-item">
-        <h4 *ngIf="strategyReport.strategy">
-          Executor: {{strategyReport.strategy.strategy.info.executor}}
-        </h4>
-      </li>
-      <li class="list-group-item">
-        <h5 *ngIf="strategyReport.strategy">
-          Bank: {{strategyReport.strategy.strategy.info.bank | currency}}
-        </h5>
-      </li>
-      <li class="list-group-item">
-        <h5 *ngIf="strategyReport.strategy">
-          Stake: {{strategyReport.strategy.strategy.info.stake | currency}}
-        </h5>
-      </li>
-      <li class="list-group-item">
-        <h5 *ngIf="strategyReport.strategy">
-          Type Stake: {{strategyReport.strategy.strategy.info.typeOfStake}}
-        </h5>
-        <h5 *ngIf="strategyReport.strategy">
-          Money Management: {{strategyReport.strategy.strategy.info.moneyManagement}}
-        </h5>
-      </li>
+      <div *ngIf="haveStrategy">
+        <li class="list-group-item">
+          <h4>
+            Executor: {{strategyReport.strategy.strategy.info.executor}}
+          </h4>
+        </li>
+        <li class="list-group-item">
+          <h5>
+            Bank: {{strategyReport.strategy.strategy.info.bank | currency}}
+          </h5>
+        </li>
+        <li class="list-group-item">
+          <h5>
+            Stake: {{strategyReport.strategy.strategy.info.stake | currency}}
+          </h5>
+        </li>
+        <li class="list-group-item">
+          <h5>
+            Type Stake: {{strategyReport.strategy.strategy.info.typeOfStake}}
+          </h5>
+          <h5>
+            Money Management: {{strategyReport.strategy.strategy.info.moneyManagement}}
+          </h5>
+        </li>
+      </div>
       <li class="list-group-item">
         <div class="table-responsive">
           <table class="table table-hover table-bordered">
@@ -82,8 +84,11 @@
             </h3>
           </div>
           <div class="col">
-            <h3 class="text-right text-primary">
+            <h3 class="text-right text-primary" *ngIf="haveStrategy">
               {{strategyReport.cash.pl / strategyReport.strategy.strategy.info.bank | percent}}
+            </h3>
+            <h3 class="text-right text-primary" *ngIf="!haveStrategy">
+              {{strategyReport.cash.pl / bank | percent}}
             </h3>
           </div>
         </div>

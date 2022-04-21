@@ -21,7 +21,7 @@ export class MultiLineEquityComponent implements OnInit {
 
   public lineChartOptions: Partial<ChartOptions>;
 
-  constructor(private currencyPipe: CurrencyPipe) { }
+  constructor() { }
 
   ngOnInit(): void {
 
@@ -76,7 +76,7 @@ export class MultiLineEquityComponent implements OnInit {
     for (let  i=0; i<this.stock.length; i++){
       stockSeries.push( {
         name: this.seriesName[i],
-        data: [0].concat(this.stock[i]),
+        data: this.stock[i],
       })
     }
 

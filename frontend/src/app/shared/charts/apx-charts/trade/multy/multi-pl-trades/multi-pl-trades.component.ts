@@ -11,6 +11,7 @@ export class MultiPlTradesComponent implements OnInit {
 
   @Input() seriesName: string[]
   @Input() pl: number[][]
+  @Input() height
 
   @ViewChild('chartObj') chart: ChartComponent;
 
@@ -73,7 +74,7 @@ export class MultiPlTradesComponent implements OnInit {
       },
       chart: {
         type: 'bar',
-        height: 900,
+        height: this.height ? this.height :800,
         animations: {
           enabled: false
         },

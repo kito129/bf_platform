@@ -8,6 +8,8 @@ import {StrategyReport} from '../../../../model/report/starategyReport';
 export class StrategyReportInfoComponent implements OnInit {
 
   @Input() strategyReport: StrategyReport
+  @Input() haveStrategy: boolean
+  @Input() bank: boolean
 
   constructor() {}
 

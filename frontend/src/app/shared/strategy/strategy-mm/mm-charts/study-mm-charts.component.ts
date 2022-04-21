@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-study-mm-charts',
+  selector: 'app-mm-charts',
   templateUrl: './study-mm-charts.component.html',
 })
-export class StudyMmChartsComponent implements OnInit {
+export class MmChartsComponent implements OnInit {
 
   constructor() { }
 

@@ -30,10 +30,6 @@
         <a ngbNavLink>Study Report</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-strategy-report [selectedStrategyReport]="selectedStrategyReport"
-                             [selectedStrategyPie]="selectedStrategyPie"
-                             [selectedStrategyTrades$]="selectedStudyTrades$">
-        </app-strategy-report>
       </ng-template>
     </li>
 
@@ -77,9 +73,9 @@
         <a ngbNavLink>MM</a>
       </h5>
       <ng-template ngbNavContent>
-        <app-study-mm [trades]="selectedStudyTrades$ | async"
-                      [strategyReport]="selectedStrategyReport">
-        </app-study-mm>
+        <app-mm [trades]="selectedStudyTrades$ | async"
+                [strategyReport]="selectedStrategyReport">
+        </app-mm>
       </ng-template>
     </li>
   </ul>

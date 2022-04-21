@@ -18,23 +18,23 @@ export class TennisPointPipe implements PipeTransform {
         return point.set1.runnerA.toString()+  point.set1.runnerB.toString() + appendGame(point, wantGame) + appendServer(point,wantServer)
       }
       case (2):{
-        return point.set1.runnerA.toString() + point.set1.runnerB.toString() + ' - ' + point.set2.runnerA.toString() + point.set2.runnerB.toString()
+        return point.set1.runnerA.toString() + point.set1.runnerB.toString() + '-' + point.set2.runnerA.toString() + point.set2.runnerB.toString()
           + appendGame(point, wantGame) + appendServer(point,wantServer)
       }
       case (3):{
-        return point.set1.runnerA.toString() + point.set1.runnerB.toString() + ' - ' + point.set2.runnerA.toString() + point.set2.runnerB.toString()
-          + ' - ' + point.set3.runnerA.toString() + point.set3.runnerB.toString()
+        return point.set1.runnerA.toString() + point.set1.runnerB.toString() + '-' + point.set2.runnerA.toString() + point.set2.runnerB.toString()
+          + '-' + point.set3.runnerA.toString() + point.set3.runnerB.toString()
           + appendGame(point, wantGame) + appendServer(point,wantServer)
       }
       case (4):{
-        return point.set1.runnerA + point.set1.runnerB.toString() + ' - ' + point.set2.runnerA.toString() + point.set2.runnerB.toString() + ' - '
-          + point.set3.runnerA + point.set3.runnerB.toString() + ' - ' + point.set4.runnerA.toString() + point.set4.runnerB.toString()
+        return point.set1.runnerA + point.set1.runnerB.toString() + '-' + point.set2.runnerA.toString() + point.set2.runnerB.toString() + '-'
+          + point.set3.runnerA + point.set3.runnerB.toString() + '-' + point.set4.runnerA.toString() + point.set4.runnerB.toString()
           + appendGame(point, wantGame) + appendServer(point,wantServer)
       }
       case (5):{
-        return point.set1.runnerA + point.set1.runnerB.toString() + ' - ' + point.set2.runnerA + point.set2.runnerB.toString() + ' - '
-          + point.set3.runnerA + point.set3.runnerB.toString() + ' - ' + point.set4.runnerA + point.set4.runnerB.toString()
-          + ' - ' + point.set5.runnerA + point.set5.runnerB.toString()
+        return point.set1.runnerA + point.set1.runnerB.toString() + '-' + point.set2.runnerA + point.set2.runnerB.toString() + '-'
+          + point.set3.runnerA + point.set3.runnerB.toString() + '-' + point.set4.runnerA + point.set4.runnerB.toString()
+          + '-' + point.set5.runnerA + point.set5.runnerB.toString()
           + appendGame(point, wantGame) + appendServer(point,wantServer)
       }
 

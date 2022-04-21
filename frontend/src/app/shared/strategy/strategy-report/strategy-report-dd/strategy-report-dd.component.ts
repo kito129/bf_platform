@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {StrategyReport} from "../../../../model/report/starategyReport";
+import {StrategyReport} from '../../../../model/report/starategyReport';
 
 @Component({
   selector: 'app-strategy-report-dd',
@@ -8,6 +8,8 @@ import {StrategyReport} from "../../../../model/report/starategyReport";
 export class StrategyReportDdComponent implements OnInit {
 
   @Input() strategyReport: StrategyReport
+  @Input() haveStrategy: boolean
+  @Input() bank: boolean
 
   constructor() { }
 

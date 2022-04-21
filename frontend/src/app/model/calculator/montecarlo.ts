@@ -4,6 +4,7 @@ export interface TradePlSeries{
   series: {
     id: number
     pl: number
+    risk: number
     stock: number
     dd: number
     ddPercent: number
@@ -11,6 +12,20 @@ export interface TradePlSeries{
   result: {
     pl: number
     dd: {
+      max: {
+        dd: number
+        percent: number
+      },
+      avg: {
+        dd: number
+        percent: number
+      },
+      stdv: {
+        dd: number
+        percent: number
+      },
+    },
+    risk: {
       max: {
         dd: number
         percent: number

@@ -5,7 +5,6 @@ export interface Mm{
   params:{
     fixedStake: number
     martingalaK: number
-    antimartingalaK: number
     fixedFractional: number
     fixedRatio: {
       ratio: number
@@ -16,9 +15,9 @@ export interface Mm{
 }
 
 export interface MmResult{
+  originalSeries: TradePlSeries
   fixedStake: TradePlSeries
   martingalaK: TradePlSeries
-  antimartingalaK: TradePlSeries
   fixedFractional: TradePlSeries
   fixedRatio: TradePlSeries
 }

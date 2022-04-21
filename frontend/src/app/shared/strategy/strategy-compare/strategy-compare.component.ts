@@ -5,7 +5,7 @@ import {Utils} from '../../../model/calculator/utils';
 import {StrategyReport} from '../../../model/report/starategyReport';
 import {TradeComparator} from '../../../model/study/study/tradeComparator';
 import {takeUntil} from 'rxjs/operators';
-import {StrategyReportService} from '../../../services/strategy-report.service';
+import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 
 @Component({
   selector: 'app-strategy-compare',
@@ -20,7 +20,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   // main studies data
-  studies: CompareStrategy[]
+  strategies: CompareStrategy[]
 
   seriesName: string[] = []
   equity: number[][] = []
@@ -74,9 +74,9 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   // generate and Array with all strategy report
   private generateStrategyReports(data: CompareStrategy[]){
     for (const study of data){
-      const tempReport = new StrategyReportService()
+      const tempReport = new StrategyReportClass()
 
-      tempReport.setDataStudy(study.trades,study.strategy.strategy.info.name)
+      tempReport.setDataNoStrategy(study.strategy.strategy.info.name, study.strategy.strategy.info.bank, study.trades)
       this.strategyPies.push(tempReport.getStrategyPie())
       this.strategyReports.push(tempReport.getStrategyReport())
     }
@@ -160,7 +160,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line:prefer-for-of
     for (let k=0;k<this.seriesName.length;k++){
       // columns
-      this.tradesTable.push(this.generateEmptyArray(maxLength))
+      this.tradesTable.push(StrategyCompareComponent.generateEmptyArray(maxLength))
     }
 
     for (let i=0;i<this.seriesName.length;i++){
@@ -181,7 +181,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
     }
   }
 
-  private generateEmptyArray(size: number){
+  private static generateEmptyArray(size: number){
     const temp = []
     for (let j=0; j<size;j++){
       temp.push(null)

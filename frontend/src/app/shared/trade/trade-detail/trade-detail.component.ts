@@ -10,9 +10,20 @@ export class TradeDetailComponent implements OnInit {
 
   @Input() trade: NewTrade
 
+  notePresent = false
+
   constructor() { }
 
   ngOnInit(): void {
+
+    for (const props in this.trade.trade.info.note) {
+      if (this.trade.trade.info.note[props] === null || this.trade.trade.info.note[props] === '') {
+        this.notePresent = false
+      } else {
+        this.notePresent = true
+        break
+      }
+    }
   }
 
 

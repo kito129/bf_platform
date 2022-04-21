@@ -13,16 +13,9 @@ export class Utils{
   private getMonth(trades: NewTrade[]): string[]{
 
     const month: string[] = []
-    /*
-    let ordered = trades.sort(function(a,b){
-      return b.trade.info.date - a.trade.info.date;
-    })
-
-     */
     const oldest: number = trades[0].trade.info.date
     const monthTo: number =  this.monthDiff(oldest, Date.now())
     const monthIndex = new Date(oldest).getMonth()
-
     let year: number = new Date(oldest).getFullYear()-1
 
     for ( let i=0; i< monthTo; i++){
@@ -45,17 +38,17 @@ export class Utils{
   /*
   * Calculator function
    */
+  getTradesSeries(trades: number[], risks: number[], name: string, bank: number): TradePlSeries{
 
-  getTradesSeries(trades: number[], name: string): TradePlSeries{
+    const stock: number[] = this.getStock(trades, bank)
+    const dd: number[] = this.ddOfTrades(trades, false, bank ? bank : 10000)
+    const ddPercent: number[] = this.ddOfTrades(trades, true, bank ? bank : 10000)
 
-    const stock: number[] = this.getStock(trades)
-    const dd: number[] = this.ddOfTrades(trades, false, 10000)
-    const ddPercent: number[] = this.ddOfTrades(trades, true, 10000)
-
-    const series = trades.map( (x,i) => {
+     const series = trades.map( (x,i) => {
       return {
-        id: i,
+        id: i+1,
         pl: x,
+        risk: risks[i],
         stock: stock[i],
         dd: dd[i],
         ddPercent: ddPercent[i]
@@ -85,6 +78,22 @@ export class Utils{
             dd:  this.stdvOfTrades(dd),
             percent: this.stdvOfTrades(ddPercent),
           }
+        },
+        risk: {
+          max: {
+            dd:  Math.min( ...risks ),
+            percent: Math.min( ...ddPercent ),
+          },
+          avg: {
+            dd: risks.reduce( (a,b) =>{
+              return a+b
+            })/risks.length,
+            percent: 0,
+          },
+          stdv: {
+            dd:  this.stdvOfTrades(risks),
+            percent: 0,
+          }
         }
       }
     }
@@ -93,9 +102,8 @@ export class Utils{
   /*
   * Calculator function
    */
-
-  getStock(trades: number[]): number[]{
-    let stock = 0
+  getStock(trades: number[], bank: number): number[]{
+    let stock = bank
     const stocks = []
     trades.forEach( trade => {
       stock+= trade
@@ -382,11 +390,7 @@ export class Utils{
         }
       })
     });
-
-    console.log(recap)
-
     return recap
-
   }
 
 

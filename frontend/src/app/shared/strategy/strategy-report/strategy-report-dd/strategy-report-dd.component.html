@@ -1,6 +1,6 @@
 <ul class="list-group">
   <li class="list-group-item disabled">
-    <h4> DD (Bank: {{strategyReport.strategy.strategy.info.bank | currencyK}}) </h4>
+    <h4> DD (Bank: {{ haveStrategy ? strategyReport.strategy.strategy.info.bank :  bank | currencyK}}) </h4>
   </li>
   <li class="list-group-item">
     <div class="row">

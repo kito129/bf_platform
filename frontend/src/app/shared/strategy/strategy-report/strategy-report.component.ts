@@ -1,8 +1,10 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {StrategyReport} from '../../../model/report/starategyReport';
-import {Observable, Subject} from 'rxjs';
+import {combineLatest, Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {NewTrade} from '../../../model/report/new/newTrade';
+import {Strategy} from '../../../model/report/strategy';
+import {StrategyReportClass} from '../../../model/calculator/strategyReport';
+import {StrategyReport} from '../../../model/report/starategyReport';
 
 @Component({
   selector: 'app-strategy-report',
@@ -10,9 +12,19 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 })
 export class StrategyReportComponent implements OnInit, OnDestroy {
 
-  @Input() selectedStrategyReport: StrategyReport
   @Input() selectedStrategyTrades$: Observable<NewTrade[]>
-  @Input() selectedStrategyPie: number[] = [0,0,0]
+  @Input() selectedStrategy: Strategy
+  @Input() title: string
+  @Input() bank: number
+
+  strategyValue: number[] = [0,0,0]
+  strategyReport: StrategyReport
+  strategyReportClass = new StrategyReportClass()
+
+  haveStrategy = false
+
+  bug = false
+  visibleReport = false
 
   defaultNavActiveId = 1
   prevSize = -1
@@ -30,39 +42,76 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
-    this.selectedStrategyTrades$
+
+      this.selectedStrategyTrades$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(tradesList => {
-        if(tradesList){
-          // check for reset tab position when selected change
-          if(tradesList.length !== this.prevSize && this.defaultNavActiveId in [4,5,6]){
-            // this.defaultNavActiveId = 1
+      .subscribe( data => {
+        if(data.length){
+          const trades: NewTrade[] = data.sort((a,b) => a.trade.info.date-b.trade.info.date)
+          let strategy: Strategy = null
+          if(this.selectedStrategy){
+            strategy = this.selectedStrategy
+            this.haveStrategy = true
+          } else {
+            this.haveStrategy = false
           }
-          this.prevSize=tradesList.length
-          // create labels for charts
-          let i =0
-          this.tradeLabels = tradesList.map(x => {
-            i++
-            return i.toString() + ') ' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
-          })
-          // create rr data
-          this.tradeRR = tradesList.map(x => {
-            if(x.trade.results.rr){
-              return +x.trade.results.rr.toFixed(2)
-            } else {
-              return 0
+
+          // strategy report
+          if(strategy){
+            this.strategyReportClass.setData(strategy,trades)
+          } else if(this.title){
+            this.strategyReportClass.setDataNoStrategy(this.title,this.bank,trades)
+          }
+          // get strategy report
+          this.strategyReport = this.strategyReportClass.getStrategyReport()
+          this.strategyValue = this.strategyReportClass.getStrategyPie()
+          // trades values
+          if(trades){
+            // check for reset tab position when selected change
+            if(trades.length !== this.prevSize && this.defaultNavActiveId in [4,5,6]){
+              // this.defaultNavActiveId = 1
             }
-          })
-          // create max risk data
-          this.tradeMaxRisk = tradesList.map(x => {
-            if(x.trade.results.maxRisk){
-              return +x.trade.results.maxRisk.toFixed(2)
-            } else {
-              return 0
-            }
-          })
+            this.prevSize=trades.length
+            // create labels for charts
+            let i =0
+            this.tradeLabels = trades.map(x => {
+              i++
+              return i.toString() + ') ' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
+            })
+            // create rr data
+            this.tradeRR = trades.map(x => {
+              if(x.trade.results.rr){
+                return +x.trade.results.rr.toFixed(2)
+              } else {
+                return 0
+              }
+            })
+            // create max risk data
+            this.tradeMaxRisk = trades.map(x => {
+              if(x.trade.results.maxRisk){
+                return +x.trade.results.maxRisk.toFixed(2)
+              } else {
+                return 0
+              }
+            })
+          }
+          // finished recalculation and ok to view sub component
+          this.visibleReport = true
+        } else {
+          this.visibleReport = false
         }
-    })
+        this.bugFix()
+      })
+  }
+
+  // temp to fix odds bug
+  bugFix(){
+    this.bug = false
+    setTimeout(() =>
+      {
+        this.bug = true
+      },
+      100);
   }
 
   ngOnDestroy() {

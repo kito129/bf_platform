@@ -17,12 +17,10 @@
 
     <app-strategy-report-resume class="grid-margin"
                                 [title]="'Profit'"
-                                [strategyResume]="report.trades.detail.profit">
+                                [strategyResumeProfit]="report.trades.detail.profit"
+                                [strategyResumeLoss]="report.trades.detail.loss"
+                                [strategyResumeTotal]="report.trades.detail.total">
     </app-strategy-report-resume>
 
-    <app-strategy-report-resume class="grid-margin"
-                                [title]="'Loss'"
-                                [strategyResume]="report.trades.detail.loss">
-    </app-strategy-report-resume>
   </div>
 </div>

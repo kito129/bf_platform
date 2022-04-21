@@ -161,14 +161,14 @@ export const getAllNewTrade2021 = createSelector(
 export const getAllNewTrade2022 = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && !x.trade.info.executor.includes('DEMO'))
+    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && x.trade.info.exchange.name !== 'DEMO')
       .sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 
 export const getAllNewTrade2022Demo = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && x.trade.info.executor.includes('DEMO'))
+    return state.allNewTrades.map( y=> newTradeStats(y)).filter(x => x.trade.info.date>1640991600000 && x.trade.info.exchange.name === 'DEMO')
       .sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 

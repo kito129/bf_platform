@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import {TradePlSeries} from '../model/calculator/montecarlo';
-import {Trade} from '../model/report/trade';
-import {StrategyReport} from '../model/report/starategyReport';
-import {StrategyReportService} from './strategy-report.service';
 import {Utils} from '../model/calculator/utils';
-import {MontecarloParams} from '../model/calculator/montecarloParams';
 import {NewTrade} from '../model/report/new/newTrade';
 
 @Injectable({
@@ -13,6 +9,7 @@ import {NewTrade} from '../model/report/new/newTrade';
 export class MontecarloService {
 
   originalTradesPL: number[] = []
+  originalRisk: number[] = []
   originalSeries: TradePlSeries = null
 
   utils = new Utils()
@@ -21,20 +18,23 @@ export class MontecarloService {
 
   setTrade(trades: NewTrade[]){
     this.originalTradesPL = trades.map( x => x.trade.results.netProfit)
-    this.originalSeries = this.utils.getTradesSeries(this.originalTradesPL, 'original')
+    this.originalRisk = trades.map( x => x.trade.results.netProfit)
+    this.originalSeries = this.utils.getTradesSeries(this.originalTradesPL, this.originalRisk,'original', null)
   }
 
   getMontecarlo(size: number ): TradePlSeries[]{
     const temp = []
     for (let i=0; i<size; i++){
-      temp.push(this.utils.getTradesSeries(this.shuffleArray(this.originalTradesPL),i.toString()))
+      temp.push(this.utils.getTradesSeries(this.shuffleArray(this.originalTradesPL),this.originalRisk,i.toString(), null))
     }
     return temp
 
   }
 
   private shuffleArray(array: number[]) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length
+    let temporaryValue = 0
+    let randomIndex = 0
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {

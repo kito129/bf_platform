@@ -1,11 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Trade} from '../../../../model/report/trade';
-import {ComparatorTableRow, Month} from '../../../../model/study/study/comparatorTableRow';
+import {Month} from '../../../../model/study/study/comparatorTableRow';
 import {Utils} from '../../../../model/calculator/utils';
-import {StrategyReportService} from '../../../../services/strategy-report.service';
 import {StrategyReport} from '../../../../model/report/starategyReport';
 import {NewTrade} from '../../../../model/report/new/newTrade';
-import {Strategy} from '../../../../model/report/strategy';
+import {StrategyReportClass} from '../../../../model/calculator/strategyReport';
 
 @Component({
   selector: 'app-strategy-report-month',
@@ -29,9 +27,9 @@ export class StrategyReportMonthComponent implements OnInit {
     this.strategyMonth = this.utils.getMonthTrades(this.allTrades)
 
     this.strategyMonth.forEach(month => {
-      const services = new StrategyReportService()
+      const services = new StrategyReportClass()
       if(month.trades.length){
-        services.setDataStudy(month.trades,month.month)
+        services.setDataNoStrategy(month.month, 10000,month.trades)
         this.strategyReportMonth.push(services.getStrategyReport())
         this.strategyWinners.push(services.getStrategyPie())
       } else {

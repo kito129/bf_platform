@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Mm} from "../../../../model/calculator/mm";
+import {Mm} from '../../../../model/calculator/mm';
 
 @Component({
   selector: 'app-mm-params',
@@ -25,13 +25,23 @@ export class MmParamsComponent implements OnInit {
     this.mmParams = {
       t0capital: 2000,
       params:{
-        fixedStake: 10,
-        martingalaK: 1.2,
-        fixedFractional: 0.1,
+        fixedStake: 20,
+        martingala: {
+          k: 1.2,
+          maxStake: 100
+        },
+        fixedFractional: {
+          f: 0.01,
+          maxStake: 100
+        },
         fixedRatio: {
             ratio: 500,
-            maxLoss: 500,
             delta: 1000,
+        },
+        kelly: {
+          kPercent: 0,
+          R: 1.2,
+          w: 0.6
         }
       }
     }

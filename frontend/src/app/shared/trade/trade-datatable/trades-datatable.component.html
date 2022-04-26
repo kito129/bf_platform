@@ -52,25 +52,66 @@
           <div class="col">
             <h5 class="text-right">{{selected.length}}</h5>
           </div>
+          <div class="col">
+            <h5 class="text-right text-success">{{getWinNumber(selected)}} ({{(getWinNumber(selected) / selected.length | percent )}})</h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right text-danger">{{getLossNumber(selected)}} ({{(getLossNumber(selected) / selected.length | percent )}})</h5>
+          </div>
         </div>
       </li>
       <li class="list-group-item">
         <div class="row">
           <div class="col">
-            <h5>Pl: </h5>
+            <h5>P/L: </h5>
           </div>
           <div class="col">
             <h5 class="text-right">{{getPL(selected) | currency}}</h5>
           </div>
           <div class="col">
-            <h5 class="text-right">({{getAvgPL(selected) | currency}})</h5>
+            <h5 class="text-right"></h5>
+          </div>
+          <div class="col">
+            <h5 ></h5>
           </div>
         </div>
       </li>
       <li class="list-group-item">
         <div class="row">
           <div class="col">
-            <h5>Risk: </h5>
+            <h5>AVG: </h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right"></h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right text-success">{{getAvgWin(selected) | currency}}</h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right text-danger">{{getAvgLoss(selected) | currency}}</h5>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h5>PF: </h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right">{{getPf(selected) | number}}</h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right text-success">{{getWin(selected) | currency}}</h5>
+          </div>
+          <div class="col">
+            <h5 class="text-right text-danger">{{getLoss(selected) | currency}}</h5>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            <h5>RISK: </h5>
           </div>
           <div class="col">
             <h5 class="text-right">{{getRisk(selected) | currency}}</h5>
@@ -78,12 +119,15 @@
           <div class="col">
             <h5 class="text-right">({{getAvgRisk(selected) | currency}})</h5>
           </div>
+          <div class="col">
+            <h5 ></h5>
+          </div>
         </div>
       </li>
       <li class="list-group-item">
         <div class="row">
           <div class="col">
-            <h5>r/R: </h5>
+            <h5>RR: </h5>
           </div>
           <div class="col">
             <h5 class="text-right">{{getPL(selected) / (-getRisk(selected)) | percent:'0.2'}}</h5>
@@ -91,18 +135,24 @@
           <div class="col">
             <h5 class="text-right">({{getRR(selected) | percent:'0.2'}})</h5>
           </div>
+          <div class="col">
+            <h5 ></h5>
+          </div>
         </div>
       </li>
       <li class="list-group-item">
         <div class="row">
           <div class="col">
-            <h5>Avg Odds:</h5>
+            <h5>ODDS:</h5>
           </div>
           <div class="col">
             <h5 class="text-right text-primary">{{getAvgBack(selected)}}</h5>
           </div>
           <div class="col">
             <h5 class="text-right text-danger">{{getAvgLay(selected)}}</h5>
+          </div>
+          <div class="col">
+            <h5 ></h5>
           </div>
         </div>
       </li>

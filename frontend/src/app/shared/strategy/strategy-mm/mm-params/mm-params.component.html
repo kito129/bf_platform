@@ -9,7 +9,7 @@
   <div class="card-body">
     <div class="col">
       <div class="form-group">
-        <h5 class="text-gray">Initial Capital [€]</h5>
+        <label for="t0Capital">Initial Capital [€]</label>
         <input type="number"
                step='1'
                class="form-control"
@@ -18,9 +18,9 @@
                name="t0Capital"
                min="0">
       </div>
-
+      <!-- FIXED-->
       <div class="form-group">
-        <h5 class="text-gray">Fixed Stake [€]</h5>
+        <label for="fixedStake">Fixed Stake [€]</label>
         <input type="number"
                step='1'
                class="form-control"
@@ -29,36 +29,67 @@
                name="fixedStake"
                min="0">
       </div>
-
-      <div class="form-group">
-        <h5 class="text-gray">Martingala K [n]</h5>
-        <input type="number"
-               step='1'
-               class="form-control"
-               id="martingalaK"
-               [(ngModel)]="mmParams.params.martingalaK"
-               name="martingalaK"
-               min="0">
-      </div>
-
-
-      <!--
-      <div class="form-group">
-        <h5 class="text-gray">Fixed Fractional [%]</h5>
-        <input type="number"
-               step='1'
-               class="form-control"
-               id="fixedFractional"
-               [(ngModel)]="mmParams.params.fixedFractional"
-               name="fixedFractional"
-               min="0">
-      </div>
-
-      <h5 class="text-gray">Fixed Ratio</h5>
+      <!-- MARTINGALA -->
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label for="fixedRatioDelta" class="text-gray">Fixed Ratio Delta </label>
+            <label for="martingalaK">Martingala K [n]</label>
+            <input type="number"
+                   step='0.01'
+                   class="form-control"
+                   id="martingalaK"
+                   [(ngModel)]="mmParams.params.martingala.k"
+                   name="martingalaK"
+                   min="0">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="martingalaMaxStake">Max Stake [€]</label>
+            <input type="number"
+                   step='1'
+                   class="form-control"
+                   id="martingalaMaxStake"
+                   [(ngModel)]="mmParams.params.martingala.maxStake"
+                   name="martingalaMaxStake"
+                   min="0">
+          </div>
+        </div>
+      </div>
+      <!-- FIXED FRACTIONAL-->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="fixedFractional">Fixed Fractional [%]</label>
+            <input type="number"
+                   step='0.01'
+                   class="form-control"
+                   id="fixedFractional"
+                   [(ngModel)]="mmParams.params.fixedFractional.f"
+                   name="fixedFractional"
+                   min="0"
+                   max="0.99">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="fixedFractionalMaxStake">Max Stake [€]</label>
+            <input type="number"
+                   step='0.01'
+                   class="form-control"
+                   id="fixedFractionalMaxStake"
+                   [(ngModel)]="mmParams.params.fixedFractional.maxStake"
+                   name="fixedFractionalMaxStake"
+                   min="0">
+          </div>
+        </div>
+      </div>
+      <!-- FIXED RATIO-->
+      <h5>Fixed Ratio</h5>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="fixedRatioDelta">Fixed Ratio Delta </label>
             <input type="number"
                    step='1'
                    class="form-control"
@@ -70,7 +101,7 @@
         </div>
         <div class="col">
           <div class="form-group">
-            <label for="fixedRatioPercent" class="text-gray">Fixed Ratio percent </label>
+            <label for="fixedRatioPercent">Fixed Ratio percent </label>
             <input type="number"
                    step='1'
                    class="form-control"
@@ -80,21 +111,38 @@
                    min="0">
           </div>
         </div>
+      </div>
+      <!-- FIXED RATIO-->
+      <h5>Fixed Ratio</h5>
+      <div class="row">
         <div class="col">
           <div class="form-group">
-            <label for="fixedRatioMaxLoss" class="text-gray">Fixed Ratio Max Loss </label>
+            <label for="kellyWinRate">Kelly Win Rate </label>
             <input type="number"
-                   step='1'
+                   step='0.01'
                    class="form-control"
-                   id="fixedRatioMaxLoss"
-                   [(ngModel)]="mmParams.params.fixedRatio.maxLoss"
-                   name="fixedRatioMaxLoss"
+                   id="kellyWinRate"
+                   [(ngModel)]="mmParams.params.kelly.w"
+                   name="kellyWinRate"
                    min="0">
           </div>
         </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="kellyRR">Kelly RR</label>
+            <input type="number"
+                   step='0.01'
+                   class="form-control"
+                   id="kellyRR"
+                   [(ngModel)]="mmParams.params.kelly.R"
+                   name="kellyRR"
+                   min="0">
+          </div>
+        </div>
+        <h5>{{(mmParams.params.kelly.w -((1-mmParams.params.kelly.w)/mmParams.params.kelly.R)) | percent:'0.2'}}</h5>
       </div>
-        -->
     </div>
+
   </div>
   <div class="card-footer">
     <div class="d-flex flex-row-reverse">

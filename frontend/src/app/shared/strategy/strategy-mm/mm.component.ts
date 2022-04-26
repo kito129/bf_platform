@@ -14,6 +14,8 @@ export class MmComponent implements OnInit {
   @Input() trades: NewTrade[]
   @Input() strategyReport: StrategyReport
 
+  defaultHeight = 800
+
   mmResult: MmResult
   // to reset
   seriesName = []
@@ -49,16 +51,22 @@ export class MmComponent implements OnInit {
     let i = 0
     // tslint:disable-next-line:forin
     for (const serie in this.mmResult) {
-      if (i < 3) {
         const s: TradePlSeries = this.mmResult[serie]
         this.seriesName.push(serie)
+        // first 0
+        this.stock.push(0)
+        this.dd.push(0)
+        this.ddPercent.push(0)
+        this.risk.push(0)
+        this.riskPercent.push(0)
+        this.pl.push(0)
+        // data
         this.stock.push(s.series.map(x => x.stock))
         this.dd.push(s.series.map(x => x.dd))
         this.ddPercent.push(s.series.map(x => x.ddPercent))
         this.risk.push(s.series.map(x => x.risk))
         this.riskPercent.push(s.series.map(x => x.risk/x.stock))
         this.pl.push(s.series.map(x => x.pl))
-      }
       i++
     }
 

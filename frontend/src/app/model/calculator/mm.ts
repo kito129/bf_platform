@@ -1,16 +1,27 @@
-import {TradePlSeries} from "./montecarlo";
+import {TradePlSeries} from './montecarlo';
 
 export interface Mm{
   t0capital: number
   params:{
     fixedStake: number
-    martingalaK: number
-    fixedFractional: number
+    martingala: {
+      k: number
+      maxStake: number
+    }
+    fixedFractional: {
+      f: number
+      maxStake: number
+    }
     fixedRatio: {
       ratio: number
-      maxLoss: number
       delta: number
     }
+    kelly: {
+      w: number
+      R: number
+      kPercent: number
+    }
+
   }
 }
 
@@ -18,7 +29,8 @@ export interface MmResult{
   originalSeries: TradePlSeries
   fixedStake: TradePlSeries
   martingalaK: TradePlSeries
-  fixedFractional: TradePlSeries
+  percent: TradePlSeries
   fixedRatio: TradePlSeries
+  kelly: TradePlSeries
 }
 

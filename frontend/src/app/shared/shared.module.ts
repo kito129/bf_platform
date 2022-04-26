@@ -115,6 +115,7 @@ import { MmComponent } from './strategy/strategy-mm/mm.component';
 import { MmParamsComponent } from './strategy/strategy-mm/mm-params/mm-params.component';
 import { MmDatatableComponent } from './strategy/strategy-mm/mm-datatable/mm-datatable.component';
 import { MmChartsComponent } from './strategy/strategy-mm/mm-charts/study-mm-charts.component';
+import { TradeSelectedResumeComponent } from './trade/trade-selected-resume/trade-selected-resume.component';
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
@@ -239,7 +240,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MmComponent,
     MmParamsComponent,
     MmDatatableComponent,
-    MmChartsComponent
+    MmChartsComponent,
+    TradeSelectedResumeComponent
   ],
   exports: [
     CommonModule,

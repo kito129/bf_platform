@@ -4,14 +4,17 @@
                    (resetEmitter)="resetEmitter($event)">
     </app-mm-params>
   </div>
-  <div class="col-8" *ngIf="validData && bug">
+</div>
+
+<div *ngIf="validData && bug">
+  <div class="row mt-2">
     <div class="col">
       <h2>Stock</h2>
       <app-multi-line-equity [wantLegend]="true"
                              [seriesName]="seriesName"
                              [wantTooltip]="true"
                              [stock]="stock" [title]="'MM'"
-                             [height]="800">
+                             [height]="defaultHeight">
       </app-multi-line-equity>
     </div>
     <div class="col">
@@ -19,32 +22,36 @@
       <app-multi-pl-trades [seriesName]="seriesName"
                            [pl]="pl"
                            [title]="'PL'"
-                           [height]="600">
+                           [height]="defaultHeight">
       </app-multi-pl-trades>
     </div>
+  </div>
+  <div class="row mt-2">
     <div class="col">
-      <h2>Risk</h2>
+      <h2>Risk €</h2>
       <app-multi-pl-trades [seriesName]="seriesName"
                            [pl]="risk"
                            [title]="'Risk'"
-                           [height]="600">
+                           [height]="defaultHeight">
       </app-multi-pl-trades>
     </div>
     <div class="col">
       <h2>Risk %</h2>
-      <app-multi-dd-trades [height]="600"
+      <app-multi-dd-trades [height]="defaultHeight"
                            [title]="'Risk %'"
                            [wantTooltip]="true"
                            [seriesName]="seriesName"
                            [wantLegend]="true"
                            [dd]="riskPercent"
-                           [isCurrency]="true"
-                           [isPercent]="false">
+                           [isCurrency]="false"
+                           [isPercent]="true">
       </app-multi-dd-trades>
     </div>
+  </div>
+  <div class="row mt-2">
     <div class="col">
-      <h2>DD Monetary</h2>
-      <app-multi-dd-trades [height]="600"
+      <h2>DD €</h2>
+      <app-multi-dd-trades [height]="defaultHeight"
                            [title]="'MM'"
                            [wantTooltip]="true"
                            [seriesName]="seriesName"
@@ -55,8 +62,8 @@
       </app-multi-dd-trades>
     </div>
     <div class="col">
-      <h2>DD Percent</h2>
-      <app-multi-dd-trades [height]="600"
+      <h2>DD %</h2>
+      <app-multi-dd-trades [height]="defaultHeight"
                            [title]="'MM'"
                            [wantTooltip]="true"
                            [seriesName]="seriesName"
@@ -66,8 +73,6 @@
                            [isPercent]="true">
       </app-multi-dd-trades>
     </div>
-
-
   </div>
 </div>
 

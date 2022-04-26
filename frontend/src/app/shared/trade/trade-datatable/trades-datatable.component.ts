@@ -8,6 +8,7 @@ import * as reportActions from '../../../store/report/report.actions';
 import {NewTrade} from '../../../model/report/new/newTrade';
 import {TradeDetail} from '../../../model/report/trade';
 import {Utils} from '../../../model/calculator/utils';
+import {TradePlSeries} from '../../../model/calculator/montecarlo';
 
 @Component({
   selector: 'app-trades-datatable',
@@ -36,6 +37,8 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   loadingIndicator = true
   ColumnMode = ColumnMode;
   tableSize = 15
+
+  tradeSelectedResume: TradePlSeries = null
 
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -95,12 +98,37 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
+
+    this.getTradeDetail()
+  }
+
+  getTradeDetail(){
+    if(this.selected.length){
+      this.tradeSelectedResume =  this.utils.getTradesSeries(this.selected.map( x=> x.trade.trade.results.netProfit),
+        this.selected.map( x=> x.trade.trade.results.maxRisk),
+        'Selected',
+        this.utils.getSumOfArrayNumber(this.selected.map( x=> x.trade.trade.results.maxRisk)))
+    } else {
+      this.tradeSelectedResume = null
+    }
+
   }
 
   getPL(trade: TradeDetail[]){
     return this.utils.getSumOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.netProfit))
   }
 
+  getWinNumber(trade: TradeDetail[]){
+    return trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>0).length
+  }
+
+  getVoidNumber(trade: TradeDetail[]){
+    return trade.map(x =>x.trade).filter(y => y.trade.results.netProfit===0).length
+  }
+
+  getLossNumber(trade: TradeDetail[]){
+    return trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).length
+  }
 
   getAvgPL(trade: TradeDetail[]){
     return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.netProfit))
@@ -129,8 +157,29 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       trade.filter( x => x.trade.trade.selections[0].avg.lay.odds >0).map( y => y.trade.trade.selections[0].avg.lay.odds))) *100)/100
   }
 
+  getWin(trade: TradeDetail[]){
+    return this.utils.getSumOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>=0).map( x=> x.trade.results.netProfit))
+  }
+
+  getLoss(trade: TradeDetail[]){
+    return this.utils.getSumOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).map( x=> x.trade.results.netProfit))
+  }
+
+  getAvgWin(trade: TradeDetail[]){
+    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>=0).map( x=> x.trade.results.netProfit))
+  }
+
+  getAvgLoss(trade: TradeDetail[]){
+    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).map( x=> x.trade.results.netProfit))
+  }
+
+  getPf(trade: TradeDetail[]){
+    return this.getWin( trade)/ -this.getLoss(trade)
+  }
+
   unselectAll(){
     this.selected = []
+    this.tradeSelectedResume = null
   }
 
   ngOnDestroy() {

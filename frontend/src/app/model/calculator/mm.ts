@@ -8,19 +8,22 @@ export interface Mm{
       k: number
       maxStake: number
     }
-    fixedFractional: {
+    percent: {
       f: number
       maxStake: number
     }
-    fixedRatio: {
-      ratio: number
-      delta: number
-    }
-    kelly: {
-      w: number
-      R: number
-      kPercent: number
-    }
+    /*
+fixedRatio: {
+  ratio: number
+  delta: number
+}
+
+kelly: {
+  w: number
+  R: number
+  kPercent: number
+}
+ */
 
   }
 }
@@ -30,7 +33,7 @@ export interface MmResult{
   fixedStake: TradePlSeries
   martingalaK: TradePlSeries
   percent: TradePlSeries
-  fixedRatio: TradePlSeries
-  kelly: TradePlSeries
+  // fixedRatio: TradePlSeries
+  // kelly: TradePlSeries
 }
 

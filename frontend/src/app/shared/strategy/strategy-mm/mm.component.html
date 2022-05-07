@@ -4,6 +4,10 @@
                    (resetEmitter)="resetEmitter($event)">
     </app-mm-params>
   </div>
+  <div class="col" *ngIf="validData && bug">
+    <app-mm-datatable [result]="mmResult">
+    </app-mm-datatable>
+  </div>
 </div>
 
 <div *ngIf="validData && bug">

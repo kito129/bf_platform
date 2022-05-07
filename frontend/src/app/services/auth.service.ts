@@ -91,8 +91,8 @@ export class AuthService {
 
     setTimeout(() =>
       {
-        this.store.dispatch(marketAdvancedActions.getMarketMetalistAdvanced())
-        this.store.dispatch(marketActions.getMarketMetalistBasic())
+        // this.store.dispatch(marketAdvancedActions.getMarketMetalistAdvanced())
+        // this.store.dispatch(marketActions.getMarketMetalistBasic())
       },
       10*1000);
 

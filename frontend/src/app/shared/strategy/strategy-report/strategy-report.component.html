@@ -152,7 +152,7 @@
       <!-- MONTECARLO -->
       <li [ngbNavItem]="8">
         <h5 class="text-danger">
-          <a ngbNavLink>MonteCarlo</a>
+          <a ngbNavLink>Monte Carlo</a>
         </h5>
         <ng-template ngbNavContent>
           <app-montecarlo-strategy [trades]="selectedStrategyTrades$ | async">
@@ -170,6 +170,18 @@
           <app-strategy-report-passive-low-lay [trades]="selectedStrategyTrades$ |async">
 
           </app-strategy-report-passive-low-lay>
+        </ng-template>
+      </li>
+
+      <!-- BSP FILTER -->
+      <li [ngbNavItem]="10">
+        <h5 class="text-danger">
+          <a ngbNavLink>Bsp Filter</a>
+        </h5>
+        <ng-template ngbNavContent>
+          <app-strategy-report-bspfilter [trades]="trades">
+
+          </app-strategy-report-bspfilter>
         </ng-template>
       </li>
     </ul>

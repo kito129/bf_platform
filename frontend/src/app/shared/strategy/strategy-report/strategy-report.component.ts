@@ -21,6 +21,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   strategyReport: StrategyReport
   strategyReportClass = new StrategyReportClass()
 
+  trades: NewTrade[] = []
   haveStrategy = false
 
   bug = false
@@ -48,6 +49,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
       .subscribe( data => {
         if(data.length){
           const trades: NewTrade[] = data.sort((a,b) => a.trade.info.date-b.trade.info.date)
+          this.trades = trades
           let strategy: Strategy = null
           if(this.selectedStrategy){
             strategy = this.selectedStrategy
@@ -99,6 +101,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
           this.visibleReport = true
         } else {
           this.visibleReport = false
+          this.trades = []
         }
         this.bugFix()
       })
@@ -111,7 +114,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
       {
         this.bug = true
       },
-      100);
+      500);
   }
 
   ngOnDestroy() {

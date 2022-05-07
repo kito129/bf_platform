@@ -53,13 +53,6 @@ export class MmComponent implements OnInit {
     for (const serie in this.mmResult) {
         const s: TradePlSeries = this.mmResult[serie]
         this.seriesName.push(serie)
-        // first 0
-        this.stock.push(0)
-        this.dd.push(0)
-        this.ddPercent.push(0)
-        this.risk.push(0)
-        this.riskPercent.push(0)
-        this.pl.push(0)
         // data
         this.stock.push(s.series.map(x => x.stock))
         this.dd.push(s.series.map(x => x.dd))

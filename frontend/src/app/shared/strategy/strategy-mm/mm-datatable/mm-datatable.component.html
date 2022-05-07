@@ -7,6 +7,74 @@
   </div>
   <!-- BODY -->
   <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+          <th><h4>Series</h4></th>
+          <th><h4>PL</h4></th>
+          <th><h4>Max DD</h4></th>
+          <th><h4>Max DD %</h4></th>
+          <th><h4>Avg DD</h4></th>
+          <th><h4>Avg DD %</h4></th>
+          <th><h4>Max Risk</h4></th>
+          <th><h4>Max Risk %</h4></th>
+          <th><h4>Avg Risk</h4></th>
+          <th><h4>Avg Risk %</h4></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><h6>{{result.originalSeries.name}}</h6></td>
+          <td><h6>{{result.originalSeries.result.pl| currency}}</h6></td>
+          <td><h6>{{result.originalSeries.result.dd.max.dd| currency}}</h6></td>
+          <td><h6>{{result.originalSeries.result.dd.max.percent| percent}}</h6></td>
+          <td><h6>{{result.originalSeries.result.dd.avg.dd| currency}}</h6></td>
+          <td><h6>{{result.originalSeries.result.dd.avg.percent| percent}}</h6></td>
+          <td><h6>{{result.originalSeries.result.risk.max.dd| currency}}</h6></td>
+          <td><h6>{{result.originalSeries.result.risk.max.percent| percent}}</h6></td>
+          <td><h6>{{result.originalSeries.result.risk.avg.dd| currency}}</h6></td>
+          <td><h6>{{result.originalSeries.result.risk.avg.percent | percent}}</h6></td>
+        </tr>
+        <tr>
+          <td><h6>{{result.fixedStake.name}}</h6></td>
+          <td><h6>{{result.fixedStake.result.pl| currency}}</h6></td>
+          <td><h6>{{result.fixedStake.result.dd.max.dd| currency}}</h6></td>
+          <td><h6>{{result.fixedStake.result.dd.max.percent| percent}}</h6></td>
+          <td><h6>{{result.fixedStake.result.dd.avg.dd| currency}}</h6></td>
+          <td><h6>{{result.fixedStake.result.dd.avg.percent| percent}}</h6></td>
+          <td><h6>{{result.fixedStake.result.risk.max.dd| currency}}</h6></td>
+          <td><h6>{{result.fixedStake.result.risk.max.percent| percent}}</h6></td>
+          <td><h6>{{result.fixedStake.result.risk.avg.dd| currency}}</h6></td>
+          <td><h6>{{result.fixedStake.result.risk.avg.percent | percent}}</h6></td>
+        </tr>
+        <tr>
+          <td><h6>{{result.martingalaK.name}}</h6></td>
+          <td><h6>{{result.martingalaK.result.pl| currency}}</h6></td>
+          <td><h6>{{result.martingalaK.result.dd.max.dd| currency}}</h6></td>
+          <td><h6>{{result.martingalaK.result.dd.max.percent| percent}}</h6></td>
+          <td><h6>{{result.martingalaK.result.dd.avg.dd| currency}}</h6></td>
+          <td><h6>{{result.martingalaK.result.dd.avg.percent| percent}}</h6></td>
+          <td><h6>{{result.martingalaK.result.risk.max.dd| currency}}</h6></td>
+          <td><h6>{{result.martingalaK.result.risk.max.percent| percent}}</h6></td>
+          <td><h6>{{result.martingalaK.result.risk.avg.dd| currency}}</h6></td>
+          <td><h6>{{result.martingalaK.result.risk.avg.percent | percent}}</h6></td>
+        </tr>
+        <tr>
+          <td><h6>{{result.percent.name}}</h6></td>
+          <td><h6>{{result.percent.result.pl| currency}}</h6></td>
+          <td><h6>{{result.percent.result.dd.max.dd| currency}}</h6></td>
+          <td><h6>{{result.percent.result.dd.max.percent| percent}}</h6></td>
+          <td><h6>{{result.percent.result.dd.avg.dd| currency}}</h6></td>
+          <td><h6>{{result.percent.result.dd.avg.percent| percent}}</h6></td>
+          <td><h6>{{result.percent.result.risk.max.dd| currency}}</h6></td>
+          <td><h6>{{result.percent.result.risk.max.percent| percent}}</h6></td>
+          <td><h6>{{result.percent.result.risk.avg.dd| currency}}</h6></td>
+          <td><h6>{{result.percent.result.risk.avg.percent | percent}}</h6></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
 
   </div>

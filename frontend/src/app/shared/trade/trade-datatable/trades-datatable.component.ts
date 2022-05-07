@@ -17,6 +17,7 @@ import {TradePlSeries} from '../../../model/calculator/montecarlo';
 export class TradesDatatableComponent implements OnInit, OnDestroy {
 
   @Input() trades$: Observable<NewTrade[]>
+  @Input() trades: NewTrade[]
   @Input() selectedMarketId: string
   @Input() viewSelectors: boolean
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -49,6 +50,12 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    if(this.trades){
+      const trade = this.tradeServices.addCumulativeInTrade(this.trades)
+      this.rows = trade
+      this.temp = trade
+      this.updateFilter()
+    } else {
     this.trades$
       .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
@@ -57,6 +64,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
         this.temp = trade
         this.updateFilter()
       })
+    }
   }
 
 

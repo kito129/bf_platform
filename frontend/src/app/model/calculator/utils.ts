@@ -43,12 +43,21 @@ export class Utils{
     const stock: number[] = this.getStock(trades, bank)
     const dd: number[] = this.ddOfTrades(trades, false, bank ? bank : 10000)
     const ddPercent: number[] = this.ddOfTrades(trades, true, bank ? bank : 10000)
+    const riskPercent: number[] = []
+
+    // calculate riskPercent
+    let j=0
+    risks.forEach( (ri) => {
+      riskPercent.push(ri/stock[j])
+      j++
+    })
 
      const series = trades.map( (x,i) => {
       return {
         id: i+1,
         pl: x,
         risk: risks[i],
+        riskPercent: riskPercent[i],
         stock: stock[i],
         dd: dd[i],
         ddPercent: ddPercent[i]
@@ -82,13 +91,15 @@ export class Utils{
         risk: {
           max: {
             dd:  Math.min( ...risks ),
-            percent: Math.min( ...ddPercent ),
+            percent: Math.min( ...riskPercent ),
           },
           avg: {
             dd: risks.reduce( (a,b) =>{
               return a+b
             })/risks.length,
-            percent: 0,
+            percent: riskPercent.reduce( (a,b) =>{
+              return a+b
+            })/riskPercent.length,
           },
           stdv: {
             dd:  this.stdvOfTrades(risks),

@@ -5,6 +5,7 @@ export interface TradePlSeries{
     id: number
     pl: number
     risk: number
+    riskPercent: number
     stock: number
     dd: number
     ddPercent: number

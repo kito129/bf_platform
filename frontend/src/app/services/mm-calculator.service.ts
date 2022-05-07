@@ -19,9 +19,9 @@ export class MmCalculatorService {
     const originalRR = trade.map( x=>x.trade.results.rr)
     const originalRisk = trade.map( x=> -Math.abs(x.trade.results.maxRisk))
     const martingala =  this.getMartingalaK(params.params.fixedStake, params.params.martingala.k, params.params.martingala.maxStake, originalRR, params.t0capital)
-    const percent =  this.getPercent(params.params.fixedFractional.f,originalRR,params.params.fixedFractional.maxStake,params.t0capital)
-    const fixedRatio =  this.getFixedRatio(params.params.fixedRatio.ratio,params.params.fixedStake,params.params.fixedRatio.delta,originalRR,params.t0capital)
-    const kelly =  this.getFixedRatio(params.params.fixedRatio.ratio,params.params.fixedStake,params.params.fixedRatio.delta,originalRR,params.t0capital)
+    const percent =  this.getPercent(params.params.percent.f,originalRR,params.params.percent.maxStake,params.t0capital)
+   //  const fixedRatio =  this.getFixedRatio(params.params.fixedRatio.ratio,params.params.fixedStake,params.params.fixedRatio.delta,originalRR,params.t0capital)
+    // const kelly =  this.getFixedRatio(params.params.fixedRatio.ratio,params.params.fixedStake,params.params.fixedRatio.delta,originalRR,params.t0capital)
 
 
     return {
@@ -29,8 +29,8 @@ export class MmCalculatorService {
       fixedStake: this.utils.getTradesSeries(this.getFixedStake(params.params.fixedStake, originalRR, params.t0capital), trade.map( x=> -params.params.fixedStake),'fixedStake', params.t0capital),
       martingalaK: this.utils.getTradesSeries(martingala[0], martingala[1],'martingalaK', params.t0capital),
       percent: this.utils.getTradesSeries(percent[0],percent[1],'fixedFractional', params.t0capital),
-      fixedRatio: this.utils.getTradesSeries(fixedRatio[0],fixedRatio[1],'fixedRatio', params.t0capital),
-      kelly: this.utils.getTradesSeries(kelly[0],kelly[1],'kelly', params.t0capital)
+      // fixedRatio: this.utils.getTradesSeries(fixedRatio[0],fixedRatio[1],'fixedRatio', params.t0capital),
+      // kelly: this.utils.getTradesSeries(kelly[0],kelly[1],'kelly', params.t0capital)
     }
   }
 

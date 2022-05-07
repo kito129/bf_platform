@@ -14,6 +14,7 @@ import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 export class StrategyCompareComponent implements OnInit, OnDestroy {
 
   @Input() strategyList$: Observable<CompareStrategy[]>
+  @Input() strategyListNoStrategy: CompareStrategy[]
 
   utils = new Utils()
 
@@ -48,21 +49,31 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.strategyList$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe( data => {
-        if(data){
-          // generate and set subTrades data
-          this.generateSubTrades(data)
-          // generate tables
-          this.generateTradesTable()
-          // strategy report
-          this.generateStrategyReports(data)
-          this.dataOk = true
-        } else {
-          this.dataOk = false
-        }
-      })
+    if(this.strategyListNoStrategy){
+      // generate and set subTrades data
+      this.generateSubTrades(this.strategyListNoStrategy)
+      // generate tables
+      this.generateTradesTable()
+      // strategy report
+      this.generateStrategyReports(this.strategyListNoStrategy)
+      this.dataOk = true
+    } else {
+      this.strategyList$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe( data => {
+          if(data){
+            // generate and set subTrades data
+            this.generateSubTrades(data)
+            // generate tables
+            this.generateTradesTable()
+            // strategy report
+            this.generateStrategyReports(data)
+            this.dataOk = true
+          } else {
+            this.dataOk = false
+          }
+        })
+    }
   }
 
 

@@ -30,10 +30,11 @@ export class MmParamsComponent implements OnInit {
           k: 1.2,
           maxStake: 100
         },
-        fixedFractional: {
+        percent: {
           f: 0.01,
           maxStake: 100
         },
+        /*
         fixedRatio: {
             ratio: 500,
             delta: 1000,
@@ -43,6 +44,7 @@ export class MmParamsComponent implements OnInit {
           R: 1.2,
           w: 0.6
         }
+         */
       }
     }
     this.resetEmitter.emit(['reset'])

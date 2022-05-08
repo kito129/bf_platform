@@ -109,7 +109,7 @@ import {TradeUpdatesModalComponent} from './trade/modal/trade-updates-modal/trad
 import {TradeDetailComponent} from './trade/trade-detail/trade-detail.component';
 import { CrudListComponent } from './filters/crud-list/crud-list.component';
 import { StrategyCompareComponent } from './strategy/strategy-compare/strategy-compare.component';
-import { StrategyReportPassiveLowLayComponent } from './strategy/strategy-report-passive-low-lay/strategy-report-passive-low-lay.component';
+import { StrategyReportPassiveLowLayComponent } from './strategy/strategy-report/strategy-report-passive-low-lay/strategy-report-passive-low-lay.component';
 import { StrategyReportAvgOddsComponent } from './strategy/strategy-report/strategy-report-avg-odds/strategy-report-avg-odds.component';
 import { MmComponent } from './strategy/strategy-mm/mm.component';
 import { MmParamsComponent } from './strategy/strategy-mm/mm-params/mm-params.component';
@@ -117,6 +117,7 @@ import { MmDatatableComponent } from './strategy/strategy-mm/mm-datatable/mm-dat
 import { MmChartsComponent } from './strategy/strategy-mm/mm-charts/study-mm-charts.component';
 import { TradeSelectedResumeComponent } from './trade/trade-selected-resume/trade-selected-resume.component';
 import { StrategyReportBSPFilterComponent } from './strategy/strategy-report/strategy-report-bspfilter/strategy-report-bspfilter.component';
+import { StrategyReportBspfilterParamsComponent } from './strategy/strategy-report/strategy-report-bspfilter/strategy-report-bspfilter-params/strategy-report-bspfilter-params.component';
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
@@ -243,7 +244,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MmDatatableComponent,
     MmChartsComponent,
     TradeSelectedResumeComponent,
-    StrategyReportBSPFilterComponent
+    StrategyReportBSPFilterComponent,
+    StrategyReportBspfilterParamsComponent
   ],
   exports: [
     CommonModule,

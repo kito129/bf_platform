@@ -1,4 +1,9 @@
+<app-strategy-report-bspfilter-params (filterEmitter)="filterEmit($event)"
+                                      (resetEmitter)="resetEmitter()">
+</app-strategy-report-bspfilter-params>
+
 <div *ngIf="validData">
-  <app-strategy-compare [strategyListNoStrategy]="compare">
+  <app-strategy-compare [defaultTab]="2"
+                        [strategyListNoStrategy]="compare">
   </app-strategy-compare>
 </div>

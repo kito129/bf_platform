@@ -5,6 +5,8 @@ export interface StrategyFilterBsp{
   trades: NewTrade[]
   minOdds: number
   maxOdds: number
+  onlyTraded: boolean
+  bank: number
 }
 
 export class StrategyFilterBspClass implements StrategyFilterBsp{
@@ -12,11 +14,18 @@ export class StrategyFilterBspClass implements StrategyFilterBsp{
   trades: NewTrade[] = []
   minOdds: number
   maxOdds: number
+  onlyTraded: boolean
+  bank: number
 
-  constructor(name: string, min: number, max: number, trades: NewTrade[]) {
+  constructor(name: string, min: number, max: number, bank: number) {
     this.name = name
     this.minOdds = min
     this.maxOdds = max
+    this.onlyTraded = false
+    this.bank = bank
+  }
+
+  filter(trades: NewTrade[]){
     trades.forEach(trade =>{
       let valid = false
       trade.trade.selections.forEach(sel => {
@@ -29,4 +38,5 @@ export class StrategyFilterBspClass implements StrategyFilterBsp{
       }
     })
   }
+
 }

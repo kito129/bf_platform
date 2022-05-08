@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NewTrade} from '../../../model/report/new/newTrade';
-import {LowLayReport} from '../../../model/report/new/lowLayReport';
-import {PassiveStrategyService} from '../../../services/passive-strategy.service';
+import {NewTrade} from '../../../../model/report/new/newTrade';
+import {LowLayReport} from '../../../../model/report/new/lowLayReport';
+import {PassiveStrategyService} from '../../../../services/passive-strategy.service';
 
 @Component({
   selector: 'app-strategy-report-passive-low-lay',

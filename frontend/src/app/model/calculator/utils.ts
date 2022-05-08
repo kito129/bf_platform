@@ -404,5 +404,31 @@ export class Utils{
     return recap
   }
 
+  public generateStrategy(name: string, bank: number){
+    return {
+      _id: Date.now().toFixed(),
+      created: 1,
+      lastUpdate: 1,
+      strategy: {
+        info: {
+          name,
+          sport: 'TENNIS',
+          year: 2022,
+          bank,
+          executor: '',
+          moneyManagement: '',
+          stake: 20,
+          typeOfStake: '',
+          detail: {
+            description: '',
+            entryDescription: '',
+            exitDescription: '',
+            mmDescription: '',
+          }
+        }
+      }
+    }
+  }
+
 
 }

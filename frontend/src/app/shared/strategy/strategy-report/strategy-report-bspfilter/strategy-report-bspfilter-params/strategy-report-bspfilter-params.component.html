@@ -1,0 +1,95 @@
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Odds Params</h6>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="card-body">
+    <form class="grid-margin">
+      <div class="row">
+        <div class="col" *ngFor="let filter of filters">
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="name"
+                       [(ngModel)]="filter.name"
+                       name="name">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group" >
+                <label for="bank">Bank</label>
+                <input class="form-control"
+                       id="bank"
+                       type="number"
+                       [(ngModel)]="filter.bank"
+                       name="bank"
+                       [min]="0">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group" >
+                <label for="min">Min</label>
+                <input class="form-control"
+                       id="min"
+                       type="number"
+                       [(ngModel)]="filter.minOdds"
+                       name="min"
+                       [min]="1.01"
+                       [max]="1000">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group" >
+                <label for="max">Max</label>
+                <input class="form-control"
+                       id="max"
+                       type="number"
+                       [(ngModel)]="filter.maxOdds"
+                       name="max"
+                       [min]="1.01"
+                       [max]="1000">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox"
+                         class="form-check-input"
+                         [(ngModel)]="filter.onlyTraded"
+                         name="onlyTraded">
+                  <i class="input-frame"></i>
+                  Filter Only Traded Selection
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- FOOTER -->
+  <div class="card-footer">
+    <div class="d-flex flex-row-reverse">
+
+      <button type="button"
+              class="btn btn-icon btn-danger btn-icon-text "
+              (click)="filterEmit()">
+        <i class="btn-icon-prepend" data-feather="fast-forward" appFeatherIcon></i>
+        Calculate
+      </button>
+
+      <button type="button"
+              class="btn btn-icon btn-secondary btn-icon-text mr-2"
+              (click)="reset()">
+        <i class="btn-icon-prepend" data-feather="x-octagon" appFeatherIcon></i>
+        Reset
+      </button>
+    </div>
+  </div>
+</div>

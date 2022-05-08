@@ -15,6 +15,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
 
   @Input() strategyList$: Observable<CompareStrategy[]>
   @Input() strategyListNoStrategy: CompareStrategy[]
+  @Input() defaultTab: number
 
   utils = new Utils()
 
@@ -48,6 +49,10 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
+
+    if(this.defaultTab){
+      this.defaultNavActiveId = this.defaultTab
+    }
 
     if(this.strategyListNoStrategy){
       // generate and set subTrades data

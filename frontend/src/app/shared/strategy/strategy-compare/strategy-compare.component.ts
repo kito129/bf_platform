@@ -1,17 +1,20 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {CompareStrategy} from '../../../model/report/new/compareStrategy';
 import {Utils} from '../../../model/calculator/utils';
 import {StrategyReport} from '../../../model/report/starategyReport';
 import {TradeComparator} from '../../../model/study/study/tradeComparator';
 import {takeUntil} from 'rxjs/operators';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
+import {NewTrade} from '../../../model/report/new/newTrade';
 
 @Component({
   selector: 'app-strategy-compare',
   templateUrl: './strategy-compare.component.html',
 })
 export class StrategyCompareComponent implements OnInit, OnDestroy {
+
+  constructor() { }
 
   @Input() strategyList$: Observable<CompareStrategy[]>
   @Input() strategyListNoStrategy: CompareStrategy[]
@@ -46,7 +49,13 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   dataOk = false
   chartHeight=600
 
-  constructor() { }
+  public static generateEmptyArray(size: number){
+    const temp = []
+    for (let j=0; j<size;j++){
+      temp.push(null)
+    }
+    return temp
+  }
 
   ngOnInit(): void {
 
@@ -121,10 +130,10 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
         tempRisk.push(+(trade.trade.results.maxRisk).toFixed(2))
 
         // tradeComparator
-        // @ts-ignore
-        if (trade.trade.selections[0].avg.back.stake > 0 || trade.trade.selections[0].avg.lay.bank > 0) {
+        if (trade.trade.selections[0].avg.back.stake > 0 || trade.trade.selections[0].avg.lay.stake > 0) {
           tempTrade.push({
             marketId: trade.trade.info.marketInfo.marketId,
+            trade,
             tradeId: trade._id,
             selectionId: trade.trade.selections[0].runnerId,
             date: trade.trade.info.date,
@@ -136,6 +145,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
           tempTrade.push({
             marketId: trade.trade.info.marketInfo.marketId,
             tradeId: trade._id,
+            trade,
             // @ts-ignore
             selectionId: trade.trade.selections[1].runnerId,
             date: trade.trade.info.date,
@@ -197,14 +207,6 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
     }
   }
 
-  private static generateEmptyArray(size: number){
-    const temp = []
-    for (let j=0; j<size;j++){
-      temp.push(null)
-    }
-    return temp
-  }
-
   private findMatchAndCheckDelta(compared: TradeComparator): number{
 
     // find match in first study
@@ -232,6 +234,10 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
       // if not fin return null
       return null
     }
+  }
+
+  passAsObservable(trade: NewTrade[]):Observable<NewTrade[]>{
+    return of(trade)
   }
 
 }

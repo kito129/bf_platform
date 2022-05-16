@@ -39,7 +39,6 @@ import { StudyListComponent } from './study/components/study-list/study-list.com
 import { EntryDetailComponent } from './entry/components/entry-detail/entry-detail.component';
 import { StudyComparatorComponent } from './study/components/study-comparator/study-comparator.component';
 import { StudyComparatorReportComponent } from './study/components/study-comparator/study-comparator-report/study-comparator-report.component';
-import { StudyComparatorTradesTableComponent } from './study/components/study-comparator/study-comparator-trades-table/study-comparator-trades-table.component';
 import { PlayersMainComponent } from './players/players-main.component';
 import { PlayersListComponent } from './players/components/players-list/players-list.component';
 import { PlayersCreateComponent } from './players/components/players-create/players-create.component';
@@ -77,7 +76,6 @@ const routes: Routes = [
     EntryDetailComponent,
     StudyComparatorComponent,
     StudyComparatorReportComponent,
-    StudyComparatorTradesTableComponent,
     PlayersMainComponent,
     PlayersListComponent,
     PlayersCreateComponent,

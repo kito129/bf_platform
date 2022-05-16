@@ -17,12 +17,15 @@ export class LiveDragulaComponent implements OnInit, OnDestroy {
   runnerRowsThirdMonitor: LiveRow[] = []
   runnerRowsSecondaryMonitor: LiveRow[] = []
   runnerRowsThirdPcMonitor: LiveRow[] = []
+  runnerRowsExtraPcMonitor: LiveRow[] = []
 
   firstMonitor = 6
   secondMonitor = 12
   thirdMonitor = 18
   secondaryMonitor = 24
   thirdPcMonitor = 30
+  extraPcMonitor = 36
+
 
 
   itemRef: AngularFireObject<any>
@@ -34,7 +37,7 @@ export class LiveDragulaComponent implements OnInit, OnDestroy {
   constructor(private dragulaService: DragulaService,
               private liveServices: LiveService) {}
 
-  updateRow(event, type: 'a' | 'b' | 'c' | 'd' | 'e'){
+  updateRow(event, type: 'a' | 'b' | 'c' | 'd' | 'e' |'f'){
     if(type==='a'){
       this.liveServices.update(event[1], event[0])
     } else if(type==='b'){
@@ -45,6 +48,8 @@ export class LiveDragulaComponent implements OnInit, OnDestroy {
       this.liveServices.update(event[1], event[0]+18)
     } else if(type==='e'){
       this.liveServices.update(event[1], event[0]+24)
+    } else if(type==='f'){
+      this.liveServices.update(event[1], event[0]+30)
     }
   }
 
@@ -62,6 +67,7 @@ export class LiveDragulaComponent implements OnInit, OnDestroy {
           this.runnerRowsThirdMonitor = []
           this.runnerRowsSecondaryMonitor = []
           this.runnerRowsThirdPcMonitor = []
+          this.runnerRowsExtraPcMonitor = []
 
           // set data from services
           for (let i=0; i<this.firstMonitor; i++){
@@ -79,6 +85,9 @@ export class LiveDragulaComponent implements OnInit, OnDestroy {
           for (let i=24; i<this.thirdPcMonitor; i++){
             this.runnerRowsThirdPcMonitor.push(data[i])
           }
+          for (let i=30; i<this.extraPcMonitor; i++){
+            this.runnerRowsExtraPcMonitor.push(data[i])
+          }
 
         }
       })
@@ -93,6 +102,7 @@ export class LiveDragulaComponent implements OnInit, OnDestroy {
           .concat(this.runnerRowsThirdMonitor)
           .concat(this.runnerRowsSecondaryMonitor)
           .concat(this.runnerRowsThirdPcMonitor)
+          .concat(this.runnerRowsExtraPcMonitor)
         this.liveServices.set(update)
       });
   }

@@ -81,6 +81,19 @@
   </ul>
 </div>
 
+<div class="mt-1 mb-1">
+  <h4>Extra:  {{counter(runnerRowsExtraPcMonitor)}}</h4>
+  <ul class="list-group" dragula="RUNNERS" [(dragulaModel)]="runnerRowsExtraPcMonitor">
+    <li class="list-group-item" *ngFor="let row of runnerRowsExtraPcMonitor, index as i">
+      <app-live-dragula-element [row]="row"
+                                [index]="i+1"
+                                (changeEmitter)="updateRow($event,'f')"
+                                [multiple]="3">
+      </app-live-dragula-element>
+    </li>
+  </ul>
+</div>
+
 
 
 

@@ -25,7 +25,7 @@ export class StrategyFilterBspClass implements StrategyFilterBsp{
     this.bank = bank
   }
 
-  filter(trades: NewTrade[]){
+  filterBSP(trades: NewTrade[]){
     trades.forEach(trade =>{
       let valid = false
       trade.trade.selections.forEach(sel => {

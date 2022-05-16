@@ -50,18 +50,16 @@
 
         </ng-template>
       </li>
-      <!--
       <li [ngbNavItem]="4">
         <a ngbNavLink>Trades Comparator</a>
         <ng-template ngbNavContent>
 
-          <app-study-comparator-trades-table [rowsInput]="rows"
-                                             [studyName]="seriesName">
-          </app-study-comparator-trades-table>
+          <app-comparator-trades-table [rowsInput]="rows"
+                                       [studyName]="seriesName">
+          </app-comparator-trades-table>
 
         </ng-template>
       </li>
-      -->
       <li [ngbNavItem]="5">
         <a ngbNavLink>Trades</a>
         <ng-template ngbNavContent>
@@ -89,6 +87,14 @@
           <app-multi-pl-trades [seriesName]="seriesName"
                                [pl]="risk">
           </app-multi-pl-trades>
+
+        </ng-template>
+      </li>
+      <li *ngFor="let stra of strategyListNoStrategy, index as i" [ngbNavItem]="7+i+1">
+        <a ngbNavLink>{{(stra.strategy.strategy.info.name).toUpperCase()}} - Report</a>
+        <ng-template ngbNavContent>
+
+          <app-strategy-report [selectedStrategyTrades$]="passAsObservable(stra.trades)"> </app-strategy-report>
 
         </ng-template>
       </li>

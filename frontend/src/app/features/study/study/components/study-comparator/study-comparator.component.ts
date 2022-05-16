@@ -106,6 +106,7 @@ export class StudyComparatorComponent implements OnInit,OnDestroy {
           tempTrade.push({
             marketId: trade.trade.info.marketInfo.marketId,
             tradeId: trade._id,
+            trade,
             selectionId: trade.trade.selections[0].runnerId,
             date: trade.trade.info.date,
             n: counterTrade,
@@ -116,6 +117,7 @@ export class StudyComparatorComponent implements OnInit,OnDestroy {
           tempTrade.push({
             marketId: trade.trade.info.marketInfo.marketId,
             tradeId: trade._id,
+            trade,
             // @ts-ignore
             selectionId: trade.trade.selections[1].runnerId,
             date: trade.trade.info.date,

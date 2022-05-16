@@ -118,6 +118,8 @@ import { MmChartsComponent } from './strategy/strategy-mm/mm-charts/study-mm-cha
 import { TradeSelectedResumeComponent } from './trade/trade-selected-resume/trade-selected-resume.component';
 import { StrategyReportBSPFilterComponent } from './strategy/strategy-report/strategy-report-bspfilter/strategy-report-bspfilter.component';
 import { StrategyReportBspfilterParamsComponent } from './strategy/strategy-report/strategy-report-bspfilter/strategy-report-bspfilter-params/strategy-report-bspfilter-params.component';
+import { ComparatorTradesTableComponent } from './strategy/comparator-trades-table/comparator-trades-table.component';
+
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
@@ -245,7 +247,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MmChartsComponent,
     TradeSelectedResumeComponent,
     StrategyReportBSPFilterComponent,
-    StrategyReportBspfilterParamsComponent
+    StrategyReportBspfilterParamsComponent,
+    ComparatorTradesTableComponent
   ],
   exports: [
     CommonModule,
@@ -331,7 +334,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MmComponent,
     MmParamsComponent,
     MmDatatableComponent,
-    MmChartsComponent
+    MmChartsComponent,
+    ComparatorTradesTableComponent
   ]
 })
 export class SharedModule { }

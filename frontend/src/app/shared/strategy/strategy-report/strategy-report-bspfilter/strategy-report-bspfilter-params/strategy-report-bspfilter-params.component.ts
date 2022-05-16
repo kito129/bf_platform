@@ -18,12 +18,12 @@ export class StrategyReportBspfilterParamsComponent implements OnInit {
     this.reset()
   }
 
+
   reset(){
     this.filters = []
     this.filters.push(new StrategyFilterBspClass('low', 1.01,1.2,2000))
     this.filters.push(new StrategyFilterBspClass('mid', 1.21,1.60,2000))
     this.filters.push(new StrategyFilterBspClass('high', 1.61,2,2000))
-    //this.resetEmit()
   }
 
   filterEmit(){
@@ -31,6 +31,7 @@ export class StrategyReportBspfilterParamsComponent implements OnInit {
   }
 
   resetEmit(){
+    this.reset()
     this.resetEmitter.emit('close')
   }
 

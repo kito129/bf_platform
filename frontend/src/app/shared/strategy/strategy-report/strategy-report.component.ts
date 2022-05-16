@@ -14,6 +14,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   @Input() selectedStrategyTrades$: Observable<NewTrade[]>
   @Input() selectedStrategy: Strategy
+  @Input() selectedTrades: NewTrade[]
   @Input() title: string
   @Input() bank: number
 
@@ -44,67 +45,75 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    if(this.selectedTrades){
+      this.calculate(this.selectedTrades)
+    } else {
       this.selectedStrategyTrades$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe( data => {
-        if(data.length){
-          const trades: NewTrade[] = data.sort((a,b) => a.trade.info.date-b.trade.info.date)
-          this.trades = trades
-          let strategy: Strategy = null
-          if(this.selectedStrategy){
-            strategy = this.selectedStrategy
-            this.haveStrategy = true
-          } else {
-            this.haveStrategy = false
-          }
+        .pipe(takeUntil(this.destroy$))
+        .subscribe( data => {
+            this.calculate(data)
+          this.bugFix()
+        })
+    }
+  }
 
-          // strategy report
-          if(strategy){
-            this.strategyReportClass.setData(strategy,trades)
-          } else if(this.title){
-            this.strategyReportClass.setDataNoStrategy(this.title,this.bank,trades)
-          }
-          // get strategy report
-          this.strategyReport = this.strategyReportClass.getStrategyReport()
-          this.strategyValue = this.strategyReportClass.getStrategyPie()
-          // trades values
-          if(trades){
-            // check for reset tab position when selected change
-            if(trades.length !== this.prevSize && this.defaultNavActiveId in [4,5,6]){
-              // this.defaultNavActiveId = 1
-            }
-            this.prevSize=trades.length
-            // create labels for charts
-            let i =0
-            this.tradeLabels = trades.map(x => {
-              i++
-              return i.toString() + ') ' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
-            })
-            // create rr data
-            this.tradeRR = trades.map(x => {
-              if(x.trade.results.rr){
-                return +x.trade.results.rr.toFixed(2)
-              } else {
-                return 0
-              }
-            })
-            // create max risk data
-            this.tradeMaxRisk = trades.map(x => {
-              if(x.trade.results.maxRisk){
-                return +x.trade.results.maxRisk.toFixed(2)
-              } else {
-                return 0
-              }
-            })
-          }
-          // finished recalculation and ok to view sub component
-          this.visibleReport = true
-        } else {
-          this.visibleReport = false
-          this.trades = []
+  private calculate(data: NewTrade[]){
+    if(data.length){
+      const trades: NewTrade[] = data.sort((a,b) => a.trade.info.date-b.trade.info.date)
+      this.trades = trades
+      let strategy: Strategy = null
+      if(this.selectedStrategy){
+        strategy = this.selectedStrategy
+        this.haveStrategy = true
+      } else {
+        this.haveStrategy = false
+      }
+
+      // strategy report
+      if(strategy){
+        this.strategyReportClass.setData(strategy,trades)
+      } else if(this.title){
+        this.strategyReportClass.setDataNoStrategy(this.title,this.bank,trades)
+      }
+      // get strategy report
+      this.strategyReport = this.strategyReportClass.getStrategyReport()
+      this.strategyValue = this.strategyReportClass.getStrategyPie()
+      // trades values
+      if(trades){
+        // check for reset tab position when selected change
+        if(trades.length !== this.prevSize && this.defaultNavActiveId in [4,5,6]){
+          // this.defaultNavActiveId = 1
         }
-        this.bugFix()
-      })
+        this.prevSize=trades.length
+        // create labels for charts
+        let i =0
+        this.tradeLabels = trades.map(x => {
+          i++
+          return i.toString() + ') ' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
+        })
+        // create rr data
+        this.tradeRR = trades.map(x => {
+          if(x.trade.results.rr){
+            return +x.trade.results.rr.toFixed(2)
+          } else {
+            return 0
+          }
+        })
+        // create max risk data
+        this.tradeMaxRisk = trades.map(x => {
+          if(x.trade.results.maxRisk){
+            return +x.trade.results.maxRisk.toFixed(2)
+          } else {
+            return 0
+          }
+        })
+      }
+      // finished recalculation and ok to view sub component
+      this.visibleReport = true
+    } else {
+      this.visibleReport = false
+      this.trades = []
+    }
   }
 
   // temp to fix odds bug

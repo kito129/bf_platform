@@ -218,6 +218,23 @@ export class TradeCalculatorService {
 
       const temp: TradeDetail =  {
         trade: x,
+        bsp: {
+          runnerA: x.trade.selections[0].bsp,
+          // @ts-ignore
+          runnerB: x.trade.selections[1].bsp,
+        },
+        avgBets: {
+          back:{
+            runnerA: x.trade.selections[0].avg.back.odds,
+            // @ts-ignore
+            runnerB: x.trade.selections[1].avg.back.odds,
+          },
+          lay:{
+            runnerA: x.trade.selections[0].avg.lay.odds,
+            // @ts-ignore
+            runnerB: x.trade.selections[1].avg.lay.odds,
+          }
+        },
         data: {
           stockPl,
           stockPercent: (stockPl - (stockPl-x.trade.results.netProfit)) / (stockPl-x.trade.results.netProfit),

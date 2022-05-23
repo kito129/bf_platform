@@ -3,6 +3,10 @@
     <h4 class="mb-3 mb-md-0">Tennis Market Basic</h4>
   </div>
   <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <button type="button" class="btn btn-outline-success btn-icon mr-2 d-none d-md-block" (click)="downloadData()">
+      <i class="btn-icon-prepend" data-feather="download-cloud" appFeatherIcon></i>
+      Download Market
+    </button>
     <button type="button" class="btn btn-outline-info btn-icon mr-2 d-none d-md-block" (click)="refreshData()">
       <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
       Refresh Filter

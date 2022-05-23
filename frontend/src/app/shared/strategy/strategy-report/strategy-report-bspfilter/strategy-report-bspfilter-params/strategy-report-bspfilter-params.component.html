@@ -66,24 +66,53 @@
                        [max]="1000">
               </div>
             </div>
+          </div>
+          <div class="row">
             <div class="col">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input type="checkbox"
-                         class="form-check-input"
-                         [(ngModel)]="f.onlyTraded"
-                         [name]="'onlyTraded'+i">
-                  <i class="input-frame"></i>
-                  Filter Only Traded Selection
-                </label>
+              <div class="form-group">
+                <label>Filter Type</label>
+                <ng-select [items]="['BSP', 'BSP (Traded Only)','AVG Back', 'AVG Lay']"
+                           name="type"
+                           bindLabel="value"
+                           bindValue="value"
+                           placeholder="Filter Type"
+                           [name]="'optionsRadios'+i"
+                           [(ngModel)]="f.filterType">
+                </ng-select>
               </div>
             </div>
-            <button type="button"
-                    class="btn btn-xs btn-icon btn-outline-danger btn-icon-text "
-                    (click)="removeFilter(i)">
-              <i class="btn-icon-prepend" data-feather="x" appFeatherIcon></i>
-            </button>
+            <div class="col">
+              <div class="form-group">
+                <label>Tournament Type</label>
+                <ng-select [items]="['All', 'ATP', 'ATP Challenger','WTA', 'WTA Challenger', 'ATP/WTA','Challenger Only']"
+                           name="type"
+                           bindLabel="value"
+                           bindValue="value"
+                           placeholder="Surface"
+                           [name]="'tournament'+i"
+                           [(ngModel)]="f.filterTournamentType">
+                </ng-select>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label>Tournament Surface</label>
+                <ng-select [items]="['ALL', 'HARD', 'CLAY','GRASS', 'INDOOR HARD']"
+                           name="type"
+                           bindLabel="value"
+                           bindValue="value"
+                           placeholder="Surface"
+                           [name]="'surface'+i"
+                           [(ngModel)]="f.filterTournamentSurface">
+                </ng-select>
+              </div>
+            </div>
           </div>
+          <button type="button"
+                  class="btn btn-xs btn-icon btn-outline-danger btn-icon-text "
+                  (click)="removeFilter(i)">
+            <i class="btn-icon-prepend" data-feather="x" appFeatherIcon></i>
+          </button>
         </div>
       </div>
     </form>

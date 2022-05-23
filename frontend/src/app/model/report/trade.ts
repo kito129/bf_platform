@@ -115,6 +115,20 @@ export interface Trade {
 
 export interface TradeDetail {
   trade: NewTrade
+  bsp: {
+    runnerA: number
+    runnerB: number
+  }
+  avgBets: {
+    back: {
+      runnerA: number
+      runnerB: number
+    }
+    lay: {
+      runnerA: number
+      runnerB: number
+    }
+  }
   data: {
     stockPl: number,
     stockPercent: number

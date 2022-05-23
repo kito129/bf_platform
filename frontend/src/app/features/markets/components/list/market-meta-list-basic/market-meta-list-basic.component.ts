@@ -97,6 +97,10 @@ export class MarketMetaListBasicComponent implements OnInit, OnDestroy {
     this.store.dispatch(marketBasicActions.getAllFilterBasket());
   }
 
+  downloadData(){
+    this.store.dispatch(marketBasicActions.getMarketMetalistBasic());
+  }
+
   setInRemovedList(id: string){
     this.store.dispatch(marketBasicActions.setMarketIdInRemoved({marketId: id}));
   }

@@ -27,6 +27,7 @@ export class StrategyReportBspfilterParamsComponent implements OnInit {
   }
 
   filterEmit(){
+    console.log(this.filters)
     this.filterEmitter.emit(this.filters)
   }
 

@@ -8,11 +8,11 @@ export class StrategyReportClass{
   // props
   strategy: Strategy
   title: string = null
-  trades: NewTrade[]
-  tradesPL: number[]
-  profitTrades: number[]
-  lossTrades: number[]
-  voidTrades: number[]
+  trades: NewTrade[] = []
+  tradesPL: number[] = []
+  profitTrades: number[] = []
+  lossTrades: number[] = []
+  voidTrades: number[] = []
   bank: number
 
   strategyReport: StrategyReport
@@ -22,13 +22,27 @@ export class StrategyReportClass{
   constructor() {
   }
 
+  // empty previus data
+  emptyData(){
+    this.strategy = null
+    this.title = ''
+    this.trades = []
+    this.tradesPL = []
+    this.profitTrades= []
+    this.lossTrades = []
+    this.voidTrades = []
+    this.bank = 0
+  }
+
   // setter data
   setData(strategy: Strategy, trades: NewTrade[]){
+    this.emptyData()
     this.strategy = strategy
     this.trades = trades
     this.calculateReport()
   }
   setDataNoStrategy(title: string, bank: number, trades: NewTrade[]){
+    this.emptyData()
     this.title = title
     this.bank = bank
     this.trades = trades
@@ -56,7 +70,7 @@ export class StrategyReportClass{
   }
 
   // main function
-  generateStrategyReport(){
+  private generateStrategyReport(){
     const consecutive = this.utils.getConsecutive(this.trades)
     const consecutiveProfit = consecutive[0]
     const consecutiveLoss = consecutive[1]

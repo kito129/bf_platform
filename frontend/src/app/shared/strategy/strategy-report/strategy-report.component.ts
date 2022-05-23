@@ -14,7 +14,6 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   @Input() selectedStrategyTrades$: Observable<NewTrade[]>
   @Input() selectedStrategy: Strategy
-  @Input() selectedTrades: NewTrade[]
   @Input() title: string
   @Input() bank: number
 
@@ -45,16 +44,12 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    if(this.selectedTrades){
-      this.calculate(this.selectedTrades)
-    } else {
-      this.selectedStrategyTrades$
+    this.selectedStrategyTrades$
         .pipe(takeUntil(this.destroy$))
         .subscribe( data => {
-            this.calculate(data)
+          this.calculate(data)
           this.bugFix()
         })
-    }
   }
 
   private calculate(data: NewTrade[]){

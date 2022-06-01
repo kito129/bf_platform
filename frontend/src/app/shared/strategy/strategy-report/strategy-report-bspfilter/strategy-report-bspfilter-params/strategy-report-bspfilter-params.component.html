@@ -84,7 +84,7 @@
             <div class="col">
               <div class="form-group">
                 <label>Tournament Type</label>
-                <ng-select [items]="['All', 'ATP', 'ATP Challenger','WTA', 'WTA Challenger', 'ATP/WTA','Challenger Only']"
+                <ng-select [items]="['ALL', 'ATP', 'ATP Challenger','WTA', 'WTA Challenger', 'ATP/WTA','Challenger Only']"
                            name="type"
                            bindLabel="value"
                            bindValue="value"
@@ -112,6 +112,11 @@
                   class="btn btn-xs btn-icon btn-outline-danger btn-icon-text "
                   (click)="removeFilter(i)">
             <i class="btn-icon-prepend" data-feather="x" appFeatherIcon></i>
+          </button>
+          <button type="button"
+                  class="btn btn-xs btn-icon btn-outline-info btn-icon-text "
+                  (click)="duplicateFilter(i)">
+            <i class="btn-icon-prepend" data-feather="copy" appFeatherIcon></i>
           </button>
         </div>
       </div>

@@ -45,7 +45,7 @@ export class StrategyReportBspfilterParamsComponent implements OnInit {
   }
 
   duplicateFilter(index: number){
-    this.filters.push(JSON.parse(JSON.stringify(this.filters[index])))
+    this.filters.push(new StrategyFilterBspClass(this.filters[index].name, this.filters[index].minOdds,this.filters[index].maxOdds,this.filters[index].bank))
   }
 
 

@@ -21,7 +21,7 @@
     <tbody>
     <tr *ngFor="let row of rowsInput, index as i">
       <td *ngFor="let study of studyName, index as j"
-          [class]="j===selectedCol ? 'headcol pointer' : 'pointer' ">
+          [class]="j===selectedCol ? 'headcol' : '' ">
 
         <div *ngIf="rowsInput[i][j] !== null">
           <div class="row">

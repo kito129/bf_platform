@@ -1,6 +1,6 @@
-import {createFeatureSelector, createSelector} from "@ngrx/store";
-import {TennisTournamentStates} from "./tennisTournament.reducers";
-import {TennisTournamentStats} from "../../model/dashboard/tennisTournamentStats";
+import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {TennisTournamentStates} from './tennisTournament.reducers';
+import {TennisTournamentStats} from '../../model/dashboard/tennisTournamentStats';
 
 const getTennisTournamentState = createFeatureSelector<TennisTournamentStates>(
   'tennisTournamentState'
@@ -21,10 +21,15 @@ export const getIsLoadingAllTennisTournament = createSelector(
   (state: TennisTournamentStates) => state.isLoadingAllTennisTournament
 );
 
+export const getTennisTournamentsById  = (id: string) => createSelector(
+  getTennisTournamentState,
+  (state) => state.allTennisTournaments.filter(x=>x._id === id)[0]
+);
+
 export const getTennisTournamentNameById = (id: string) => createSelector(
   getTennisTournamentState,
   (state) => {
-    let selected = state.allTennisTournaments.filter(x => x._id === id)[0]
+    const selected = state.allTennisTournaments.filter(x => x._id === id)[0]
     if (selected) {
       let challenger = ' '
       if (selected.tournament.detail.type.isChallenger) {
@@ -45,21 +50,21 @@ export const getTennisTournamentNameById = (id: string) => createSelector(
 export const getTennisTournamentStats = createSelector(
   getTennisTournamentState,
   (state:TennisTournamentStates) => {
-    let stats: TennisTournamentStats = {
+    const stats: TennisTournamentStats = {
       length: state.allTennisTournaments.length,
       federationStats: {
         atp: state.allTennisTournaments.map(x => x.tournament.detail.type.federation).reduce(function(acc, val){
-          return val === "ATP"
+          return val === 'ATP'
             ? acc+=1
             : acc;
         },0),
         wta:state.allTennisTournaments.map(x => x.tournament.detail.type.federation).reduce(function(acc, val){
-          return val === "WTA"
+          return val === 'WTA'
             ? acc+=1
             : acc;
         },0),
         itf: state.allTennisTournaments.map(x => x.tournament.detail.type.federation).reduce(function(acc, val){
-          return val === "ITF"
+          return val === 'ITF'
             ? acc+=1
             : acc;
         },0),

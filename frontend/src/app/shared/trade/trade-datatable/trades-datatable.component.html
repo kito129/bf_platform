@@ -187,7 +187,7 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Name" prop="trade.trade.info.marketInfo.marketName" [width]="2">
+  <ngx-datatable-column name="Name" prop="trade.trade.info.marketInfo.marketName" [width]="3">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5>{{ value }}</h5>
     </ng-template>
@@ -225,25 +225,25 @@
 
   <ngx-datatable-column name="A Back" prop="avgBets.back.runnerA" *ngIf="!viewTrades && !viewStats" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5 class="text-primary" *ngIf="value>1.01">{{ value}}</h5>
+      <h5 class="text-primary" *ngIf="value>1.01">{{ value | number:'1.0-2'}}</h5>
     </ng-template>
   </ngx-datatable-column>
 
   <ngx-datatable-column name="A Lay" prop="avgBets.lay.runnerA" *ngIf="!viewTrades && !viewStats" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5 class="text-danger" *ngIf="value>1.01">{{ value}}</h5>
+      <h5 class="text-danger" *ngIf="value>1.01">{{ value| number:'1.0-2'}}</h5>
     </ng-template>
   </ngx-datatable-column>
 
   <ngx-datatable-column name="B Back" prop="avgBets.back.runnerB" *ngIf="!viewTrades && !viewStats" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5 class="text-primary" *ngIf="value>1.01">{{ value}}</h5>
+      <h5 class="text-primary" *ngIf="value>1.01">{{ value| number:'1.0-2'}}</h5>
     </ng-template>
   </ngx-datatable-column>
 
   <ngx-datatable-column name="B Lay" prop="avgBets.lay.runnerB" *ngIf="!viewTrades && !viewStats" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5 class="text-danger" *ngIf="value>1.01">{{ value}}</h5>
+      <h5 class="text-danger" *ngIf="value>1.01">{{ value| number:'1.0-2'}}</h5>
     </ng-template>
   </ngx-datatable-column>
 

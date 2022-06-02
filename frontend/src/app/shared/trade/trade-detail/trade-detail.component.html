@@ -25,10 +25,36 @@
                 <h5>Exchange: </h5>
               </div>
               <div class="col">
-                <div *ngIf="trade.trade.info.exchange.name==='UK KEVIN'"><h4><span class="badge badge-danger">UK</span></h4></div>
+                <div *ngIf="trade.trade.info.exchange.name==='UK KEVIN' || trade.trade.info.exchange.name==='UK'"><h4><span class="badge badge-danger">UK</span></h4></div>
                 <div *ngIf="trade.trade.info.exchange.name==='ITA WILLO'"><h4><span class="badge badge-warning">OLD W-ITA</span></h4></div>
-                <div *ngIf="trade.trade.info.exchange.name==='ITA KITO'"><h4><span class="badge badge-primary">KITO</span></h4></div>
+                <div *ngIf="trade.trade.info.exchange.name==='ITA KITO' || trade.trade.info.exchange.name==='KITO'"><h4><span class="badge badge-primary">KITO</span></h4></div>
                 <div *ngIf="trade.trade.info.exchange.name==='ITA PIDO'"><h4><span class="badge badge-info">OLD P-ITA</span></h4></div>
+                <div *ngIf="trade.trade.info.exchange.name==='DEMO'"><h4><span class="badge badge-dark">DEMO</span></h4></div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Tournament: </h5>
+              </div>
+              <div class="col">
+                <div *ngIf="tennisTournament.tournament.detail.type.federation==='ATP'"><h4><span class="badge badge-primary">ATP {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.type.federation==='WTA'"><h4><span class="badge badge-danger">WTA {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.type.isChallenger"><h4><span class="badge badge-success">Challenger</span></h4></div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Surface: </h5>
+              </div>
+              <div class="col">
+                <div *ngIf="tennisTournament.tournament.detail.surface==='HARD'"><h4><span class="badge badge-primary">HARD</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.surface==='GRASS'"><h4><span class="badge badge-success">GRASS</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.surface==='CLAY'"><h4><span class="badge badge-danger">CLAY</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.surface==='INDOOR HARD'"><h4><span class="badge badge-light">INDOOR HARD</span></h4></div>
               </div>
             </div>
           </li>

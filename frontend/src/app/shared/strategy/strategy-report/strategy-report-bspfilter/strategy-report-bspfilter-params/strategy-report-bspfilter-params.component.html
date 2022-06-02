@@ -20,104 +20,118 @@
     <form class="grid-margin">
       <div class="row">
         <div class="col-4" *ngFor="let f of filters, index as i">
-          <div class="row">
-            <div class="col">
-              <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text"
-                       class="form-control"
-                       id="name"
-                       [(ngModel)]="f.name"
-                       [name]="'name'+i">
+          <div class="card">
+            <!-- HEADER -->
+            <div class="card-header">
+              <div class="d-flex justify-content-between align-items-baseline">
+                <div class="form-group">
+                  <label for="name">Filter {{i+1}} Name</label>
+                  <input type="text"
+                         class="form-control"
+                         id="name"
+                         [(ngModel)]="f.name"
+                         [name]="'name'+i">
+                </div>
               </div>
             </div>
-            <div class="col">
-              <div class="form-group" >
-                <label for="bank">Bank</label>
-                <input class="form-control"
-                       id="bank"
-                       type="number"
-                       [(ngModel)]="f.bank"
-                       [name]="'bank'+i"
-                       [min]="0">
+            <!-- BODY -->
+            <div class="card-body">
+              <!-- PARAMS -->
+              <div class="row">
+                <div class="col">
+                  <div class="form-group" >
+                    <label for="bank">Bank</label>
+                    <input class="form-control"
+                           id="bank"
+                           type="number"
+                           [(ngModel)]="f.bank"
+                           [name]="'bank'+i"
+                           [min]="0">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group" >
+                    <label for="min">Min</label>
+                    <input class="form-control"
+                           id="min"
+                           type="number"
+                           [(ngModel)]="f.minOdds"
+                           [name]="'min'+i"
+                           [min]="1.01"
+                           [max]="1000">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group" >
+                    <label for="max">Max</label>
+                    <input class="form-control"
+                           id="max"
+                           type="number"
+                           [(ngModel)]="f.maxOdds"
+                           [name]="'max'+i"
+                           [min]="1.01"
+                           [max]="1000">
+                  </div>
+                </div>
+              </div>
+              <!-- SELECTOR -->
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label>Filter Type</label>
+                    <ng-select [items]="['BSP', 'BSP (Traded Only)','AVG BACK', 'AVG LAY','AVG TRADED']"
+                               name="type"
+                               bindLabel="value"
+                               bindValue="value"
+                               placeholder="Filter Type"
+                               [name]="'optionsRadios'+i"
+                               [(ngModel)]="f.filterType">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label>Tournament Type</label>
+                    <ng-select [items]="['ALL', 'ATP', 'ATP CHALLENGER','ALL ATP', 'WTA', 'WTA CHALLENGER', 'ALL WTA','ATP/WTA','CHALLENGER ONLY']"
+                               name="type"
+                               bindLabel="value"
+                               bindValue="value"
+                               placeholder="Surface"
+                               [name]="'tournament'+i"
+                               [(ngModel)]="f.filterTournamentType">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label>Tournament Surface</label>
+                    <ng-select [items]="['ALL', 'HARD', 'CLAY','GRASS', 'INDOOR HARD']"
+                               name="type"
+                               bindLabel="value"
+                               bindValue="value"
+                               placeholder="Surface"
+                               [name]="'surface'+i"
+                               [(ngModel)]="f.filterTournamentSurface">
+                    </ng-select>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col">
-              <div class="form-group" >
-                <label for="min">Min</label>
-                <input class="form-control"
-                       id="min"
-                       type="number"
-                       [(ngModel)]="f.minOdds"
-                       [name]="'min'+i"
-                       [min]="1.01"
-                       [max]="1000">
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-group" >
-                <label for="max">Max</label>
-                <input class="form-control"
-                       id="max"
-                       type="number"
-                       [(ngModel)]="f.maxOdds"
-                       [name]="'max'+i"
-                       [min]="1.01"
-                       [max]="1000">
-              </div>
+            <!-- FOOTER -->
+            <div class="card-footer">
+              <button type="button"
+                      class="btn btn-xs btn-icon btn-outline-danger btn-icon-text mr-2"
+                      (click)="removeFilter(i)">
+                <i class="btn-icon-prepend" data-feather="x" appFeatherIcon></i>
+              </button>
+              <button type="button"
+                      class="btn btn-xs btn-icon btn-outline-info btn-icon-text "
+                      (click)="duplicateFilter(i)">
+                <i class="btn-icon-prepend" data-feather="copy" appFeatherIcon></i>
+              </button>
             </div>
           </div>
-          <div class="row">
-            <div class="col">
-              <div class="form-group">
-                <label>Filter Type</label>
-                <ng-select [items]="['BSP', 'BSP (Traded Only)','AVG Back', 'AVG Lay']"
-                           name="type"
-                           bindLabel="value"
-                           bindValue="value"
-                           placeholder="Filter Type"
-                           [name]="'optionsRadios'+i"
-                           [(ngModel)]="f.filterType">
-                </ng-select>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <label>Tournament Type</label>
-                <ng-select [items]="['ALL', 'ATP', 'ATP Challenger','WTA', 'WTA Challenger', 'ATP/WTA','Challenger Only']"
-                           name="type"
-                           bindLabel="value"
-                           bindValue="value"
-                           placeholder="Surface"
-                           [name]="'tournament'+i"
-                           [(ngModel)]="f.filterTournamentType">
-                </ng-select>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <label>Tournament Surface</label>
-                <ng-select [items]="['ALL', 'HARD', 'CLAY','GRASS', 'INDOOR HARD']"
-                           name="type"
-                           bindLabel="value"
-                           bindValue="value"
-                           placeholder="Surface"
-                           [name]="'surface'+i"
-                           [(ngModel)]="f.filterTournamentSurface">
-                </ng-select>
-              </div>
-            </div>
-          </div>
-          <button type="button"
-                  class="btn btn-xs btn-icon btn-outline-danger btn-icon-text "
-                  (click)="removeFilter(i)">
-            <i class="btn-icon-prepend" data-feather="x" appFeatherIcon></i>
-          </button>
-          <button type="button"
-                  class="btn btn-xs btn-icon btn-outline-info btn-icon-text "
-                  (click)="duplicateFilter(i)">
-            <i class="btn-icon-prepend" data-feather="copy" appFeatherIcon></i>
-          </button>
+          <h5 class="mt-2 mb-2">Trades#: {{f.trades.length}}</h5>
         </div>
       </div>
     </form>
@@ -139,6 +153,7 @@
         <i class="btn-icon-prepend" data-feather="x-octagon" appFeatherIcon></i>
         Reset
       </button>
+
     </div>
   </div>
 </div>

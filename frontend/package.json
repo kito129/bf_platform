@@ -12,6 +12,9 @@
     "generate-docs": "compodoc -p tsconfig.app.json",
     "serve-docs": "compodoc -s tsconfig.app.json"
   },
+  "resolutions": {
+    "webpack": "^5.0.0"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~10.0.7",
@@ -47,7 +50,7 @@
     "angular-datatables": "^4.4.1",
     "angular-plotly.js": "^3.0.0",
     "animate.css": "^4.1.1",
-    "apexcharts": "^3.23.1",
+    "apexcharts": "3.10.0",
     "bootstrap": "^4.6.0",
     "cephes": "^1.2.0",
     "chart.js": "^2.9.4",
@@ -66,7 +69,7 @@
     "mathjs": "^9.0.0",
     "metismenujs": "^1.2.1",
     "moving-averages": "^4.0.6",
-    "ng-apexcharts": "^1.5.6",
+    "ng-apexcharts": "1.5.6",
     "ng2-charts": "^2.4.2",
     "ng2-dragula": "^2.1.1",
     "ng2-simplemde": "^2.1.0",
@@ -98,7 +101,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1100.7",
-    "@angular/cli": "^10.2.1",
+    "@angular/cli": "^10.2.3",
     "@angular/compiler-cli": "~10.0.7",
     "@angular/language-service": "~10.0.7",
     "@types/datatables.net": "^1.10.19",

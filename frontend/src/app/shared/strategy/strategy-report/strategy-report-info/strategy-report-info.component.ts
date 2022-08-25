@@ -9,7 +9,7 @@ export class StrategyReportInfoComponent implements OnInit {
 
   @Input() strategyReport: StrategyReport
   @Input() haveStrategy: boolean
-  @Input() bank: boolean
+  @Input() bank: number
 
   constructor() {}
 

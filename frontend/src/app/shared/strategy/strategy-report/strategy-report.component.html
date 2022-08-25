@@ -72,7 +72,7 @@
           <app-trade-dd [allTrades]="selectedStrategyTrades$"
                         [labels]="tradeLabels"
                         [bank]="haveStrategy ? strategyReport.strategy.strategy.info.bank : bank"
-                        [wantMonetary]="false"
+                        [wantMonetary]="true"
                         [wantPercent]="true">
           </app-trade-dd>
         </ng-template>

@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {DatatableComponent, ColumnMode, SelectionType} from '@swimlane/ngx-datatable';
 import {Store} from '@ngrx/store';
 import {TradeCalculatorService} from '../../../services/trade-calculator.service';
@@ -31,7 +31,13 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   search = ''
 
   viewTrades = false
-  viewStats = false
+  viewStatsService = false
+  viewStatsSet = false
+  viewStatsLeaderboard = false
+
+  viewSelectedReport = false
+  selectedTrades: Observable<NewTrade[]>
+  bug=false
 
   rows = [];
   temp =[] ;
@@ -80,34 +86,15 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  createModal(event){
-    if(event[1]==='create'){
-      // CREATE runner note
-      this.store.dispatch(reportActions.createTrade({ trade: event[0]}));
-    }
-  }
-
-  updateModal(event){
-    if(event[1]==='update'){
-      event[0].lastUpdate = new Date().getTime()
-      // UPDATE runner note
-      this.store.dispatch(reportActions.updateTrade({ _id: event[0]._id, trade: event[0] }));
-    }
-  }
-
-  deleteModal(event){
-    if(event[1]==='delete'){
-      // DELETE runner note
-      this.store.dispatch(reportActions.deleteTrade({ _id: event[0] }));
-    }
-  }
 
   // click selection
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
-
     this.getTradeDetail()
+
+    this.selectedTrades = of(this.selected.map(x =>x.trade))
+
   }
 
   getTradeDetail(){
@@ -173,6 +160,9 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     return this.utils.getSumOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).map( x=> x.trade.results.netProfit))
   }
 
+  getAvg(trade: TradeDetail[]){
+    return this.utils.avgOfArrayNumber(trade.map( x=> x.trade.trade.results.netProfit))
+  }
   getAvgWin(trade: TradeDetail[]){
     return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>=0).map( x=> x.trade.results.netProfit))
   }
@@ -188,6 +178,31 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   unselectAll(){
     this.selected = []
     this.tradeSelectedResume = null
+    this.viewSelectedReport = false
+
+  }
+
+  generateReport(){
+    this.viewSelectedReport = true
+    this.bugFix()
+  }
+
+  // temp to fix odds bug
+  bugFix(){
+    this.bug = false
+    setTimeout(() =>
+      {
+        this.bug = true
+      },
+      500);
+  }
+
+  deleteMany(event){
+    if(event[1]==='delete'){
+      console.log(event)
+      // DELETE many trades
+      this.store.dispatch(reportActions.deleteManyTrades({ _ids: event[0] }));
+    }
   }
 
   ngOnDestroy() {

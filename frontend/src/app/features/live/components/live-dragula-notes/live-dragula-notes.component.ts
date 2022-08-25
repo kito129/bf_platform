@@ -109,12 +109,12 @@ export class LiveDragulaNotesComponent implements OnInit,OnDestroy {
               this.runnerOtherNotes.splice(i,1)
               i--
             }
-            if(this.today - note.created < 1000 * 60 * 60 * 24 * 9){
+            if(this.today - note.created < 1000 * 60 * 60 * 24 * 10){
               this.runnerLastWeekNotes.push(note)
               this.runnerOtherNotes.splice(i,1)
               i--
 
-            } else if(this.today - note.created > 1000 * 60 * 60 * 24 * 7 && this.today - note.created < 1000 * 60 * 60 * 24 * 25){
+            } else if(this.today - note.created > 1000 * 60 * 60 * 24 * 10 && this.today - note.created < 1000 * 60 * 60 * 24 * 25){
               this.runnerLast3WeekNotes.push(note)
             }
           }

@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {ReportService} from "../../services/report.service";
-import {catchError, exhaustMap, map} from "rxjs/operators";
-import {of} from "rxjs";
+import {Injectable} from '@angular/core';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {ReportService} from '../../services/report.service';
+import {catchError, exhaustMap, map} from 'rxjs/operators';
+import {of} from 'rxjs';
 import * as reportActions from './report.actions';
 import {NewReportService} from '../../services/new-report.service';
 
@@ -85,6 +85,25 @@ export class ReportEffects {
             catchError((error: any) => {
               console.log('response:::', error)
               return of(reportActions.deleteTradeFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  deleteTrades$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.deleteManyTrades),
+        exhaustMap(action =>
+          this.reportServices.deleteManyTrades(action._ids).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.deleteManyTradesSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.deleteManyTradesFailure(error));
             }))
         )
       );

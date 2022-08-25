@@ -16,6 +16,12 @@
       <td><h5>{{strategyResumeLoss.grossCash | currency}}</h5></td>
     </tr>
     <tr>
+      <td><h4>Profit Factor</h4></td>
+      <td><h5>{{strategyResumeProfit.grossCash/strategyResumeLoss.grossCash | number}}</h5></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><h4>Operation</h4></td>
       <td>
         <h5>{{strategyResumeTotal.count }}</h5>
@@ -34,14 +40,6 @@
                          [showValue]="true">
         </ngb-progressbar>
       </td>
-    </tr>
-    <tr>
-      <td><h4>Rate</h4></td>
-      <td>
-        <h5>--</h5>
-      </td>
-      <td><h5>{{strategyResumeProfit.count / strategyResumeTotal.count | percent:'.2'}}</h5></td>
-      <td><h5>{{strategyResumeLoss.count / strategyResumeTotal.count | percent:'.2'}}</h5></td>
     </tr>
     <tr>
       <td><h4>Exp Value</h4></td>

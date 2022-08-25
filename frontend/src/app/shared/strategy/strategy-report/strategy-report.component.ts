@@ -24,7 +24,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   trades: NewTrade[] = []
   haveStrategy = false
 
-  bug = false
+  bug = true
   visibleReport = false
 
   defaultNavActiveId = 1
@@ -35,7 +35,6 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   tradeLabels: string[] = []
   tradeRR: number[] = []
   tradeMaxRisk: number[] = []
-  tradeResult: number[] = []
   labels: number[] = []
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -103,7 +102,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
           }
         })
       }
-      // finished recalculation and ok to view sub component
+      // finished recalculation and ok to view subcomponent
       this.visibleReport = true
     } else {
       this.visibleReport = false

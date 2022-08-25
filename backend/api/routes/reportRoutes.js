@@ -9,6 +9,7 @@ router.get("/trade/all", checkAuth,  ReportController.get_all_trades);
 router.put("/trade/create", checkAuth,  ReportController.create_trade);
 router.post("/trade/:tradeId", checkAuth,  ReportController.update_trade_by_id);
 router.delete("/trade/:tradeId", checkAuth,  ReportController.delete_trade_by_id);
+router.post("/trades", checkAuth,  ReportController.delete_many_trades_by_ids);
 
 router.get("/strategy/all", checkAuth,  ReportController.get_all_strategy);
 router.put("/strategy/create", checkAuth,  ReportController.create_strategy);

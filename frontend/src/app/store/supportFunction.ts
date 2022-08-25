@@ -24,6 +24,10 @@ export function deleteElement(all: any[], deletedElement: any ) {
   return all.filter((element) => element._id !== deletedElement._id )
 }
 
+export function deleteElements(all: any[], deletedElement: any[] ) {
+  return all.filter((element) => !deletedElement.includes(element._id))
+}
+
 // --  function to update isLoading State --
 export function setterLoading(){
   return {

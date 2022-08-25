@@ -36,6 +36,11 @@ export class ReportService {
     return this.http.delete(`${baseUrl}/trade/${id}`, {headers});
   }
 
+  deleteManyTrades(ids: string[]): Observable<any> {
+    const body = JSON.stringify(ids)
+    return this.http.post(`${baseUrl}/trades`, body, {headers});
+  }
+
 
   // CRUD STRATEGY
   getAllStrategy(): Observable<any> {

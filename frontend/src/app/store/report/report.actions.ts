@@ -26,6 +26,10 @@ export const DELETE_TRADE = '[Trades] Delete Trade';
 export const DELETE_TRADE_SUCCESS = '[Trades] Delete Trade Success';
 export const DELETE_TRADE_FAILURE = '[Trades] Delete Trade Failure';
 
+export const DELETE_MANY_TRADES = '[Trades] Delete Many Trades';
+export const DELETE_MANY_TRADES_SUCCESS = '[Trades] Delete Many Trades Success';
+export const DELETE_MANY_TRADES_FAILURE = '[Trades] Delete Many Trades Failure';
+
 export const GET_ALL_STRATEGY = '[Strategy] Get all Strategy';
 export const GET_ALL_STRATEGY_SUCCESS = '[Strategy] Get all Strategy Success';
 export const GET_ALL_STRATEGY_FAILURE = '[Strategy] Get all Strategy Failure';
@@ -117,7 +121,7 @@ export const updateTradeFailure = createAction(
 );
 
 
-// delete runner note
+// delete
 export const deleteTrade = createAction(
   DELETE_TRADE,
   props<{ _id: string }>()
@@ -132,6 +136,23 @@ export const deleteTradeFailure = createAction(
   DELETE_TRADE_FAILURE,
   props<any>()
 );
+
+
+export const deleteManyTrades = createAction(
+  DELETE_MANY_TRADES,
+  props<{ _ids: string[] }>()
+);
+
+export const deleteManyTradesSuccess = createAction(
+  DELETE_MANY_TRADES_SUCCESS,
+  props<any>()
+);
+
+export const deleteManyTradesFailure = createAction(
+  DELETE_MANY_TRADES_FAILURE,
+  props<any>()
+);
+
 
 
 

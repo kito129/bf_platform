@@ -1,7 +1,6 @@
-const Trade = require("../models/report/newTrade");
 const Strategy = require("../models/report/strategy");
 
-const NewTrade = require("../models/report/newTrade");
+const Trade = require("../models/report/newTrade");
 
 let mongoose = require('mongoose');
 const { count } = require("../models/report/newTrade");
@@ -122,6 +121,29 @@ exports.delete_trade_by_id = (req, res, next) => {
         })
 
 };
+
+// delete many trade by _id array
+exports.delete_many_trades_by_ids = (req, res, next) => {
+    const myIds = req.body;
+    console.log(myIds)
+    Trade.deleteMany({_id: myIds})
+        .exec()
+        .then(docs => {
+            if(docs.n>0){
+                res.status(200).json(myIds);
+            } else {
+                res.status(200).json([]);
+            }
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        })
+
+};
+
 
 // STRATEGY
 
@@ -500,7 +522,7 @@ exports.fix_trades_schema = (req, res, next) => {
             }
 
 
-            let newTrade = new NewTrade({
+            let newTrade = new Trade({
                 _id: new mongoose.Types.ObjectId(),
                 created: temp.created,
                 updated: temp.lastUpdate,

@@ -4,7 +4,7 @@ import * as reportActions from './report.actions';
 import {Strategy} from '../../model/report/strategy';
 import {
   addElement, addStudyCompare,
-  deleteElement, removeStudyCompare,
+  deleteElement, deleteElements, removeStudyCompare,
   setterLoading,
   setterLoadingFailure,
   setterLoadingSuccess,
@@ -120,6 +120,20 @@ const reportReducers = createReducer(
     })
   ),
   on(reportActions.deleteTradeFailure, (state, result) => (
+    {...state, tradeError: 'API error', isLoadingAllNewTrades: setterLoadingFailure()
+    })
+  ),
+
+  // delete many trades
+  on(reportActions.deleteManyTrades, (state,result) => (
+    {...state, isLoadingAllNewTrades: setterLoading()
+    })
+  ),
+  on(reportActions.deleteManyTradesSuccess, (state, result) =>
+    ({...state, allNewTrades: deleteElements(state.allNewTrades,result.response), isLoadingAllNewTrades: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.deleteManyTradesFailure, (state, result) => (
     {...state, tradeError: 'API error', isLoadingAllNewTrades: setterLoadingFailure()
     })
   ),

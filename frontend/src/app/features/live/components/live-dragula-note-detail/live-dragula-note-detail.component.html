@@ -1,7 +1,7 @@
 <li class="list-group-item" *ngFor=" let note of notes">
   <div class="row pointer" placement="right" [tooltipClass]="'wider-tooltip'" [ngbTooltip]="noteDescriptionToolTip">
     <div class="col">
-      <h3 class="mr-2" [ngClass]=" today -note.created < 1000 * 60 * 60 * 24 * 7 ? 'text-danger' : today -note.created < 1000 * 60 * 60 * 24 * 21 ? 'text-warning' : ''">
+      <h3 class="mr-2" [ngClass]=" today -note.created < 1000 * 60 * 60 * 24 * 10 ? 'text-danger' : today -note.created < 1000 * 60 * 60 * 24 * 25 ? 'text-warning' : ''">
         {{note.created | date:'mediumDate'}}
       </h3>
     </div>

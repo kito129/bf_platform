@@ -31,8 +31,9 @@ export class ColumnChartComponent implements OnInit {
     if(this.data){
       this.data.pipe(
         debounceTime(300),
-        //distinctUntilChanged(),
+        // distinctUntilChanged(),
         takeUntil(this.destroy$)).subscribe( dataSeries => {
+        console.log(dataSeries)
         if(dataSeries && dataSeries.length===2){
           this.lineChartOptions.series = [
             {

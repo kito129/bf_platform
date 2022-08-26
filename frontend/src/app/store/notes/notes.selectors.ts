@@ -1,6 +1,10 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {NotesStates} from './notes.reducers';
 import {NoteStats} from '../../model/dashboard/noteStats';
+import {Utils} from '../../model/calculator/utils';
+import {utils} from 'protractor';
+import {Month} from '../../model/study/study/comparatorTableRow';
+import {Note} from "../../model/note/note";
 
 const getNotesState = createFeatureSelector<NotesStates>(
   'notesState'
@@ -60,67 +64,51 @@ export const checkRunnersHaveNotes = (id: number) => createSelector(
 export const getNotesStats = createSelector(
   getNotesState,
   (state:NotesStates) => {
-    const stats: NoteStats = {
-      length: state.allRunnersNotes.length,
-      stats: {
-        medical: state.allRunnersNotes.map(x => x.note.type).reduce((acc, val) =>{
-          return val === 'Medical'
-            ? acc+=1
-            : acc;
-        },0),
-        note: state.allRunnersNotes.map(x => x.note.type).reduce((acc, val) =>{
-          return val === 'Note'
-            ? acc+=1
-            : acc;
-        },0),
-        walkover: state.allRunnersNotes.map(x => x.note.type).reduce((acc, val) =>{
-          return val === 'Walkover'
-            ? acc+=1
-            : acc;
-        },0),
-        nmRetires: state.allRunnersNotes.map(x => x.note.type).reduce((acc, val) =>{
-          return val === 'No Medical Retired'
-            ? acc+=1
-            : acc;
-        },0),
-        validated: state.allRunnersNotes.map(x => x.note.validation.isValidated).reduce((acc, val) =>{
-          return val
-            ? acc+=1
-            : acc;
-        },0)
-      },
-      medical: {
-        winner: state.allRunnersNotes.map(x => x.note.validation.detailValidation.win).reduce((acc, val) =>{
-          return val
-            ? acc+=1
-            : acc;
-        },0),
-        looser: state.allRunnersNotes.map(x => x.note.validation.detailValidation.lose).reduce((acc, val) =>{
-          return val
-            ? acc+=1
-            : acc;
-        },0),
-        retired: state.allRunnersNotes.map(x => x.note.validation.detailValidation.retired).reduce((acc, val) =>{
-          return val
-            ? acc+=1
-            : acc;
-        },0),
-        fsRetired: state.allRunnersNotes.map(x => x.note.validation.detailValidation.retired &&
-          (x.note.validation.tennisPoints.set2.runnerA ===0
-          && x.note.validation.tennisPoints.set2.runnerB ===0
-            && x.note.validation.tennisPoints.set3.runnerA ===0
-            && x.note.validation.tennisPoints.set3.runnerB ===0
-            && x.note.validation.tennisPoints.set4.runnerA ===0
-            && x.note.validation.tennisPoints.set4.runnerB ===0
-            && x.note.validation.tennisPoints.set5.runnerA ===0
-            && x.note.validation.tennisPoints.set5.runnerB ===0)).reduce((acc, val) =>{
-          return val
-            ? acc+=1
-            : acc;
-        },0),
-      }
-    }
+    const util = new Utils()
+    const stats: NoteStats = util.getNotesStats(state.allRunnersNotes)
     return  stats
   }
 );
+
+export const getNotesStatistics = createSelector(
+  getNotesState,
+  (state:NotesStates) => {
+
+    const util = new Utils()
+
+    const month = util.getMonthFromDate(1577833200000)
+    const monthList = util.getMonthList()
+    const recap: {
+      month: string,
+      notes: Note[],
+      noteStats: NoteStats
+    }[] = []
+
+    month.forEach( x=> {
+      recap.push({
+        month: x,
+        notes: [],
+        noteStats: null
+      })
+    })
+
+    recap.forEach(r => {
+      const _month = r.month.split(' ')[0]
+      const _year = +r.month.split(' ')[1]
+      state.allRunnersNotes.map( x => {
+        const value = monthList[new Date(x.created).getMonth()]
+        const year = new Date(x.created).getFullYear()
+        if (value === _month && year === _year) {
+          r.notes.push(x)
+        }
+      })
+    });
+
+    recap.forEach(r => {
+      r.noteStats = util.getNotesStats(r.notes)
+      r.notes = []
+    })
+
+    return recap
+  })
 

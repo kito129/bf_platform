@@ -1,0 +1,135 @@
+<!-- CARD 1-->
+<div class="card">
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h6 class="card-title mb-0">Statistics</h6>
+    </div><!-- /HEADER -->
+  </div>
+  <div class="card-body"><!-- BODY -->
+    <div class="d-flex justify-content-around align-items-center">
+      <h6>{{check}}</h6>
+    </div>
+
+    <div class="table-responsive tableFixHead tradesCompareTable">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th class="table-dark text-light text-center"><h6>Month</h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-primary">Length</h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-success">Win</h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-success">Win % </h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-danger">Loss</h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-danger">Loss % </h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-warning">Retired</h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-warning">Retired %</h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-light">No Med Ret</h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-light">No Med Ret %</h6></th>
+            <th class="table-dark text-light text-center"><h6 class="text-info">Check</h6></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><h4 class="text-primary">Total</h4></th>
+            <th><h4>{{stats.length}}</h4></th>
+            <th><h4 class="text-success">{{stats.medical.winner}}</h4></th>
+            <th><h4 class="text-success">{{stats.medical.winner / stats.length | percent}}</h4></th>
+            <th><h4 class="text-danger">{{stats.medical.looser}}</h4></th>
+            <th><h4 class="text-danger">{{stats.medical.looser / stats.length | percent}}</h4></th>
+            <th><h4 class="text-warning">{{stats.medical.retired}}</h4></th>
+            <th><h4 class="text-warning">{{stats.medical.retired / stats.length | percent}}</h4></th>
+            <th><h4 class="text-light">{{stats.stats.nmRetires}}</h4></th>
+            <th><h4 class="text-light">{{stats.stats.nmRetires / stats.length | percent}}</h4></th>
+            <th><h4>{{stats.medical.winner + stats.medical.looser +  stats.medical.retired}}</h4></th>
+          </tr>
+          <tr>
+            <th><h4 class="text-warning">AVG</h4></th>
+            <th><h4>{{avgLength}}</h4></th>
+            <th><h4 class="text-success">{{avgWin}}</h4></th>
+            <th></th>
+            <th><h4 class="text-danger">{{avgLoss}}</h4></th>
+            <th></th>
+            <th><h4 class="text-warning">{{avgRetired}}</h4></th>
+            <th></th>
+            <th><h4 class="text-light">{{avgNoMed}}</h4></th>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr *ngFor="let m of month">
+            <th><h4>{{m.month}}</h4></th>
+            <th><h6>{{m.noteStats.length}}</h6></th>
+            <th><h6>{{m.noteStats.medical.winner}}</h6></th>
+            <th><h6>{{m.noteStats.medical.winner / m.noteStats.length | percent}}</h6></th>
+            <th><h6>{{m.noteStats.medical.looser}}</h6></th>
+            <th><h6>{{m.noteStats.medical.looser / m.noteStats.length | percent}}</h6></th>
+            <th><h6>{{m.noteStats.medical.retired}}</h6></th>
+            <th><h6>{{m.noteStats.medical.retired / m.noteStats.length | percent}}</h6></th>
+            <th><h6>{{m.noteStats.stats.nmRetires}}</h6></th>
+            <th><h6>{{m.noteStats.stats.nmRetires / m.noteStats.length | percent}}</h6></th>
+            <th><h6>{{m.noteStats.medical.winner + m.noteStats.medical.looser +  m.noteStats.medical.retired}}</h6></th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CHART-->
+    <div class="mt-2">
+      <h4>Medical</h4>
+      <app-multiple-columns-chart [seriesData]="[length]"
+                               [colors]="['blue']"
+                               [height]="800"
+                               [labels]="labels"
+                               [title]="['Medical']"
+                               [isCurrency]="false"
+                               [isPercent]="false">
+      </app-multiple-columns-chart>
+    </div>
+
+    <!-- CHART-->
+    <div class="mt-2">
+      <h4>Win/Loss</h4>
+      <app-multiple-columns-chart [seriesData]="[win, loss, retired]"
+                                  [wantStacked]="true"
+                               [colors]="['green','red','yellow']"
+                               [height]="800"
+                               [labels]="labels"
+                               [title]="['Win', 'Loss', 'Retired']"
+                               [isCurrency]="false"
+                               [isPercent]="false">
+      </app-multiple-columns-chart>
+    </div>
+
+    <!-- CHART-->
+    <div class="mt-2">
+      <h4>No Medical Retired</h4>
+      <app-multiple-columns-chart [seriesData]="[nMretired]"
+                                  [wantStacked]="true"
+                                  [colors]="['purple']"
+                                  [height]="600"
+                                  [labels]="labels"
+                                  [title]="['No Medical Retired']"
+                                  [isCurrency]="false"
+                                  [isPercent]="false">
+      </app-multiple-columns-chart>
+    </div>
+
+    <!-- CHART-->
+    <div class="mt-2">
+      <h4>First Set Retired</h4>
+      <app-multiple-columns-chart [seriesData]="[fSretired]"
+                                  [wantStacked]="true"
+                                  [colors]="['grey']"
+                                  [height]="600"
+                                  [labels]="labels"
+                                  [title]="['First Set Retired']"
+                                  [isCurrency]="false"
+                                  [isPercent]="false">
+      </app-multiple-columns-chart>
+    </div>
+
+
+
+
+
+  </div>
+</div>

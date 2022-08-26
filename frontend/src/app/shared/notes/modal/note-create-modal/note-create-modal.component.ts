@@ -159,7 +159,7 @@ export class NoteCreateModalComponent implements OnInit {
         },
         validation: {
           validationNote: '',
-          isValidated: false,
+          isValidated: true,
           tennisPoints: {
             set1: {
               runnerA: 0,

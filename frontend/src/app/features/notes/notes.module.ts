@@ -22,6 +22,8 @@ import {NoteDeleteModalComponent} from "../../shared/notes/modal/note-delete-mod
 import {NgSelectModule} from "@ng-select/ng-select";
 import {CustomFormsModule} from "ngx-custom-validators";
 import {SharedModule} from "../../shared/shared.module";
+import { StatisticMainComponent } from './components/statistic-main/statistic-main.component';
+import { StatisticTableComponent } from './components/statistic-table/statistic-table.component';
 
 // ROUTER
 const routes: Routes = [
@@ -35,6 +37,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     NotesMainComponent,
+    StatisticMainComponent,
+    StatisticTableComponent,
   ],
   exports: [],
   imports: [

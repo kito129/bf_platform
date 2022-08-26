@@ -30,7 +30,22 @@
   </app-note-data-table>
 
 </div>
-<!-- /ROW 1-->
+
+
+<!-- DATA CHART-->
+
+<!-- ROW 1-->
+<div class="col-12 mt-2">
+  <!-- LIST COMPONENT-->
+  <app-loading-cards *ngIf="(isLoadingNotes$ | async).isLoading"></app-loading-cards>
+  <app-statistic-main *ngIf="(isLoadingNotes$ | async).isLoadingSuccess"
+                      [stats]="notesStatistics$ | async"
+                      [month]="notesStatisticsMonth$ | async">
+  </app-statistic-main>
+
+</div>
+
+
 
 
 

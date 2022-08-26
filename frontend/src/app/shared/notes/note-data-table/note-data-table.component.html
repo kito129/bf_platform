@@ -17,11 +17,33 @@
         <button type="button" [ngClass]="state.all ? 'btn btn-info mr-2' :'btn btn-outline-info mr-2'" (click)="typeFilter('All')">All</button>
         <button type="button" [ngClass]="state.medical ? 'btn btn-danger mr-2' :'btn btn-outline-danger mr-2'" (click)="typeFilter('Medical')">Medical</button>
         <button type="button" [ngClass]="state.note ? 'btn btn-secondary mr-2' :'btn btn-outline-secondary mr-2'" (click)="typeFilter('Note')">Note</button>
-        <button type="button" [ngClass]="state.walkover ? 'btn btn-warning mr-2' :'btn btn-outline-warning mr-2'" (click)="typeFilter('Walkover')">Walkover</button>
         <button type="button" [ngClass]="state.nmRetired ? 'btn btn-primary mr-2' :'btn btn-outline-primary mr-2'" (click)="typeFilter('No Med Retired')">Nm Retired</button>
         <button type="button" [ngClass]="state.retired ? 'btn btn-light mr-2' :'btn btn-outline-light mr-2'" (click)="typeFilter('Retired')">Retired</button>
         <button type="button" [ngClass]="state.fsRetired ? 'btn btn-danger mr-2' :'btn btn-outline-danger mr-2'" (click)="typeFilter('FsRetired')">FS Retired</button>
       </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="button" class="btn btn mr-2"
+                [ngClass]="viewNotes ? 'btn-primary' : 'btn-outline-primary' "
+                (click)="viewNotes= !viewNotes">
+          View Notes
+        </button>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <!-- OPTIONS -->
+          <label for="tableSize">Table size</label>
+          <ng-select id="tableSize"
+                     name="options"
+                     [(ngModel)]="tableSize"
+                     [items]="[5, 10,15,20,25,30,40,50,100,200,250,500,1000]"
+                     [clearable]="false">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+
 
       <form class="form-group mr-2" #searchFormRunner="ngForm">
         <div class="row">
@@ -43,7 +65,7 @@
       [columnMode]="ColumnMode.force"
       [headerHeight]="40"
       [footerHeight]="50"
-      [limit]="10"
+      [limit]="tableSize"
       rowHeight="auto"
       [reorderable]="true"
       [sorts]="[{prop: 'created', dir: 'desc'}]">
@@ -82,12 +104,25 @@
         </ng-template>
       </ngx-datatable-column>
 
+      <ngx-datatable-column name="Check Result" prop="note.validation" [width]="10">
+        <ng-template let-value="value" ngx-datatable-cell-template >
+          <i *ngIf="value.detailValidation.win || value.detailValidation.lose ||  value.detailValidation.retired " data-feather="check" appFeatherIcon class="text-success"></i>
+          <i *ngIf="!(value.detailValidation.win || value.detailValidation.lose ||  value.detailValidation.retired)" data-feather="x" appFeatherIcon class="text-danger"></i>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Check Injury" prop="note.selection.injuredId" [width]="10">
+        <ng-template let-value="value" ngx-datatable-cell-template >
+          <i *ngIf="value" data-feather="check" appFeatherIcon class="text-success"></i>
+          <i *ngIf="!value" data-feather="x" appFeatherIcon class="text-danger"></i>
+        </ng-template>
+      </ngx-datatable-column>
+
       <ngx-datatable-column name="Type" prop="note" [width]="110">
         <ng-template let-value="value" ngx-datatable-cell-template >
           <div class="col text-center">
             <h5 *ngIf="value.type.indexOf('Note')!=-1"><span class="badge badge-secondary">{{value.type}}</span></h5>
             <h5 *ngIf="value.type.indexOf('Medical')!=-1"><span class="badge badge-danger">{{value.type}}</span></h5>
-            <h5 *ngIf="value.type.indexOf('WalkOver')!=-1"><span class="badge badge-warning">{{value.type}}</span></h5>
             <h5 *ngIf="value.type.indexOf('No Med Retired')!=-1"><span class="badge badge-primary">{{value.type}}</span></h5>
           </div>
         </ng-template>
@@ -104,7 +139,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Description" prop="note" [width]="300">
+      <ngx-datatable-column *ngIf="viewNotes" name="Description" prop="note" [width]="300">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <p>{{value.description}}</p>
         </ng-template>

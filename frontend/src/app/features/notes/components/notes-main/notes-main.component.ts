@@ -10,6 +10,8 @@ import * as tournamentSelectors from '../../../../store/tennis-tournament/tennis
 import {Runner} from '../../../../model/runner/runner';
 import * as notesActions from '../../../../store/notes/notes.actions';
 import {TennisTournament} from "../../../../model/tennisTournament/tennisTournament";
+import {NoteStats} from "../../../../model/dashboard/noteStats";
+import {getNotesStatistics} from "../../../../store/notes/notes.selectors";
 
 @Component({
   selector: 'app-notes-main',
@@ -25,6 +27,9 @@ export class NotesMainComponent implements OnInit {
   tournamentList$: Observable<TennisTournament[]>
   isLoadingAllTournament$: Observable<IsLoading>
 
+  notesStatistics$: Observable<NoteStats>
+  notesStatisticsMonth$: Observable<any[]>
+
 
   constructor(private router: Router,
               private readonly store: Store) {
@@ -35,6 +40,9 @@ export class NotesMainComponent implements OnInit {
     this.isLoadingAllRunners$ = this.store.pipe(select(runnersSelectors.isLoadingAllRunners))
     this.tournamentList$ = this.store.pipe(select(tournamentSelectors.getAllTennisTournaments))
     this.isLoadingAllTournament$ = this.store.pipe(select(tournamentSelectors.getIsLoadingAllTennisTournament))
+
+    this.notesStatistics$ = this.store.pipe(select(notesSelectors.getNotesStats))
+    this.notesStatisticsMonth$ = this.store.pipe(select(notesSelectors.getNotesStatistics))
   }
 
   ngOnInit(): void {

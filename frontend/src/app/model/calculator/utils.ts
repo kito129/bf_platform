@@ -3,6 +3,7 @@ import {ConsecutiveTrade} from '../report/consecutiveTrade';
 import {TradePlSeries} from './montecarlo';
 import { Month} from '../study/study/comparatorTableRow';
 import {NewTrade} from '../report/new/newTrade';
+import {Note} from "../note/note";
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -10,10 +11,14 @@ const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
 
 export class Utils{
 
-  private getMonth(trades: NewTrade[]): string[]{
+  getMonthList(): string[]{
+    return  monthNames
+  }
+
+  getMonthFromDate(time: number): string[]{
 
     const month: string[] = []
-    const oldest: number = trades[0].trade.info.date
+    const oldest: number = time
     const monthTo: number =  this.monthDiff(oldest, Date.now())
     const monthIndex = new Date(oldest).getMonth()
     let year: number = new Date(oldest).getFullYear()-1
@@ -26,8 +31,9 @@ export class Utils{
       month.push(`${newMonth} ${year}`)
       // (${year}/${((monthIndex+i) % 12) +1})
     }
+    const now = new Date()
+    month.push(monthNames[now.getMonth()] + ' ' +  now.getFullYear())
     return month
-
   }
 
   private monthDiff(dateFrom, dateTo) {
@@ -138,28 +144,28 @@ export class Utils{
     return Math.min(...this.ddOfTrades(trades, percent, initialStake))
   }
 
-  stdvOfTrades(trade: number[]){
-    if(trade.length){
-      const n = trade.length
-      const mean = trade.reduce((a, b) => a + b) / n
-      return Math.sqrt(trade.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n)
+  stdvOfTrades(value: number[]){
+    if(value.length){
+      const n = value.length
+      const mean = value.reduce((a, b) => a + b) / n
+      return Math.sqrt(value.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n)
     } else {
       return 0
     }
   }
 
-  avgOfArrayNumber(trade: number[]){
-    return trade.reduce((acc, val)=>{
-      return val ? acc+=val : acc},0) / trade.length
+  avgOfArrayNumber(value: number[]){
+    return value.reduce((acc, val)=>{
+      return val ? acc+=val : acc},0) / value.length
   }
 
-  ddOfTrades(trades: number[], percent: boolean, initialStake: number): number[]{
+  ddOfTrades(values: number[], percent: boolean, initialStake: number): number[]{
     const dd = []
     let stock = initialStake
     let lastMax = initialStake
 
     // check for dd or last max
-    for (const trade of trades){
+    for (const trade of values){
       stock += trade
       if(stock > lastMax){
         lastMax = stock
@@ -171,20 +177,20 @@ export class Utils{
     return dd
   }
 
-  maxNumberArray(trade: number[]){
-    return Math.max.apply(Math, trade)
+  maxNumberArray(values: number[]){
+    return Math.max.apply(Math, values)
   }
 
-  maxPercentNumberArray(trade: number[]){
-    return Math.max.apply(Math, trade) / this.getSumOfArrayNumber(trade)
+  maxPercentNumberArray(values: number[]){
+    return Math.max.apply(Math, values) / this.getSumOfArrayNumber(values)
   }
 
-  minOfNumberArray(trade: number[]){
-    return Math.min.apply(Math, trade)
+  minOfNumberArray(values: number[]){
+    return Math.min.apply(Math, values)
   }
 
-   minPercentOfNumberArray(trade: number[]){
-    return Math.min.apply(Math, trade) / this.getSumOfArrayNumber(trade)
+   minPercentOfNumberArray(values: number[]){
+    return Math.min.apply(Math, values) / this.getSumOfArrayNumber(values)
   }
 
 
@@ -380,7 +386,7 @@ export class Utils{
 
   getMonthTrades(trades: NewTrade[]): Month[]{
 
-    const monthLabels = this.getMonth(trades)
+    const monthLabels = this.getMonthFromDate(trades[0].trade.info.date)
     const recap: Month[] = []
 
     monthLabels.forEach( x=> {
@@ -426,6 +432,45 @@ export class Utils{
             mmDescription: '',
           }
         }
+      }
+    }
+  }
+
+  getNotesStats(notes: Note[]){
+    return {
+      length: notes.length,
+        stats: {
+      medical: notes.map(x => x.note.type).reduce((acc, val) =>{
+        return val === 'Medical' ? acc+=1 : acc;},0),
+        note: notes.map(x => x.note.type).reduce((acc, val) =>{
+        return val === 'Note' ? acc+=1 : acc;},0),
+        walkover: notes.map(x => x.note.type).reduce((acc, val) =>{
+        return val === 'Walkover' ? acc+=1 : acc;},0),
+        nmRetires: notes.map(x => x.note.type).reduce((acc, val) =>{
+        return val === 'No Med Retired' ? acc+=1 : acc;},0),
+        validated: notes.map(x => x.note.validation.isValidated).reduce((acc, val) =>{
+        return val ? acc+=1 : acc;},0)
+    },
+      medical: {
+        winner: notes.map(x => x.note.validation.detailValidation.win).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0),
+          looser: notes.map(x => x.note.validation.detailValidation.lose).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0),
+          retired: notes.map(x => x.note.validation.detailValidation.retired).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0),
+          fsRetired: notes.map(x => x.note.validation.detailValidation.retired &&
+          (x.note.validation.tennisPoints.set2.runnerA ===0
+            && x.note.validation.tennisPoints.set2.runnerB ===0
+            && x.note.validation.tennisPoints.set3.runnerA ===0
+            && x.note.validation.tennisPoints.set3.runnerB ===0
+            && x.note.validation.tennisPoints.set4.runnerA ===0
+            && x.note.validation.tennisPoints.set4.runnerB ===0
+            && x.note.validation.tennisPoints.set5.runnerA ===0
+            && x.note.validation.tennisPoints.set5.runnerB ===0)).reduce((acc, val) =>{
+          return val
+            ? acc+=1
+            : acc;
+        },0),
       }
     }
   }

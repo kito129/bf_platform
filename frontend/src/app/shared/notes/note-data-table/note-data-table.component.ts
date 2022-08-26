@@ -1,10 +1,10 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Note} from "../../../model/note/note";
+import {Note} from '../../../model/note/note';
 import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
 import * as notesActions from '../../../store/notes/notes.actions';
-import {ActivatedRoute, Router} from "@angular/router";
-import { Store} from "@ngrx/store";
-import {Runner} from "../../../model/runner/runner";
+import {ActivatedRoute, Router} from '@angular/router';
+import { Store} from '@ngrx/store';
+import {Runner} from '../../../model/runner/runner';
 
 @Component({
   selector: 'app-note-data-table',
@@ -12,9 +12,7 @@ import {Runner} from "../../../model/runner/runner";
 })
 export class NoteDataTableComponent implements OnInit {
 
-
-  @Input()
-  notes: Note[]
+  @Input() notes: Note[]
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -22,7 +20,10 @@ export class NoteDataTableComponent implements OnInit {
   temp =[] ;
   ColumnMode = ColumnMode;
 
-  //for button
+  tableSize = 15
+  viewNotes= true
+
+  // for button
   public state= {
     all: true,
     medical: false,
@@ -32,7 +33,7 @@ export class NoteDataTableComponent implements OnInit {
     retired: false,
     fsRetired: false
   }
-  private prevCLick: string = 'All'
+  private prevCLick = 'All'
 
   columns = [
     { name: 'date', sortable: true},
@@ -59,7 +60,7 @@ export class NoteDataTableComponent implements OnInit {
     const val = event.target.value.toLowerCase();
     // filter our data
     // update the rows
-    this.rows = this.temp.filter(function (d) {
+    this.rows = this.temp.filter((d) => {
       return ((d.note.selection.runnerA.name.toLowerCase().indexOf(val) !== -1 && d.note.selection.runnerA.id ===  d.note.selection.injuredId)
         || (d.note.selection.runnerB.name.toLowerCase().indexOf(val) !== -1 && d.note.selection.runnerB.id ===  d.note.selection.injuredId)
         || d.note.description.toLowerCase().indexOf(val) !== -1
@@ -85,7 +86,7 @@ export class NoteDataTableComponent implements OnInit {
 
       if(val === 'retired'){
         // update retired
-        this.rows = this.temp.filter(function (d) {
+        this.rows = this.temp.filter((d) =>{
           return d.note.validation.detailValidation.retired === true
             || !val;
         });
@@ -93,7 +94,7 @@ export class NoteDataTableComponent implements OnInit {
         this.table.offset = 0;
       } else if(val === 'fsretired') {
         // update retired
-        this.rows = this.temp.filter(function (d) {
+        this.rows = this.temp.filter((y) =>{
           function checkFirstSet(d: Note) {
             return (d.note.validation.tennisPoints.set2.runnerA === 0 &&
               d.note.validation.tennisPoints.set2.runnerB === 0
@@ -104,8 +105,7 @@ export class NoteDataTableComponent implements OnInit {
               && d.note.validation.tennisPoints.set5.runnerA === 0
               && d.note.validation.tennisPoints.set5.runnerB === 0);
           }
-
-          return d.note.validation.detailValidation.retired === true && checkFirstSet(d)
+          return y.note.validation.detailValidation.retired === true && checkFirstSet(y)
             || !val;
         });
         // Whenever the filter changes, always go back to the first page
@@ -113,7 +113,7 @@ export class NoteDataTableComponent implements OnInit {
 
       } else {
         // update the rows with filter
-        this.rows = this.temp.filter(function (d) {
+        this.rows = this.temp.filter((d) =>{
           return d.note.type.toLowerCase().indexOf(val) !== -1
             || !val;
         });
@@ -232,6 +232,4 @@ export class NoteDataTableComponent implements OnInit {
       }
     }
   }
-
-
 }

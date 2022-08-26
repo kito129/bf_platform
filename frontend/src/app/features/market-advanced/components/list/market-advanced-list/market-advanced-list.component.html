@@ -29,10 +29,12 @@
     <app-markets-advanced-datatable [markets]="$allMarkets | async">
     </app-markets-advanced-datatable>
 
-    <app-column-chart *ngIf="($volumeStats | async)?.length" [data]="$volumeStats"
+    <app-column-chart *ngIf="($volumeStats | async)?.length"
+                      [data]="$volumeStats"
                       [colors]="['red']"
                       [height]="500"
-                      [labels]="labels" [title]="['Volume Distribution']"
+                      [labels]="labels"
+                      [title]="['Volume Distribution']"
                       [isCurrency]="false"
                       [isPercent]="false">
     </app-column-chart>

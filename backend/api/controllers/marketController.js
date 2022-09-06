@@ -465,25 +465,35 @@ exports.markets_get_meta_list = async(req, res, next) => {
                    
                 });
 
-                // merge map in array and fix the value
+                console.log('.. end mapping data')
+
+                // merge map in array and fix the value marketAdditionalInfo
                 const mergedArr = Array.from(map.values(), x =>{
+                    let temp = null
                     if(x.marketAdditional){
-                        return{
+                        temp = {
                             marketInfo:x.marketInfo,
                             marketUpdates: x.marketUpdates,
                             marketRunners: x.marketRunners,
                             marketAdditionalInfo: x.marketAdditional,
                         }
                     } else{
-                        return{
+                        temp = {
                             marketInfo:x.marketInfo,
                             marketUpdates: x.marketUpdates,
                             marketRunners: x.marketRunners,
                             marketAdditionalInfo: null
                         }
                     }
+                    // check for last uploaded market that not have complete data
+                    if(temp.marketInfo && temp.marketUpdates && temp.marketRunners){
+                        return temp
+                    }
                     
                 });
+
+                console.log('.. end merge, ready to send resp')
+                console.log('Found ' + mergedArr.length + ' market.')
 
                 res.status(200).json(mergedArr);
             } else{

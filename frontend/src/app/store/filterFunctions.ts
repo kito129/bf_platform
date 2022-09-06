@@ -20,6 +20,12 @@ export function filterBasicMarkets(inputList: MarketMetaListV2[], filterState: F
             return data.marketInfo.marketInfo.name.indexOf('Set 1 Winner')!==-1
           case 'set2Winner':
             return data.marketInfo.marketInfo.name.indexOf('Set 2 Winner')!==-1
+          case 'underOver':
+            return data.marketInfo.marketInfo.name.indexOf('Over/Under')!==-1
+          case 'tennis':
+            return data.marketInfo.marketInfo.sport.indexOf('TENNIS')!==-1
+          case 'soccer':
+            return data.marketInfo.marketInfo.sport.indexOf('SOCCER')!==-1
           case 'bspWinner':
             return returnFilter(data.marketRunners.runnerWinner.inPlayOdds, filter.min, filter.max , filter)
           case 'maxWinner':

@@ -2,3 +2,7 @@
 <h5 *ngIf="eventName.indexOf('Match')!==-1" class="text-right"><span class="badge badge-warning">{{eventName}}</span></h5>
 <h5 *ngIf="eventName.indexOf('Set 1')!==-1" class="text-right"><span class="badge badge-light">{{eventName}}</span></h5>
 <h5 *ngIf="eventName.indexOf('Set 2')!==-1" class="text-right"><span class="badge badge-info">{{eventName}}</span></h5>
+<h5 *ngIf="!(eventName.indexOf('Match')!==-1 || eventName.indexOf('Set 1')!==-1 || eventName.indexOf('Set 2')!==-1)"
+    class="text-right">
+  <span class="badge badge-dark text-withe">{{eventName}}</span>
+</h5>

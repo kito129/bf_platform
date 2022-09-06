@@ -57,6 +57,7 @@ import {MarketAdvancedEffectEffects} from './store/marketsAdvanced/marketAdvance
 import { MarketMetaListBasicComponent } from './features/markets/components/list/market-meta-list-basic/market-meta-list-basic.component';
 import {MarketsModule} from "./features/markets/markets.module";
 import {FeahterIconModule} from "./core/feather-icon/feather-icon.module";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 @NgModule({
     declarations: [
@@ -99,7 +100,8 @@ import {FeahterIconModule} from "./core/feather-icon/feather-icon.module";
         SweetAlert2Module.forRoot(),
         DragulaModule.forRoot(),
         MarketsModule,
-        FeahterIconModule
+        FeahterIconModule,
+        NgSelectModule
     ],
     providers: [
         AuthGuard,

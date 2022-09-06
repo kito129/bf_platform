@@ -93,6 +93,12 @@ export class BasketFilters{
 
     this.filters.push(  new Filter('set2Winner', 0,0, true, false, FilterType.moreThan))
 
+    this.filters.push(  new Filter('underOver', 0,0, true, false, FilterType.moreThan))
+
+    this.filters.push(  new Filter('tennis', 0,0, true, false, FilterType.moreThan))
+
+    this.filters.push(  new Filter('soccer', 0,0, true, false, FilterType.moreThan))
+
     this.filters.push(  new Filter('runners', 0,0, true, false, FilterType.moreThan))
 
     /*

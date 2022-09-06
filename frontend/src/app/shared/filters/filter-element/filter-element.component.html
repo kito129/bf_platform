@@ -35,15 +35,18 @@
         && filter.name.indexOf('setWinner')===-1
         && filter.name.indexOf('set1Winner')===-1
         && filter.name.indexOf('set2Winner')===-1
-        && filter.name.indexOf('runner')===-1">
+        && filter.name.indexOf('runner')===-1
+        && filter.name.indexOf('tennis')===-1
+        && filter.name.indexOf('soccer')===-1
+        && filter.name.indexOf('underOver')===-1">
       <ng-option *ngFor="let type of filterTypeArray" [value]="type.index">
         {{type.name}}
       </ng-option>
     </ng-select>
   </div>
 
+  <!-- NORMAL FORM -->
   <div class="row">
-    <!-- NORMAL FORM -->
     <form class="forms-sample grid-margin"
           *ngIf="filter.name.indexOf('haveAdditionalInfo')===-1
           && filter.name !== 'date'
@@ -51,7 +54,10 @@
           && filter.name.indexOf('setWinner')===-1
           && filter.name.indexOf('set1Winner')===-1
           && filter.name.indexOf('set2Winner')===-1
-          && filter.name.indexOf('runners')===-1">
+          && filter.name.indexOf('runners')===-1
+          && filter.name.indexOf('tennis')===-1
+          && filter.name.indexOf('soccer')===-1
+          && filter.name.indexOf('underOver')===-1">
       <div class="form-group">
         <label for="min">{{filter.type === filterType.between || filter.type === filterType.outside ? 'Min:' : 'Value:'}}</label>
         <input class="form-control"

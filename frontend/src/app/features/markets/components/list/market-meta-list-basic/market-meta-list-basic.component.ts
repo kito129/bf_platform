@@ -35,6 +35,7 @@ export class MarketMetaListBasicComponent implements OnInit, OnDestroy {
   removedMarket$: Observable<{ marketName: string, marketDate: number, marketId: string }[]>
 
   filterName = ''
+  tableSize = 15
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -44,10 +45,6 @@ export class MarketMetaListBasicComponent implements OnInit, OnDestroy {
   temp: MarketMetaListV2[] = [];
   loadingIndicator = true
   ColumnMode = ColumnMode;
-
-
-
-  closeResult = '';
 
   constructor(private readonly store: Store) { }
 
@@ -69,7 +66,8 @@ export class MarketMetaListBasicComponent implements OnInit, OnDestroy {
 
     this.metaList$.pipe(takeUntil(this.destroy$))
       .subscribe(data => {
-        if(data){
+        console.log(data)
+        if (data) {
           this.rows = data.market
           this.temp = data.market
         }
@@ -84,7 +82,9 @@ export class MarketMetaListBasicComponent implements OnInit, OnDestroy {
     this.rows = this.temp.filter( (d: MarketMetaListV2) => {
       // filter by runner name
       return (d.marketRunners.runnerWinner.name.toLowerCase().indexOf(val) !== -1 ||
-        d.marketRunners.runnerLoser.name.toLowerCase().indexOf(val) !== -1 || !val)
+        d.marketRunners.runnerLoser.name.toLowerCase().indexOf(val) !== -1 ||
+        d.marketInfo.marketInfo.eventName.toLowerCase().indexOf(val) !== -1 ||
+        !val)
       // sort by date
     }).sort((x: MarketMetaListV2, y: MarketMetaListV2) => {
       return x.marketInfo.marketInfo.openDate - y.marketInfo.marketInfo.openDate
@@ -92,6 +92,8 @@ export class MarketMetaListBasicComponent implements OnInit, OnDestroy {
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
+
+  // action
 
   refreshData(){
     this.store.dispatch(marketBasicActions.getAllFilterBasket());

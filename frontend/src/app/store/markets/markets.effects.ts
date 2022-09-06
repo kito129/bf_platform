@@ -92,7 +92,7 @@ export class MarketsEffects {
         exhaustMap(action =>
           this.filterBasketService.getAllFilterBasket().pipe(
             map(response => {
-              console.log('response:::', response)
+              // console.log('response:::', response)
 
               return marketActions.getAllFilterBasketSuccess({response})
             }),
@@ -108,7 +108,7 @@ export class MarketsEffects {
       exhaustMap(action =>
         this.filterBasketService.createFilterBasket(action.filterBasket).pipe(
           map(response => {
-            console.log('response:::', response)
+            // console.log('response:::', response)
 
             return marketActions.createFilterBasketSuccess({response})
           }),
@@ -127,7 +127,7 @@ export class MarketsEffects {
         exhaustMap(action =>
           this.filterBasketService.updateFilterBasket(action._id,action.filterBasket).pipe(
             map(response => {
-              console.log('response:::', response)
+              // console.log('response:::', response)
 
               return marketActions.updateFilterBasketSuccess({response})
             }),
@@ -146,7 +146,7 @@ export class MarketsEffects {
         exhaustMap(action =>
           this.filterBasketService.deleteFilterBasket(action._id).pipe(
             map(response => {
-              console.log('response:::', response)
+              // console.log('response:::', response)
 
               return marketActions.deleteFilterBasketSuccess({response})
             }),

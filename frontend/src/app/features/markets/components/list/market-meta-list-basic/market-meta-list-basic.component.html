@@ -36,7 +36,6 @@
                        [selectedFilterBasket]="selectedFilterBasket$ | async"
                        [selectedFilterBasket$]="selectedFilterBasket$">
         </app-crud-list>
-
       </div>
     </div>
 
@@ -57,6 +56,18 @@
           />
         </div>
       </form>
+      <div class="row">
+        <div class="form-group">
+          <!-- OPTIONS -->
+          <label for="tableSize">Table size</label>
+          <ng-select id="tableSize"
+                     name="options"
+                     [(ngModel)]="tableSize"
+                     [items]="[5, 10,15,20,25,30,40,50,100,200,250,500,1000]"
+                     [clearable]="false">
+          </ng-select>
+        </div>
+      </div>
     </div>
 
     <!-- DATATABLE -->
@@ -66,7 +77,7 @@
     [columnMode]="ColumnMode.flex"
     [headerHeight]="40"
     [footerHeight]="50"
-    [limit]="10"
+    [limit]="tableSize"
     rowHeight="50"
     [sorts]="[{prop: 'marketInfo.marketInfo.metadata.inPlayTime', dir: 'desc'}]">
 
@@ -77,6 +88,12 @@
         </h5>
       </ng-template>
     </ngx-datatable-column>
+
+      <ngx-datatable-column name="Market Name" prop="marketInfo.marketInfo.eventName" [flexGrow]="2">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <p>{{value}}</p>
+        </ng-template>
+      </ngx-datatable-column>
 
       <ngx-datatable-column name="Market Type" prop="marketInfo.marketInfo.name" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
@@ -198,15 +215,14 @@
             </button>
           </div>
 
-
         </ng-template>
-
       </ngx-datatable-column>
 
     </ngx-datatable>
 
     <div class="row mt-3">
-      <!-- REMOVED MARKET-->
+
+      <!--
       <div class="col-6" *ngIf="(removedMarket$ | async).length">
         <div class="d-flex justify-content-end align-items-baseline">
           <h4 class="text-warning mr-3">Removed Market, #: {{(removedMarket$ | async).length}} </h4>
@@ -221,6 +237,7 @@
           </button>
 
         </div>
+
         <ngx-datatable
           class="dark"
           [rows]="removedMarket$ | async"
@@ -254,7 +271,6 @@
                                           [marketId]="value">
                 </app-market-details-modal>
 
-                <!-- REMOVED LIST BUTTON-->
                 <button type="button" class="btn btn-icon btn-outline-success mr-2 d-none d-md-block"
                         (click)="setInRemovedList(value)">
                   <i class="btn-icon-prepend"
@@ -266,7 +282,9 @@
           </ngx-datatable-column>
 
         </ngx-datatable>
+
       </div>
+      -->
     </div>
 
   </div>

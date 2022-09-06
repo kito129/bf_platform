@@ -75,7 +75,11 @@ export const getRandomMarketId = createSelector(
 export const getMetalistBasicBasket = createSelector(
   getMarketState,
   (state: MarketsState):MarketFilterBasket => {
-    const list = state.marketMetalist.filter(x => x.marketInfo.marketInfo.sport === 'TENNIS').map(x => {
+    const tennis = state.marketMetalist.filter(x => {
+      if(x){
+        return x.marketInfo.marketInfo.sport === 'TENNIS'
+      }
+    }).map(x => {
       return {
         marketInfo: x.marketInfo,
         marketUpdates: x.marketUpdates,
@@ -90,8 +94,41 @@ export const getMetalistBasicBasket = createSelector(
       }
     })
 
-    let filtered =  filterBasicMarkets(list,state.filterState)
+    // check for soccer market
+    const soccer = state.marketMetalist.filter(x => {
+      if(x){
+        return x.marketInfo.marketInfo.sport === 'SOCCER'
+      }
+    }).map(x => {
+      let winner = null
+      let loser = null
+      // found winner
+      for (const run of x.marketRunners.marketRunners) {
+        if (run.status === 'WINNER') {
+          winner = run
+        } else {
+          loser = run
+        }
+      }
+      return {
+        marketInfo: x.marketInfo,
+        marketUpdates: x.marketUpdates,
+        marketRunners: {
+          _id: x.marketRunners._id,
+          marketId: x.marketRunners.marketId,
+          marketType: x.marketRunners.marketType,
+          runnerWinner: winner,
+          runnerLoser: loser,
+        },
+        marketAdditionalInfo: x.marketAdditionalInfo
+      }
+    })
+    // add soccer market
+    const data = tennis.concat(soccer)
+
+    let filtered =  filterBasicMarkets(data,state.filterState)
     filtered = filtered.filter(x => !state.filterMarketRemoved.includes(x.marketInfo.marketInfo.id))
+
     return {
       market: filtered,
       basket: filtered.map(x => x.marketInfo.marketId),

@@ -32,7 +32,7 @@ export class FiltersMainComponent implements OnInit, OnDestroy {
   }
 
   submit(){
-    // fare update sul valore dello stato
+    // update filters value in store
     this.store.dispatch(marketBasicActions.setFilter({filters: this.filter}));
   }
 

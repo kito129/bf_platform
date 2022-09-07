@@ -9,6 +9,7 @@ import {Runner} from '../../../model/runner/runner';
 @Component({
   selector: 'app-note-data-table',
   templateUrl: './note-data-table.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
 })
 export class NoteDataTableComponent implements OnInit {
 

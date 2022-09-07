@@ -9,7 +9,8 @@ import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-crud-list',
-  templateUrl: './crud-list.component.html'
+  templateUrl: './crud-list.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
 })
 export class CrudListComponent implements OnInit, OnDestroy {
 

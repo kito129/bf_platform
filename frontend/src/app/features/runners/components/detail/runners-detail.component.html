@@ -23,18 +23,14 @@
 
 <!-- ROW 1-->
 <div class="col-12">
+  <app-loading-cards *ngIf="(isLoadingNotes$ | async).isLoading || (isLoadingAllTournament$ | async).isLoading || (isLoadingAllRunners$ | async).isLoading"></app-loading-cards>
+  <app-loading-cards *ngIf="(isLoadingRunnerMarkets$ | async).isLoading"></app-loading-cards>
   <div class="row grid-margin">
     <div class="col">
-      <app-loading-cards *ngIf="(isLoadingRunnerMarkets$ | async).isLoading || (isLoadingSelectedRunner$ | async).isLoading">
-
-      </app-loading-cards>
       <app-runner-detail-info *ngIf="(isLoadingRunnerMarkets$ | async).isLoadingSuccess && (isLoadingSelectedRunner$ | async).isLoadingSuccess"
                               [runnerInfo]="runnerInfo$ | async"></app-runner-detail-info>
     </div>
     <div class="col">
-      <app-loading-cards *ngIf="(isLoadingRunnerMarkets$ | async).isLoading || (isLoadingSelectedRunner$ | async).isLoading">
-
-      </app-loading-cards>
       <app-runner-detail-stats *ngIf="(isLoadingRunnerMarkets$ | async).isLoadingSuccess && (isLoadingSelectedRunner$ | async).isLoadingSuccess"
                                [runnerMarkets]="runnerMarkets$ | async"
                                [runnerId]="runnerId"
@@ -44,7 +40,6 @@
   </div>
   <div class="row grid-margin">
     <div class="col grid-margin">
-      <app-loading-cards *ngIf="(isLoadingNotes$ | async).isLoading || (isLoadingAllTournament$ | async).isLoading || (isLoadingAllRunners$ | async).isLoading"></app-loading-cards>
       <app-runner-detail-notes *ngIf="(isLoadingNotes$ | async).isLoadingSuccess && (isLoadingAllTournament$ | async).isLoadingSuccess && (isLoadingAllRunners$ | async).isLoadingSuccess"
                                [runnerNotes]="runnerNotes$ | async"
                                [tournamentList]="tournamentList$ | async"
@@ -53,32 +48,31 @@
     </div>
   </div>
   <div class="row grid-margin">
-    <div class="col">
-      <app-loading-cards *ngIf="(isLoadingRunnerMarkets$ | async).isLoading"></app-loading-cards>
+    <div class="col-7">
       <app-runner-detail-markets *ngIf="(isLoadingRunnerMarkets$ | async).isLoadingSuccess"
                                  [runnerMarkets]="runnerMarkets$ | async"
                                  [runnerId]="runnerId">
-
       </app-runner-detail-markets>
+    </div>
+    <div class="col-5">
+      <app-runner-detail-market-stats-distribution *ngIf="(isLoadingRunnerMarkets$ | async).isLoadingSuccess"
+                                                   [marketStats]="marketsStats.rangeStats">
+      </app-runner-detail-market-stats-distribution>
     </div>
   </div>
   <div class="row grid-margin">
     <div class="col">
-      <app-loading-cards *ngIf="(isLoadingRunnerMarkets$ | async).isLoading || (isLoadingSelectedRunner$ | async).isLoading"></app-loading-cards>
       <app-runner-detail-bsp *ngIf="(isLoadingRunnerMarkets$ | async).isLoadingSuccess && (isLoadingSelectedRunner$ | async).isLoadingSuccess"
                              [runnerMarkets]="runnerMarkets$ | async"
                              [runnerId]="runnerId">
-
       </app-runner-detail-bsp>
     </div>
   </div>
   <div class="row grid-margin">
     <div class="col">
-      <app-loading-cards *ngIf="(isLoadingRunnerMarkets$ | async).isLoading"></app-loading-cards>
       <app-runner-detail-market-stats *ngIf="(isLoadingRunnerMarkets$ | async).isLoadingSuccess"
                                       [runnerId]="runnerId"
                                       [runnerMarkets]="runnerMarkets$ | async">
-
       </app-runner-detail-market-stats>
     </div>
   </div>

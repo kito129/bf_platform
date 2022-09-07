@@ -16,6 +16,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   @Input() selectedStrategy: Strategy
   @Input() title: string
   @Input() bank: number
+  @Input() noBug: boolean
 
   strategyValue: number[] = [0,0,0]
   strategyReport: StrategyReport
@@ -112,12 +113,16 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   // temp to fix odds bug
   bugFix(){
-    this.bug = false
-    setTimeout(() =>
-      {
-        this.bug = true
-      },
-      500);
+    if(this.noBug){
+      console.log('no bug')
+    } else {
+      this.bug = false
+      setTimeout(() =>
+        {
+          this.bug = true
+        },
+        700);
+    }
   }
 
   ngOnDestroy() {

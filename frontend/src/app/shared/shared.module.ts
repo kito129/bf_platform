@@ -120,6 +120,7 @@ import { StrategyReportBSPFilterComponent } from './strategy/strategy-report/str
 import { StrategyReportBspfilterParamsComponent } from './strategy/strategy-report/strategy-report-bspfilter/strategy-report-bspfilter-params/strategy-report-bspfilter-params.component';
 import { ComparatorTradesTableComponent } from './strategy/comparator-trades-table/comparator-trades-table.component';
 import { SingleColumnChartComponent } from './charts/apx-charts/single-column-chart/single-column-chart.component';
+import { BetTableComponent } from './trade/trade-bets-view/bet-table/bet-table.component';
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
@@ -250,7 +251,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyReportBSPFilterComponent,
     StrategyReportBspfilterParamsComponent,
     ComparatorTradesTableComponent,
-    SingleColumnChartComponent
+    SingleColumnChartComponent,
+    BetTableComponent
   ],
     exports: [
         CommonModule,

@@ -14,6 +14,7 @@ import {CompareStudyCsvGeneratorService} from '../../../../services/compare-stud
 @Component({
   selector: 'app-tennis-tournament-data-table',
   templateUrl: './tennis-tournament-data-table.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
 })
 export class TennisTournamentDataTableComponent implements OnInit {
 

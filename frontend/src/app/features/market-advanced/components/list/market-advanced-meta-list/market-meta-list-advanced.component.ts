@@ -15,6 +15,7 @@ import {MarketMetaListV2Adv} from '../../../../../model/market/metalist/metalist
 @Component({
   selector: 'app-market-meta-list-advanced',
   templateUrl: './market-meta-list-advanced.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
 })
 export class MarketMetaListAdvancedComponent implements OnInit {
 

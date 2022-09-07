@@ -9,21 +9,12 @@ import {MarketSelectionInfo} from '../../../../../model/market/marketSelectionIn
 export class RunnerDetailMarketStatsComponent implements OnInit {
 
 
-  @Input()
-  runnerMarkets: MarketSelectionInfo[]
-  @Input()
-  runnerId: number
-
-
+  @Input() runnerMarkets: MarketSelectionInfo[]
+  @Input() runnerId: number
   marketsStats: RunnerMarketsStats
-  marketsGaussian: RunnerMarketsGaussian
-
   constructor() { }
 
   ngOnInit(): void {
-
     this.marketsStats = new RunnerMarketsStats(this.runnerMarkets, this.runnerId)
-    this.marketsGaussian = new RunnerMarketsGaussian(this.runnerMarkets)
-
   }
 }

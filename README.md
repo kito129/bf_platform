@@ -59,6 +59,14 @@ Config:
     
 
 
+## lIMIT MEMORY NODE BACK END
+
+linux
+export NODE_OPTIONS="--max-old-space-size=5120" # Increase to 5 GB
+
+windows
+set NODE_OPTIONS=--max_old_space_size=7096
+
 ## NGINX
 
 Create config:

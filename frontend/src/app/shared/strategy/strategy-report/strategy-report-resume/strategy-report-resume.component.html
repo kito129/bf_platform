@@ -1,8 +1,8 @@
 <div class="table-responsive">
-  <table class="table table-hover table-bordered">
+  <table class="table table-hover table-striped table-bordered">
     <thead>
     <tr>
-      <th><h4>Props</h4></th>
+      <th class="active"><h4>Resume</h4></th>
       <th><h4 class="text-primary">Total</h4></th>
       <th><h4 class="text-success">Profit</h4></th>
       <th><h4 class="text-danger">Loss</h4></th>
@@ -17,7 +17,7 @@
     </tr>
     <tr>
       <td><h4>Profit Factor</h4></td>
-      <td><h5>{{strategyResumeProfit.grossCash/strategyResumeLoss.grossCash | number}}</h5></td>
+      <td><h5>{{strategyResumeProfit.grossCash/-strategyResumeLoss.grossCash | number}}</h5></td>
       <td></td>
       <td></td>
     </tr>

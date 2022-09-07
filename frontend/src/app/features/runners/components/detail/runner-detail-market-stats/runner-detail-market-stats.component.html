@@ -7,18 +7,12 @@
     </div>
   </div><!-- /HEADER -->
   <div class="card-body">
-     <div class="row">
-      <div class="col-6">
-        <app-runner-detail-market-stats-distribution [marketStats]="marketsStats.rangeStats">
-        </app-runner-detail-market-stats-distribution>
-      </div>
-    </div>
     <div class="row">
       <div class="col-6" *ngFor="let stats of marketsStats.rangeStats">
-        <app-runner-detail-market-stats-view [marketStats]="stats"
-                                             [runnerId]="runnerId"
-                                             [totalMatch]="runnerMarkets.length">
-        </app-runner-detail-market-stats-view>
+        <app-runner-detail-market-stats-table [marketStats]="stats"
+                                              [runnerId]="runnerId"
+                                              [totalMatch]="runnerMarkets.length">
+        </app-runner-detail-market-stats-table>
       </div>
     </div>
   </div>

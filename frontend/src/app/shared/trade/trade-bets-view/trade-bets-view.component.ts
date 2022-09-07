@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TradeBets} from '../../../model/report/tradeBets';
 import {NewTrade} from '../../../model/report/new/newTrade';
+import {generate} from 'rxjs';
 
 @Component({
   selector: 'app-trade-bets-view',
@@ -8,19 +9,39 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 })
 export class TradeBetsViewComponent implements OnInit {
 
+  // TODO DA QUI
+
   @Input() trade: NewTrade
+  tradeA: NewTrade = null
+  tradeB: NewTrade = null
 
   bets: TradeBets[] = []
+  betsA: TradeBets[] = []
+  betsB: TradeBets[] = []
 
   constructor() { }
 
   ngOnInit(): void {
+    if(this.trade.trade.trades.length){
+      this.tradeA = JSON.parse(JSON.stringify(this.trade))
+      this.tradeB = JSON.parse(JSON.stringify(this.trade))
+      this.tradeA.trade.trades = this.tradeA.trade.trades.filter( x => x.selectionN ===0)
+      this.tradeB.trade.trades = this.tradeB.trade.trades.filter( x => x.selectionN ===1)
 
-    // add back
-    // tslint:disable-next-line:prefer-for-of
-    for(let i=0; i< this.trade.trade.trades.length; i++){
+      console.log(this.tradeA)
+      console.log(this.tradeB)
+
+      this.bets = this.generateTrade(this.trade)
+      this.betsA = this.generateTrade(this.tradeA)
+      this.betsB = this.generateTrade(this.tradeB)
+    }
+  }
+
+  generateTrade(trade: NewTrade){
+    let resp = []
+    for(let i=0; i< trade.trade.trades.length; i++){
       const selected = this.trade.trade.trades[i]
-      this.bets.push({
+      const temp = {
         id: selected.id,
         type: selected.type,
         selectionN: this.trade.trade.trades[i].selectionN,
@@ -33,53 +54,14 @@ export class TradeBetsViewComponent implements OnInit {
         point: selected.condition.tennis.point,
         note: selected.condition.note,
         options: selected.options
-      })
+      }
+      resp.push(temp)
     }
     // sort by time
-    this.bets = this.bets.sort((a,b)=>{
+    resp = resp.sort((a,b)=>{
       return a.time - b.time
     })
-  }
-
-  getSide(index: number, side: number){
-
-
-    let winA = 0
-    let winB = 0
-
-    for(let i =0; i<=index; i++){
-      if((this.bets[i].type==='back' && this.bets[i].selectionN ===0) ){
-        winA += this.bets[i].toWin
-        winB += - this.bets[i].stake
-      }
-      if((this.bets[i].type==='lay' && this.bets[i].selectionN ===0)){
-        winA += - this.bets[i].liability
-        winB += + this.bets[i].toWin
-      }
-      if((this.bets[i].type==='lay' && this.bets[i].selectionN ===1)){
-        winA += + this.bets[i].toWin
-        winB += - this.bets[i].liability
-
-      } if((this.bets[i].type==='back' && this.bets[i].selectionN ===1)){
-        winA += - this.bets[i].stake
-        winB += + this.bets[i].toWin
-      }
-    }
-
-    if(side===0){
-      if(winA>0){
-        return  Math.round((winA * (1-0.02))*100)/100
-      } else{
-        return Math.round((winA)*100)/100
-      }
-
-    } else if (side===1) {
-      if(winB>0){
-        return  Math.round((winB * (1-0.02))*100)/100
-      } else{
-        return Math.round((winB)*100)/100
-      }
-    }
+    return resp
   }
 
 }

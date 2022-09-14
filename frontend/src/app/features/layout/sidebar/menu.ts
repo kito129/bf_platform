@@ -6,9 +6,9 @@ export const MENU: MenuItem[] = [
     isTitle: true
   },
   {
-    label: 'Dashboard',
-    icon: 'layout',
-    link: '/dashboard'
+    label: 'Report',
+    icon: 'bar-chart-2',
+    link: '/report'
   },
   /*
   {
@@ -56,11 +56,6 @@ export const MENU: MenuItem[] = [
     label: 'Calculator',
     icon: 'percent',
     link: '/calculator'
-  },
-  {
-    label: 'Report',
-    icon: 'bar-chart-2',
-    link: '/report'
   },
   {
     label: 'Study',

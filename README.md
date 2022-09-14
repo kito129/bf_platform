@@ -30,11 +30,6 @@ db = client.test
 ## VPS
 
     apt-get install  nginx
-
-    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-    sudo apt install nodejs
-
-    npm install -g node
     
     sudo systemctl restart nginx
     sudo systemctl status nginx
@@ -43,33 +38,66 @@ db = client.test
     
     npm install
     
-    
-## Git
 
-Token:
-    187b55420e47378cd6f02f50dcb2c6389c94615e
-    
+## Node and NPM
 
-Config: 
+### Node
+cd ~
+curl -sL https://deb.nodesource.com/setup_13.x -o /tmp/nodesource_setup.sh
 
-    git config --global user.name marcoselva
-    git config --global user.email marco.96.12@gmail.com
-    
-    git config --global credential.helper store
-    
+sudo bash /tmp/nodesource_setup.sh
+sudo apt install nodejs
+node -v
+v13.14.0
+
+### Node
+npm -v
+6.14.4
+
+
+
+ng version
+
+     _                      _                 ____ _     ___
+    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+ /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+                |___/
+
+
+Angular CLI: 10.2.3
+Node: 13.14.0
+OS: win32 x64
+
+Angular:
+...
+Ivy Workspace:
+
+Package                      Version
+------------------------------------------------------
+@angular-devkit/architect    0.1002.3 (cli-only)
+@angular-devkit/core         10.2.3 (cli-only)
+@angular-devkit/schematics   10.2.3 (cli-only)
+@schematics/angular          10.2.3 (cli-only)
+@schematics/update           0.1002.3 (cli-only)
 
 
 ## NGINX
 
-Create config:
+Create config
 
     sudo nano /etc/nginx/sites-available/simpleServer
     
-Config:
+Config
+
+check ip
+
+File
 
 server {
     listen 80;
-    server_name 217.61.104.122;
+    server_name 95.111.245.75;
     location / {
         proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
@@ -91,6 +119,32 @@ To remove and update site:
     
     cd /etc/nginx/sites-enabled
     rm TAB
+
+
+## Tmux
+
+sudo apt-get install tmux
+tmux new -s platform
+
+
+
+tmux new -s bot
+    
+
+## Git
+
+Token:
+    187b55420e47378cd6f02f50dcb2c6389c94615e
+    
+
+Config: 
+
+    git config --global user.name marcoselva
+    git config --global user.email marco.96.12@gmail.com
+    
+    git config --global credential.helper store
+    
+
     
         
         

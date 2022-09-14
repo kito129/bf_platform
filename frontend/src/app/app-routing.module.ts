@@ -13,6 +13,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: 'report',
+        loadChildren: () => import('./features/report/report.module').then(m => m.ReportModule)
+      },
+      {
         path: 'dashboard',
         loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
@@ -31,10 +35,6 @@ const routes: Routes = [
       {
         path: 'calculator',
         loadChildren: () => import('./features/calculator/calculator.module').then(m => m.CalculatorModule)
-      },
-      {
-        path: 'report',
-        loadChildren: () => import('./features/report/report.module').then(m => m.ReportModule)
       },
       {
         path: 'runners',
@@ -60,8 +60,8 @@ const routes: Routes = [
         path: 'documentation',
         loadChildren: () => import('./features/documentation/documentation.module').then(m => m.DocumentationModule)
       },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: 'report', pathMatch: 'full' },
+      { path: '**', redirectTo: 'report', pathMatch: 'full' }
     ]
   },
   {

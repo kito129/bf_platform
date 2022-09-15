@@ -184,6 +184,10 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
 
   }
 
+  selectAll(){
+    this.selected = this.rows
+  }
+
   generateReport(){
     this.viewSelectedReport = true
     this.bugFix()

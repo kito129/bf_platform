@@ -25,6 +25,8 @@ export class StrategyDatatableComponent implements OnInit {
   tableSize = 20
   page = 1
 
+  isCollapsed = false
+
   viewId = false
 
   constructor(private readonly store: Store) {}

@@ -3,10 +3,26 @@
   <!-- HEADER -->
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h3 *ngIf="haveStrategy">{{strategyReport.strategy.strategy.info.name}} Report</h3>
-      <h3 *ngIf="!haveStrategy">{{title}} Report</h3>
+      <h3 class="text-info" *ngIf="haveStrategy">{{strategyReport.strategy.strategy.info.name}} Report</h3>
+      <div *ngIf="title">
+        <h3 [ngClass]="title.indexOf('Selected')!==-1 ? 'text-info' : '' " *ngIf="!haveStrategy">{{title}} Report</h3>
+      </div>
 
-      <button type="button" [ngClass]="isCollapsed? 'btn btn btn-outline-primary' : 'btn btn-xs btn-primary'" (click)="isCollapsed = !isCollapsed"
+      <div>
+        <form class="forms-sample grid-margin">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="{{title}}"/>
+        </form>
+        <button type="button"
+                class="btn btn btn-outline-danger"
+                (click)="saveReport()">
+          Save Report as Strategy
+        </button>
+      </div>
+
+      <button type="button" [ngClass]="isCollapsed? 'btn btn btn-outline-primary' : 'btn btn btn-primary'" (click)="isCollapsed = !isCollapsed"
               [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
         View
       </button>

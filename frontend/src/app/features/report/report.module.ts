@@ -5,7 +5,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {FeahterIconModule} from '../../core/feather-icon/feather-icon.module';
-import {NgbDatepickerModule, NgbDropdownModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapseModule, NgbDatepickerModule, NgbDropdownModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgApexchartsModule} from 'ng-apexcharts';
 import {ChartsModule} from 'ng2-charts';
 import {DataTablesModule} from 'angular-datatables';
@@ -56,7 +56,8 @@ const routes: Routes = [
     NgxMaskModule,
     CustomFormsModule,
     NgbNavModule,
-    SharedModule
+    SharedModule,
+    NgbCollapseModule
 
   ]
 })

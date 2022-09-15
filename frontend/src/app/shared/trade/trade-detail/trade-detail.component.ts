@@ -3,9 +3,11 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 import {TradeDetail} from '../../../model/report/trade';
 import {select, Store} from '@ngrx/store';
 import * as tennisTournamentSelectors from '../../../store/tennis-tournament/tennisTournament.selectors';
+import * as strategySelectors from '../../../store/report/report.selectors';
 import {takeUntil} from 'rxjs/operators';
 import {TennisTournament} from '../../../model/tennisTournament/tennisTournament';
 import {Subject} from 'rxjs';
+import {Strategy} from "../../../model/report/strategy";
 
 @Component({
   selector: 'app-trade-detail',
@@ -16,6 +18,7 @@ export class TradeDetailComponent implements OnInit,OnDestroy {
   @Input() trade: NewTrade
 
   tennisTournament: TennisTournament
+  strategy: Strategy
 
   notePresent = false
 
@@ -29,6 +32,14 @@ export class TradeDetailComponent implements OnInit,OnDestroy {
       .subscribe( tournament => {
         if(tournament){
           this.tennisTournament = tournament
+        }
+      })
+
+    this.store.pipe(select(strategySelectors.getStrategyById(this.trade.trade.info.strategyId)))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe( strategy => {
+        if(strategy){
+          this.strategy = strategy
         }
       })
 

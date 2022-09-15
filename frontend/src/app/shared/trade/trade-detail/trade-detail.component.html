@@ -38,23 +38,34 @@
               <div class="col">
                 <h5>Tournament: </h5>
               </div>
-              <div class="col">
+              <div class="col" *ngIf="tennisTournament">
                 <div *ngIf="tennisTournament.tournament.detail.type.federation==='ATP'"><h4><span class="badge badge-primary">ATP {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
                 <div *ngIf="tennisTournament.tournament.detail.type.federation==='WTA'"><h4><span class="badge badge-danger">WTA {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
                 <div *ngIf="tennisTournament.tournament.detail.type.isChallenger"><h4><span class="badge badge-success">Challenger</span></h4></div>
+              </div>
+            </div>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h5>Surface: </h5>
+              </div>
+              <div class="col" *ngIf="tennisTournament">
+                <div *ngIf="tennisTournament.tournament.detail.surface==='HARD'"><h4><span class="badge badge-primary">HARD</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.surface==='GRASS'"><h4><span class="badge badge-success">GRASS</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.surface==='CLAY'"><h4><span class="badge badge-danger">CLAY</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.surface==='INDOOR HARD'"><h4><span class="badge badge-light">INDOOR HARD</span></h4></div>
               </div>
             </div>
           </li>
           <li class="list-group-item">
             <div class="row">
               <div class="col">
-                <h5>Surface: </h5>
+                <h5>Strategy: </h5>
               </div>
-              <div class="col">
-                <div *ngIf="tennisTournament.tournament.detail.surface==='HARD'"><h4><span class="badge badge-primary">HARD</span></h4></div>
-                <div *ngIf="tennisTournament.tournament.detail.surface==='GRASS'"><h4><span class="badge badge-success">GRASS</span></h4></div>
-                <div *ngIf="tennisTournament.tournament.detail.surface==='CLAY'"><h4><span class="badge badge-danger">CLAY</span></h4></div>
-                <div *ngIf="tennisTournament.tournament.detail.surface==='INDOOR HARD'"><h4><span class="badge badge-light">INDOOR HARD</span></h4></div>
+              <div class="col" *ngIf="strategy">
+                <div><h4>
+                  {{strategy.strategy.info.name}}
+                </h4></div>
               </div>
             </div>
           </li>

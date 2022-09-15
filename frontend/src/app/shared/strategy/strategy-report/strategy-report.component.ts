@@ -57,6 +57,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   private calculate(data: NewTrade[]){
     if(data.length){
+      // order and set trade
       const trades: NewTrade[] = data.sort((a,b) => a.trade.info.date-b.trade.info.date)
       this.trades = trades
       let strategy: Strategy = null
@@ -134,6 +135,11 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
         },
         700);
     }
+  }
+
+  saveReport(){
+    console.log("saving report")
+    console.log(this.trades.length)
   }
 
   ngOnDestroy() {

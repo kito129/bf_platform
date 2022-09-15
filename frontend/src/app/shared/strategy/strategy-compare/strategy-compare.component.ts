@@ -122,7 +122,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
       const tempTrade: TradeComparator[] = []
       let counterTrade =1
       // run over trade and set propriety
-      for(const trade of trades.trades){
+      for(const trade of trades.trades.sort((a,b) => a.trade.info.date - b.trade.info.date)){
         stock += trade.trade.results.netProfit
         tempStock.push(+stock.toFixed(2))
         tempPl.push(+(trade.trade.results.netProfit).toFixed(2))

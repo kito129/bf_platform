@@ -6,12 +6,12 @@
     View Trades
   </button>
   <button type="button" class="btn btn mr-2"
-          [ngClass]="viewResult ? 'btn-secondary' : 'btn-outline-secondary' "
+          [ngClass]="!viewResult ? 'btn-secondary' : 'btn-outline-secondary' "
           (click)="viewResult= !viewResult">
     View Result
   </button>
   <button type="button" class="btn btn mr-2"
-          [ngClass]="!viewOdds ? 'btn-secondary' : 'btn-outline-secondary' "
+          [ngClass]="viewOdds ? 'btn-secondary' : 'btn-outline-secondary' "
           (click)="viewOdds= !viewOdds">
     View Odds
   </button>
@@ -62,7 +62,7 @@
 </div>
 
 <!-- SELECTED DETAILS-->
-<div class="row mt-2 mb-2" *ngIf="selected.length">
+<div class="row mt-2 mb-2">
   <div class="col-3">
     <ul class="list-group">
       <li class="list-group-item">
@@ -71,7 +71,7 @@
             <h5>#: </h5>
           </div>
           <div class="col">
-            <h5 class="text-right">{{selected.length}}</h5>
+            <h5 class="text-right">{{selected.length}} ({{selected.length / rows.length | percent}})</h5>
           </div>
           <div class="col">
             <h5 class="text-right text-success">{{getWinNumber(selected)}} ({{(getWinNumber(selected) / selected.length | percent )}})</h5>
@@ -182,9 +182,14 @@
     </ul>
   </div>
   <div class="col-3">
-    <div>
+    <div class="row mb-2">
       <button type="button"
-              class="btn btn-outline-danger mb-2"
+              class="btn btn-outline-primary"
+              (click)="selectAll()">
+        Select All
+      </button>
+      <button type="button"
+              class="btn btn-outline-danger ml-2"
               (click)="unselectAll()">
         Unselect All
       </button>

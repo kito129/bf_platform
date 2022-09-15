@@ -171,7 +171,7 @@ let server = app.listen(process.env.PORT, () => {
 
 
 // set timeout for study response
-let apiTimeout = 10 * 60 * 1000
+let apiTimeout = 6 * 60 * 1000
 server.setTimeout(apiTimeout, () => {
   let err = new Error('Request Timeout');
   err.status = 408;

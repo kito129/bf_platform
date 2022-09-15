@@ -51,27 +51,15 @@ exports.baseUrl = baseUrl;
 
 // --- DATABASE ---
 
-
-// test
-const environmentVar = {
-  "PORT" : "3000",
-  "MONGO_ATLAS_USER": "marco",
-  "MONGO_ATLAS_PW": "4Nr1fD8mAOSypUur",
-  "MONGO_ATLAS_DBNAME": "bf_historical",
-  "MONGO_ATLAS_STRING1": "@cluster1-shard-00-00.fzsll.mongodb.net:27017,cluster1-shard-00-01.fzsll.mongodb.net:27017,cluster1-shard-00-02.fzsll.mongodb.net:27017/",
-  "MONGO_ATLAS_STRING2": "?ssl=true&replicaSet=atlas-vdivjk-shard-0&authSource=admin&retryWrites=true&w=majority",
-  "JWT_KEY": "secret"
-}
-
 //database setting
 const CONNECTION_URL =
   "mongodb://"+
-  environmentVar.MONGO_ATLAS_USER +
+  process.env.MONGO_ATLAS_USER +
   ":" +
-  environmentVar.MONGO_ATLAS_PW +
-  environmentVar.MONGO_ATLAS_STRING1 +
-  environmentVar.MONGO_ATLAS_DBNAME +
-  environmentVar.MONGO_ATLAS_STRING2;
+  process.env.MONGO_ATLAS_PW +
+  process.env.MONGO_ATLAS_STRING1 +
+  process.env.MONGO_ATLAS_DBNAME +
+  process.env.MONGO_ATLAS_STRING2;
 
 //database connection option
 const options = {
@@ -87,13 +75,13 @@ const options = {
 try {
   mongoose.connect(CONNECTION_URL,options);
   //handle error
-  console.log("\n\n-----Server Connected to " + environmentVar.MONGO_ATLAS_DBNAME + " database-----\n\n")
+  console.log("\n\n-----Server Connected to " + process.env.MONGO_ATLAS_DBNAME + " database-----\n\n")
   mongoose.connection.on('error',console.error.bind(
     console, '\n-----MongoDB connection error------:\n')
   );
   
 } catch (error) {
-  console.log("ERROR to connect to " + environmentVar.MONGO_ATLAS_DBNAME + " database");
+  console.log("ERROR to connect to " + process.env.MONGO_ATLAS_DBNAME + " database");
   console.log("ERROR:\n" + error);}
 
 
@@ -177,52 +165,16 @@ app.use((error, req, res, next) => {
 
 // --- CREATE SERVER ---
 //app is listening on PORT
-
-const cluster = require("cluster");
-const http = require("http");
-const process = require("process");
-const os = require("os");
- 
-const cpus = os.cpus;
- 
-const numCPUs = cpus().length;
- 
-if (cluster.isPrimary) {
-  console.log(`Primary ${process.pid} is running`);
- 
-  // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
- 
-  cluster.on("exit", (worker, code, signal) => {
-    console.log(`worker ${worker.process.pid} died`);
-  });
-} else {
-  // Workers can share any TCP connection
-  // In this case it is an HTTP server
-  
-  let server = app.listen(environmentVar.PORT, () => {
-    console.log("Server is listening on port: " + environmentVar.PORT  );
-
-    
-  // set timeout for study response
-  let apiTimeout = 10 * 60 * 1000
-  server.setTimeout(apiTimeout, () => {
-    let err = new Error('Request Timeout');
-    err.status = 408;
-  });
-
+let server = app.listen(process.env.PORT, () => {
+  console.log("Server is listening on port: " + process.env.PORT  );
 });
- 
-  console.log(`Worker ${process.pid} started`);
-}
 
 
-
-
-
-
-
+// set timeout for study response
+let apiTimeout = 10 * 60 * 1000
+server.setTimeout(apiTimeout, () => {
+  let err = new Error('Request Timeout');
+  err.status = 408;
+});
 
 

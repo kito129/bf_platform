@@ -137,6 +137,16 @@ tmux new -s platform
 
 
 tmux new -s bot
+
+
+## pm2
+npm install -g pm2
+pm2 link 59r4rsei9igfvl0 bdm61t9l6kn17e3
+pm2 install pm2-server-monit
+
+
+pm2 start npm --name "bf" -- start
+
     
 
 ## Git

@@ -4,107 +4,143 @@
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-baseline">
       <h3 class="text-primary">Compare</h3>
+
+      <div>
+        <form class="forms-sample grid-margin">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Compare"/>
+        </form>
+        <button type="button"
+                class="btn btn btn-outline-danger"
+                (click)="saveCompare()">
+          Save Compare
+        </button>
+      </div>
+
+      <button type="button" [ngClass]="isCollapsed? 'btn btn btn-outline-primary' : 'btn btn btn-primary'" (click)="isCollapsed = !isCollapsed"
+              [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+        View
+      </button>
     </div><!-- /CARD OPTIONS -->
   </div><!-- /HEADER -->
   <div class="card-body" *ngIf="dataOk">
 
-    <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
-      <li [ngbNavItem]="1">
-        <a ngbNavLink>Compare</a>
-        <ng-template ngbNavContent>
+    <div [ngbCollapse]="isCollapsed">
+      <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+        <li [ngbNavItem]="1">
+          <h4>
+            <a ngbNavLink>Compare</a>
+          </h4>
+          <ng-template ngbNavContent>
 
-          <app-strategy-report-tables [strategyReports]="strategyReports"
-                                      [strategyWinners]="strategyPies">
-          </app-strategy-report-tables>
+            <app-strategy-report-tables [strategyReports]="strategyReports"
+                                        [strategyWinners]="strategyPies">
+            </app-strategy-report-tables>
 
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="2">
-        <a ngbNavLink>Equity</a>
-        <ng-template ngbNavContent>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <h4>
+            <a ngbNavLink>Equity</a>
+          </h4>
+          <ng-template ngbNavContent>
 
-          <app-multi-line-equity [seriesName]="seriesName"
-                                 [stock]="equity"
-                                 [wantLegend]="true"
-                                 [wantTooltip]="true"
-                                 [height]="900">
-          </app-multi-line-equity>
+            <app-multi-line-equity [seriesName]="seriesName"
+                                   [stock]="equity"
+                                   [wantLegend]="true"
+                                   [wantTooltip]="true"
+                                   [height]="900">
+            </app-multi-line-equity>
 
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="3">
-        <a ngbNavLink>DD</a>
-        <ng-template ngbNavContent>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3">
+          <h4>
+            <a ngbNavLink>DD</a>
+          </h4>
+          <ng-template ngbNavContent>
 
-          <app-dd-multi-charts [seriesName]="seriesName"
-                               [ddPercent]="ddPercent"
-                               [ddMonetary]="ddMonetary"
-                               [maxDDMonetary]="maxDDMonetary"
-                               [avgDD]="avgDDPercent"
-                               [maxDDPercent]="maxDDPercent"
-                               [chartHeight]="chartHeight"
-                               [histogramResolution]="6"
-                               [toolTipCharts]="true"
-                               [wantLegend]="true">
-          </app-dd-multi-charts>
+            <app-dd-multi-charts [seriesName]="seriesName"
+                                 [ddPercent]="ddPercent"
+                                 [ddMonetary]="ddMonetary"
+                                 [maxDDMonetary]="maxDDMonetary"
+                                 [avgDD]="avgDDPercent"
+                                 [maxDDPercent]="maxDDPercent"
+                                 [chartHeight]="chartHeight"
+                                 [histogramResolution]="6"
+                                 [toolTipCharts]="true"
+                                 [wantLegend]="true">
+            </app-dd-multi-charts>
 
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="4">
-        <a ngbNavLink>Trades Comparator</a>
-        <ng-template ngbNavContent>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="4">
+          <h4>
+            <a ngbNavLink>Trades Comparator</a>
+          </h4>
+          <ng-template ngbNavContent>
 
-          <app-comparator-trades-table [rowsInput]="rows"
-                                       [studyName]="seriesName">
-          </app-comparator-trades-table>
+            <app-comparator-trades-table [rowsInput]="rows"
+                                         [studyName]="seriesName">
+            </app-comparator-trades-table>
 
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="5">
-        <a ngbNavLink>Trades</a>
-        <ng-template ngbNavContent>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="5">
+          <h4>
+            <a ngbNavLink>Trades</a>
+          </h4>
+          <ng-template ngbNavContent>
 
-          <app-multi-pl-trades [seriesName]="seriesName"
-                               [pl]="pl">
-          </app-multi-pl-trades>
+            <app-multi-pl-trades [seriesName]="seriesName"
+                                 [pl]="pl">
+            </app-multi-pl-trades>
 
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="6">
-        <a ngbNavLink>RR</a>
-        <ng-template ngbNavContent>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="6">
+          <h4>
+            <a ngbNavLink>RR</a>
+          </h4>
+          <ng-template ngbNavContent>
 
-          <app-multi-rr-trades [rr]="rr"
-                               [seriesName]="seriesName">
-          </app-multi-rr-trades>
+            <app-multi-rr-trades [rr]="rr"
+                                 [seriesName]="seriesName">
+            </app-multi-rr-trades>
 
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="7">
-        <a ngbNavLink>Risk</a>
-        <ng-template ngbNavContent>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="7">
+          <h4>
+            <a ngbNavLink>Risk</a>
+          </h4>
+          <ng-template ngbNavContent>
 
-          <app-multi-pl-trades [seriesName]="seriesName"
-                               [pl]="risk">
-          </app-multi-pl-trades>
+            <app-multi-pl-trades [seriesName]="seriesName"
+                                 [pl]="risk">
+            </app-multi-pl-trades>
 
-        </ng-template>
-      </li>
-      <li *ngFor="let stra of strategyListNoStrategy, index as i" [ngbNavItem]="7+i+1">
-        <a ngbNavLink class="text-warning">{{(stra.strategy.strategy.info.name).toUpperCase()}} - Report</a>
-        <ng-template ngbNavContent>
+          </ng-template>
+        </li>
+        <li *ngFor="let st of strategyListNoStrategy, index as i" [ngbNavItem]="7+i+1">
+          <a ngbNavLink class="text-warning">{{(st.strategy.strategy.info.name).toUpperCase()}} - Report</a>
+          <ng-template ngbNavContent>
 
-          <app-strategy-report [selectedStrategyTrades$]="passAsObservable(stra.trades)"
-                               [title]="stra.strategy.strategy.info.name.toUpperCase()"
-                               [selectedStrategy]="stra.strategy"
-                               [bank]="stra.strategy.strategy.info.bank">
+            <app-strategy-report [selectedStrategyTrades$]="passAsObservable(st.trades)"
+                                 [title]="st.strategy.strategy.info.name.toUpperCase()"
+                                 [selectedStrategy]="st.strategy"
+                                 [bank]="st.strategy.strategy.info.bank">
 
-          </app-strategy-report>
-        </ng-template>
-      </li>
-    </ul>
+            </app-strategy-report>
+          </ng-template>
+        </li>
+      </ul>
 
-    <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+      <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+    </div>
+
   </div>
 </div>
 

@@ -103,7 +103,7 @@ function generateStrategyDatatable(allStrategy: Strategy[], allTrades: NewTrade[
       const tradePLValue = trades.map(x=> {
         return x.trade.results.netProfit
       })
-      const pl = utils.getSumOfArrayNumber(tradePLValue)
+      const pl = utils.sumOfArray(tradePLValue)
       temp.push({
         _id: strategy._id,
         name: strategy.strategy.info.name,

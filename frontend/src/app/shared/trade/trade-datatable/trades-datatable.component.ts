@@ -45,7 +45,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   temp =[] ;
   loadingIndicator = true
   ColumnMode = ColumnMode;
-  tableSize = 15
+  tableSize = 30
 
   tradeSelectedResume: TradePlSeries = null
 
@@ -104,7 +104,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       this.tradeSelectedResume =  this.utils.getTradesSeries(this.selected.map( x=> x.trade.trade.results.netProfit),
         this.selected.map( x=> x.trade.trade.results.maxRisk),
         'Selected',
-        this.utils.getSumOfArrayNumber(this.selected.map( x=> x.trade.trade.results.maxRisk)))
+        this.utils.sumOfArray(this.selected.map(x=> x.trade.trade.results.maxRisk)))
     } else {
       this.tradeSelectedResume = null
     }
@@ -112,7 +112,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   }
 
   getPL(trade: TradeDetail[]){
-    return this.utils.getSumOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.netProfit))
+    return this.utils.sumOfArray(trade.map(x =>x.trade).map(x=> x.trade.results.netProfit))
   }
 
   getWinNumber(trade: TradeDetail[]){
@@ -132,7 +132,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   }
 
   getRisk(trade: TradeDetail[]){
-    return this.utils.getSumOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.maxRisk))
+    return this.utils.sumOfArray(trade.map(x =>x.trade).map(x=> x.trade.results.maxRisk))
   }
 
   getAvgRisk(trade: TradeDetail[]){
@@ -155,11 +155,11 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   }
 
   getWin(trade: TradeDetail[]){
-    return this.utils.getSumOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>=0).map( x=> x.trade.results.netProfit))
+    return this.utils.sumOfArray(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>=0).map(x=> x.trade.results.netProfit))
   }
 
   getLoss(trade: TradeDetail[]){
-    return this.utils.getSumOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).map( x=> x.trade.results.netProfit))
+    return this.utils.sumOfArray(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).map(x=> x.trade.results.netProfit))
   }
 
   getAvg(trade: TradeDetail[]){

@@ -5,6 +5,7 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 import {Strategy} from '../../../model/report/strategy';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {StrategyReport} from '../../../model/report/starategyReport';
+import {Utils} from '../../../model/calculator/utils';
 
 @Component({
   selector: 'app-strategy-report',
@@ -24,6 +25,8 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   strategyReport: StrategyReport
   strategyReportClass = new StrategyReportClass()
 
+  utils = new Utils()
+
   trades: NewTrade[] = []
   haveStrategy = false
 
@@ -39,7 +42,11 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   tradeRR: number[] = []
   tradeMaxRisk: number[] = []
   tradeCommission: number[] = []
-  labels: number[] = []
+  tradeRROrder: number[] = []
+  tradeMaxRiskOrder: number[] = []
+  tradeCommissionOrder: number[] = []
+  tradeCommissionStock: number[][] = []
+  numberLabels: string[] = []
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -88,6 +95,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
         let i =0
         this.tradeLabels = trades.map(x => {
           i++
+          this.numberLabels.push(i.toString())
           return i.toString() + ') ' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
         })
         // create rr data
@@ -98,6 +106,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return 0
           }
         })
+        this.tradeRROrder = this.utils.orderAsc(this.tradeRR)
         // create max risk data
         this.tradeMaxRisk = trades.map(x => {
           if(x.trade.results.maxRisk){
@@ -106,7 +115,8 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return 0
           }
         })
-        // create max risk data
+        this.tradeMaxRiskOrder = this.utils.orderAsc(this.tradeMaxRisk)
+        // create commision data
         this.tradeCommission = trades.map(x => {
           if(x.trade.results.commissionPaid){
             return +x.trade.results.commissionPaid.toFixed(2)
@@ -114,6 +124,9 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return 0
           }
         })
+        this.tradeCommissionStock = [this.utils.getStock(this.tradeCommission,0)]
+        this.tradeCommissionOrder = this.utils.orderAsc(this.tradeCommission)
+
       }
       // finished recalculation and ok to view subcomponent
       this.visibleReport = true

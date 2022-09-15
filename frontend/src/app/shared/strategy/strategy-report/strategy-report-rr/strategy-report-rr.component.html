@@ -1,0 +1,45 @@
+<ul class="list-group">
+  <li class="list-group-item" style="background: #00bfc6">
+    <h4>Risk/Reward </h4>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Total</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.rr.total}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Avg/Trade</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.rr.avgPerTrade}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Max</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.rr.max}} ({{strategyReport.trades.rr.max / strategyReport.trades.rr.total | percent}})</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Stdv</h4>
+      </div>
+      <div class="col">
+        <h4 [ngClass]="strategyReport.trades.rr.stdv> strategyReport.trades.rr.avgPerTrade ? 'text-danger' : 'text-success' ">{{strategyReport.trades.rr.stdv}}</h4>
+      </div>
+    </div>
+  </li>
+</ul>

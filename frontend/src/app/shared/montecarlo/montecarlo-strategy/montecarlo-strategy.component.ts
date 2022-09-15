@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Trade} from "../../../model/report/trade";
 import {MontecarloService} from "../../../services/montecarlo.service";
 import {TradePlSeries} from "../../../model/calculator/montecarlo";
 import {NewTrade} from '../../../model/report/new/newTrade';
@@ -24,7 +23,7 @@ export class MontecarloStrategyComponent implements OnInit {
   defaultNavActiveId = 1
 
   chartHeight = 500
-  size = 50
+  size = 100
   histogram = 15
   visibleOk = true
 

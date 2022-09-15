@@ -203,7 +203,7 @@
         Generate Report
       </button>
     </div>
-    <div>
+    <div *ngIf="selected.length">
       <app-delete-modal [type]="'Trade'"
                         [ids]="selected"
                         [name]="' many '"

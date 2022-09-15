@@ -1,0 +1,55 @@
+<ul class="list-group">
+  <li class="list-group-item" style="background: #ff9924">
+    <h4>Risk </h4>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Total</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.risk.total | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Avg/Trade</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.risk.avgPerTrade | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Max</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.risk.max | currency}} ({{strategyReport.trades.risk.max / strategyReport.trades.risk.total | percent}})</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Min</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.risk.min | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Stdv</h4>
+      </div>
+      <div class="col">
+        <h4 [ngClass]="strategyReport.trades.risk.stdv> strategyReport.trades.risk.avgPerTrade ? 'text-danger' : 'text-success' ">{{strategyReport.trades.risk.stdv | currency}}</h4>
+      </div>
+    </div>
+  </li>
+</ul>

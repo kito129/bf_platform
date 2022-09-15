@@ -48,6 +48,26 @@ export interface StrategyReport{
         lay: number
       }
     }
+    commission: {
+      total: number
+      avgPerTrade: number
+      max: number
+      impactPercent: number
+      stdv: number
+    },
+    risk: {
+      total: number
+      avgPerTrade: number
+      max: number
+      min: number
+      stdv: number
+    }
+    rr: {
+      total: number
+      avgPerTrade: number
+      max: number
+      stdv: number
+    }
   }
 }
 

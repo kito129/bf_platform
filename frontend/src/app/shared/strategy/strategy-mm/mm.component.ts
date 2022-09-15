@@ -14,7 +14,7 @@ export class MmComponent implements OnInit {
   @Input() trades: NewTrade[]
   @Input() strategyReport: StrategyReport
 
-  defaultHeight = 800
+  defaultHeight = 500
 
   mmResult: MmResult
   // to reset

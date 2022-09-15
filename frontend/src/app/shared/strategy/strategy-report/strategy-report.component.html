@@ -64,11 +64,26 @@
                                           [bank]="bank"
                                           [haveStrategy]="haveStrategy">
                   </app-strategy-report-dd>
-                </div>
+                  <div class="mt-2">
+                    <app-strategy-report-risk [strategyReport]="strategyReport">
+                    </app-strategy-report-risk>
+                  </div>
+                  </div>
                 <div class="col-2">
                   <app-strategy-report-avg-odds class="mt-2"
                                                 [strategyReport]="strategyReport">
                   </app-strategy-report-avg-odds>
+
+                  <div class="mt-2">
+                    <app-strategy-report-commission  [strategyReport]="strategyReport">
+                    </app-strategy-report-commission>
+                  </div>
+
+                  <div class="mt-2">
+                    <app-strategy-report-rr  [strategyReport]="strategyReport">
+                    </app-strategy-report-rr>
+                  </div>
+
                 </div>
               </div>
               <!--
@@ -94,6 +109,11 @@
                               [wantBar]="true">
             </app-trade-equity>
             <!-- DD CHART -->
+            <app-strategy-report-dd *ngIf="visibleReport"
+                                    [strategyReport]="strategyReport"
+                                    [haveStrategy]="haveStrategy"
+                                    [bank]="haveStrategy ? strategyReport.strategy.strategy.info.bank : bank">
+            </app-strategy-report-dd>
             <app-trade-dd [allTrades]="selectedStrategyTrades$"
                           [labels]="tradeLabels"
                           [bank]="haveStrategy ? strategyReport.strategy.strategy.info.bank : bank"
@@ -130,15 +150,24 @@
             <a ngbNavLink class="text-info">RR</a>
           </h4>
           <ng-template ngbNavContent>
+            <app-strategy-report-rr  [strategyReport]="strategyReport">
+            </app-strategy-report-rr>
             <app-trade-bar-charts [title]="'RR'"
                                   [labels]="tradeLabels"
                                   [data]="tradeRR"
                                   [height]="chartHeight"
                                   [colors]="['#45acb5']"
                                   [isCurrency]="false"
-                                  [isPercent]="true">
+                                  [isPercent]="false">
             </app-trade-bar-charts>
-
+            <app-trade-bar-charts [title]="'RR'"
+                                  [data]="tradeRROrder"
+                                  [labels]="numberLabels"
+                                  [height]="chartHeight"
+                                  [colors]="['#45acb5']"
+                                  [isCurrency]="false"
+                                  [isPercent]="false">
+            </app-trade-bar-charts>
           </ng-template>
         </li>
         <!-- RISK -->
@@ -147,6 +176,8 @@
             <a ngbNavLink class="text-danger">Risk</a>
           </h4>
           <ng-template ngbNavContent>
+            <app-strategy-report-risk [strategyReport]="strategyReport">
+            </app-strategy-report-risk>
             <app-trade-bar-charts [title]="'Max Risk'"
                                   [labels]="tradeLabels"
                                   [data]="tradeMaxRisk"
@@ -156,20 +187,30 @@
                                   [isPercent]="false">
             </app-trade-bar-charts>
 
-            <app-trade-histogram [chartHeight]="chartHeight"
-                                 [n]="15"
+            <app-chart-histogram [chartHeight]="chartHeight"
+                                 [n]="25"
                                  [series]="tradeMaxRisk"
                                  [isPercent]="false">
-            </app-trade-histogram>
+            </app-chart-histogram>
+
+            <app-trade-bar-charts [title]="'Risk RR'"
+                                  [data]="tradeMaxRiskOrder"
+                                  [labels]="numberLabels"
+                                  [height]="chartHeight"
+                                  [colors]="['#b55b45']"
+                                  [isCurrency]="true"
+                                  [isPercent]="false">
+            </app-trade-bar-charts>
           </ng-template>
         </li>
-        <!-- COMMISION -->
+        <!-- COMMISSION -->
         <li [ngbNavItem]="7">
           <h4>
-            <a ngbNavLink class="text-warning">Commision</a>
+            <a ngbNavLink class="text-warning">Commission</a>
           </h4>
           <ng-template ngbNavContent>
-            <app-trade-bar-charts [title]="'Commision'"
+            <app-strategy-report-commission [strategyReport]="strategyReport"></app-strategy-report-commission>
+            <app-trade-bar-charts [title]="'Commission'"
                                   [labels]="tradeLabels"
                                   [data]="tradeCommission"
                                   [height]="chartHeight"
@@ -177,6 +218,12 @@
                                   [isCurrency]="true"
                                   [isPercent]="false">
             </app-trade-bar-charts>
+            <app-multi-line-equity [height]="chartHeight"
+                                   [seriesName]="['Commission']"
+                                   [wantLegend]="true"
+                                   [wantTooltip]="true"
+                                   [stock]="tradeCommissionStock">
+            </app-multi-line-equity>
           </ng-template>
         </li>
         <!-- MONTECARLO -->

@@ -9,6 +9,7 @@ import * as entryActions from "../../../../../store/study/entry/entry.actions";
 @Component({
   selector: 'app-players-list',
   templateUrl: './players-list.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
 })
 export class PlayersListComponent implements OnInit {
 

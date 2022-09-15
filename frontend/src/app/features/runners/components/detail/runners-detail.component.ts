@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as runnerActions from '../../../../store/runners/runners.action';
 import * as runnersSelectors from '../../../../store/runners/runners.selectors';
 import {Runner, RunnerInfo} from '../../../../model/runner/runner';
@@ -11,12 +11,14 @@ import * as tournamentSelectors from '../../../../store/tennis-tournament/tennis
 import {Note} from '../../../../model/note/note';
 import {MarketSelectionInfo} from '../../../../model/market/marketSelectionInfo';
 import {TennisTournament} from '../../../../model/tennisTournament/tennisTournament';
+import {RunnerMarketsStats} from '../../../../model/runner/runnerMarketsStats';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-detail-runners',
   templateUrl: './runners-detail.component.html',
 })
-export class RunnersDetailComponent implements OnInit {
+export class RunnersDetailComponent implements OnInit, OnDestroy {
 
   public runnerId: number;
 
@@ -37,6 +39,11 @@ export class RunnersDetailComponent implements OnInit {
   // runners List
   allRunners$: Observable<Runner[]>
   isLoadingAllRunners$: Observable<IsLoading>
+
+  // runner dettail histgram
+  marketsStats: RunnerMarketsStats
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private router: Router,
               private readonly store: Store,
@@ -74,6 +81,18 @@ export class RunnersDetailComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.runnerMarkets$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe( data => {
+        if(data){
+          this.marketsStats = new RunnerMarketsStats(data, this.runnerId)
+        }
+      })
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   refreshClick(){

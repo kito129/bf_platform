@@ -45,7 +45,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   rows: TradeComparator[][] = []
 
   // other
-  defaultNavActiveId = 1
+  defaultNavActiveId = 2
   dataOk = false
   chartHeight=600
 
@@ -237,6 +237,10 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   }
 
   passAsObservable(trade: NewTrade[]):Observable<NewTrade[]>{
+    return of(trade)
+  }
+
+  passAsObservableAll(trade: NewTrade[]):Observable<NewTrade[]>{
     return of(trade)
   }
 

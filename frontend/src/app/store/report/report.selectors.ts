@@ -4,6 +4,7 @@ import {StrategyDatatable} from '../../model/report/strategyDatatable';
 import {Utils} from '../../model/calculator/utils';
 import {CompareStrategy} from '../../model/report/new/compareStrategy';
 import {NewTrade} from '../../model/report/new/newTrade';
+import {Strategy} from '../../model/report/strategy';
 
 const getReportState = createFeatureSelector<ReportStates>(
   'reportState'
@@ -70,6 +71,10 @@ export const getStrategyById  = (id: string) => createSelector(
   (state) => state.allStrategy.filter( x=> x._id === id)[0]
 );
 
+
+// -- STRATEGY MAIN --
+
+// selected
 export const getSelectedStrategyTrades = createSelector(
   getReportState,
   (state) => state.allNewTrades.map( y=> newTradeStats(y)).filter( x=> {
@@ -79,62 +84,173 @@ export const getSelectedStrategyTrades = createSelector(
   }).sort((a,b) => a.trade.info.date - b.trade.info.date>0 ? 1 : a.trade.info.date - b.trade.info.date===0 ? 0 : -1)
 );
 
-export const getStrategyDatatable = createSelector(
+// datatable support function
+function filterStrategyDatatable(allStrategy, allTrades, wantStrategy, strategyIds: string[]){
+  const strategy = allStrategy.filter( x => strategyIds.includes(x._id))
+  const trades = allTrades.filter( x => strategyIds.includes(x.trade.info.strategyId))
+  if(wantStrategy){
+    return generateStrategyDatatable(strategy, trades)
+  } else {
+    return  trades
+  }
+}
+function generateStrategyDatatable(allStrategy: Strategy[], allTrades: NewTrade[]){
+  const utils = new Utils()
+  const temp: StrategyDatatable[] = []
+  for(const strategy of allStrategy){
+    const trades = allTrades.filter(x => x.trade.info.strategyId === strategy._id)
+    if(trades.length){
+      const tradePLValue = trades.map(x=> {
+        return x.trade.results.netProfit
+      })
+      const pl = utils.getSumOfArrayNumber(tradePLValue)
+      temp.push({
+        _id: strategy._id,
+        name: strategy.strategy.info.name,
+        sport: strategy.strategy.info.sport,
+        year: strategy.strategy.info.year,
+        numberOfTrade: trades.length,
+        currentBank: strategy.strategy.info.bank + pl,
+        stake: strategy.strategy.info.stake,
+        typeOfStake: strategy.strategy.info.typeOfStake,
+        executor: strategy.strategy.info.executor,
+        moneyManagement: strategy.strategy.info.moneyManagement,
+        bank: strategy.strategy.info.bank,
+        pl,
+        plPercent: pl/strategy.strategy.info.bank,
+        maxDD: utils.maxDDOfTrades(tradePLValue, false, strategy.strategy.info.bank),
+        maxDDPercent: utils.maxDDOfTrades(tradePLValue, true, strategy.strategy.info.bank),
+        winRatio: utils.getWinRatioTrades(trades),
+        strategy
+      })
+    } else {
+      temp.push({
+        _id: strategy._id,
+        name: strategy.strategy.info.name,
+        sport: strategy.strategy.info.sport,
+        year: strategy.strategy.info.year,
+        numberOfTrade: trades.length,
+        currentBank: 0,
+        stake: strategy.strategy.info.stake,
+        typeOfStake: strategy.strategy.info.typeOfStake,
+        executor: strategy.strategy.info.executor,
+        moneyManagement: strategy.strategy.info.moneyManagement,
+        bank: 0,
+        pl: 0,
+        plPercent: 0,
+        maxDD: 0,
+        maxDDPercent: 0,
+        winRatio: 0,
+        strategy
+      })
+    }
+  }
+  return temp
+}
+
+// get datatable
+export const getAllStrategyDatatable = createSelector(
   getReportState,
   (state) => {
+    return generateStrategyDatatable(state.allStrategy, state.allNewTrades)
+  }
+);
 
-    const utils = new Utils()
-    const temp: StrategyDatatable[] = []
+// injury
+export const getInjury2022Data = (wantStrategy: boolean) => createSelector(
+  getReportState,
+  (state) => {
+    const strategyId = ['622394c2a0074b70dc573b44','622394e7a0074b70dc573b4c','6317a92f75f1fd3184bbb8f6','622394dca0074b70dc573b48','6317a91675f1fd3184bbb8f4','622394d7a0074b70dc573b46','622394e0a0074b70dc573b4a']
+    return filterStrategyDatatable(state.allStrategy, state.allNewTrades, wantStrategy, strategyId)
+  }
+);
+export const getInjury2021Data = (wantStrategy: boolean) => createSelector(
+  getReportState,
+  (state) => {
+    const strategyId = ['600358c13fa50522a49bea67','6145ee4a89f3901bc8348e1c','614b045c5bb6712dde14cb53','61461e8189f3901bc8348f97','61461e1989f3901bc8348f90','6145f08489f3901bc8348ec2','615ed6cedd8ad05ee3bba549','615ed6c6dd8ad05ee3bba548','60450d4e71faef3ab82ee7cd','','','']
+    return filterStrategyDatatable(state.allStrategy, state.allNewTrades, wantStrategy, strategyId)
 
-    for(const strategy of state.allStrategy){
-      const trades = state.allNewTrades.filter(x => x.trade.info.strategyId === strategy._id)
-      if(trades.length){
-        const tradePLValue = trades.map(x=> {
-          return x.trade.results.netProfit
-        })
-        const pl = utils.getSumOfArrayNumber(tradePLValue)
-        temp.push({
-          _id: strategy._id,
-          name: strategy.strategy.info.name,
-          sport: strategy.strategy.info.sport,
-          year: strategy.strategy.info.year,
-          numberOfTrade: trades.length,
-          currentBank: strategy.strategy.info.bank + pl,
-          stake: strategy.strategy.info.stake,
-          typeOfStake: strategy.strategy.info.typeOfStake,
-          executor: strategy.strategy.info.executor,
-          moneyManagement: strategy.strategy.info.moneyManagement,
-          bank: strategy.strategy.info.bank,
-          pl,
-          plPercent: pl/strategy.strategy.info.bank,
-          maxDD: utils.maxDDOfTrades(tradePLValue, false, strategy.strategy.info.bank),
-          maxDDPercent: utils.maxDDOfTrades(tradePLValue, true, strategy.strategy.info.bank),
-          winRatio: utils.getWinRatioTrades(trades),
-          strategy
-        })
-      } else {
-        temp.push({
-          _id: strategy._id,
-          name: strategy.strategy.info.name,
-          sport: strategy.strategy.info.sport,
-          year: strategy.strategy.info.year,
-          numberOfTrade: trades.length,
-          currentBank: 0,
-          stake: strategy.strategy.info.stake,
-          typeOfStake: strategy.strategy.info.typeOfStake,
-          executor: strategy.strategy.info.executor,
-          moneyManagement: strategy.strategy.info.moneyManagement,
-          bank: 0,
-          pl: 0,
-          plPercent: 0,
-          maxDD: 0,
-          maxDDPercent: 0,
-          winRatio: 0,
-          strategy
-        })
-      }
+  }
+);
+
+export const getOtherData = (wantStrategy: boolean) => createSelector(
+  getReportState,
+  (state) => {
+    const strategyId = ['622394eca0074b70dc573b4e','622394f3a0074b70dc573b50','61519183fdf51c42275e9491', '600dc02bca42b66bef436dea', '602e489d84e83e6fb6815a12', '6220e21a9344202f70a26818']
+    return filterStrategyDatatable(state.allStrategy, state.allNewTrades, wantStrategy, strategyId)
+
+  }
+);
+
+// passive
+export const getPassiveLiveData = (wantStrategy: boolean) => createSelector(
+  getReportState,
+  (state) => {
+    const strategy = state.allStrategy.filter( x => x.strategy.info.name.indexOf('AUG - ')!==-1)
+    const strategyId = strategy.map(x => x._id)
+    const trades = state.allNewTrades.filter( x => strategyId.includes(x.trade.info.strategyId))
+    if(wantStrategy){
+      return generateStrategyDatatable(strategy, trades)
+    } else {
+      return  trades
     }
-    return temp
+
+  }
+);
+export const getPassiveDemoData = (wantStrategy: boolean) => createSelector(
+  getReportState,
+  (state) => {
+    const strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('DEMO')!==-1)
+    const strategyId = strategy.map(x => x._id)
+    const trades = state.allNewTrades.filter( x => strategyId.includes(x.trade.info.strategyId))
+    if(wantStrategy){
+      return generateStrategyDatatable(strategy, trades)
+    } else {
+      return  trades
+    }
+  }
+);
+
+// personal
+export const getActiveKevinData = (wantStrategy: boolean) => createSelector(
+  getReportState,
+  (state) => {
+    let strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('KEVIN')!==-1)
+    const addtional = ['6266d8cb1a800430234d7d6a','6266d8e21a800430234d7d6c', '6266d8f11a800430234d7d6e']
+    strategy = strategy.concat(state.allStrategy.filter( x=> addtional.includes(x._id)))
+    const strategyId = strategy.map(x => x._id)
+    const trades = state.allNewTrades.filter( x => strategyId.includes(x.trade.info.strategyId))
+    if(wantStrategy){
+      return generateStrategyDatatable(strategy, trades)
+    } else {
+      return  trades
+    }
+  }
+);
+export const getactiveBagnaData = (wantStrategy: boolean) => createSelector(
+  getReportState,
+  (state) => {
+    const strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('BAGNA')!==-1)
+    const strategyId = strategy.map(x => x._id)
+    const trades = state.allNewTrades.filter( x => strategyId.includes(x.trade.info.strategyId))
+    if(wantStrategy){
+      return generateStrategyDatatable(strategy, trades)
+    } else {
+      return  trades
+    }
+  }
+);
+export const getActiveKitoData = (wantStrategy: boolean) => createSelector(
+  getReportState,
+  (state) => {
+    const strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('KITO')!==-1)
+    const strategyId = strategy.map(x => x._id)
+    const trades = state.allNewTrades.filter( x => strategyId.includes(x.trade.info.strategyId))
+    if(wantStrategy){
+      return generateStrategyDatatable(strategy, trades)
+    } else {
+      return trades
+    }
   }
 );
 

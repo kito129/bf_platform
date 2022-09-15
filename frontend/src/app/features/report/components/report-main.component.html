@@ -11,110 +11,265 @@
 </div>
 
 <div class="col">
+
   <app-loading-cards *ngIf="(isLoadingAllStrategy$ | async).isLoading || (isLoadingAllNewTrade$ | async).isLoading"></app-loading-cards>
-  <div *ngIf="(allNewTrade$ | async).length">
-    <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
-      <li [ngbNavItem]="1">
-        <h5>
-          <a ngbNavLink>Strategy</a>
-        </h5>
-        <ng-template ngbNavContent>
+  <!-- TAB DATATABLE-->
+  <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <h5>
+        <a ngbNavLink>All Strategy</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div>
+          <!-- STRATEGY BLOCK -->
           <div class="col grid-margin">
             <app-strategy-datatable
-              [strategyDatatable]="strategyDatatable$ | async"
+              [strategyDatatable]="allStrategyDatatable$| async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async">
+              [compareList]="compareList$ | async"
+              [compareAllDefault]="true">
+
+            </app-strategy-datatable>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <h5>
+        <a ngbNavLink class="text-warning">Saved</a>
+      </h5>
+      <ng-template ngbNavContent>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <h5>
+        <a ngbNavLink class="text-danger">Injury 2022</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div>
+          <!-- STRATEGY BLOCK -->
+          <div class="col grid-margin">
+            <app-strategy-report *ngIf="injury2022Trade$ | async"
+                                 [selectedStrategyTrades$]="injury2022Trade$"
+                                 [title]="'Injury 2022'"
+                                 [bank]="35000"
+                                 [noBug]="true">
+            </app-strategy-report>
+          </div>
+          <div class="col grid-margin">
+            <app-strategy-datatable
+              [strategyDatatable]="injury2022Datatable$ | async"
+              [selectedStrategyId]="selectedStrategyId$ | async"
+              [compareList]="compareList$ | async"              [compareAllDefault]="true">              [compareAllDefault]=true">
+                            [compareAllDefault]="true">
+
+            </app-strategy-datatable>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <h5>
+        <a ngbNavLink>Injury 2021</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div>
+          <!-- STRATEGY BLOCK -->
+          <div class="col grid-margin">
+            <app-strategy-report *ngIf="injury2021Trade$ | async"
+                                 [selectedStrategyTrades$]="injury2021Trade$"
+                                 [title]="'Injury 2021'"
+                                 [bank]="20000"
+                                 [noBug]="true">
+            </app-strategy-report>
+          </div>
+          <div class="col grid-margin">
+            <app-strategy-datatable
+              [strategyDatatable]="injury2021Datatable$ | async"
+              [selectedStrategyId]="selectedStrategyId$ | async"
+              [compareList]="compareList$ | async"
+              [compareAllDefault]="true">
+            </app-strategy-datatable>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="6">
+      <h5>
+        <a ngbNavLink class="text-info">Passive Demo Mar-May 2022</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div>
+          <!-- STRATEGY BLOCK -->
+          <div class="col grid-margin">
+            <app-strategy-report *ngIf="passiveDemoTrade$ | async"
+                                 [selectedStrategyTrades$]="passiveDemoTrade$"
+                                 [title]="'Passive Demo Mar-May 2022'"
+                                 [bank]="10000"
+                                 [noBug]="true">
+            </app-strategy-report>
+          </div>
+          <div class="col grid-margin">
+            <app-strategy-datatable
+              [strategyDatatable]="passiveDemoDatatable$ | async"
+              [selectedStrategyId]="selectedStrategyId$ | async"
+              [compareList]="compareList$ | async"
+              [compareAllDefault]="true">
+
+            </app-strategy-datatable>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="7">
+      <h5>
+        <a ngbNavLink class="text-success">Passive Live Sept 2022</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div>
+          <!-- STRATEGY BLOCK -->
+          <div class="col grid-margin">
+            <app-strategy-report *ngIf="passiveLiveTrade$ | async"
+                                 [selectedStrategyTrades$]="passiveLiveTrade$"
+                                 [title]="'Passive Live Sept 2022'"
+                                 [bank]="5000"
+                                 [noBug]="true">
+            </app-strategy-report>
+          </div>
+          <div class="col grid-margin">
+            <app-strategy-datatable
+              [strategyDatatable]="passiveLiveDatatable$ | async"
+              [selectedStrategyId]="selectedStrategyId$ | async"
+              [compareList]="compareList$ | async"
+              [compareAllDefault]="true">
             </app-strategy-datatable>
           </div>
 
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="8">
+      <h5>
+        <a ngbNavLink class="text-warning">Bagna</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div>
+          <!-- STRATEGY BLOCK -->
           <div class="col grid-margin">
-            <app-strategy-report *ngIf="(selectedStrategy$ | async)"
-                                 [selectedStrategyTrades$]="selectedStrategyTrades$"
-                                 [selectedStrategy]="selectedStrategy$ | async">
+            <app-strategy-report *ngIf="activeBagnaTrade$ | async"
+                                 [selectedStrategyTrades$]="activeBagnaTrade$"
+                                 [title]="'Bagna'"
+                                 [bank]="2000"
+                                 [noBug]="true">
             </app-strategy-report>
           </div>
-
-          <div class="col grid-margin" *ngIf="(comparedStrategy$ | async).length && (compareStatus$ | async)">
-            <app-strategy-compare class="mb-2" [strategyList$]="comparedStrategy$">
-            </app-strategy-compare>
+          <div class="col grid-margin">
+            <app-strategy-datatable
+              [strategyDatatable]="activeBagnaDatatable$ | async"
+              [selectedStrategyId]="selectedStrategyId$ | async"
+              [compareList]="compareList$ | async"
+              [compareAllDefault]="true">
+            </app-strategy-datatable>
           </div>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="9">
+      <h5>
+        <a ngbNavLink class="text-warning">Kevin</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div>
+          <!-- STRATEGY BLOCK -->
+          <div class="col grid-margin">
+            <app-strategy-report *ngIf="activeKevinTrade$ | async"
+                                 [selectedStrategyTrades$]="activeKevinTrade$"
+                                 [title]="'Kevin'"
+                                 [bank]="2000"
+                                 [noBug]="true">
+            </app-strategy-report>
+          </div>
+          <div class="col grid-margin">
+            <app-strategy-datatable
+              [strategyDatatable]="activeKevinDatatable$ | async"
+              [selectedStrategyId]="selectedStrategyId$ | async"
+              [compareList]="compareList$ | async"
+              [compareAllDefault]="true">
+            </app-strategy-datatable>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="10">
+      <h5>
+        <a ngbNavLink class="text-warning">Kito</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div>
+          <!-- STRATEGY BLOCK -->
+          <div class="col grid-margin">
+            <app-strategy-report *ngIf="activeKitoTrade$ | async"
+                                 [selectedStrategyTrades$]="activeKitoTrade$"
+                                 [title]="'Kito'"
+                                 [bank]="2000"
+                                 [noBug]="true">
+            </app-strategy-report>
+          </div>
+          <div class="col grid-margin">
+            <app-strategy-datatable
+              [strategyDatatable]="activeKitoDatatable$ | async"
+              [selectedStrategyId]="selectedStrategyId$ | async"
+              [compareList]="compareList$ | async"
+              [compareAllDefault]="true">
+            </app-strategy-datatable>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="11">
+      <h5>
+        <a ngbNavLink>Other</a>
+      </h5>
+      <ng-template ngbNavContent>
+        <div>
+          <!-- STRATEGY BLOCK -->
+          <div class="col grid-margin">
+            <app-strategy-report *ngIf="otherTrade$ | async"
+                                 [selectedStrategyTrades$]="otherTrade$"
+                                 [title]="'Other'"
+                                 [bank]="2000"
+                                 [noBug]="true">
+            </app-strategy-report>
+          </div>
+          <div class="col grid-margin">
+            <app-strategy-datatable
+              [strategyDatatable]="otherDatatable$ | async"
+              [selectedStrategyId]="selectedStrategyId$ | async"
+              [compareList]="compareList$ | async"
+              [compareAllDefault]="true">
+            </app-strategy-datatable>
+          </div>
+        </div>
+      </ng-template>
+    </li>
 
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="2">
-        <h5>
-          <a ngbNavLink>2022 Trades</a>
-        </h5>
-        <ng-template ngbNavContent>
-          <app-strategy-report [selectedStrategyTrades$]="allNewTrade2022$"
-                               [selectedStrategy]="null"
-                               [title]="'2022 Trades'"
-                               [bank]="100000">
-          </app-strategy-report>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="3">
-        <h5>
-          <a ngbNavLink>2022 Passive Trades</a>
-        </h5>
-        <ng-template ngbNavContent>
-          <app-strategy-report [selectedStrategyTrades$]="allNewTrade2022Demo$"
-                               [selectedStrategy]="null"
-                               [title]="'2022 Passive Trade'"
-                               [bank]="10000">
-          </app-strategy-report>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="4">
-        <h5>
-          <a ngbNavLink>2021 Trades</a>
-        </h5>
-        <ng-template ngbNavContent>
-          <app-strategy-report [selectedStrategyTrades$]="allNewTrade2021$"
-                               [selectedStrategy]="null"
-                               [title]="'2021 Trades'"
-                               [bank]="30000">
-          </app-strategy-report>
-        </ng-template>
-      </li>
-      <!--
-      <li [ngbNavItem]="4">
-        <h5>
-          <a ngbNavLink>Bagna Trades</a>
-        </h5>
-        <ng-template ngbNavContent>
-          <app-trades-datatable [trades$]="allNewTradeKevin$"
-                                [viewSelectors]="false">
-          </app-trades-datatable>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="5">
-        <h5>
-          <a ngbNavLink>Kevin Trades</a>
-        </h5>
-        <ng-template ngbNavContent>
-          <app-trades-datatable [trades$]="allNewTradeBagna$"
-                                [viewSelectors]="false">
-          </app-trades-datatable>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="6">
-        <h5>
-          <a ngbNavLink>Kito Trades</a>
-        </h5>
-        <ng-template ngbNavContent>
-          <app-trades-datatable [trades$]="allNewTradeKito$"
-                                [viewSelectors]="false">
-          </app-trades-datatable>
-        </ng-template>
-      </li>
+  </ul>
+  <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
 
-      -->
-
-    </ul>
-
-    <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+  <!-- SELECTED REPORT-->
+  <div class="col grid-margin">
+    <app-strategy-report *ngIf="(selectedStrategy$ | async)"
+                         [selectedStrategyTrades$]="selectedStrategyTrades$"
+                         [selectedStrategy]="selectedStrategy$ | async">
+    </app-strategy-report>
   </div>
+
+  <!-- COMPARE REPORTS-->
+  <div class="col grid-margin" *ngIf="(comparedStrategy$ | async).length && (compareStatus$ | async)">
+    <app-strategy-compare class="mb-2" [strategyList$]="comparedStrategy$">
+    </app-strategy-compare>
+  </div>
+
 </div>
 
 
@@ -209,6 +364,5 @@
   <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
 </div>
 -->
-
 
 

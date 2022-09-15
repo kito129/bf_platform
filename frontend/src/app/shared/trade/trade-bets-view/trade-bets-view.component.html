@@ -1,194 +1,24 @@
 <!-- ODDS MOVEMENTS -->
-<div class="table-responsive pt-3">
-  <table class="table table-sm table-bordered text-center text-monospace">
-    <caption>Odds Movement</caption>
-    <thead>
-    <tr>
-      <th><h5>Type</h5></th>
-      <th>
-        <h5>{{ trade.trade.selections[0].runnerName}}</h5>
-      </th>
-      <th>
-        <h5>{{ trade.trade.selections[1].runnerName}}</h5>
-      </th>
-      <th><h5>Time</h5></th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- BSP -->
-    <tr>
-      <td>
-        <h5>BSP</h5>
-      </td>
-      <td *ngFor="let selection of trade.trade.selections">
-        <app-bsp-odd [bspOdd]="selection.bsp"></app-bsp-odd>
-      </td>
-      <h5></h5>
-      <td>
-    </tr>
-    <!-- SECOND -->
-    <tr *ngIf="trade.trade.info.setTime.second">
-      <td>
-        <h5>Set 2</h5>
-      </td>
-      <td *ngFor="let selection of trade.trade.selections">
-        <h4>{{selection.sets.secondSet}}</h4>
-      </td>
-      <td>
-        <h5>{{trade.trade.info.setTime.second | date :'shortTime'}}</h5>
-      </td>
-    </tr>
-    <!-- THIRD -->
-    <tr *ngIf="trade.trade.info.setTime.third">
-      <td>
-        <h5>Set 3</h5>
-      </td>
-      <td *ngFor="let selection of trade.trade.selections">
-        <h5>{{selection.sets.thirdSet}}</h5>
-      </td>
-      <td>
-        <h5> {{trade.trade.info.setTime.third | date :'shortTime'}}</h5>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-
+<app-odds-movement [trade]="trade"></app-odds-movement>
 
 <!-- AVG ODDS -->
-<div class="table-responsive pt-3">
-  <table class="table table-sm table-bordered text-center text-monospace">
-    <caption>Avg Bets</caption>
-    <thead>
-    <tr>
-      <th><h5>Name</h5></th>
-      <th><h5>Type</h5></th>
-      <th><h5>Odds</h5></th>
-      <th><h5>Stake</h5></th>
-      <th><h5>Type</h5></th>
-      <th><h5>Odds</h5></th>
-      <th><h5>Stake</h5></th>
-      <th><h5>Liability</h5></th>
-      <th><h5>Net Stake</h5></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let selection of trade.trade.selections">
-      <td>
-        <h4>{{selection.runnerName}}</h4>
-      </td>
-      <td>
-        <h5 class="text-primary">Back</h5>
-      </td>
-      <td>
-        <h4 class="text-primary">{{selection.avg.back.odds| number :'1.0-2'}}</h4>
-      </td>
-      <td>
-        <h5>{{selection.avg.back.stake| currency}}</h5>
-      </td>
-      <td>
-        <h5 class="text-danger">Lay</h5>
-      </td>
-      <td>
-        <h5 class="text-danger">{{selection.avg.lay.odds | number :'1.0-2'}}</h5>
-      </td>
-      <td>
-        <h5>{{selection.avg.lay.stake | currency}}</h5>
-      </td>
-      <td>
-        <h5>{{selection.avg.lay.liability| currency}}</h5>
-      </td>
-      <td>
-        <h4>{{selection.avg.back.stake - selection.avg.lay.stake| currency}}</h4>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<app-avg-odds-traded [trade]="trade"></app-avg-odds-traded>
+
+<!-- TRADE BETS-->
+<app-bet-table [bets]="bets"
+               [title]="'All Bets'">
+</app-bet-table>
 
 
-<!-- TRADE BETS -->
-<div class="table-responsive pt-3">
-  <table class="table table-sm table-bordered text-center text-monospace">
-    <caption>Trades List</caption>
-    <thead>
-    <tr>
-      <th>#</th>
-      <th>Time</th>
-      <th>Point</th>
-      <th>S1</th>
-      <th>Game</th>
-      <th>S2</th>
-      <th>Options</th>
-      <th>Selection</th>
-      <th>Odds</th>
-      <th>Stake</th>
-      <th>Liability</th>
-      <th>To Win</th>
-      <th>A</th>
-      <th>B</th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr [ngClass]="bet.type==='back' ? 'table-primary' : 'table-danger' " *ngFor="let bet of bets, index as i"
-          [ngbTooltip]="popContent"
-          [autoClose]="'outside'">
-        <td>
-          {{bet.id}}
-        </td>
-        <td>
-          <b> {{bet.time | date:'HH:mm:ss'}}</b>
-          <!--          <b> {{bet.time | date:'HH:mm:ss'}}</b>-->
-        </td>
-        <td>
-          <h6>{{bet.point | tennisPoint: false:false}}</h6>
-        </td>
-        <td>
-          <b *ngIf="bet.point.currentGame.server ? bet.point.currentGame.server==='A' : false"><span class="badge badge-warning">A</span></b>
-        </td>
-        <td>
-            <h6>{{bet.point.currentGame.runnerA}}-{{bet.point.currentGame.runnerB}}</h6>
-        </td>
-        <td>
-            <b *ngIf="bet.point.currentGame.server ? bet.point.currentGame.server==='B' : false"><span class="badge badge-warning">B</span></b>
-        </td>
-        <td>
-          <h5 *ngIf="bet.options === 'OPEN'"><span class="badge badge-success">{{bet.options}}</span></h5>
-          <h5 *ngIf="bet.options === 'CLOSE'"><span class="badge badge-danger">{{bet.options}}</span></h5>
-          <h5 *ngIf="bet.options === 'INCREASE MARGIN'"><span class="badge badge-warning">{{bet.options}}</span></h5>
-          <h5 *ngIf="bet.options === 'DECREASE MARGIN'"><span class="badge badge-secondary">{{bet.options}}</span></h5>
-          <h5 *ngIf="bet.options === 'FREE BET'"><span class="badge badge-info">{{bet.options}}</span></h5>
-          <h5 *ngIf="bet.options === 'ADJ'"><span class="badge badge-light">{{bet.options}}</span></h5>
-        </td>
-        <td>
-          <h6 *ngIf="bet.selectionN===0" class="text-primary">(A) {{bet.selectionName}}</h6>
-          <h6 *ngIf="bet.selectionN===1" class="text-danger">(B) {{bet.selectionName}}</h6>
-        </td>
-        <td>
-          <h4>{{bet.odds}}</h4>
-        </td>
-        <td>
-          <h5>{{bet.stake | currency}}</h5>
-        </td>
-        <td>
-          <b *ngIf="bet.type==='lay'">{{bet.liability | currency}}</b>
-          <b *ngIf="bet.type==='back'"> -- </b>
-        </td>
-        <td>
-          <b>{{bet.toWin | currency}}</b>
-        </td>
-        <td>
-          <h5 [ngClass]="getSide(i, 0)>0 ? 'text-success' : getSide(i, 0)===0 ? 'text-warning' : 'text-danger' "> <b>{{getSide(i, 0) | currency}}</b></h5>
-        </td>
-        <td>
-          <h5 [ngClass]="getSide(i, 1)>0 ? 'text-success' : getSide(i, 0)===0 ? 'text-warning' : 'text-danger' "> <b>{{getSide(i, 1) | currency}}</b></h5>
-        </td>
-        <ng-template #popContent>
-          <h6><b>{{bet.note}}</b></h6>
-        </ng-template>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<!--
+<app-bet-table *ngIf="betsA.length"
+               [bets]="betsA"
+               [title]="'(A) ' + trade.trade.selections[0].runnerName">
+</app-bet-table>
+<app-bet-table *ngIf="betsB.length"
+               [bets]="betsB"
+               [title]="'(B) ' + trade.trade.selections[1].runnerName">
+</app-bet-table>
 
+-->
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DbState} from "../../../../../store/dbManager/dbManager.reducer";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
@@ -11,7 +11,7 @@ import * as dbManagerActions from "../../../../../store/dbManager/dbManager.acti
   selector: 'app-db-update-runners-sport',
   templateUrl: './db-update-runners-sport.component.html',
 })
-export class DbUpdateRunnersSportComponent implements OnInit {
+export class DbUpdateRunnersSportComponent implements OnInit, OnDestroy {
 
   dbState: DbState;
   destroy$: Subject<boolean> = new Subject<boolean>();

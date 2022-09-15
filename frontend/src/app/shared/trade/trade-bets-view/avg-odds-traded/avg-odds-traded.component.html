@@ -1,0 +1,49 @@
+<div class="table-responsive pt-3">
+  <table class="table table-sm table-bordered text-center text-monospace">
+    <caption>Avg Bets</caption>
+    <thead>
+    <tr>
+      <th><h5>Name</h5></th>
+      <th><h5>Type</h5></th>
+      <th><h5>Odds</h5></th>
+      <th><h5>Stake</h5></th>
+      <th><h5>Type</h5></th>
+      <th><h5>Odds</h5></th>
+      <th><h5>Stake</h5></th>
+      <th><h5>Liability</h5></th>
+      <th><h5>Net Stake</h5></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let selection of trade.trade.selections">
+      <td>
+        <h4>{{selection.runnerName}}</h4>
+      </td>
+      <td>
+        <h5 class="text-primary">Back</h5>
+      </td>
+      <td>
+        <h4 class="text-primary">{{selection.avg.back.odds| number :'1.0-2'}}</h4>
+      </td>
+      <td>
+        <h5>{{selection.avg.back.stake| currency}}</h5>
+      </td>
+      <td>
+        <h5 class="text-danger">Lay</h5>
+      </td>
+      <td>
+        <h5 class="text-danger">{{selection.avg.lay.odds | number :'1.0-2'}}</h5>
+      </td>
+      <td>
+        <h5>{{selection.avg.lay.stake | currency}}</h5>
+      </td>
+      <td>
+        <h5>{{selection.avg.lay.liability| currency}}</h5>
+      </td>
+      <td>
+        <h4>{{selection.avg.back.stake - selection.avg.lay.stake| currency}}</h4>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

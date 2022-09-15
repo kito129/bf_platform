@@ -1,0 +1,54 @@
+<div class="table-responsive pt-3">
+  <table class="table table-sm table-bordered text-center text-monospace">
+    <caption>Odds Movement</caption>
+    <thead>
+    <tr>
+      <th><h5>Type</h5></th>
+      <th>
+        <h5>{{ trade.trade.selections[0].runnerName}}</h5>
+      </th>
+      <th>
+        <h5>{{ trade.trade.selections[1].runnerName}}</h5>
+      </th>
+      <th><h5>Time</h5></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- BSP -->
+    <tr>
+      <td>
+        <h5>BSP</h5>
+      </td>
+      <td *ngFor="let selection of trade.trade.selections">
+        <app-bsp-odd [bspOdd]="selection.bsp"></app-bsp-odd>
+      </td>
+      <h5></h5>
+      <td>
+    </tr>
+    <!-- SECOND -->
+    <tr *ngIf="trade.trade.info.setTime.second">
+      <td>
+        <h5>Set 2</h5>
+      </td>
+      <td *ngFor="let selection of trade.trade.selections">
+        <h4>{{selection.sets.secondSet}}</h4>
+      </td>
+      <td>
+        <h5>{{trade.trade.info.setTime.second | date :'shortTime'}}</h5>
+      </td>
+    </tr>
+    <!-- THIRD -->
+    <tr *ngIf="trade.trade.info.setTime.third">
+      <td>
+        <h5>Set 3</h5>
+      </td>
+      <td *ngFor="let selection of trade.trade.selections">
+        <h5>{{selection.sets.thirdSet}}</h5>
+      </td>
+      <td>
+        <h5> {{trade.trade.info.setTime.third | date :'shortTime'}}</h5>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

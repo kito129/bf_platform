@@ -3,11 +3,11 @@ import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
 import { Store} from '@ngrx/store';
 import {StrategyDatatable} from '../../../../../model/report/strategyDatatable';
 import * as reportActions from '../../../../../store/report/report.actions';
-import * as studyActions from '../../../../../store/study/study/study.actions';
 
 @Component({
   selector: 'app-strategy-datatable',
   templateUrl: './strategy-datatable.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
 })
 export class StrategyDatatableComponent implements OnInit {
 
@@ -16,6 +16,7 @@ export class StrategyDatatableComponent implements OnInit {
   @Input() compareStatus: boolean
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @Input() selectedStrategyId: string
+  @Input() compareAllDefault: boolean
 
   rows = [];
   temp =[] ;
@@ -23,6 +24,8 @@ export class StrategyDatatableComponent implements OnInit {
   ColumnMode = ColumnMode;
   tableSize = 20
   page = 1
+
+  viewId = false
 
   constructor(private readonly store: Store) {}
 
@@ -91,8 +94,17 @@ export class StrategyDatatableComponent implements OnInit {
     }
   }
 
-
   compare(){
+    this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    this.store.dispatch(reportActions.compareStrategy())
+  }
+
+  compareAll(){
+    this.store.dispatch(reportActions.resetStrategyCompare())
+    const notEmpty =  this.strategyDatatable.filter( x => x.numberOfTrade)
+    for (const at of notEmpty) {
+      this.store.dispatch(reportActions.addStrategyInCompare({strategyId: at._id, first:false}))
+    }
     this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
     this.store.dispatch(reportActions.compareStrategy())
   }

@@ -8,8 +8,7 @@ import {ChartOptions} from "../../../../../../model/chartOptions";
 })
 export class RunnerDetailMarketStatsDistributionComponent implements OnInit {
 
-  @Input()
-  marketStats: RunnerMarketsStatsInterface[]
+  @Input() marketStats: RunnerMarketsStatsInterface[]
   @Input()
   totalMatch: number
 

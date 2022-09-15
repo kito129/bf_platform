@@ -16,6 +16,9 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   @Input() selectedStrategy: Strategy
   @Input() title: string
   @Input() bank: number
+  @Input() noBug: boolean
+
+  isCollapsed = false
 
   strategyValue: number[] = [0,0,0]
   strategyReport: StrategyReport
@@ -35,6 +38,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   tradeLabels: string[] = []
   tradeRR: number[] = []
   tradeMaxRisk: number[] = []
+  tradeCommission: number[] = []
   labels: number[] = []
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -101,6 +105,14 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return 0
           }
         })
+        // create max risk data
+        this.tradeCommission = trades.map(x => {
+          if(x.trade.results.commissionPaid){
+            return +x.trade.results.commissionPaid.toFixed(2)
+          } else {
+            return 0
+          }
+        })
       }
       // finished recalculation and ok to view subcomponent
       this.visibleReport = true
@@ -112,12 +124,16 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   // temp to fix odds bug
   bugFix(){
-    this.bug = false
-    setTimeout(() =>
-      {
-        this.bug = true
-      },
-      500);
+    if(this.noBug){
+      console.log('no bug')
+    } else {
+      this.bug = false
+      setTimeout(() =>
+        {
+          this.bug = true
+        },
+        700);
+    }
   }
 
   ngOnDestroy() {

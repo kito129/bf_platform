@@ -8,7 +8,9 @@ import * as basketsActions from "../../../../../../store/study/basket/basket.act
 
 @Component({
   selector: 'app-basket-markets-list',
-  templateUrl: './basket-markets-list.component.html',})
+  templateUrl: './basket-markets-list.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
+})
 export class BasketMarketsListComponent implements OnInit {
 
   @Input() marketsBasketList$: Observable<MarketBasket[]>

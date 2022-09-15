@@ -3,25 +3,41 @@
   <!-- HEADER -->
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h6 class="card-title mb-0">All Strategy</h6>
+      <h3>Strategy</h3>
     </div>
   </div><!-- /HEADER -->
   <div class="card-body"><!-- BODY -->
 
     <div class="d-flex justify-content-space-between align-items-center">
-      <app-strategy-create-modal class="mr-2" (addStrategyCreateEmitter)="createModal($event)"></app-strategy-create-modal>
-      <form class="form-group grid-margin">
-        <div class="form-group">
-          <!-- OPTIONS -->
-          <label for="tableSize">Table size</label>
-          <ng-select id="tableSize"
-                     name="options"
-                     [(ngModel)]="tableSize"
-                     [items]="[5, 10,15,20,25,30,40,50,100,1000]"
-                     [clearable]="false">
-          </ng-select>
-        </div>
-      </form>
+      <div>
+        <app-strategy-create-modal class="mr-2"
+                                   (addStrategyCreateEmitter)="createModal($event)">
+        </app-strategy-create-modal>
+      </div>
+
+      <div>
+        <form class="form-group grid-margin">
+          <div class="form-group">
+            <!-- OPTIONS -->
+            <label for="tableSize">Table size</label>
+            <ng-select id="tableSize"
+                       name="options"
+                       [(ngModel)]="tableSize"
+                       [items]="[5, 10,15,20,25,30,40,50,100,1000]"
+                       [clearable]="false">
+            </ng-select>
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <button type="button" class="btn btn ml-2"
+                [ngClass]="viewId ? 'btn-primary' : 'btn-outline-primary' "
+                (click)="viewId= !viewId">
+          View Id
+        </button>
+      </div>
+
     </div>
 
     <ngx-datatable
@@ -35,6 +51,12 @@
       rowHeight="auto"
       [reorderable]="true"
       [sorts]="[{prop: 'pl', dir: 'desc'}]">
+
+      <ngx-datatable-column name="Id" prop="_id" [width]="3" *ngIf="viewId">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
 
       <ngx-datatable-column name="Name" prop="name" [width]="3">
         <ng-template let-value="value" ngx-datatable-cell-template>
@@ -159,6 +181,12 @@
             (click)="compare()">
       <i class="btn-icon-prepend" data-feather="share-2" appFeatherIcon></i>
       Compare
+    </button>
+    <button type="button"
+            class="btn btn-icon btn-outline-info btn-icon-text mr-2"
+            (click)="compareAll()">
+      <i class="btn-icon-prepend" data-feather="share-2" appFeatherIcon></i>
+      Compare All
     </button>
     <button type="button"
             class="btn btn-icon btn-secondary btn-icon-text mr-2"

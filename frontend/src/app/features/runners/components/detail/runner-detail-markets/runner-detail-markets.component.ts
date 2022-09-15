@@ -8,6 +8,7 @@ import {MarketForRunnersMarket} from '../../../../../model/market/marketForRunne
 @Component({
   selector: 'app-runner-detail-markets',
   templateUrl: './runner-detail-markets.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
 })
 export class RunnerDetailMarketsComponent implements OnInit {
 

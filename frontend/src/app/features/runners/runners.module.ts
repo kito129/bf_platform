@@ -24,7 +24,7 @@ import { RunnerDetailNotesComponent } from './components/detail/runner-detail-no
 import { RunnerDetailBspComponent } from './components/detail/runner-detail-bsp/runner-detail-bsp.component';
 import { RunnerDetailStatsComponent } from './components/detail/runner-detail-stats/runner-detail-stats.component';
 import {RunnerDetailMarketStatsComponent} from './components/detail/runner-detail-market-stats/runner-detail-market-stats.component';
-import { RunnerDetailMarketStatsViewComponent } from './components/detail/runner-detail-market-stats/runner-detail-market-stats-view/runner-detail-market-stats-view.component';
+import { RunnerDetailMarketStatsTableComponent } from './components/detail/runner-detail-market-stats/runner-detail-market-stats-table/runner-detail-market-stats-table.component';
 import { RunnerDetailMarketStatsGaussianComponent } from './components/detail/runner-detail-market-stats/runner-detail-market-stats-gaussian/runner-detail-market-stats-gaussian.component';
 import { RunnerDetailMarketStatsDistributionComponent } from './components/detail/runner-detail-market-stats/runner-detail-market-stats-distribution/runner-detail-market-stats-distribution.component';
 const routes: Routes = [
@@ -49,7 +49,7 @@ const routes: Routes = [
     RunnerDetailBspComponent,
     RunnerDetailStatsComponent,
     RunnerDetailMarketStatsComponent,
-    RunnerDetailMarketStatsViewComponent,
+    RunnerDetailMarketStatsTableComponent,
     RunnerDetailMarketStatsGaussianComponent,
     RunnerDetailMarketStatsDistributionComponent
   ],

@@ -5,12 +5,14 @@ import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
 @Component({
   selector: 'app-runners-datatable-list',
   templateUrl: './runners-data-table.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
 })
 export class RunnersDataTableListComponent implements OnInit {
 
 
-  @Input()
-  runners: null | Runner[]
+  @Input()runners: null | Runner[]
+
+  tableSize = 30
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 

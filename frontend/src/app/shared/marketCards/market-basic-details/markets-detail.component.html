@@ -86,7 +86,7 @@
                            [marketInfoBasic]="selectedMarketInfo$ | async">
   </app-market-runners-card>
 
-  <app-market-update-card *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess && !dontWantUpdate"
+  <app-market-update-card *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
                           [marketUpdates]="selectedMarketUpdates$ | async"
                           [marketInfoBasic]="selectedMarketInfo$ | async">
   </app-market-update-card>

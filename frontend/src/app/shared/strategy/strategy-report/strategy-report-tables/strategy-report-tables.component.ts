@@ -7,6 +7,7 @@ import {CompareStudyCsvGeneratorService} from '../../../../services/compare-stud
 @Component({
   selector: 'app-strategy-report-tables',
   templateUrl: './strategy-report-tables.component.html',
+  styles: ['/deep/ .datatable-row-even {background-color: #181818;}']
 })
 export class StrategyReportTablesComponent implements OnInit {
   @Input() strategyReports: StrategyReport[]

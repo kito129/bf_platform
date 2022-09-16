@@ -5,7 +5,13 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {FeahterIconModule} from '../../core/feather-icon/feather-icon.module';
-import {NgbCollapseModule, NgbDatepickerModule, NgbDropdownModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {
+    NgbCollapseModule,
+    NgbDatepickerModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    NgbTooltipModule
+} from '@ng-bootstrap/ng-bootstrap';
 import {NgApexchartsModule} from 'ng-apexcharts';
 import {ChartsModule} from 'ng2-charts';
 import {DataTablesModule} from 'angular-datatables';
@@ -41,24 +47,25 @@ const routes: Routes = [
     StrategyDatatableComponent,
     ReportMainComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    FeahterIconModule,
-    NgbDropdownModule,
-    NgbDatepickerModule,
-    NgApexchartsModule,
-    ChartsModule,
-    DataTablesModule,
-    NgxDatatableModule,
-    NgSelectModule,
-    NgxMaskModule,
-    CustomFormsModule,
-    NgbNavModule,
-    SharedModule,
-    NgbCollapseModule
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        FeahterIconModule,
+        NgbDropdownModule,
+        NgbDatepickerModule,
+        NgApexchartsModule,
+        ChartsModule,
+        DataTablesModule,
+        NgxDatatableModule,
+        NgSelectModule,
+        NgxMaskModule,
+        CustomFormsModule,
+        NgbNavModule,
+        SharedModule,
+        NgbCollapseModule,
+        NgbTooltipModule
 
-  ]
+    ]
 })
 export class ReportModule { }

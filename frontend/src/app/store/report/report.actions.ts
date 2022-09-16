@@ -1,13 +1,7 @@
 import {createAction, props} from "@ngrx/store";
-import {Trade} from "../../model/report/trade";
 import {Strategy} from "../../model/report/strategy";
-import {
-  ADD_STUDIES_IN_COMPARE,
-  ADD_STUDY_IN_COMPARE, COMPARE_STUDY, COMPARE_STUDY_FAILURE, COMPARE_STUDY_SUCCESS,
-  REMOVE_STUDY_IN_COMPARE,
-  RESET_STUDY_COMPARE
-} from '../study/study/study.actions';
 import {NewTrade} from '../../model/report/new/newTrade';
+import {SavedReport} from '../../model/report/new/savedReport';
 
 
 export const GET_ALL_TRADES = '[Trades] Get all Trades';
@@ -65,6 +59,23 @@ export const REMOVE_STRATEGY_IN_COMPARE = '[Strategy] Remove Strategy in compare
 export const RESET_STRATEGY_COMPARE = '[Strategy] Reset Strategy compare list';
 
 export const COMPARE_STRATEGY = '[Strategy] Compare Strategy';
+
+// saved report
+export const GET_ALL_SAVED_REPORT = '[Saved Report] Get all Saved Report';
+export const GET_ALL_SAVED_REPORT_SUCCESS = '[Saved Report] Get all Saved Report Success';
+export const GET_ALL_SAVED_REPORT_FAILURE = '[Saved Report] Get all Saved Report Failure';
+
+export const CREATE_SAVED_REPORT = '[Saved Report] Create Saved Report';
+export const CREATE_SAVED_REPORT_SUCCESS = '[Saved Report] Create  Saved Report Success';
+export const CREATE_SAVED_REPORT_FAILURE = '[Saved Report] Create  Saved Report Failure';
+
+export const UPDATE_SAVED_REPORT = '[Saved Report] Udpate Saved Report';
+export const UPDATE_SAVED_REPORT_SUCCESS = '[Saved Report] Udpate  Saved Report Success';
+export const UPDATE_SAVED_REPORT_FAILURE = '[Saved Report] Udpate  Saved Report Failure';
+
+export const DELETE_SAVED_REPORT = '[Saved Report] Delete Saved Report';
+export const DELETE_SAVED_REPORT_SUCCESS = '[Saved Report] Delete  Saved Report Success';
+export const DELETE_SAVED_REPORT_FAILURE = '[Saved Report] Delete  Saved Report Failure';
 
 
 
@@ -298,6 +309,69 @@ export const resetStrategyCompare = createAction(
 // compare actions
 export const compareStrategy = createAction(
   COMPARE_STRATEGY,
+);
+
+
+/*
+**  SAVED REPORT
+ */
+
+// get all
+export const getAllSavedReport = createAction(
+  GET_ALL_SAVED_REPORT,
+);
+
+export const getAllSavedReportSuccess = createAction(
+  GET_ALL_SAVED_REPORT_SUCCESS,
+  props<any>()
+);
+
+export const getAllSavedReportFailure = createAction(
+  GET_ALL_SAVED_REPORT_FAILURE,
+  props<any>()
+);
+
+// create trade
+export const createSavedReport = createAction(
+  CREATE_SAVED_REPORT,
+  props<{savedReport: SavedReport}>()
+);
+export const createSavedReportSuccess = createAction(
+  CREATE_SAVED_REPORT_SUCCESS,
+  props<any>()
+);
+export const createSavedReportFailure = createAction(
+  CREATE_SAVED_REPORT_FAILURE,
+  props<any>()
+);
+
+// update
+export const updateSavedReport = createAction(
+  UPDATE_SAVED_REPORT,
+  props<{ _id: string, savedReport: SavedReport }>()
+);
+export const updateSavedReportSuccess = createAction(
+  UPDATE_SAVED_REPORT_SUCCESS,
+  props<any>()
+);
+export const updateSavedReportFailure = createAction(
+  UPDATE_SAVED_REPORT_FAILURE,
+  props<any>()
+);
+
+
+// delete
+export const deleteSavedReport = createAction(
+  DELETE_SAVED_REPORT,
+  props<{ _id: string }>()
+);
+export const deleteSavedReportSuccess = createAction(
+  DELETE_SAVED_REPORT_SUCCESS,
+  props<any>()
+);
+export const deleteSavedReportFailure = createAction(
+  DELETE_SAVED_REPORT_FAILURE,
+  props<any>()
 );
 
 

@@ -200,6 +200,7 @@ export const getPassiveLiveData = (wantStrategy: boolean) => createSelector(
 export const getPassiveDemoData = (wantStrategy: boolean) => createSelector(
   getReportState,
   (state) => {
+    console.log(state.allStrategy)
     const strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('DEMO')!==-1)
     const strategyId = strategy.map(x => x._id)
     const trades = state.allNewTrades.filter( x => strategyId.includes(x.trade.info.strategyId))
@@ -342,6 +343,13 @@ export const getCompareStatus = createSelector(
   (state ) => state.compareStatus
 );
 
+
+// SAVED REPORT
+export const getSavedReport = createSelector(
+  getReportState,
+  (state ) => state.savedReport
+);
+
 function newTradeStats(trade: NewTrade): NewTrade{
   const t =  {
     _id: trade._id,
@@ -394,6 +402,7 @@ function newTradeStats(trade: NewTrade): NewTrade{
   }
   return t
 }
+
 
 
 

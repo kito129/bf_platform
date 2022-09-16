@@ -78,6 +78,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
       // strategy report
       if(strategy){
         this.strategyReportClass.setData(strategy,trades)
+        this.title = strategy.strategy.info.name
       } else if(this.title){
         this.strategyReportClass.setDataNoStrategy(this.title,this.bank,trades)
       }
@@ -116,7 +117,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
           }
         })
         this.tradeMaxRiskOrder = this.utils.orderAsc(this.tradeMaxRisk)
-        // create commision data
+        // create commission data
         this.tradeCommission = trades.map(x => {
           if(x.trade.results.commissionPaid){
             return +x.trade.results.commissionPaid.toFixed(2)
@@ -150,10 +151,6 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveReport(){
-    console.log("saving report")
-    console.log(this.trades.length)
-  }
 
   ngOnDestroy() {
     this.destroy$.next(true);

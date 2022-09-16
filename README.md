@@ -147,6 +147,9 @@ pm2 install pm2-server-monit
 
 pm2 start npm --name "bf" -- start
 
+pm2 start npm --name "bfOld" -- start
+
+
     
 
 ## Git

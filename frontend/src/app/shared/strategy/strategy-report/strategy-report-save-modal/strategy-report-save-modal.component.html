@@ -1,0 +1,57 @@
+<!-- BUTTON -->
+<button type="button" class="btn btn-outline-success btn-icon-text" (click)="saveReport(verticalCenteredModal)">
+  <i class="btn-icon-prepend" data-feather="plus" appFeatherIcon></i>
+  Save Report
+</button>
+
+<!-- MODAL -->
+<ng-template #verticalCenteredModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Save {{title}} report</h5>
+    <button type="button" class="close" (click)="modal.close('close')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- BODY -->
+  <div class="modal-body" *ngIf="selectedReport">
+    <div class="form-group">
+      <div class="row">
+        <div class="col">
+          <label>Name</label>
+          <input type="text"
+                 class="form-control mb-1"
+                 [(ngModel)]="selectedReport.savedReport.name">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label>Comment</label>
+          <input type="text"
+                 class="form-control mb-1"
+                 [(ngModel)]="selectedReport.savedReport.comment">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label>Type</label>
+          <input type="text"
+                 class="form-control mb-1"
+                 [(ngModel)]="selectedReport.savedReport.type">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p> Total Trade selected: {{selected.length}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FOOTER -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('close')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('create')">Save</button>
+  </div>
+</ng-template>
+
+
+

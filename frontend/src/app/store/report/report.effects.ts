@@ -15,6 +15,7 @@ export class ReportEffects {
     private newReportServices: NewReportService,
   ) {}
 
+  // TRADE
   getAllTrades = createEffect(() => {
       return this.actions$.pipe(
         ofType(reportActions.getAllTrades),
@@ -91,6 +92,7 @@ export class ReportEffects {
     }
   );
 
+  // TRADES
   deleteTrades$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(reportActions.deleteManyTrades),
@@ -110,7 +112,7 @@ export class ReportEffects {
     }
   );
 
-
+// STRATEGY
   getAllStrategy$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(reportActions.getAllStrategies),
@@ -201,6 +203,83 @@ export class ReportEffects {
             catchError((error: any) => {
               console.log('response:::', error)
               return of(reportActions.getAllNewTradesFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  // SAVED REPORT
+  getAllSavedReport$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.getAllSavedReport),
+        exhaustMap(action =>
+          this.reportServices.getAllSavedReport().pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.getAllSavedReportSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.getAllSavedReportFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  createSavedReport$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.createSavedReport),
+        exhaustMap(action =>
+          this.reportServices.createSavedReport(action.savedReport).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.createSavedReportSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.createSavedReportFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  updateSavedReport$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.updateSavedReport),
+        exhaustMap(action =>
+          this.reportServices.updateSavedReport(action._id,action.savedReport).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.updateSavedReportSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.updateSavedReportFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  deleteSavedReport$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.deleteSavedReport),
+        exhaustMap(action =>
+          this.reportServices.deleteSavedReport(action._id).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.deleteSavedReportSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.deleteSavedReportFailure(error));
             }))
         )
       );

@@ -5,7 +5,6 @@ import {StrategyReport} from '../report/starategyReport';
 
 export class StrategyReportClass{
 
-  // props
   strategy: Strategy
   title: string = null
   trades: NewTrade[] = []
@@ -22,7 +21,7 @@ export class StrategyReportClass{
   constructor() {
   }
 
-  // empty previus data
+  // empty previous data
   emptyData(){
     this.strategy = null
     this.title = ''
@@ -76,9 +75,12 @@ export class StrategyReportClass{
     const consecutiveLoss = consecutive[1]
 
     let bank = 0
+
     if(this.strategy){
       bank = this.strategy.strategy.info.bank>0 ? this.strategy.strategy.info.bank : this.bank
     }
+
+    console.log(bank)
 
     const dd = this.utils.ddOfTrades(this.tradesPL,false, bank)
     const ddPercent = this.utils.ddOfTrades(this.tradesPL,true, bank)

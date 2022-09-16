@@ -173,7 +173,12 @@ export class Utils{
         lastMax = stock
         dd.push(0)
       } else{
-        dd.push((percent ? ((stock-lastMax) / lastMax) :  (stock-lastMax)))
+        const res = (percent ? ((stock-lastMax) / lastMax) :  (stock-lastMax))
+        if(isFinite(res)){
+          dd.push(res)
+        } else {
+          dd.push(0)
+        }
       }
     }
     return dd

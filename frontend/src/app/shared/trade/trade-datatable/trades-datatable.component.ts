@@ -4,11 +4,12 @@ import {DatatableComponent, ColumnMode, SelectionType} from '@swimlane/ngx-datat
 import {Store} from '@ngrx/store';
 import {TradeCalculatorService} from '../../../services/trade-calculator.service';
 import {takeUntil} from 'rxjs/operators';
-import * as reportActions from '../../../store/report/report.actions';
 import {NewTrade} from '../../../model/report/new/newTrade';
 import {TradeDetail} from '../../../model/report/trade';
 import {Utils} from '../../../model/calculator/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
+import * as reportActions from "../../../store/report/report.actions";
+
 
 @Component({
   selector: 'app-trades-datatable',
@@ -20,15 +21,15 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   @Input() trades: NewTrade[]
   @Input() selectedMarketId: string
   @Input() viewSelectors: boolean
+  @Input() title: string
+
   @ViewChild(DatatableComponent) table: DatatableComponent;
-
-  utils = new Utils()
-
-  selected: TradeDetail[] = [];
-
   SelectionType = SelectionType;
 
+  utils = new Utils()
+  selected: TradeDetail[] = [];
   search = ''
+  bug=false
 
   viewTrades = false
   viewResult = true
@@ -39,7 +40,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
 
   viewSelectedReport = false
   selectedTrades: Observable<NewTrade[]>
-  bug=false
 
   rows = [];
   temp =[] ;
@@ -111,72 +111,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
 
   }
 
-  getPL(trade: TradeDetail[]){
-    return this.utils.sumOfArray(trade.map(x =>x.trade).map(x=> x.trade.results.netProfit))
-  }
-
-  getWinNumber(trade: TradeDetail[]){
-    return trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>0).length
-  }
-
-  getVoidNumber(trade: TradeDetail[]){
-    return trade.map(x =>x.trade).filter(y => y.trade.results.netProfit===0).length
-  }
-
-  getLossNumber(trade: TradeDetail[]){
-    return trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).length
-  }
-
-  getAvgPL(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.netProfit))
-  }
-
-  getRisk(trade: TradeDetail[]){
-    return this.utils.sumOfArray(trade.map(x =>x.trade).map(x=> x.trade.results.maxRisk))
-  }
-
-  getAvgRisk(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.maxRisk))
-  }
-
-  getRR(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.rr))
-  }
-  getAvgBack(trade: TradeDetail[]) {
-   // @ts-ignore
-    return Math.round(this.utils.avgOfArrayNumber((trade.filter( x => x.trade.trade.selections[1].avg.back.odds >0).map( y => y.trade.trade.selections[1].avg.back.odds)).concat(
-     trade.filter( x => x.trade.trade.selections[0].avg.back.odds >0).map( y => y.trade.trade.selections[0].avg.back.odds))) *100)/100
-  }
-
-  getAvgLay(trade: TradeDetail[]){
-    // @ts-ignore
-    return Math.round(this.utils.avgOfArrayNumber((trade.filter( x => x.trade.trade.selections[1].avg.lay.odds >0).map( y => y.trade.trade.selections[1].avg.lay.odds)).concat(
-      trade.filter( x => x.trade.trade.selections[0].avg.lay.odds >0).map( y => y.trade.trade.selections[0].avg.lay.odds))) *100)/100
-  }
-
-  getWin(trade: TradeDetail[]){
-    return this.utils.sumOfArray(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>=0).map(x=> x.trade.results.netProfit))
-  }
-
-  getLoss(trade: TradeDetail[]){
-    return this.utils.sumOfArray(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).map(x=> x.trade.results.netProfit))
-  }
-
-  getAvg(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map( x=> x.trade.trade.results.netProfit))
-  }
-  getAvgWin(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>=0).map( x=> x.trade.results.netProfit))
-  }
-
-  getAvgLoss(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).map( x=> x.trade.results.netProfit))
-  }
-
-  getPf(trade: TradeDetail[]){
-    return this.getWin( trade)/ -this.getLoss(trade)
-  }
-
   unselectAll(){
     this.selected = []
     this.tradeSelectedResume = null
@@ -193,6 +127,20 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     this.bugFix()
   }
 
+  deleteMany(event){
+    if(event[1]==='delete'){
+      // DELETE many trades
+      this.store.dispatch(reportActions.deleteManyTrades({ _ids: event[0] }));
+    }
+  }
+
+  saveReport(event){
+    if(event[1] === 'create'){
+      console.log(event[0])
+      this.store.dispatch(reportActions.createSavedReport({ savedReport: event[0] }));
+    }
+  }
+
   // temp to fix odds bug
   bugFix(){
     this.bug = false
@@ -203,13 +151,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       500);
   }
 
-  deleteMany(event){
-    if(event[1]==='delete'){
-      console.log(event)
-      // DELETE many trades
-      this.store.dispatch(reportActions.deleteManyTrades({ _ids: event[0] }));
-    }
-  }
 
   ngOnDestroy() {
     this.destroy$.next(true);

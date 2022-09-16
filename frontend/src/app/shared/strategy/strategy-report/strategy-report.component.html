@@ -8,20 +8,6 @@
         <h3 [ngClass]="title.indexOf('Selected')!==-1 ? 'text-info' : '' " *ngIf="!haveStrategy">{{title}} Report</h3>
       </div>
 
-      <div>
-        <form class="forms-sample grid-margin">
-          <input
-            class="form-control"
-            type="text"
-            placeholder="{{title}}"/>
-        </form>
-        <button type="button"
-                class="btn btn btn-outline-danger"
-                (click)="saveReport()">
-          Save Report as Strategy
-        </button>
-      </div>
-
       <button type="button" [ngClass]="isCollapsed? 'btn btn btn-outline-primary' : 'btn btn btn-primary'" (click)="isCollapsed = !isCollapsed"
               [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
         View
@@ -32,6 +18,7 @@
 
     <div [ngbCollapse]="isCollapsed">
       <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+        <!-- INFO -->
         <li [ngbNavItem]="1">
           <h4>
             <a ngbNavLink class="text-info">Info</a>
@@ -109,17 +96,17 @@
                               [wantBar]="true">
             </app-trade-equity>
             <!-- DD CHART -->
-            <app-strategy-report-dd *ngIf="visibleReport"
-                                    [strategyReport]="strategyReport"
-                                    [haveStrategy]="haveStrategy"
-                                    [bank]="haveStrategy ? strategyReport.strategy.strategy.info.bank : bank">
-            </app-strategy-report-dd>
             <app-trade-dd [allTrades]="selectedStrategyTrades$"
                           [labels]="tradeLabels"
                           [bank]="haveStrategy ? strategyReport.strategy.strategy.info.bank : bank"
                           [wantMonetary]="true"
                           [wantPercent]="true">
             </app-trade-dd>
+            <app-strategy-report-dd *ngIf="visibleReport"
+                                    [strategyReport]="strategyReport"
+                                    [haveStrategy]="haveStrategy"
+                                    [bank]="haveStrategy ? strategyReport.strategy.strategy.info.bank : bank">
+            </app-strategy-report-dd>
           </ng-template>
         </li>
         <!-- TRADES -->
@@ -129,7 +116,9 @@
           </h4>
           <ng-template ngbNavContent>
             <app-trades-datatable [trades$]="selectedStrategyTrades$"
-                                  [viewSelectors]="false">
+                                  [viewSelectors]="false"
+                                  [title]="title">
+
             </app-trades-datatable>
           </ng-template>
         </li>
@@ -229,7 +218,7 @@
         <!-- MONTECARLO -->
         <li [ngbNavItem]="8">
           <h4>
-            <a ngbNavLink class="text-secondary">Money Managment</a>
+            <a ngbNavLink class="text-secondary">Money Managements</a>
           </h4>
           <ng-template ngbNavContent>
             <app-mm [strategyReport]="strategyReport"

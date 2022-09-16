@@ -15,6 +15,7 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 import {CompareStrategy} from '../../../model/report/new/compareStrategy';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {getPassiveDemoData} from '../../../store/report/report.selectors';
+import {SavedReport} from '../../../model/report/new/savedReport';
 
 @Component({
   selector: 'app-report-main',
@@ -54,6 +55,9 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   comparedStrategy$: Observable<CompareStrategy[]>
   compareList$: Observable<string[]>
   compareStatus$: Observable<boolean>
+
+  // SAVED REPORT
+  savedReport$: Observable<SavedReport[]>
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -95,6 +99,9 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     this.compareList$ =  this.store.pipe(select(reportSelectors.getCompareList))
     this.comparedStrategy$ =  this.store.pipe(select(reportSelectors.getComparedData))
     this.compareStatus$ =  this.store.pipe(select(reportSelectors.getCompareStatus))
+
+    // saved report
+    this.savedReport$ = this.store.pipe(select(reportSelectors.getSavedReport))
   }
 
   ngOnDestroy() {
@@ -105,6 +112,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   public refresh(){
     this.store.dispatch(reportActions.getAllStrategies())
     this.store.dispatch(reportActions.getAllNewTrades())
+    this.store.dispatch(reportActions.getAllSavedReport())
   }
 
 }

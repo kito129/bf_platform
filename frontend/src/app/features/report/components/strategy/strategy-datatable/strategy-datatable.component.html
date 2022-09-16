@@ -145,7 +145,7 @@
 
             <div class="d-flex justify-content-center align-items-center">
 
-              <button type="button" class="btn btn-icon mr-2"
+              <button type="button" class="btn btn-icon mr-2" [ngbTooltip]="viewReportTooltip"
                       [ngClass]="selectedStrategyId === value._id ? 'btn-info' : 'btn-outline-info'"
                       (click)="clickSelectStrategy(value._id)"
                       [disabled]="value.numberOfTrade===0">
@@ -153,6 +153,7 @@
               </button>
 
               <button type="button"
+                      [ngbTooltip]="compareTooltip"
                       class="btn btn-icon mr-2"
                       [ngClass]="compareList.indexOf(value._id)===0 ? 'btn-warning': compareList.indexOf(value._id)!==-1 ? 'btn-success' : 'btn-outline-success'"
                       (click)="addToCompare(value._id)"
@@ -171,6 +172,7 @@
 
 
               <app-strategy-updates-modal [strategyInput$]="value.strategy"
+                                          [ngbTooltip]="editTooltip"
                                           (strategyUpdateEmitter)="updateModal($event)">
               </app-strategy-updates-modal>
             </div>
@@ -204,3 +206,17 @@
     </button>
   </div>
 </div>
+
+
+
+<ng-template #compareTooltip>
+  <p>Add to compare, right click to place first</p>
+</ng-template>
+
+<ng-template #viewReportTooltip>
+  <p>View Report</p>
+</ng-template>
+
+<ng-template #editTooltip>
+  <p>Edit Strategy</p>
+</ng-template>

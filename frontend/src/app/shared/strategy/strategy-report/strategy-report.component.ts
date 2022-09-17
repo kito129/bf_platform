@@ -40,6 +40,8 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   tradeLabels: string[] = []
   tradeRR: number[] = []
+  tradePL: number[] = []
+  tradePLOrder: number[] = []
   tradeMaxRisk: number[] = []
   tradeCommission: number[] = []
   tradeRROrder: number[] = []
@@ -117,6 +119,9 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
           }
         })
         this.tradeMaxRiskOrder = this.utils.orderAsc(this.tradeMaxRisk)
+        // create tradePL data
+        this.tradePL = trades.map(x => +x.trade.results.netProfit.toFixed(2))
+        this.tradePLOrder = this.utils.orderAsc(this.tradePL)
         // create commission data
         this.tradeCommission = trades.map(x => {
           if(x.trade.results.commissionPaid){

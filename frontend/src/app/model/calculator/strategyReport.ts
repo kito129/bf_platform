@@ -181,7 +181,9 @@ export class StrategyReportClass{
           total: this.utils.sum(this.trades.map(x => x.trade.results.commissionPaid)),
           avgPerTrade: this.utils.avgOfArrayNumber(this.trades.map(x => x.trade.results.commissionPaid)),
           max: this.utils.maxOfArray(this.trades.map(x => x.trade.results.commissionPaid)),
-          impactPercent: Math.round((this.utils.sum(this.trades.map(x => x.trade.results.commissionPaid)) /this.utils.sumOfArray(this.tradesPL))*100)/100 ,
+          impactPercent: Math.round(((this.utils.sum(this.trades.map(x => x.trade.results.commissionPaid))) /
+            (this.utils.sumOfArray(this.tradesPL)+ this.utils.sum(this.trades.map(x => x.trade.results.commissionPaid))))
+            *100)/100 ,
           stdv: 0
         },
         rr: {

@@ -80,7 +80,8 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     const val = this.search.toLowerCase();
     if(val){
       this.rows = this.temp.filter((d: TradeDetail) => {
-        return (d.trade.trade.info.marketInfo.marketName.toLowerCase().indexOf(val) !== -1) || !val;
+        return (d.trade.trade.info.marketInfo.marketName.toLowerCase().indexOf(val) !== -1
+          || d.trade.trade.info.note.description.toLowerCase().indexOf(val) !== -1) || !val;
       });
       this.table.offset = 0;
     } else {

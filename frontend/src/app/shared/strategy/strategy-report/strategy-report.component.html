@@ -133,8 +133,37 @@
             </app-strategy-report-month>
           </ng-template>
         </li>
-        <!-- RR -->
+        <!-- TRADE -->
         <li [ngbNavItem]="5">
+          <h4>
+            <a ngbNavLink class="text-info">Trades Pl</a>
+          </h4>
+          <ng-template ngbNavContent>
+            <app-strategy-report-resume [title]="'Profit'"
+                                        [strategyResumeProfit]="strategyReport.trades.detail.profit"
+                                        [strategyResumeLoss]="strategyReport.trades.detail.loss"
+                                        [strategyResumeTotal]="strategyReport.trades.detail.total">
+            </app-strategy-report-resume>
+            <app-trade-bar-charts [title]="'Trade Pl'"
+                                  [labels]="tradeLabels"
+                                  [data]="tradePL"
+                                  [height]="chartHeight"
+                                  [colors]="['#45b586']"
+                                  [isCurrency]="true"
+                                  [isPercent]="false">
+            </app-trade-bar-charts>
+            <app-trade-bar-charts [title]="'Trade Pl Order'"
+                                  [data]="tradePLOrder"
+                                  [labels]="numberLabels"
+                                  [height]="chartHeight"
+                                  [colors]="['#45b586']"
+                                  [isCurrency]="true"
+                                  [isPercent]="false">
+            </app-trade-bar-charts>
+          </ng-template>
+        </li>
+        <!-- RR -->
+        <li [ngbNavItem]="6">
           <h4>
             <a ngbNavLink class="text-info">RR</a>
           </h4>
@@ -160,7 +189,7 @@
           </ng-template>
         </li>
         <!-- RISK -->
-        <li [ngbNavItem]="6">
+        <li [ngbNavItem]="7">
           <h4>
             <a ngbNavLink class="text-danger">Risk</a>
           </h4>
@@ -193,7 +222,7 @@
           </ng-template>
         </li>
         <!-- COMMISSION -->
-        <li [ngbNavItem]="7">
+        <li [ngbNavItem]="8">
           <h4>
             <a ngbNavLink class="text-warning">Commission</a>
           </h4>
@@ -216,7 +245,7 @@
           </ng-template>
         </li>
         <!-- MONTECARLO -->
-        <li [ngbNavItem]="8">
+        <li [ngbNavItem]="9">
           <h4>
             <a ngbNavLink class="text-secondary">Money Managements</a>
           </h4>
@@ -227,7 +256,7 @@
           </ng-template>
         </li>
         <!-- MONTECARLO -->
-        <li [ngbNavItem]="9">
+        <li [ngbNavItem]="10">
           <h4>
             <a ngbNavLink class="text-secondary">Monte Carlo</a>
           </h4>
@@ -239,7 +268,7 @@
         <!-- PASSIVE -->
 
         <!-- LOW LAY -->
-        <li [ngbNavItem]="10">
+        <li [ngbNavItem]="11">
           <h4>
             <a ngbNavLink class="text-success">Low Lay</a>
           </h4>
@@ -251,7 +280,7 @@
         </li>
 
         <!-- BSP FILTER -->
-        <li [ngbNavItem]="11">
+        <li [ngbNavItem]="12">
           <h4>
             <a ngbNavLink class="text-success">Odds Filter</a>
           </h4>

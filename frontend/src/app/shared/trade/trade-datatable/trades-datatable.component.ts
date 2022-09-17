@@ -9,6 +9,7 @@ import {TradeDetail} from '../../../model/report/trade';
 import {Utils} from '../../../model/calculator/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
 import * as reportActions from '../../../store/report/report.actions';
+import {SavedReport} from '../../../model/report/new/savedReport';
 
 
 @Component({
@@ -22,12 +23,16 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   @Input() selectedMarketId: string
   @Input() viewSelectors: boolean
   @Input() title: string
+  @Input() isSaved: boolean
+  @Input() savedReportId: string
+  @Input() savedReport: SavedReport
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
   SelectionType = SelectionType;
 
   utils = new Utils()
   selected: TradeDetail[] = [];
+  selectedIds: string[] = [];
   search = ''
   bug=false
 
@@ -94,6 +99,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
+    this.selectedIds = this.selected.map(x=> x.trade._id)
     this.getTradeDetail()
 
     this.selectedTrades = of(this.selected.map(x =>x.trade))
@@ -139,6 +145,22 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     if(event[1] === 'create'){
       console.log(event[0])
       this.store.dispatch(reportActions.createSavedReport({ savedReport: event[0] }));
+    }
+  }
+
+  removeTradesFromSavedReportModal(event){
+    if(event[1] === 'remove'){
+      console.log(event)
+      const temp = []
+      for (const tradeId of this.savedReport.savedReport.tradesIds) {
+        if(!event[2].includes(tradeId)){
+          temp.push(tradeId)
+        }
+      }
+      let copy = JSON.parse(JSON.stringify(this.savedReport))
+      copy.savedReport.tradesIds = temp
+      copy.updated = Date.now()
+      this.store.dispatch(reportActions.updateSavedReport({ savedReport: copy, _id: this.savedReportId}));
     }
   }
 

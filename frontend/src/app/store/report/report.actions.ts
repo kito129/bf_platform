@@ -2,6 +2,7 @@ import {createAction, props} from "@ngrx/store";
 import {Strategy} from "../../model/report/strategy";
 import {NewTrade} from '../../model/report/new/newTrade';
 import {SavedReport} from '../../model/report/new/savedReport';
+import {string} from 'mathjs';
 
 
 export const GET_ALL_TRADES = '[Trades] Get all Trades';
@@ -78,6 +79,7 @@ export const DELETE_SAVED_REPORT_SUCCESS = '[SavedReport] Delete  Saved Report S
 export const DELETE_SAVED_REPORT_FAILURE = '[SavedReport] Delete  Saved Report Failure';
 
 export const SET_SELECTED_SAVED_REPORT = '[SavedReport] Set selected Saved Report';
+export const REMOVE_TRADES_FROM_SAVED_REPORT = '[SavedReport] Remove Trades from Saved Report';
 
 
 
@@ -383,4 +385,9 @@ export const setSelectedSavedReport = createAction(
   SET_SELECTED_SAVED_REPORT,
   props<{ _id: string }>()
 );
+
+// remove trades from saved report
+export const removeTradesFromSavedReport = createAction(
+  REMOVE_TRADES_FROM_SAVED_REPORT,
+  props<{ savedReportId: string, _idS: string[] }>());
 

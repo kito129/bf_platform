@@ -53,7 +53,10 @@
                                  [selectedStrategyTrades$]="selectedSavedReportTrades$"
                                  [title]="'Saved'"
                                  [bank]="1000"
-                                 [noBug]="false">
+                                 [noBug]="false"
+                                 [isSaved]="true"
+                                 [savedReportId]="selectedSavedReportId$ | async"
+                                 [savedReport]="selectedSavedReport$ | async">
             </app-strategy-report>
           </div>
         </div>

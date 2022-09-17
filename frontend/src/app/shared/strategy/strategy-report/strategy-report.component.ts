@@ -6,6 +6,7 @@ import {Strategy} from '../../../model/report/strategy';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {StrategyReport} from '../../../model/report/starategyReport';
 import {Utils} from '../../../model/calculator/utils';
+import {SavedReport} from '../../../model/report/new/savedReport';
 
 @Component({
   selector: 'app-strategy-report',
@@ -18,6 +19,9 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   @Input() title: string
   @Input() bank: number
   @Input() noBug: boolean
+  @Input() isSaved: boolean
+  @Input() savedReportId: string
+  @Input() savedReport: SavedReport
 
   isCollapsed = false
 

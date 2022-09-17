@@ -1,9 +1,11 @@
 <!-- Button trigger trade-modal -->
-<button type="button" class="btn btn-outline-danger btn-xs mr-2"
+<button type="button"
+        [ngClass]="isRemove ? 'btn btn-outline-warning btn-xs mr-2' : 'btn btn-outline-danger btn-xs mr-2'"
         (click)="openVerticalCenteredModal(verticalCenteredModal)">
   <i class="feather icon-x">
   </i>
-  <div *ngIf="ids">Delete Many</div>
+  <div *ngIf="ids && !isRemove">Delete Many</div>
+  <div *ngIf="ids && isRemove">Remove</div>
 </button>
 
 <!-- Modal -->

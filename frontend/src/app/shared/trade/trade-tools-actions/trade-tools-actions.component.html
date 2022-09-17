@@ -4,6 +4,7 @@
 
 
   <app-delete-modal [type]="'Trade'"
+                    [options]="'Delete'"
                     [id]="trade._id"
                     [name]="trade.trade.info.marketInfo.marketName"
                     (deleteEmitter)="deleteModal($event)">

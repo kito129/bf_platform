@@ -1,4 +1,5 @@
 import {Strategy} from "./strategy";
+import {SavedReport} from './new/savedReport';
 
 export interface StrategyDatatable{
   _id: string
@@ -18,4 +19,5 @@ export interface StrategyDatatable{
   maxDDPercent: number
   winRatio: number
   strategy: Strategy
+  savedReport?: SavedReport
 }

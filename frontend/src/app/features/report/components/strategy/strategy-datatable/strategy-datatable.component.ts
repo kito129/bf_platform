@@ -3,6 +3,7 @@ import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
 import { Store} from '@ngrx/store';
 import {StrategyDatatable} from '../../../../../model/report/strategyDatatable';
 import * as reportActions from '../../../../../store/report/report.actions';
+import {removeTradesFromSavedReport} from '../../../../../store/report/report.actions';
 
 @Component({
   selector: 'app-strategy-datatable',

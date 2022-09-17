@@ -67,11 +67,17 @@
       [limit]=tableSize
       rowHeight="auto"
       [reorderable]="true"
-      [sorts]="[{prop: 'pl', dir: 'desc'}]">
+      [sorts]="!isSaved ? [{prop: 'pl', dir: 'desc'}] : [{prop: 'name', dir: 'asc'}]">
 
       <ngx-datatable-column name="Id" prop="_id" [width]="3" *ngIf="viewId">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value }}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Date" prop="savedReport.updated" [width]="1" *ngIf="isSaved">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value | date:'shortDate' }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
@@ -82,7 +88,7 @@
       </ngx-datatable-column>
 
 
-      <ngx-datatable-column name="Year" prop="year" [width]="1">
+      <ngx-datatable-column name="Year" prop="year" [width]="1" *ngIf="!isSaved">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5 [ngClass]="value===2021 ? 'text-info' : 'text-light'">{{ value }}</h5>
         </ng-template>
@@ -94,7 +100,18 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Executor" prop="executor" [width]="1">
+      <ngx-datatable-column name="Executor" prop="executor" [width]="1" *ngIf="!isSaved">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value}}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Comment" prop="savedReport.savedReport.comment" [width]="1" *ngIf="isSaved">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <h5>{{ value}}</h5>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Type" prop="savedReport.savedReport.type" [width]="1" *ngIf="isSaved">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value}}</h5>
         </ng-template>
@@ -130,6 +147,7 @@
         </ng-template>
       </ngx-datatable-column>
 
+      <!-- TOOLS NOT SAVED-->
       <ngx-datatable-column name="Tolls" prop=""  [width]="2" *ngIf="!isSaved">
         <ng-template let-value="value"  ngx-datatable-cell-template>
 
@@ -154,8 +172,7 @@
                               [type]="'strategy'"
                               (deleteEmitter)="deleteModal($event)">
             </app-delete-modal>
-            <app-strategy-updates-modal *ngIf="!isSaved"
-                                        [strategyInput$]="value.strategy"
+            <app-strategy-updates-modal [strategyInput$]="value.strategy"
                                         [ngbTooltip]="editTooltip"
                                         (strategyUpdateEmitter)="updateModal($event)">
             </app-strategy-updates-modal>
@@ -163,6 +180,7 @@
         </ng-template>
       </ngx-datatable-column>
 
+      <!-- TOOLS SAVED-->
       <ngx-datatable-column name="Tolls" prop=""  [width]="2" *ngIf="isSaved">
         <ng-template let-value="value"  ngx-datatable-cell-template>
           <div class="d-flex justify-content-center align-items-center">
@@ -173,9 +191,9 @@
               <i class="feather icon-eye"></i>
             </button>
             <app-delete-modal [id]="value.strategy._id"
-                              [ngbTooltip]="deleteTooltip"
+                              [ngbTooltip]="deleteSavedTooltip"
                               [options]="'Delete'"
-                              [type]="'strategy'"
+                              [type]="'saved Report'"
                               (deleteEmitter)="deleteSavedReportModal($event)">
             </app-delete-modal>
           </div>
@@ -224,4 +242,8 @@
 
 <ng-template #deleteTooltip>
   <p>Delete Strategy</p>
+</ng-template>
+
+<ng-template #deleteSavedTooltip>
+  <p>Delete SavedReport</p>
 </ng-template>

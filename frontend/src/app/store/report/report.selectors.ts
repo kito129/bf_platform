@@ -217,9 +217,12 @@ export const getPassiveDemoData = (wantStrategy: boolean) => createSelector(
 export const getActiveKevinData = (wantStrategy: boolean) => createSelector(
   getReportState,
   (state) => {
-    let strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('KEVIN')!==-1)
+    const strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('KEVIN')!==-1)
+    /*
     const addtional = ['6266d8cb1a800430234d7d6a','6266d8e21a800430234d7d6c', '6266d8f11a800430234d7d6e']
     strategy = strategy.concat(state.allStrategy.filter( x=> addtional.includes(x._id)))
+
+     */
     const strategyId = strategy.map(x => x._id)
     const trades = state.allNewTrades.filter( x => strategyId.includes(x.trade.info.strategyId))
     if(wantStrategy){
@@ -362,13 +365,18 @@ export const getSelectedSavedReport = createSelector(
   getReportState,
   (state ) => state.selectedSavedReport
 );
-
+export const getSelectedSavedReportId = createSelector(
+  getReportState,
+  (state ) => {
+    if(state.selectedSavedReport){
+      return state.selectedSavedReport._id
+    } else return null
+  }
+);
 export const getSavedReportDatatable = createSelector(
   getReportState,
   (state ) =>{
     const t =generateSavedReportDatatable(state.savedReports, state.allNewTrades)
-    console.log(state.savedReports)
-    console.log(t)
     return t
   }
 );
@@ -391,7 +399,6 @@ function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: Ne
   for(const savedReport of savedReports){
     const bank  = 1000
     const trades = allTrades.filter(x => savedReport.savedReport.tradesIds.includes(x._id))
-    console.log(trades)
     const tempStrategy = utils.generateStrategy(savedReport.savedReport.name,bank, savedReport._id)
     if(trades.length){
       // check pl
@@ -410,7 +417,8 @@ function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: Ne
         maxDD: utils.maxDDOfTrades(tradePLValue, false, bank),
         maxDDPercent: utils.maxDDOfTrades(tradePLValue, true, bank),
         winRatio: utils.getWinRatioTrades(trades),
-        strategy: tempStrategy
+        strategy: tempStrategy,
+        savedReport,
       })
     } else {
       temp.push({
@@ -423,7 +431,8 @@ function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: Ne
         maxDD: 0,
         maxDDPercent:0,
         winRatio:0,
-        strategy: tempStrategy
+        strategy: tempStrategy,
+        savedReport,
       })
     }
   }

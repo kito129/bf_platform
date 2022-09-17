@@ -6,6 +6,6 @@ export interface SavedReport {
     name: string
     comment: string
     type: string
-    trade: string[]
+    tradesIds: string[]
   }
 }

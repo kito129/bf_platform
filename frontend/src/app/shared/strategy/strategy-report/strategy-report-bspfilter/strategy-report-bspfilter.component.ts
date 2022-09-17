@@ -48,7 +48,7 @@ export class StrategyReportBSPFilterComponent implements OnInit, OnDestroy {
         filter.filterData(this.trades, this.tennisTournament )
         if(filter.trades.length){
           this.compare.push({
-            strategy: this.utils.generateStrategy(filter.name,filter.bank),
+            strategy: this.utils.generateStrategy(filter.name,filter.bank,null),
             trades: filter.trades
           })
         }

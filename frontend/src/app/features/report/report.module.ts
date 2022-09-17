@@ -27,6 +27,7 @@ import {StrategyCreateModalComponent} from './components/strategy/modal/strategy
 import {StrategyDeleteModalComponent} from './components/strategy/modal/strategy-note-delete-modal/strategy-delete-modal.component';
 import { StrategyDatatableComponent } from './components/strategy/strategy-datatable/strategy-datatable.component';
 import { ReportMainComponent } from './components/report-main.component';
+import { SavedReportDatatableComponent } from './components/saved-report-datatable/saved-report-datatable.component';
 
 
 
@@ -46,6 +47,7 @@ const routes: Routes = [
     StrategyDeleteModalComponent,
     StrategyDatatableComponent,
     ReportMainComponent,
+    SavedReportDatatableComponent,
   ],
     imports: [
         CommonModule,

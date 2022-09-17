@@ -5,6 +5,7 @@ import { MonthTrade} from '../study/study/comparatorTableRow';
 import {NewTrade} from '../report/new/newTrade';
 import {Note} from "../note/note";
 import {min} from 'simple-statistics';
+import {Strategy} from '../report/strategy';
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -428,11 +429,11 @@ export class Utils{
     return recap
   }
 
-  public generateStrategy(name: string, bank: number){
+  public generateStrategy(name: string, bank: number, id: string): Strategy{
     return {
-      _id: Date.now().toFixed(),
-      created: 1,
-      lastUpdate: 1,
+      _id: id ? id : Date.now().toFixed(),
+      created: Date.now(),
+      lastUpdate: Date.now(),
       strategy: {
         info: {
           name,

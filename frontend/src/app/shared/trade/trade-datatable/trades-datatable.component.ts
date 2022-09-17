@@ -8,7 +8,7 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 import {TradeDetail} from '../../../model/report/trade';
 import {Utils} from '../../../model/calculator/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
-import * as reportActions from "../../../store/report/report.actions";
+import * as reportActions from '../../../store/report/report.actions';
 
 
 @Component({

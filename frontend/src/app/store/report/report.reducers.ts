@@ -18,7 +18,9 @@ import {SavedReport} from '../../model/report/new/savedReport';
 export interface ReportStates {
   allNewTrades: NewTrade[],
   allStrategy: Strategy[],
-  savedReport: SavedReport[],
+  savedReports: SavedReport[],
+  selectedSavedReportId: string,
+  selectedSavedReport: SavedReport,
   strategyList: StrategyList[],
   selectedStrategyId: string,
   selectedStrategyTradeId: string,
@@ -48,7 +50,9 @@ export interface ReportStates {
 export const reportInitialState: ReportStates = {
   allNewTrades: [],
   allStrategy: [],
-  savedReport: [],
+  savedReports: [],
+  selectedSavedReportId: null,
+  selectedSavedReport: null,
   selectedStrategyId: '',
   strategyList: [],
   selectedStrategyTradeId: '',
@@ -176,7 +180,7 @@ const reportReducers = createReducer(
   ),
   on(reportActions.getAllSavedReportSuccess, (state, result) =>
 
-    ({...state, savedReport: result.response, isLoadingSavedReport: setterLoadingSuccess(),
+    ({...state, savedReports: result.response, isLoadingSavedReport: setterLoadingSuccess(),
       // strategyList: loadStrategyList(result.response)
     })
   ),
@@ -190,7 +194,7 @@ const reportReducers = createReducer(
     })
   ),
   on(reportActions.createSavedReportSuccess, (state, result) =>
-    ({...state, savedReport: addElement(state.savedReport,result.response), isLoadingSavedReport: setterLoadingSuccess(),
+    ({...state, savedReports: addElement(state.savedReports,result.response), isLoadingSavedReport: setterLoadingSuccess(),
     })
   ),
   on(reportActions.createSavedReportFailure, (state, result) => (
@@ -203,7 +207,7 @@ const reportReducers = createReducer(
     })
   ),
   on(reportActions.updateSavedReportSuccess, (state, result) =>
-    ({...state, savedReport: updateElement(state.savedReport,result.response), isLoadingSavedReport: setterLoadingSuccess(),
+    ({...state, savedReports: updateElement(state.savedReports,result.response), isLoadingSavedReport: setterLoadingSuccess(),
     })
   ),
   on(reportActions.updateSavedReportFailure, (state, result) => (
@@ -216,12 +220,16 @@ const reportReducers = createReducer(
     })
   ),
   on(reportActions.deleteSavedReportSuccess, (state, result) =>
-    ({...state, savedReport: deleteElement(state.savedReport,result.response), isLoadingSavedReport: setterLoadingSuccess(),
+    ({...state, savedReports: deleteElement(state.savedReports,result.response), isLoadingSavedReport: setterLoadingSuccess(),
     })
   ),
   on(reportActions.deleteSavedReportFailure, (state, result) => (
     {...state, strategyError: 'API error', isLoadingSavedReport: setterLoadingFailure()
     })
+  ),
+
+  on(reportActions.setSelectedSavedReport, (state,result) => (
+    {...state, selectedSavedReportId: result._id, selectedSavedReport: state.savedReports.filter( x => x._id === result._id)[0]})
   ),
 
   // STRATEGY

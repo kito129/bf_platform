@@ -61,21 +61,23 @@ export const RESET_STRATEGY_COMPARE = '[Strategy] Reset Strategy compare list';
 export const COMPARE_STRATEGY = '[Strategy] Compare Strategy';
 
 // saved report
-export const GET_ALL_SAVED_REPORT = '[Saved Report] Get all Saved Report';
-export const GET_ALL_SAVED_REPORT_SUCCESS = '[Saved Report] Get all Saved Report Success';
-export const GET_ALL_SAVED_REPORT_FAILURE = '[Saved Report] Get all Saved Report Failure';
+export const GET_ALL_SAVED_REPORT = '[SavedReport] Get all Saved Report';
+export const GET_ALL_SAVED_REPORT_SUCCESS = '[SavedReport] Get all Saved Report Success';
+export const GET_ALL_SAVED_REPORT_FAILURE = '[SavedReport] Get all Saved Report Failure';
 
-export const CREATE_SAVED_REPORT = '[Saved Report] Create Saved Report';
-export const CREATE_SAVED_REPORT_SUCCESS = '[Saved Report] Create  Saved Report Success';
-export const CREATE_SAVED_REPORT_FAILURE = '[Saved Report] Create  Saved Report Failure';
+export const CREATE_SAVED_REPORT = '[SavedReport] Create Saved Report';
+export const CREATE_SAVED_REPORT_SUCCESS = '[SavedReport] Create  Saved Report Success';
+export const CREATE_SAVED_REPORT_FAILURE = '[SavedReport] Create  Saved Report Failure';
 
-export const UPDATE_SAVED_REPORT = '[Saved Report] Udpate Saved Report';
-export const UPDATE_SAVED_REPORT_SUCCESS = '[Saved Report] Udpate  Saved Report Success';
-export const UPDATE_SAVED_REPORT_FAILURE = '[Saved Report] Udpate  Saved Report Failure';
+export const UPDATE_SAVED_REPORT = '[SavedReport] Udpate Saved Report';
+export const UPDATE_SAVED_REPORT_SUCCESS = '[SavedReport] Udpate  Saved Report Success';
+export const UPDATE_SAVED_REPORT_FAILURE = '[SavedReport] Udpate  Saved Report Failure';
 
-export const DELETE_SAVED_REPORT = '[Saved Report] Delete Saved Report';
-export const DELETE_SAVED_REPORT_SUCCESS = '[Saved Report] Delete  Saved Report Success';
-export const DELETE_SAVED_REPORT_FAILURE = '[Saved Report] Delete  Saved Report Failure';
+export const DELETE_SAVED_REPORT = '[SavedReport] Delete Saved Report';
+export const DELETE_SAVED_REPORT_SUCCESS = '[SavedReport] Delete  Saved Report Success';
+export const DELETE_SAVED_REPORT_FAILURE = '[SavedReport] Delete  Saved Report Failure';
+
+export const SET_SELECTED_SAVED_REPORT = '[SavedReport] Set selected Saved Report';
 
 
 
@@ -363,8 +365,9 @@ export const updateSavedReportFailure = createAction(
 // delete
 export const deleteSavedReport = createAction(
   DELETE_SAVED_REPORT,
-  props<{ _id: string }>()
-);
+  props<{ _id: string }>());
+
+
 export const deleteSavedReportSuccess = createAction(
   DELETE_SAVED_REPORT_SUCCESS,
   props<any>()
@@ -374,4 +377,10 @@ export const deleteSavedReportFailure = createAction(
   props<any>()
 );
 
+
+// set selected savdeReport
+export const setSelectedSavedReport = createAction(
+  SET_SELECTED_SAVED_REPORT,
+  props<{ _id: string }>()
+);
 

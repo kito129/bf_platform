@@ -26,8 +26,7 @@
             <app-strategy-datatable
               [strategyDatatable]="allStrategyDatatable$| async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async"
-              [compareAllDefault]="true">
+              [compareList]="compareList$ | async">
 
             </app-strategy-datatable>
           </div>
@@ -39,8 +38,25 @@
         <a ngbNavLink class="text-warning">Saved Report</a>
       </h4>
       <ng-template ngbNavContent>
+        <!-- STRATEGY BLOCK -->
+        <div class="col grid-margin">
+          <app-strategy-datatable
+            [strategyDatatable]="savedReportDatatable$ | async"
+            [selectedStrategyId]="selectedStrategyId$ | async"
+            [selectedSavedReportId]="(selectedSavedReport$ | async) ? (selectedSavedReport$ | async)._id : null"
+            [compareList]="compareList$ | async"
+            [isSaved]="true">
+          </app-strategy-datatable>
 
-        {{savedReport$ | async | json}}
+          <div class="col grid-margin">
+            <app-strategy-report *ngIf="selectedSavedReportTrades$ | async"
+                                 [selectedStrategyTrades$]="selectedSavedReportTrades$"
+                                 [title]="'Saved'"
+                                 [bank]="1000"
+                                 [noBug]="false">
+            </app-strategy-report>
+          </div>
+        </div>
       </ng-template>
     </li>
     <li [ngbNavItem]="3">
@@ -62,9 +78,7 @@
             <app-strategy-datatable
               [strategyDatatable]="injury2022Datatable$ | async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async"              [compareAllDefault]="true">              [compareAllDefault]=true">
-                            [compareAllDefault]="true">
-
+              [compareList]="compareList$ | async">
             </app-strategy-datatable>
           </div>
         </div>
@@ -89,8 +103,7 @@
             <app-strategy-datatable
               [strategyDatatable]="injury2021Datatable$ | async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async"
-              [compareAllDefault]="true">
+              [compareList]="compareList$ | async">
             </app-strategy-datatable>
           </div>
         </div>
@@ -115,8 +128,7 @@
             <app-strategy-datatable
               [strategyDatatable]="passiveDemoDatatable$ | async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async"
-              [compareAllDefault]="true">
+              [compareList]="compareList$ | async">
 
             </app-strategy-datatable>
           </div>
@@ -142,8 +154,7 @@
             <app-strategy-datatable
               [strategyDatatable]="passiveLiveDatatable$ | async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async"
-              [compareAllDefault]="true">
+              [compareList]="compareList$ | async">
             </app-strategy-datatable>
           </div>
 
@@ -169,8 +180,7 @@
             <app-strategy-datatable
               [strategyDatatable]="activeBagnaDatatable$ | async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async"
-              [compareAllDefault]="true">
+              [compareList]="compareList$ | async">
             </app-strategy-datatable>
           </div>
         </div>
@@ -195,8 +205,7 @@
             <app-strategy-datatable
               [strategyDatatable]="activeKevinDatatable$ | async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async"
-              [compareAllDefault]="true">
+              [compareList]="compareList$ | async">
             </app-strategy-datatable>
           </div>
         </div>
@@ -221,8 +230,7 @@
             <app-strategy-datatable
               [strategyDatatable]="activeKitoDatatable$ | async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async"
-              [compareAllDefault]="true">
+              [compareList]="compareList$ | async">
             </app-strategy-datatable>
           </div>
         </div>
@@ -247,8 +255,7 @@
             <app-strategy-datatable
               [strategyDatatable]="otherDatatable$ | async"
               [selectedStrategyId]="selectedStrategyId$ | async"
-              [compareList]="compareList$ | async"
-              [compareAllDefault]="true">
+              [compareList]="compareList$ | async">
             </app-strategy-datatable>
           </div>
         </div>
@@ -257,6 +264,9 @@
 
   </ul>
   <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+
+
+  <!-- ALWAYS ACTIVE-->
 
   <!-- SELECTED REPORT-->
   <div class="col grid-margin">

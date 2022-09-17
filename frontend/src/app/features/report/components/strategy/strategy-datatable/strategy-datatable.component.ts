@@ -14,15 +14,18 @@ export class StrategyDatatableComponent implements OnInit {
   @Input() strategyDatatable: StrategyDatatable[]
   @Input() compareList: string[]
   @Input() compareStatus: boolean
-  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @Input() isSaved: boolean
+
   @Input() selectedStrategyId: string
-  @Input() compareAllDefault: boolean
+  @Input() selectedSavedReportId: string
+
+  @ViewChild(DatatableComponent) table: DatatableComponent;
 
   rows = [];
   temp =[] ;
   loadingIndicator = true
   ColumnMode = ColumnMode;
-  tableSize = 20
+  tableSize = 30
   page = 1
 
   isCollapsed = false
@@ -70,7 +73,13 @@ export class StrategyDatatableComponent implements OnInit {
       // DELETE runner note
       this.store.dispatch(reportActions.deleteStrategy({ _id: event[0] }));
     }
+  }
 
+  deleteSavedReportModal(event){
+    if(event[1]==='delete'){
+      // DELETE runner note
+      this.store.dispatch(reportActions.deleteSavedReport({ _id: event[0] }));
+    }
   }
 
   clickSelectStrategy(id: string){
@@ -80,11 +89,6 @@ export class StrategyDatatableComponent implements OnInit {
     } else {
       this.store.dispatch(reportActions.setSelectedStrategy({ _id: id}));
     }
-  }
-
-  // filter
-  set2021(){
-
   }
 
   addToCompare(id: string){
@@ -123,6 +127,16 @@ export class StrategyDatatableComponent implements OnInit {
       this.store.dispatch(reportActions.addStrategyInCompare({strategyId: id, first:true}))
     } else {
       this.store.dispatch(reportActions.addStrategyInCompare({strategyId: id, first:true}))
+    }
+  }
+
+  // savedReport list
+
+  clickSelectSavedReport(id: string){
+    if(this.selectedSavedReportId === id){
+      this.store.dispatch(reportActions.setSelectedSavedReport({ _id: null}));
+    } else {
+      this.store.dispatch(reportActions.setSelectedSavedReport({ _id: id}));
     }
   }
 

@@ -8,7 +8,7 @@ const savedReportSchema = mongoose.Schema({
         name: {type: String},
         comment: {type: String},
         type: {type: String},
-        trade: [{type: String, require: true}],
+        tradesIds: [{type: String, require: true}],
       }
     }
 )

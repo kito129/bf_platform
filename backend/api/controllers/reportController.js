@@ -660,7 +660,7 @@ exports.delete_savedReport_by_id = (req, res, next) => {
         .then(docs => {
             removed = {
                 created: docs.created,
-                lastUpdate: docs.lastUpdate,
+                updated: docs.lastUpdate,
                 savedReport: docs.savedReport,
                 _id: docs._id,
             }

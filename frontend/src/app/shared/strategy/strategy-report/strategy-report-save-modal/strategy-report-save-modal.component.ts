@@ -41,7 +41,7 @@ export class StrategyReportSaveModalComponent implements OnInit {
         name: this.title,
         comment: '',
         type: '',
-        trade: []
+        tradesIds: []
       }
     }
     this.selectedReport.savedReport.name = this.title
@@ -49,7 +49,7 @@ export class StrategyReportSaveModalComponent implements OnInit {
 
   saveClick(){
     // set data
-    this.selectedReport.savedReport.trade = this.selected.map(x => x.trade._id)
+    this.selectedReport.savedReport.tradesIds = this.selected.map(x => x.trade._id)
 
     // check if ok format and emit the value
     console.log(this.selectedReport)

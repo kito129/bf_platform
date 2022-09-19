@@ -119,7 +119,7 @@ import { TradeSelectedResumeComponent } from './trade/trade-selected-resume/trad
 import { StrategyReportBSPFilterComponent } from './strategy/strategy-report/strategy-report-bspfilter/strategy-report-bspfilter.component';
 import { StrategyReportBspfilterParamsComponent } from './strategy/strategy-report/strategy-report-bspfilter/strategy-report-bspfilter-params/strategy-report-bspfilter-params.component';
 import { ComparatorTradesTableComponent } from './strategy/comparator-trades-table/comparator-trades-table.component';
-import { SingleColumnChartComponent } from './charts/apx-charts/single-column-chart/single-column-chart.component';
+import { ColumnsChartComponent } from './charts/apx-charts/columns-chart/columns-chart.component';
 import { BetTableComponent } from './trade/trade-bets-view/bet-table/bet-table.component';
 import { AvgOddsTradedComponent } from './trade/trade-bets-view/avg-odds-traded/avg-odds-traded.component';
 import {OddsMovementComponent} from "./trade/trade-bets-view/odds-movement/odds-movement.component";
@@ -253,7 +253,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyReportBSPFilterComponent,
     StrategyReportBspfilterParamsComponent,
     ComparatorTradesTableComponent,
-    SingleColumnChartComponent,
+    ColumnsChartComponent,
     BetTableComponent,
     AvgOddsTradedComponent,
     OddsMovementComponent
@@ -344,7 +344,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
         MmDatatableComponent,
         MmChartsComponent,
         ComparatorTradesTableComponent,
-        SingleColumnChartComponent
+        ColumnsChartComponent
     ]
 })
 export class SharedModule { }

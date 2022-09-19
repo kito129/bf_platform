@@ -5,6 +5,7 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 import {Strategy} from '../../../model/report/strategy';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {StrategyReport} from '../../../model/report/starategyReport';
+import {Utils} from "../../../model/calculator/utils";
 
 @Component({
   selector: 'app-strategy-report',
@@ -38,8 +39,13 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   tradeLabels: string[] = []
   tradeRR: number[] = []
   tradeMaxRisk: number[] = []
+  tradeRiskIncrease: number[] = []
+  tradeRiskDecrease: number[] = []
+  tradeRiskClose: number[] = []
   tradeCommission: number[] = []
   labels: number[] = []
+
+  utils = new Utils()
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -93,18 +99,74 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
         // create rr data
         this.tradeRR = trades.map(x => {
           if(x.trade.results.rr){
-            return +x.trade.results.rr.toFixed(2)
+            return this.utils.roundNumber(x.trade.results.rr)
           } else {
             return 0
           }
         })
-        // create max risk data
+        // create risk data
+        // max
         this.tradeMaxRisk = trades.map(x => {
           if(x.trade.results.maxRisk){
-            return +x.trade.results.maxRisk.toFixed(2)
+            return this.utils.roundNumber(x.trade.results.maxRisk)
           } else {
             return 0
           }
+        })
+        // increase
+        this.tradeRiskIncrease = this.trades.map(x => {
+          let stake = 0
+          let liability = 0
+          x.trade.trades.map(y => {
+            console.log(y)
+            if(y.options && y.options.indexOf('INCREASE') !== -1) {
+              if (y.type.indexOf('BACK') !== -1) {
+                stake += this.utils.negativeRoundedNumber(y.liability)
+              } else {
+                liability+= this.utils.negativeRoundedNumber(y.liability)
+              }
+            } else
+              {
+                return 0
+              }
+            })
+          return stake + liability
+        })
+        // decrease
+        this.tradeRiskDecrease = this.trades.map(x => {
+          let stake = 0
+          let liability = 0
+          x.trade.trades.map(y => {
+            if(y.options && y.options.indexOf('DECREASE') !== -1) {
+              if (y.type.indexOf('BACK') !== -1) {
+                stake += this.utils.negativeRoundedNumber(y.liability)
+              } else {
+                liability+= this.utils.negativeRoundedNumber(y.liability)
+              }
+            } else
+            {
+              return 0
+            }
+          })
+          return stake + liability
+        })
+        // decrease
+        this.tradeRiskClose = this.trades.map(x => {
+          let stake = 0
+          let liability = 0
+          x.trade.trades.map(y => {
+            if(y.options && y.options.indexOf('CLOSE') !== -1) {
+              if (y.type.indexOf('BACK') !== -1) {
+                stake += this.utils.negativeRoundedNumber(y.liability)
+              } else {
+                liability+= this.utils.negativeRoundedNumber(y.liability)
+              }
+            } else
+            {
+              return 0
+            }
+          })
+          return stake + liability
         })
         // create max risk data
         this.tradeCommission = trades.map(x => {
@@ -122,6 +184,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
       this.trades = []
     }
   }
+
 
   // temp to fix odds bug
   bugFix(){

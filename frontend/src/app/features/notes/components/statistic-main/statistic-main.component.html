@@ -75,20 +75,20 @@
     <!-- CHART-->
     <div class="mt-2">
       <h4>Medical</h4>
-      <app-multiple-columns-chart [seriesData]="[length]"
+      <app-columns-chart [seriesData]="[length]"
                                [colors]="['blue']"
                                [height]="800"
                                [labels]="labels"
                                [title]="['Medical']"
                                [isCurrency]="false"
                                [isPercent]="false">
-      </app-multiple-columns-chart>
+      </app-columns-chart>
     </div>
 
     <!-- CHART-->
     <div class="mt-2">
       <h4>Win/Loss</h4>
-      <app-multiple-columns-chart [seriesData]="[win, loss, retired]"
+      <app-columns-chart [seriesData]="[win, loss, retired]"
                                   [wantStacked]="true"
                                [colors]="['green','red','yellow']"
                                [height]="800"
@@ -96,13 +96,13 @@
                                [title]="['Win', 'Loss', 'Retired']"
                                [isCurrency]="false"
                                [isPercent]="false">
-      </app-multiple-columns-chart>
+      </app-columns-chart>
     </div>
 
     <!-- CHART-->
     <div class="mt-2">
       <h4>No Medical Retired</h4>
-      <app-multiple-columns-chart [seriesData]="[nMretired]"
+      <app-columns-chart [seriesData]="[nMretired]"
                                   [wantStacked]="true"
                                   [colors]="['purple']"
                                   [height]="600"
@@ -110,13 +110,13 @@
                                   [title]="['No Medical Retired']"
                                   [isCurrency]="false"
                                   [isPercent]="false">
-      </app-multiple-columns-chart>
+      </app-columns-chart>
     </div>
 
     <!-- CHART-->
     <div class="mt-2">
       <h4>First Set Retired</h4>
-      <app-multiple-columns-chart [seriesData]="[fSretired]"
+      <app-columns-chart [seriesData]="[fSretired]"
                                   [wantStacked]="true"
                                   [colors]="['grey']"
                                   [height]="600"
@@ -124,7 +124,7 @@
                                   [title]="['First Set Retired']"
                                   [isCurrency]="false"
                                   [isPercent]="false">
-      </app-multiple-columns-chart>
+      </app-columns-chart>
     </div>
 
 

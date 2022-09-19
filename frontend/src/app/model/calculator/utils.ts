@@ -192,6 +192,22 @@ export class Utils{
    minPercentOfNumberArray(values: number[]){
     return Math.min.apply(Math, values) / this.getSumOfArrayNumber(values)
   }
+  /*
+  * Format number
+  */
+
+  roundNumber(value: number){
+    return Math.round(value*100)/100
+  }
+
+  positiveRoundedNumber(value: number){
+    return -Math.abs(this.roundNumber(value))
+  }
+
+  negativeRoundedNumber(value: number){
+    return -Math.abs(this.roundNumber(value))
+  }
+
 
 
   /*

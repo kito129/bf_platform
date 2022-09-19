@@ -4,10 +4,10 @@ import {ChartOptions} from '../../../../model/chartOptions';
 import {CurrencyPipe, PercentPipe} from '@angular/common';
 
 @Component({
-  selector: 'app-multiple-columns-chart',
-  templateUrl: './single-column-chart.component.html',
+  selector: 'app-columns-chart',
+  templateUrl: './columns-chart.component.html',
 })
-export class SingleColumnChartComponent implements OnInit {
+export class ColumnsChartComponent implements OnInit {
 
   @Input() seriesData: number[][]
   @Input() wantStacked: boolean

@@ -161,15 +161,25 @@
                                  [series]="tradeMaxRisk"
                                  [isPercent]="false">
             </app-trade-histogram>
+
+            <app-columns-chart [seriesData]="[tradeMaxRisk,tradeRiskIncrease,tradeRiskDecrease,tradeRiskClose]"
+                               [colors]="['#b55b45','#dc8619','#e5e11c','#9ae31a']"
+                               [height]="800"
+                               [labels]="tradeLabels"
+                               [title]="['Max', 'Decr', 'Incr', 'Close']"
+                               [isCurrency]="true"
+                               [isPercent]="false">
+            </app-columns-chart>
+
           </ng-template>
         </li>
-        <!-- COMMISION -->
+        <!-- COMMISSION -->
         <li [ngbNavItem]="7">
           <h4>
-            <a ngbNavLink class="text-warning">Commision</a>
+            <a ngbNavLink class="text-warning">Commission</a>
           </h4>
           <ng-template ngbNavContent>
-            <app-trade-bar-charts [title]="'Commision'"
+            <app-trade-bar-charts [title]="'Commission'"
                                   [labels]="tradeLabels"
                                   [data]="tradeCommission"
                                   [height]="chartHeight"
@@ -179,10 +189,10 @@
             </app-trade-bar-charts>
           </ng-template>
         </li>
-        <!-- MONTECARLO -->
+        <!-- MM -->
         <li [ngbNavItem]="8">
           <h4>
-            <a ngbNavLink class="text-secondary">Money Managment</a>
+            <a ngbNavLink class="text-secondary">Money Management</a>
           </h4>
           <ng-template ngbNavContent>
             <app-mm [strategyReport]="strategyReport"
@@ -193,19 +203,32 @@
         <!-- MONTECARLO -->
         <li [ngbNavItem]="9">
           <h4>
-            <a ngbNavLink class="text-secondary">Monte Carlo</a>
+            <a ngbNavLink class="text-secondary">Monte-Carlo</a>
           </h4>
           <ng-template ngbNavContent>
             <app-montecarlo-strategy [trades]="selectedStrategyTrades$ | async">
             </app-montecarlo-strategy>
           </ng-template>
         </li>
+
         <!-- PASSIVE -->
+
+        <!-- BSP FILTER -->
+        <li [ngbNavItem]="11">
+          <h4>
+            <a ngbNavLink class="text-success">Filters</a>
+          </h4>
+          <ng-template ngbNavContent>
+            <app-strategy-report-bspfilter [trades]="trades">
+
+            </app-strategy-report-bspfilter>
+          </ng-template>
+        </li>
 
         <!-- LOW LAY -->
         <li [ngbNavItem]="10">
           <h4>
-            <a ngbNavLink class="text-success">Low Lay</a>
+            <a ngbNavLink class="text-success">Low Lay Filter</a>
           </h4>
           <ng-template ngbNavContent>
             <app-strategy-report-passive-low-lay [trades]="selectedStrategyTrades$ |async">
@@ -214,17 +237,7 @@
           </ng-template>
         </li>
 
-        <!-- BSP FILTER -->
-        <li [ngbNavItem]="11">
-          <h4>
-            <a ngbNavLink class="text-success">Odds Filter</a>
-          </h4>
-          <ng-template ngbNavContent>
-            <app-strategy-report-bspfilter [trades]="trades">
 
-            </app-strategy-report-bspfilter>
-          </ng-template>
-        </li>
       </ul>
 
       <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>

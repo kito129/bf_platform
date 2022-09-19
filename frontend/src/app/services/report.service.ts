@@ -6,6 +6,7 @@ import {Trade} from "../model/report/trade";
 import { environment } from '../../environments/environment';
 import {Strategy} from "../model/report/strategy";
 import {NewTrade} from '../model/report/new/newTrade';
+import {SavedReport} from '../model/report/new/savedReport';
 
 const headers = {'Content-Type': 'application/json'};
 
@@ -60,6 +61,23 @@ export class ReportService {
     return this.http.delete(`${baseUrl}/strategy/${id}`, {headers});
   }
 
+  // CRUD SAVED REPORT
+  getAllSavedReport(): Observable<any> {
+    return this.http.get(`${baseUrl}/savedReport/all`);
+  }
+
+  createSavedReport(savedReport: SavedReport): Observable<any> {
+    return this.http.put(`${baseUrl}/savedReport/create`,savedReport,{headers});
+  }
+
+  updateSavedReport(id, savedReport: SavedReport): Observable<any> {
+    const body = JSON.stringify(savedReport)
+    return this.http.post(`${baseUrl}/savedReport/${id}`,body, {headers});
+  }
+
+  deleteSavedReport(id): Observable<any> {
+    return this.http.delete(`${baseUrl}/savedReport/${id}`, {headers});
+  }
 
 
 }

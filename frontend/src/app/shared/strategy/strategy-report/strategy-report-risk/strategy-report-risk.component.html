@@ -1,0 +1,73 @@
+<ul class="list-group">
+  <li class="list-group-item"
+      [ngStyle]="element === 'open' ? {'background-color': '#bb18d5'} :
+    element ==='max' ? {'background-color': '#b55b45'} :
+    element === 'increase' ? {'background-color': '#dc8619'} :
+    element === 'decrease' ? {'background-color': '#e5e11c'} :
+    element === 'close' ? {'background-color': '#43d919'} :
+    element === 'freeBet' ? {'background-color': '#1AE3CC'}:''">
+  <h4>{{utils.camelize(element)}} Risk</h4>
+  </li>
+  <li class="list-group-item"
+  >
+    <div class="row">
+      <div class="col-5">
+        <h4>Total</h4>
+      </div>
+      <div class="col">
+        <h4>{{myValue.total | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Number</h4>
+      </div>
+      <div class="col">
+        <h4>{{myValue.count}} ({{myValue.count / strategyReport.trades.total | percent}})</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Avg/Trade</h4>
+      </div>
+      <div class="col">
+        <h4>{{myValue.avgPerTrade | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Max</h4>
+      </div>
+      <div class="col">
+        <h4>{{myValue.max | currency}} ({{myValue.max / myValue.total | percent}})</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Min</h4>
+      </div>
+      <div class="col">
+        <h4>{{myValue.min | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Stdv</h4>
+      </div>
+      <div class="col">
+        <h4 [ngClass]="myValue.stdv > myValue.avgPerTrade
+        ? 'text-danger' : 'text-success' ">{{myValue.stdv | currency}}</h4>
+      </div>
+    </div>
+  </li>
+</ul>

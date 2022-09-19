@@ -1,9 +1,11 @@
 import {Trade} from '../report/trade';
 import {ConsecutiveTrade} from '../report/consecutiveTrade';
 import {TradePlSeries} from './montecarlo';
-import { Month} from '../study/study/comparatorTableRow';
+import { MonthTrade} from '../study/study/comparatorTableRow';
 import {NewTrade} from '../report/new/newTrade';
 import {Note} from "../note/note";
+import {min} from 'simple-statistics';
+import {Strategy} from '../report/strategy';
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -75,7 +77,7 @@ export class Utils{
       length: trades.length,
       series,
       result: {
-        pl: this.getSumOfArrayNumber(trades),
+        pl: this.sumOfArray(trades),
         dd: {
           max: {
             dd:  Math.min( ...dd ),
@@ -90,8 +92,8 @@ export class Utils{
             })/ddPercent.length,
           },
           stdv: {
-            dd:  this.stdvOfTrades(dd),
-            percent: this.stdvOfTrades(ddPercent),
+            dd:  this.stdvOfArray(dd),
+            percent: this.stdvOfArray(ddPercent),
           }
         },
         risk: {
@@ -108,7 +110,7 @@ export class Utils{
             })/riskPercent.length,
           },
           stdv: {
-            dd:  this.stdvOfTrades(risks),
+            dd:  this.stdvOfArray(risks),
             percent: 0,
           }
         }
@@ -129,7 +131,7 @@ export class Utils{
     return stocks
   }
 
-  getSumOfArrayNumber(trade: number[]){
+  sumOfArray(trade: number[]){
     return trade.reduce((a, b) => a + b, 0);
   }
 
@@ -144,11 +146,12 @@ export class Utils{
     return Math.min(...this.ddOfTrades(trades, percent, initialStake))
   }
 
-  stdvOfTrades(value: number[]){
+  stdvOfArray(value: number[]){
     if(value.length){
       const n = value.length
       const mean = value.reduce((a, b) => a + b) / n
-      return Math.sqrt(value.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n)
+      const t = Math.sqrt(value.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n)
+      return Math.round(t*100)/100
     } else {
       return 0
     }
@@ -171,26 +174,44 @@ export class Utils{
         lastMax = stock
         dd.push(0)
       } else{
-        dd.push((percent ? ((stock-lastMax) / lastMax) :  (stock-lastMax)))
+        const res = (percent ? ((stock-lastMax) / lastMax) :  (stock-lastMax))
+        if(isFinite(res)){
+          dd.push(res)
+        } else {
+          dd.push(0)
+        }
       }
     }
     return dd
   }
 
-  maxNumberArray(values: number[]){
+  maxOfArray(values: number[]): number{
     return Math.max.apply(Math, values)
   }
 
-  maxPercentNumberArray(values: number[]){
-    return Math.max.apply(Math, values) / this.getSumOfArrayNumber(values)
+  maxPercentNumberArray(values: number[]): number{
+    return Math.max.apply(Math, values) / this.sumOfArray(values)
   }
 
-  minOfNumberArray(values: number[]){
+  minOfArray(values: number[]): number{
     return Math.min.apply(Math, values)
   }
 
-   minPercentOfNumberArray(values: number[]){
-    return Math.min.apply(Math, values) / this.getSumOfArrayNumber(values)
+   minPercentOfArray(values: number[]): number{
+    return Math.min.apply(Math, values) / this.sumOfArray(values)
+  }
+
+  round2Point(values: number): number{
+    return Math.round((values*100))/100
+  }
+
+  orderAsc(values: number[]): number[]{
+    const copy = JSON.parse(JSON.stringify(values))
+    return copy.sort((a,b) => a-b)
+  }
+  orderDesc(values: number[]): number[]{
+    const copy = JSON.parse(JSON.stringify(values))
+    return copy.sort((a,b) => b-a)
   }
   /*
   * Format number
@@ -225,7 +246,7 @@ export class Utils{
   maxOfConsecutivePl(trades: any[][]){
     return Math.max.apply(Math,trades.map( x => {
       if(x.length){
-        return  this.getSumOfArrayNumber(x.map(y => y.pl))
+        return  this.sumOfArray(x.map(y => y.pl))
       } else {
         return 0
       }
@@ -235,7 +256,7 @@ export class Utils{
   minOfConsecutivePl(trades: any[][]){
     return Math.min.apply(Math,trades.map( x => {
       if(x.length){
-        return  this.getSumOfArrayNumber(x.map(y => y.pl))
+        return  this.sumOfArray(x.map(y => y.pl))
       } else {
         return 0
       }
@@ -375,11 +396,11 @@ export class Utils{
       limit.push(max)
       limit.push(min)
       limit.sort((a,b) => b-a)
-
-
       limit.forEach( x =>{
         counter.push(0)
       })
+
+      // counter
       series.forEach( data =>{
         for(let j=0;j<limit.length-1;j++){
           if(Math.abs(data) > Math.abs(limit[j]) && Math.abs(data) <= Math.abs(limit[j+1])){
@@ -389,9 +410,7 @@ export class Utils{
         }
       })
     }
-
     console.log(limit)
-
     counter.pop()
     return [counter, limit]
   }
@@ -400,10 +419,10 @@ export class Utils{
   * periodic functions
   */
 
-  getMonthTrades(trades: NewTrade[]): Month[]{
+  getMonthTrades(trades: NewTrade[]): MonthTrade[]{
 
     const monthLabels = this.getMonthFromDate(trades[0].trade.info.date)
-    const recap: Month[] = []
+    const recap: MonthTrade[] = []
 
     monthLabels.forEach( x=> {
       recap.push({
@@ -426,11 +445,11 @@ export class Utils{
     return recap
   }
 
-  public generateStrategy(name: string, bank: number){
+  public generateStrategy(name: string, bank: number, id: string): Strategy{
     return {
-      _id: Date.now().toFixed(),
-      created: 1,
-      lastUpdate: 1,
+      _id: id ? id : Date.now().toFixed(),
+      created: Date.now(),
+      lastUpdate: Date.now(),
       strategy: {
         info: {
           name,
@@ -491,5 +510,11 @@ export class Utils{
     }
   }
 
+  camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+      if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+      return index === 0 ? match.toLowerCase() : match.toUpperCase();
+    });
+  }
 
 }

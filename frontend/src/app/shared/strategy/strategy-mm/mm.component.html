@@ -11,6 +11,7 @@
 </div>
 
 <div *ngIf="validData && bug">
+  <!-- PL -->
   <div class="row mt-2">
     <div class="col">
       <h2>Stock</h2>
@@ -30,15 +31,8 @@
       </app-multi-pl-trades>
     </div>
   </div>
+  <!-- RISK -->
   <div class="row mt-2">
-    <div class="col">
-      <h2>Risk €</h2>
-      <app-multi-pl-trades [seriesName]="seriesName"
-                           [pl]="risk"
-                           [title]="'Risk'"
-                           [height]="defaultHeight">
-      </app-multi-pl-trades>
-    </div>
     <div class="col">
       <h2>Risk %</h2>
       <app-multi-dd-trades [height]="defaultHeight"
@@ -51,20 +45,17 @@
                            [isPercent]="true">
       </app-multi-dd-trades>
     </div>
-  </div>
-  <div class="row mt-2">
     <div class="col">
-      <h2>DD €</h2>
-      <app-multi-dd-trades [height]="defaultHeight"
-                           [title]="'MM'"
-                           [wantTooltip]="true"
-                           [seriesName]="seriesName"
-                           [wantLegend]="true"
-                           [dd]="dd"
-                           [isCurrency]="true"
-                           [isPercent]="false">
-      </app-multi-dd-trades>
+      <h2>Risk €</h2>
+      <app-multi-pl-trades [seriesName]="seriesName"
+                           [pl]="risk"
+                           [title]="'Risk'"
+                           [height]="defaultHeight">
+      </app-multi-pl-trades>
     </div>
+  </div>
+  <!-- DD -->
+  <div class="row mt-2">
     <div class="col">
       <h2>DD %</h2>
       <app-multi-dd-trades [height]="defaultHeight"
@@ -75,6 +66,18 @@
                            [dd]="ddPercent"
                            [isCurrency]="false"
                            [isPercent]="true">
+      </app-multi-dd-trades>
+    </div>
+    <div class="col">
+      <h2>DD €</h2>
+      <app-multi-dd-trades [height]="defaultHeight"
+                           [title]="'MM'"
+                           [wantTooltip]="true"
+                           [seriesName]="seriesName"
+                           [wantLegend]="true"
+                           [dd]="dd"
+                           [isCurrency]="true"
+                           [isPercent]="false">
       </app-multi-dd-trades>
     </div>
   </div>

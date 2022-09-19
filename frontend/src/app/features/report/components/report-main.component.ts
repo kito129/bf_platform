@@ -14,7 +14,12 @@ import {StrategyDatatable} from '../../../model/report/strategyDatatable';
 import {NewTrade} from '../../../model/report/new/newTrade';
 import {CompareStrategy} from '../../../model/report/new/compareStrategy';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
-import {getPassiveDemoData} from '../../../store/report/report.selectors';
+import {
+  getPassiveDemoData,
+  getSelectedSavedReportTrades,
+  isLoadingSavedReport
+} from '../../../store/report/report.selectors';
+import {SavedReport} from '../../../model/report/new/savedReport';
 
 @Component({
   selector: 'app-report-main',
@@ -27,6 +32,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   // isLoading
   isLoadingAllStrategy$: Observable<IsLoading>
   isLoadingAllNewTrade$: Observable<IsLoading>
+  isLoadingSavedReport$: Observable<IsLoading>
   // datatable
   allStrategyDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
   injury2021Datatable$: Observable<StrategyDatatable[] | NewTrade[]>
@@ -45,7 +51,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   activeKevinTrade$: Observable<StrategyDatatable[] | NewTrade[]>
   activeBagnaTrade$: Observable<StrategyDatatable[] | NewTrade[]>
   activeKitoTrade$: Observable<StrategyDatatable[] | NewTrade[]>
- otherTrade$: Observable<StrategyDatatable[] | NewTrade[]>
+  otherTrade$: Observable<StrategyDatatable[] | NewTrade[]>
   // selected strategy
   selectedStrategy$: Observable<Strategy>
   selectedStrategyId$: Observable<string>
@@ -54,6 +60,13 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   comparedStrategy$: Observable<CompareStrategy[]>
   compareList$: Observable<string[]>
   compareStatus$: Observable<boolean>
+
+  // saved report
+  allSavedReports$: Observable<SavedReport[]>
+  selectedSavedReport$: Observable<SavedReport>
+  selectedSavedReportId$: Observable<string>
+  savedReportDatatable$: Observable<StrategyDatatable[]>
+  selectedSavedReportTrades$: Observable<NewTrade[]>
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -66,6 +79,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     // isLoading
     this.isLoadingAllStrategy$=this.store.pipe(select(reportSelectors.getAllStrategyLoading))
     this.isLoadingAllNewTrade$ = this.store.pipe(select(reportSelectors.isLoadingAllNewTrade))
+    this.isLoadingSavedReport$ = this.store.pipe(select(reportSelectors.isLoadingSavedReport))
     // strategies datatable
     this.allStrategyDatatable$ = this.store.pipe(select(reportSelectors.getAllStrategyDatatable))
     this.injury2022Datatable$ = this.store.pipe(select(reportSelectors.getInjury2022Data(true)))
@@ -95,6 +109,14 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     this.compareList$ =  this.store.pipe(select(reportSelectors.getCompareList))
     this.comparedStrategy$ =  this.store.pipe(select(reportSelectors.getComparedData))
     this.compareStatus$ =  this.store.pipe(select(reportSelectors.getCompareStatus))
+
+    // saved report
+    this.allSavedReports$ = this.store.pipe(select(reportSelectors.getSavedReport))
+    this.selectedSavedReport$ = this.store.pipe(select(reportSelectors.getSelectedSavedReport))
+    this.selectedSavedReportId$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportId))
+    this.savedReportDatatable$ = this.store.pipe(select(reportSelectors.getSavedReportDatatable))
+    this.selectedSavedReportTrades$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportTrades))
+
   }
 
   ngOnDestroy() {
@@ -105,6 +127,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   public refresh(){
     this.store.dispatch(reportActions.getAllStrategies())
     this.store.dispatch(reportActions.getAllNewTrades())
+    this.store.dispatch(reportActions.getAllSavedReport())
   }
 
 }

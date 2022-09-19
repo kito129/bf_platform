@@ -1,10 +1,10 @@
 const Strategy = require("../models/report/strategy");
 
 const Trade = require("../models/report/newTrade");
+const SavedReport = require("../models/report/savedReport");
+
 
 let mongoose = require('mongoose');
-const { count } = require("../models/report/newTrade");
-const { copy } = require("../routes/newReportRoutes");
 
 
 // TRADE
@@ -177,7 +177,6 @@ exports.get_all_strategy = (req, res, next) => {
             });
         });
 };
-
 
 
 // create strategy
@@ -560,4 +559,117 @@ exports.fix_trades_schema = (req, res, next) => {
             error: err
         });
     })
+};
+
+
+// savedReport
+
+// return all savedReport
+exports.get_all_savedReport = (req, res, next) => {
+    SavedReport.find()
+        .select("_id created updated savedReport")
+        .exec()
+        .then(docs => {
+            const response =
+                docs.map(doc => {
+                    return {
+                        created: doc.created,
+                        updated: doc.lastUpdate,
+                        savedReport: doc.savedReport,
+                        _id: doc._id,
+                    };
+                });
+            if (docs.length >= 0) {
+                res.status(200).json(response);
+            } else {
+                res.status(404).json({
+                    message: 'No savedReport found in DB'
+                });
+            }
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
+
+// create savedReport
+exports.create_savedReport = (req, res, next) => {
+    let createdSavedReport;
+    let savedReport = new SavedReport({
+        _id: new mongoose.Types.ObjectId(),
+        created: req.body.created,
+        updated: req.body.updated,
+        savedReport: req.body.savedReport,
+    });
+    savedReport
+        .save()
+        .then(result => {
+            createdSavedReport =  {
+                _id: result._id,
+                created: result.created,
+                updated: result.updated,
+                savedReport: result.savedReport,
+            }
+            res.status(200).json(createdSavedReport);
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json(JSON.stringify({
+                error: err
+            }));
+        })
+
+};
+
+// update savedReport by _id
+exports.update_savedReport_by_id = (req, res, next) => {
+    const myId = req.params.savedReportId;
+    let updated
+    SavedReport.findOneAndUpdate({_id: myId},req.body, { new: true})
+        .select("_id created updated savedReport")
+        .exec()
+        .then(docs => {
+            updated ={
+                created: docs.created,
+                updated: docs.updated,
+                savedReport: docs.savedReport,
+                _id: docs._id,
+            }
+            res.status(200).json(updated);
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        })
+
+};
+
+
+// delete savedReport by _id
+exports.delete_savedReport_by_id = (req, res, next) => {
+    const myId = req.params.savedReportId;
+    let removed
+    SavedReport.findOneAndRemove({_id: myId})
+        .exec()
+        .then(docs => {
+            removed = {
+                created: docs.created,
+                updated: docs.lastUpdate,
+                savedReport: docs.savedReport,
+                _id: docs._id,
+            }
+            res.status(200).json(removed);
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        })
 };

@@ -10,10 +10,11 @@ export class DeleteModalComponent implements OnInit {
 
   @Input() name: string
   @Input() id: string
-  @Input() ids: TradeDetail[]
+  @Input() ids: string[]
   @Input() type: string
   @Output() deleteEmitter = new EventEmitter()
-  @Input() options: 'Delete' | 'Duplicate' | 'Update' | 'Create'
+  @Input() options: string
+  @Input() isRemove: boolean
 
   constructor(private modalService: NgbModal) {}
 
@@ -22,15 +23,16 @@ export class DeleteModalComponent implements OnInit {
   }
 
   openVerticalCenteredModal(content) {
-    if(this.id){
+    if (this.isRemove) {
       this.modalService.open(content, {centered: true}).result.then((result) => {
-        this.deleteEmitter.emit([this.id, result]);
-      }).catch((res) => {});
-    } else if(this.ids){
+        this.deleteEmitter.emit([this.id, result==='delete' ? 'remove' : 'close' , this.ids]);
+      }).catch((res) => {
+      });
+    } else {
       this.modalService.open(content, {centered: true}).result.then((result) => {
-        this.deleteEmitter.emit([this.ids.map(x => x.trade._id), result]);
-      }).catch((res) => {});
+        this.deleteEmitter.emit([this.id, result, this.ids]);
+      }).catch((res) => {
+      });
     }
   }
-
 }

@@ -1,4 +1,57 @@
-<!-- FIRST ROW-->
+<!-- SELECTED STATS-->
+<div class="col">
+  <app-trade-datatable-stats [selected]="selected"
+                             [totalSize]=" rows.length">
+    [totalSize]=" rows.length">
+  </app-trade-datatable-stats>
+</div>
+<!-- SELECTED BUTTON-->
+<div class="d-flex justify-content-center align-items-center">
+  <button type="button"
+          class="btn btn-outline-primary mr-3"
+          (click)="selectAll()">
+    Select All
+  </button>
+  <button type="button"
+          [disabled]="selected.length===0"
+          class="btn btn-outline-danger mr-4"
+          (click)="unselectAll()">
+    Unselect All
+  </button>
+  <button type="button"
+          class="btn mr-3"
+          [ngClass]="viewSelectedReport ? 'btn-info' : 'btn-outline-info'"
+          (click)="generateReport()"
+          [disabled]="selected.length===0">
+    Generate Report
+  </button>
+  <app-strategy-report-save-modal *ngIf="selected.length>0"
+                                  class="mr-4 ml-4"
+                                  [selected]="selected"
+                                  [title]="title"
+                                  (saveReportEmitter)="saveReport($event)">
+  </app-strategy-report-save-modal>
+  <app-delete-modal [type]="'Trade'"
+                    [ids]="selectedIds"
+                    [id]="savedReportId"
+                    [name]="' many '"
+                    [options]="'Delete'"
+                    (deleteEmitter)="deleteMany($event)"
+                    *ngIf="!isSaved">
+  </app-delete-modal>
+  <app-delete-modal [type]="'Saved Report'"
+                    [ids]="selectedIds"
+                    [id]="savedReportId"
+                    [name]="' many trades from '"
+                    [options]="'Remove'"
+                    (deleteEmitter)="removeTradesFromSavedReportModal($event)"
+                    [isRemove]="true"
+                    *ngIf="isSaved">
+  </app-delete-modal>
+</div>
+
+
+<!-- DATATABLE BUTTON -->
 <div class="d-flex justify-content-end align-items-center">
   <button type="button" class="btn btn mr-2"
           [ngClass]="viewTrades ? 'btn-secondary' : 'btn-outline-secondary' "
@@ -58,162 +111,8 @@
         </div>
       </div>
     </div>
-    </form>
+  </form>
 </div>
-
-<!-- SELECTED DETAILS-->
-<div class="row mt-2 mb-2">
-  <div class="col-3">
-    <ul class="list-group">
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col">
-            <h5>#: </h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right">{{selected.length}} ({{selected.length / rows.length | percent}})</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right text-success">{{getWinNumber(selected)}} ({{(getWinNumber(selected) / selected.length | percent )}})</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right text-danger">{{getLossNumber(selected)}} ({{(getLossNumber(selected) / selected.length | percent )}})</h5>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col">
-            <h5>P/L: </h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right">{{getPL(selected) | currency}}</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right"></h5>
-          </div>
-          <div class="col">
-            <h5 ></h5>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col">
-            <h5>AVG: </h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right">{{getAvg(selected) | currency}}</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right text-success">{{getAvgWin(selected) | currency}}</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right text-danger">{{getAvgLoss(selected) | currency}}</h5>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col">
-            <h5>PF: </h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right">{{getPf(selected) | number}}</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right text-success">{{getWin(selected) | currency}}</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right text-danger">{{getLoss(selected) | currency}}</h5>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item disabled">
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col">
-            <h5>RISK: </h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right">{{getRisk(selected) | currency}}</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right">({{getAvgRisk(selected) | currency}})</h5>
-          </div>
-          <div class="col">
-            <h5 ></h5>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col">
-            <h5>RR: </h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right">{{getPL(selected) / (-getRisk(selected)) | percent:'0.2'}}</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right">({{getRR(selected) | percent:'0.2'}})</h5>
-          </div>
-          <div class="col">
-            <h5 ></h5>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col">
-            <h5>ODDS:</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right text-primary">{{getAvgBack(selected)}}</h5>
-          </div>
-          <div class="col">
-            <h5 class="text-right text-danger">{{getAvgLay(selected)}}</h5>
-          </div>
-          <div class="col">
-            <h5 ></h5>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="col-3">
-    <div class="row mb-2">
-      <button type="button"
-              class="btn btn-outline-primary"
-              (click)="selectAll()">
-        Select All
-      </button>
-      <button type="button"
-              class="btn btn-outline-danger ml-2"
-              (click)="unselectAll()">
-        Unselect All
-      </button>
-    </div>
-    <div>
-      <button type="button"
-              class="btn"
-              [ngClass]="viewSelectedReport ? 'btn-info mb-2' : 'btn-outline-info mb-2'"
-              (click)="generateReport()"
-              [disabled]="selected.length===0">
-        Generate Report
-      </button>
-    </div>
-    <div>
-      <app-delete-modal [type]="'Trade'"
-                        [ids]="selected"
-                        [name]="' many '"
-                        [options]="'Delete'"
-                        (deleteEmitter)="deleteMany($event)">
-      </app-delete-modal>
-    </div>
-  </div>
-</div>
-
 <!-- DATA TABLE -->
 <ngx-datatable
   class="dark"
@@ -283,7 +182,7 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="A Lay" prop="avgBets.lay.runnerA"*ngIf=" (viewOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
+  <ngx-datatable-column name="A Lay" prop="avgBets.lay.runnerA" *ngIf=" (viewOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-danger" *ngIf="value>1.01">{{ value| number:'1.0-2'}}</h5>
     </ng-template>
@@ -295,7 +194,7 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="B Lay" prop="avgBets.lay.runnerB" *ngIf=" (viewOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))"[width]="1">
+  <ngx-datatable-column name="B Lay" prop="avgBets.lay.runnerB" *ngIf=" (viewOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-danger" *ngIf="value>1.01">{{ value| number:'1.0-2'}}</h5>
     </ng-template>
@@ -428,7 +327,7 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="View" prop="">
+  <ngx-datatable-column name="View" prop="" *ngIf="!isSaved">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <app-trade-tools-actions [trade]="value.trade">
 
@@ -436,9 +335,23 @@
     </ng-template>
   </ngx-datatable-column>
 
+  <ngx-datatable-column name="View" prop="" *ngIf="isSaved">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <app-delete-modal [ids]="[value.trade._id]"
+                        [id]="savedReportId"
+                        [options]="'Remove'"
+                        [isRemove]="true"
+                        [type]="value.trade.trade.info.marketInfo.marketName"
+                        (deleteEmitter)="removeTradesFromSavedReportModal($event)"
+                        *ngIf="isSaved">
+      </app-delete-modal>
+    </ng-template>
+  </ngx-datatable-column>
+
 
 </ngx-datatable>
 
+<!-- SELECTED REPORT-->
 <div *ngIf="viewSelectedReport && bug" class="mt-2">
   <app-strategy-report [selectedStrategyTrades$]="selectedTrades"
                        [selectedStrategy]="null"

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Note} from "../../../../model/note/note";
-import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {TennisTournament} from "../../../../model/tennisTournament/tennisTournament";
+import {Note} from '../../../../model/note/note';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {TennisTournament} from '../../../../model/tennisTournament/tennisTournament';
 
 @Component({
   selector: 'app-note-create-modal',
@@ -12,8 +12,8 @@ export class NoteCreateModalComponent implements OnInit {
   // @ts-ignore
   @Output() addNoteEmitter = new EventEmitter();
 
-  isInjuredA: boolean = false
-  isInjuredB: boolean = false
+  isInjuredA = false
+  isInjuredB = false
 
   public note: Note
   public typeOfNote= ['Note','Medical', 'WalkOver', 'No Med Retired']
@@ -32,7 +32,7 @@ export class NoteCreateModalComponent implements OnInit {
   openVerticalCenteredModal(content) {
     this.modalService.open(content, {centered: true}).result.then((result) => {
 
-      //check if walkover
+      // check if walkover
       if(this.note.note.type.indexOf('WalkOver')!==-1){
         this.note.note.validation.isValidated = true
       }
@@ -105,10 +105,10 @@ export class NoteCreateModalComponent implements OnInit {
       created: new Date().getTime(),
       lastUpdate: new Date().getTime(),
       note: {
-        description: "",
-        tournament: "",
-        tournamentId: "",
-        phase: "",
+        description: '',
+        tournament: '',
+        tournamentId: '',
+        phase: '',
         type: '',
         selection: {
           runnerA: {
@@ -205,7 +205,7 @@ export class NoteCreateModalComponent implements OnInit {
 
 export function findTournamentNameById(id: string, tournamentList: TennisTournament[]){
 
-  for(let tennis of tournamentList){
+  for(const tennis of tournamentList){
     if(tennis._id===id){
       let challenger = ' '
       if(tennis.tournament.detail.type.isChallenger){

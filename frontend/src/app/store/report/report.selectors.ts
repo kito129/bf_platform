@@ -5,6 +5,7 @@ import {Utils} from '../../model/calculator/utils';
 import {CompareStrategy} from '../../model/report/new/compareStrategy';
 import {NewTrade} from '../../model/report/new/newTrade';
 import {Strategy} from '../../model/report/strategy';
+import {SavedReport} from '../../model/report/new/savedReport';
 
 const getReportState = createFeatureSelector<ReportStates>(
   'reportState'
@@ -103,7 +104,7 @@ function generateStrategyDatatable(allStrategy: Strategy[], allTrades: NewTrade[
       const tradePLValue = trades.map(x=> {
         return x.trade.results.netProfit
       })
-      const pl = utils.getSumOfArrayNumber(tradePLValue)
+      const pl = utils.sumOfArray(tradePLValue)
       temp.push({
         _id: strategy._id,
         name: strategy.strategy.info.name,
@@ -148,7 +149,7 @@ function generateStrategyDatatable(allStrategy: Strategy[], allTrades: NewTrade[
   return temp
 }
 
-// get datatable
+// get strategy datatable
 export const getAllStrategyDatatable = createSelector(
   getReportState,
   (state) => {
@@ -200,6 +201,7 @@ export const getPassiveLiveData = (wantStrategy: boolean) => createSelector(
 export const getPassiveDemoData = (wantStrategy: boolean) => createSelector(
   getReportState,
   (state) => {
+    console.log(state.allStrategy)
     const strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('DEMO')!==-1)
     const strategyId = strategy.map(x => x._id)
     const trades = state.allNewTrades.filter( x => strategyId.includes(x.trade.info.strategyId))
@@ -215,9 +217,12 @@ export const getPassiveDemoData = (wantStrategy: boolean) => createSelector(
 export const getActiveKevinData = (wantStrategy: boolean) => createSelector(
   getReportState,
   (state) => {
-    let strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('KEVIN')!==-1)
+    const strategy = state.allStrategy.filter( x => x.strategy.info.executor.indexOf('KEVIN')!==-1)
+    /*
     const addtional = ['6266d8cb1a800430234d7d6a','6266d8e21a800430234d7d6c', '6266d8f11a800430234d7d6e']
     strategy = strategy.concat(state.allStrategy.filter( x=> addtional.includes(x._id)))
+
+     */
     const strategyId = strategy.map(x => x._id)
     const trades = state.allNewTrades.filter( x => strategyId.includes(x.trade.info.strategyId))
     if(wantStrategy){
@@ -342,6 +347,100 @@ export const getCompareStatus = createSelector(
   (state ) => state.compareStatus
 );
 
+
+// SAVED REPORT
+
+export const isLoadingSavedReport = createSelector(
+  getReportState,
+  (state ) => state.isLoadingSavedReport
+);
+
+
+export const getSavedReport = createSelector(
+  getReportState,
+  (state ) => state.savedReports
+);
+
+export const getSelectedSavedReport = createSelector(
+  getReportState,
+  (state ) => state.selectedSavedReport
+);
+export const getSelectedSavedReportId = createSelector(
+  getReportState,
+  (state ) => {
+    if(state.selectedSavedReport){
+      return state.selectedSavedReport._id
+    } else return null
+  }
+);
+export const getSavedReportDatatable = createSelector(
+  getReportState,
+  (state ) =>{
+    const t =generateSavedReportDatatable(state.savedReports, state.allNewTrades)
+    return t
+  }
+);
+export const getSelectedSavedReportTrades = createSelector(
+  getReportState,
+  (state ) =>{
+    if(state.savedReports.length){
+      const find = state.savedReports.filter(x => x._id === state.selectedSavedReportId)
+      const tradesId = find.length ? find[0].savedReport.tradesIds : []
+      return state.allNewTrades.filter( x => tradesId.includes(x._id))
+    } else return []
+
+  }
+);
+
+
+function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: NewTrade[]){
+  const utils = new Utils()
+  const temp: StrategyDatatable[] = []
+  for(const savedReport of savedReports){
+    const bank  = 1000
+    const trades = allTrades.filter(x => savedReport.savedReport.tradesIds.includes(x._id))
+    const tempStrategy = utils.generateStrategy(savedReport.savedReport.name,bank, savedReport._id)
+    if(trades.length){
+      // check pl
+      const tradePLValue = trades.map(x=> {
+        return x.trade.results.netProfit
+      })
+      const pl = utils.sumOfArray(tradePLValue)
+      // save row
+      temp.push({
+        bank: 0, currentBank: 0, executor: '', moneyManagement: '', sport: '', stake: 0, typeOfStake: '', year: 0,
+        _id: savedReport._id,
+        name: savedReport.savedReport.name,
+        numberOfTrade: trades.length,
+        pl,
+        plPercent: pl/bank,
+        maxDD: utils.maxDDOfTrades(tradePLValue, false, bank),
+        maxDDPercent: utils.maxDDOfTrades(tradePLValue, true, bank),
+        winRatio: utils.getWinRatioTrades(trades),
+        strategy: tempStrategy,
+        savedReport,
+      })
+    } else {
+      temp.push({
+        bank: 0, currentBank: 0, executor: '', moneyManagement: '', sport: '', stake: 0, typeOfStake: '', year: 0,
+        _id: savedReport._id,
+        name: savedReport.savedReport.name,
+        numberOfTrade: trades.length,
+        pl: 0,
+        plPercent: 0,
+        maxDD: 0,
+        maxDDPercent:0,
+        winRatio:0,
+        strategy: tempStrategy,
+        savedReport,
+      })
+    }
+  }
+  return temp
+}
+
+
+
 function newTradeStats(trade: NewTrade): NewTrade{
   const t =  {
     _id: trade._id,
@@ -394,6 +493,7 @@ function newTradeStats(trade: NewTrade): NewTrade{
   }
   return t
 }
+
 
 
 

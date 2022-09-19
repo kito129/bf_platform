@@ -45,9 +45,11 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   rows: TradeComparator[][] = []
 
   // other
-  defaultNavActiveId = 2
+  defaultNavActiveId = 1
   dataOk = false
   chartHeight=600
+
+  isCollapsed = false
 
   public static generateEmptyArray(size: number){
     const temp = []
@@ -88,6 +90,10 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
           }
         })
     }
+  }
+
+  saveCompare(){
+
   }
 
 
@@ -159,8 +165,8 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
 
       const ddPercent = this.utils.ddOfTrades(tempPl, true, trades.strategy.strategy.info.bank)
       const ddMonetary = this.utils.ddOfTrades(tempPl, false, trades.strategy.strategy.info.bank)
-      const maDDMonetary = this.utils.minOfNumberArray(ddMonetary)
-      const maxDDPercent = this.utils.minOfNumberArray(ddPercent)
+      const maDDMonetary = this.utils.minOfArray(ddMonetary)
+      const maxDDPercent = this.utils.minOfArray(ddPercent)
       const avgDDPercent = this.utils.avgOfArrayNumber(ddPercent)
       // set to local props
       this.equity.push(tempStock)

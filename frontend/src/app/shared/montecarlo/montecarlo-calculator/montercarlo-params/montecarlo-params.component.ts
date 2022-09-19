@@ -10,7 +10,7 @@ export class MontecarloParamsComponent implements OnInit {
   @Output() calculateEmitter = new EventEmitter()
   data: MontecarloParams
 
-  size = 100
+  size = 50
   length = 1000
   histogram = 20
 

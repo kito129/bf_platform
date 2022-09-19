@@ -1,0 +1,56 @@
+<ul class="list-group">
+  <li class="list-group-item" style="background: #b47600">
+    <h4>Commission </h4>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Total</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.commission.total | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Gross</h4>
+      </div>
+      <div class="col">
+        <h4>{{ strategyReport.trades.detail.total.grossCash + strategyReport.trades.commission.total | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Avg/Trade</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.commission.avgPerTrade | currency}}</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Max</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.commission.max | currency}} ({{strategyReport.trades.commission.max / strategyReport.trades.commission.total | percent}})</h4>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-5">
+        <h4>Impact %</h4>
+      </div>
+      <div class="col">
+        <h4>{{strategyReport.trades.commission.impactPercent | percent}}</h4>
+      </div>
+    </div>
+  </li>
+
+</ul>

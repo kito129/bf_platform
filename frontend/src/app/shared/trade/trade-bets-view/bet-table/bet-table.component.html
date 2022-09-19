@@ -17,7 +17,6 @@
       <th>To Win</th>
       <th>A</th>
       <th>B</th>
-      <th>side</th>
     </tr>
     </thead>
     <tbody>
@@ -73,9 +72,6 @@
       </td>
       <td>
         <h5 [ngClass]="getSide(i, 1)>0 ? 'text-success' : getSide(i, 0)===0 ? 'text-warning' : 'text-danger' "> <b>{{getSide(i, 1) | currency}}</b></h5>
-      </td>
-      <td>
-        {{bet.selectionN}}
       </td>
       <ng-template #popContent>
         <h6><b>{{bet.note}}</b></h6>

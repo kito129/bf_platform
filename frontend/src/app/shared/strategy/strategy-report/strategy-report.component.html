@@ -5,21 +5,8 @@
     <div class="d-flex justify-content-between align-items-baseline">
       <h3 class="text-info" *ngIf="haveStrategy">{{strategyReport.strategy.strategy.info.name}} Report</h3>
       <div *ngIf="title">
-        <h3 [ngClass]="title.indexOf('Selected')!==-1 ? 'text-info' : '' " *ngIf="!haveStrategy">{{title}} Report</h3>
-      </div>
-
-      <div>
-        <form class="forms-sample grid-margin">
-          <input
-            class="form-control"
-            type="text"
-            placeholder="{{title}}"/>
-        </form>
-        <button type="button"
-                class="btn btn btn-outline-danger"
-                (click)="saveReport()">
-          Save Report as Strategy
-        </button>
+        <h3 [ngClass]="title.indexOf('Selected')!==-1 ? 'text-info' : '' " *ngIf="!haveStrategy && !isSaved">{{title}} Report</h3>
+        <h3 *ngIf="isSaved" class="text-warning">{{title}} Report</h3>
       </div>
 
       <button type="button" [ngClass]="isCollapsed? 'btn btn btn-outline-primary' : 'btn btn btn-primary'" (click)="isCollapsed = !isCollapsed"
@@ -32,6 +19,7 @@
 
     <div [ngbCollapse]="isCollapsed">
       <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+        <!-- INFO -->
         <li [ngbNavItem]="1">
           <h4>
             <a ngbNavLink class="text-info">Info</a>
@@ -64,13 +52,28 @@
                                           [bank]="bank"
                                           [haveStrategy]="haveStrategy">
                   </app-strategy-report-dd>
-                </div>
+                  <div class="mt-2">
+                    <app-strategy-report-rr  [strategyReport]="strategyReport">
+                    </app-strategy-report-rr>
+                  </div>
+                  </div>
                 <div class="col-2">
                   <app-strategy-report-avg-odds class="mt-2"
                                                 [strategyReport]="strategyReport">
                   </app-strategy-report-avg-odds>
+
+                  <div class="mt-2">
+                    <app-strategy-report-commission  [strategyReport]="strategyReport">
+                    </app-strategy-report-commission>
+                  </div>
+                  <div class="mt-2">
+                    <app-strategy-report-risk [strategyReport]="strategyReport"
+                                              [element]="'max'">
+                    </app-strategy-report-risk>
+                  </div>
                 </div>
               </div>
+
               <!--
               <div class="col">
                 <app-strategy-report-tables [strategyReports]="[selectedStrategyReport]"
@@ -100,6 +103,11 @@
                           [wantMonetary]="true"
                           [wantPercent]="true">
             </app-trade-dd>
+            <app-strategy-report-dd *ngIf="visibleReport"
+                                    [strategyReport]="strategyReport"
+                                    [haveStrategy]="haveStrategy"
+                                    [bank]="haveStrategy ? strategyReport.strategy.strategy.info.bank : bank">
+            </app-strategy-report-dd>
           </ng-template>
         </li>
         <!-- TRADES -->
@@ -109,7 +117,11 @@
           </h4>
           <ng-template ngbNavContent>
             <app-trades-datatable [trades$]="selectedStrategyTrades$"
-                                  [viewSelectors]="false">
+                                  [viewSelectors]="false"
+                                  [title]="title"
+                                  [isSaved]="isSaved"
+                                  [savedReportId]="savedReportId"
+                                  [savedReport]="savedReport">
             </app-trades-datatable>
           </ng-template>
         </li>
@@ -124,25 +136,63 @@
             </app-strategy-report-month>
           </ng-template>
         </li>
-        <!-- RR -->
+        <!-- TRADE -->
         <li [ngbNavItem]="5">
+          <h4>
+            <a ngbNavLink class="text-info">Trades Pl</a>
+          </h4>
+          <ng-template ngbNavContent>
+            <app-strategy-report-resume [title]="'Profit'"
+                                        [strategyResumeProfit]="strategyReport.trades.detail.profit"
+                                        [strategyResumeLoss]="strategyReport.trades.detail.loss"
+                                        [strategyResumeTotal]="strategyReport.trades.detail.total">
+            </app-strategy-report-resume>
+            <app-trade-bar-charts [title]="'Trade Pl'"
+                                  [labels]="tradeLabels"
+                                  [data]="tradePL"
+                                  [height]="chartHeight"
+                                  [colors]="['#45b586']"
+                                  [isCurrency]="true"
+                                  [isPercent]="false">
+            </app-trade-bar-charts>
+            <app-trade-bar-charts [title]="'Trade Pl Order'"
+                                  [data]="tradePLOrder"
+                                  [labels]="numberLabels"
+                                  [height]="chartHeight"
+                                  [colors]="['#45b586']"
+                                  [isCurrency]="true"
+                                  [isPercent]="false">
+            </app-trade-bar-charts>
+          </ng-template>
+        </li>
+        <!-- RR -->
+        <li [ngbNavItem]="6">
           <h4>
             <a ngbNavLink class="text-info">RR</a>
           </h4>
           <ng-template ngbNavContent>
+            <app-strategy-report-rr  [strategyReport]="strategyReport">
+            </app-strategy-report-rr>
             <app-trade-bar-charts [title]="'RR'"
                                   [labels]="tradeLabels"
                                   [data]="tradeRR"
                                   [height]="chartHeight"
                                   [colors]="['#45acb5']"
                                   [isCurrency]="false"
-                                  [isPercent]="true">
+                                  [isPercent]="false">
             </app-trade-bar-charts>
-
+            <app-trade-bar-charts [title]="'RR'"
+                                  [data]="tradeRROrder"
+                                  [labels]="numberLabels"
+                                  [height]="chartHeight"
+                                  [colors]="['#45acb5']"
+                                  [isCurrency]="false"
+                                  [isPercent]="false">
+            </app-trade-bar-charts>
           </ng-template>
         </li>
         <!-- RISK -->
-        <li [ngbNavItem]="6">
+        <li [ngbNavItem]="7">
           <h4>
             <a ngbNavLink class="text-danger">Risk</a>
           </h4>
@@ -156,17 +206,59 @@
                                   [isPercent]="false">
             </app-trade-bar-charts>
 
-            <app-trade-histogram [chartHeight]="chartHeight"
-                                 [n]="15"
+            <app-chart-histogram [chartHeight]="chartHeight"
+                                 [n]="25"
                                  [series]="tradeMaxRisk"
                                  [isPercent]="false">
-            </app-trade-histogram>
+            </app-chart-histogram>
+            <div class="col">
+              <app-columns-chart [seriesData]="riskData"
+                                 [colors]="['#b55b45','#dc8619','#e5e11c']"
+                                 [height]="300"
+                                 [labels]="['Max', 'Open', 'Increase', 'Decrease', 'Close', 'Free Bet']"
+                                 [title]="['Max', 'Count', 'Avg']"
+                                 [isCurrency]="true"
+                                 [isPercent]="false">
+              </app-columns-chart>
+            </div>
+            <div class="row">
+              <div class="col mr-2">
+                <app-strategy-report-risk [strategyReport]="strategyReport"
+                                          [element]="'max'">
+                </app-strategy-report-risk>
+              </div>
+              <div class="col mr-2">
+                <app-strategy-report-risk [strategyReport]="strategyReport"
+                                          [element]="'open'">
+                </app-strategy-report-risk>
+              </div>
+              <div class="col mr-2">
+                <app-strategy-report-risk [strategyReport]="strategyReport"
+                                          [element]="'increase'">
+                </app-strategy-report-risk>
+              </div>
+              <div class="col mr-2">
+                <app-strategy-report-risk [strategyReport]="strategyReport"
+                                          [element]="'decrease'">
+                </app-strategy-report-risk>
+              </div>
+              <div class="col mr-2">
+                <app-strategy-report-risk [strategyReport]="strategyReport"
+                                          [element]="'close'">
+                </app-strategy-report-risk>
+              </div>
+              <div class="col mr-2">
+                <app-strategy-report-risk [strategyReport]="strategyReport"
+                                          [element]="'freeBet'">
+                </app-strategy-report-risk>
+              </div>
+            </div>
 
-            <app-columns-chart [seriesData]="[tradeMaxRisk,tradeRiskIncrease,tradeRiskDecrease,tradeRiskClose]"
-                               [colors]="['#b55b45','#dc8619','#e5e11c','#9ae31a']"
-                               [height]="800"
+            <app-columns-chart [seriesData]="[tradeMaxRisk,tradeRiskIncrease,tradeRiskDecrease,tradeRiskClose, tradeRiskFreeBet, tradeRiskOpen]"
+                               [colors]="['#b55b45','#dc8619','#e5e11c','#43d919','#1AE3CC','#bb18d5']"
+                               [height]="chartHeight"
                                [labels]="tradeLabels"
-                               [title]="['Max', 'Decr', 'Incr', 'Close']"
+                               [title]="['Max', 'Decr', 'Incr', 'Close', 'Free Bet', 'Open']"
                                [isCurrency]="true"
                                [isPercent]="false">
             </app-columns-chart>
@@ -174,11 +266,12 @@
           </ng-template>
         </li>
         <!-- COMMISSION -->
-        <li [ngbNavItem]="7">
+        <li [ngbNavItem]="8">
           <h4>
             <a ngbNavLink class="text-warning">Commission</a>
           </h4>
           <ng-template ngbNavContent>
+            <app-strategy-report-commission [strategyReport]="strategyReport"></app-strategy-report-commission>
             <app-trade-bar-charts [title]="'Commission'"
                                   [labels]="tradeLabels"
                                   [data]="tradeCommission"
@@ -187,12 +280,18 @@
                                   [isCurrency]="true"
                                   [isPercent]="false">
             </app-trade-bar-charts>
+            <app-multi-line-equity [height]="chartHeight"
+                                   [seriesName]="['Commission']"
+                                   [wantLegend]="true"
+                                   [wantTooltip]="true"
+                                   [stock]="tradeCommissionStock">
+            </app-multi-line-equity>
           </ng-template>
         </li>
-        <!-- MM -->
-        <li [ngbNavItem]="8">
+        <!-- MONTECARLO -->
+        <li [ngbNavItem]="9">
           <h4>
-            <a ngbNavLink class="text-secondary">Money Management</a>
+            <a ngbNavLink class="text-secondary">Money Managements</a>
           </h4>
           <ng-template ngbNavContent>
             <app-mm [strategyReport]="strategyReport"
@@ -201,7 +300,7 @@
           </ng-template>
         </li>
         <!-- MONTECARLO -->
-        <li [ngbNavItem]="9">
+        <li [ngbNavItem]="10">
           <h4>
             <a ngbNavLink class="text-secondary">Monte-Carlo</a>
           </h4>
@@ -226,7 +325,7 @@
         </li>
 
         <!-- LOW LAY -->
-        <li [ngbNavItem]="10">
+        <li [ngbNavItem]="11">
           <h4>
             <a ngbNavLink class="text-success">Low Lay Filter</a>
           </h4>
@@ -237,7 +336,16 @@
           </ng-template>
         </li>
 
-
+        <!-- BSP FILTER -->
+        <li [ngbNavItem]="12">
+          <h4>
+            <a ngbNavLink class="text-success">Odds Filter</a>
+          </h4>
+          <ng-template ngbNavContent>
+            <app-strategy-report-bspfilter [trades]="trades">
+            </app-strategy-report-bspfilter>
+          </ng-template>
+        </li>
       </ul>
 
       <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>

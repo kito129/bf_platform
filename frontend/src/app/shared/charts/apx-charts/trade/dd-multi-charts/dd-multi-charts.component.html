@@ -23,11 +23,11 @@
                           [isPercent]="false">
     </app-trade-bar-charts>
 
-    <app-trade-histogram [series]="maxDDMonetary"
+    <app-chart-histogram [series]="maxDDMonetary"
                          [n]="histogramResolution"
                          [chartHeight]="chartHeight"
                          [isPercent]="false">
-    </app-trade-histogram>
+    </app-chart-histogram>
   </div>
 </div>
 
@@ -55,11 +55,11 @@
                         [isPercent]="true">
   </app-trade-bar-charts>
 
-  <app-trade-histogram [series]="maxDDPercent"
+  <app-chart-histogram [series]="maxDDPercent"
                        [n]="histogramResolution"
                        [chartHeight]="chartHeight"
                        [isPercent]="true">
-  </app-trade-histogram>
+  </app-chart-histogram>
 </div>
 
 <div class="col mt-2">
@@ -73,9 +73,9 @@
                         [isPercent]="true">
   </app-trade-bar-charts>
 
-  <app-trade-histogram [series]="avgDD"
+  <app-chart-histogram [series]="avgDD"
                        [n]="histogramResolution"
                        [chartHeight]="chartHeight"
                        [isPercent]="true">
-  </app-trade-histogram>
+  </app-chart-histogram>
 </div>

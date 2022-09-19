@@ -12,11 +12,15 @@ import {
 } from '../supportFunction';
 import {StrategyList} from '../../model/report/strategyList';
 import {NewTrade} from '../../model/report/new/newTrade';
+import {SavedReport} from '../../model/report/new/savedReport';
 
 
 export interface ReportStates {
   allNewTrades: NewTrade[],
   allStrategy: Strategy[],
+  savedReports: SavedReport[],
+  selectedSavedReportId: string,
+  selectedSavedReport: SavedReport,
   strategyList: StrategyList[],
   selectedStrategyId: string,
   selectedStrategyTradeId: string,
@@ -32,6 +36,11 @@ export interface ReportStates {
     isLoadingSuccess: boolean,
     isLoadingError: boolean,
   },
+  isLoadingSavedReport:{
+    isLoading: boolean,
+    isLoadingSuccess: boolean,
+    isLoadingError: boolean,
+  },
   // compare
   compareList: string[]
   compareStatus: boolean
@@ -41,6 +50,9 @@ export interface ReportStates {
 export const reportInitialState: ReportStates = {
   allNewTrades: [],
   allStrategy: [],
+  savedReports: [],
+  selectedSavedReportId: null,
+  selectedSavedReport: null,
   selectedStrategyId: '',
   strategyList: [],
   selectedStrategyTradeId: '',
@@ -52,6 +64,11 @@ export const reportInitialState: ReportStates = {
     isLoadingError: false,
   },
   isLoadingAllStrategy:{
+    isLoading: false,
+    isLoadingSuccess: false,
+    isLoadingError: false,
+  },
+  isLoadingSavedReport:{
     isLoading: false,
     isLoadingSuccess: false,
     isLoadingError: false,
@@ -155,6 +172,65 @@ const reportReducers = createReducer(
     })
   ),
 
+  // -- SAVED REPORT --
+  // get all
+  on(reportActions.getAllSavedReport, (state, result) => (
+    {...state, isLoadingSavedReport: setterLoading()
+    })
+  ),
+  on(reportActions.getAllSavedReportSuccess, (state, result) =>
+
+    ({...state, savedReports: result.response, isLoadingSavedReport: setterLoadingSuccess(),
+      // strategyList: loadStrategyList(result.response)
+    })
+  ),
+  on(reportActions.getAllSavedReportFailure, (state, result) => (
+    {...state, strategyError: 'API error', isLoadingSavedReport: setterLoadingFailure()
+    })
+  ),
+  // create
+  on(reportActions.createSavedReport, (state, result) => (
+    {...state, isLoadingSavedReport: setterLoading()
+    })
+  ),
+  on(reportActions.createSavedReportSuccess, (state, result) =>
+    ({...state, savedReports: addElement(state.savedReports,result.response), isLoadingSavedReport: setterLoadingSuccess(),
+    })
+  ),
+  on(reportActions.createSavedReportFailure, (state, result) => (
+    {...state, strategyError: 'API error', isLoadingSavedReport: setterLoadingFailure()
+    })
+  ),
+  // update
+  on(reportActions.updateSavedReport, (state, result) => (
+    {...state, isLoadingSavedReport: setterLoading()
+    })
+  ),
+  on(reportActions.updateSavedReportSuccess, (state, result) =>
+    ({...state, savedReports: updateElement(state.savedReports,result.response), isLoadingSavedReport: setterLoadingSuccess(),
+    })
+  ),
+  on(reportActions.updateSavedReportFailure, (state, result) => (
+    {...state, strategyError: 'API error', isLoadingSavedReport: setterLoadingFailure()
+    })
+  ),
+  // delete
+  on(reportActions.deleteSavedReport, (state, result) => (
+    {...state, isLoadingSavedReport: setterLoading()
+    })
+  ),
+  on(reportActions.deleteSavedReportSuccess, (state, result) =>
+    ({...state, savedReports: deleteElement(state.savedReports,result.response), isLoadingSavedReport: setterLoadingSuccess(),
+    })
+  ),
+  on(reportActions.deleteSavedReportFailure, (state, result) => (
+    {...state, strategyError: 'API error', isLoadingSavedReport: setterLoadingFailure()
+    })
+  ),
+
+  on(reportActions.setSelectedSavedReport, (state,result) => (
+    {...state, selectedSavedReportId: result._id, selectedSavedReport: state.savedReports.filter( x => x._id === result._id)[0]})
+  ),
 
   // STRATEGY
   // get all strategy
@@ -257,19 +333,7 @@ export function reducer(state: ReportStates | undefined, action: Action): any {
 
 // return the report state
 export const getRunnersState = (state: ReportStates) => {
-  return {
-    allNewTrades: state.allNewTrades,
-    allStrategy: state.allStrategy,
-    strategyList: state.strategyList,
-    selectedStrategyId: state.selectedStrategyId,
-    selectedStrategyTradeId: state.selectedStrategyTradeId,
-    tradeError: state.tradeError,
-    strategyError: state.strategyError,
-    isLoadingAllNewTrades:state.isLoadingAllNewTrades,
-    isLoadingAllStrategy:state.isLoadingAllStrategy,
-    compareList: state.compareList,
-    compareStatus: state.compareStatus,
-  };
+  return state
 };
 
 function loadStrategyList(strategy: Strategy[]):StrategyList[]{

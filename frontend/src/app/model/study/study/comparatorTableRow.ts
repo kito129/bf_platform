@@ -31,7 +31,7 @@ export interface ComparatorTableRow{
   maxConsecutiveLossCash: number
 }
 
-export interface Month{
+export interface MonthTrade {
   month: string,
   trades: NewTrade[]
 }

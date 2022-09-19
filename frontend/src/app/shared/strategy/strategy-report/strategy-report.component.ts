@@ -5,7 +5,8 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 import {Strategy} from '../../../model/report/strategy';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {StrategyReport} from '../../../model/report/starategyReport';
-import {Utils} from "../../../model/calculator/utils";
+import {Utils} from '../../../model/calculator/utils';
+import {SavedReport} from '../../../model/report/new/savedReport';
 
 @Component({
   selector: 'app-strategy-report',
@@ -18,6 +19,9 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   @Input() title: string
   @Input() bank: number
   @Input() noBug: boolean
+  @Input() isSaved: boolean
+  @Input() savedReportId: string
+  @Input() savedReport: SavedReport
 
   isCollapsed = false
 
@@ -34,16 +38,26 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   defaultNavActiveId = 1
   prevSize = -1
 
-  chartHeight = 800
+  chartHeight = 650
+
+  riskData: number[][]
 
   tradeLabels: string[] = []
   tradeRR: number[] = []
+  tradePL: number[] = []
+  tradePLOrder: number[] = []
   tradeMaxRisk: number[] = []
+  tradeRiskOpen: number[]
   tradeRiskIncrease: number[] = []
   tradeRiskDecrease: number[] = []
   tradeRiskClose: number[] = []
+  tradeRiskFreeBet: number[] = []
   tradeCommission: number[] = []
-  labels: number[] = []
+  tradeRROrder: number[] = []
+  tradeMaxRiskOrder: number[] = []
+  tradeCommissionOrder: number[] = []
+  tradeCommissionStock: number[][] = []
+  numberLabels: string[] = []
 
   utils = new Utils()
 
@@ -77,6 +91,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
       // strategy report
       if(strategy){
         this.strategyReportClass.setData(strategy,trades)
+        this.title = strategy.strategy.info.name
       } else if(this.title){
         this.strategyReportClass.setDataNoStrategy(this.title,this.bank,trades)
       }
@@ -94,6 +109,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
         let i =0
         this.tradeLabels = trades.map(x => {
           i++
+          this.numberLabels.push(i.toString())
           return i.toString() + ') ' + (new Date(x.trade.info.date).getMonth()+1) + '/' + new Date(x.trade.info.date).getDate()+ ' - ' + x.trade.info.marketInfo.marketName
         })
         // create rr data
@@ -104,6 +120,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return 0
           }
         })
+        this.tradeRROrder = this.utils.orderAsc(this.tradeRR)
         // create risk data
         // max
         this.tradeMaxRisk = trades.map(x => {
@@ -113,62 +130,96 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return 0
           }
         })
+        this.tradeMaxRiskOrder = this.utils.orderAsc(this.tradeMaxRisk)
+        // open
+        this.tradeRiskOpen = this.trades.map(x => {
+          let stake = 0
+          x.trade.trades.map(y => {
+            if(y.options && y.options.indexOf('OPEN') !== -1) {
+              stake += this.utils.negativeRoundedNumber(y.liability)
+            } else
+            {
+              return 0
+            }
+          })
+          return stake
+        })
         // increase
         this.tradeRiskIncrease = this.trades.map(x => {
           let stake = 0
-          let liability = 0
           x.trade.trades.map(y => {
-            console.log(y)
             if(y.options && y.options.indexOf('INCREASE') !== -1) {
-              if (y.type.indexOf('BACK') !== -1) {
-                stake += this.utils.negativeRoundedNumber(y.liability)
-              } else {
-                liability+= this.utils.negativeRoundedNumber(y.liability)
-              }
+              stake += this.utils.negativeRoundedNumber(y.liability)
             } else
               {
                 return 0
               }
             })
-          return stake + liability
+          return stake
         })
         // decrease
         this.tradeRiskDecrease = this.trades.map(x => {
           let stake = 0
-          let liability = 0
           x.trade.trades.map(y => {
             if(y.options && y.options.indexOf('DECREASE') !== -1) {
-              if (y.type.indexOf('BACK') !== -1) {
-                stake += this.utils.negativeRoundedNumber(y.liability)
-              } else {
-                liability+= this.utils.negativeRoundedNumber(y.liability)
-              }
+              stake += this.utils.negativeRoundedNumber(y.liability)
             } else
             {
               return 0
             }
           })
-          return stake + liability
+          return stake
         })
-        // decrease
+        // close
         this.tradeRiskClose = this.trades.map(x => {
           let stake = 0
-          let liability = 0
           x.trade.trades.map(y => {
             if(y.options && y.options.indexOf('CLOSE') !== -1) {
-              if (y.type.indexOf('BACK') !== -1) {
-                stake += this.utils.negativeRoundedNumber(y.liability)
-              } else {
-                liability+= this.utils.negativeRoundedNumber(y.liability)
-              }
+              stake += this.utils.negativeRoundedNumber(y.liability)
             } else
             {
               return 0
             }
           })
-          return stake + liability
+          return stake
         })
-        // create max risk data
+        // free bet
+        this.tradeRiskFreeBet = this.trades.map(x => {
+          let stake = 0
+          x.trade.trades.map(y => {
+            if(y.options && y.options.indexOf('FREE BET') !== -1) {
+              stake += this.utils.negativeRoundedNumber(y.liability)
+            } else
+            {
+              return 0
+            }
+          })
+          return stake
+        })
+        this.riskData =[
+          [this.strategyReport.trades.risk.total.total,
+            this.strategyReport.trades.risk.open.total,
+            this.strategyReport.trades.risk.increase.total,
+            this.strategyReport.trades.risk.decrease.total,
+            this.strategyReport.trades.risk.close.total,
+            this.strategyReport.trades.risk.freeBet.total],
+
+          [this.strategyReport.trades.risk.total.count,
+            this.strategyReport.trades.risk.open.count,
+            this.strategyReport.trades.risk.increase.count,
+            this.strategyReport.trades.risk.decrease.count,
+            this.strategyReport.trades.risk.close.count,
+            this.strategyReport.trades.risk.freeBet.count],
+
+          [this.strategyReport.trades.risk.total.avgPerTrade,
+            this.strategyReport.trades.risk.open.avgPerTrade,
+            this.strategyReport.trades.risk.increase.avgPerTrade,
+            this.strategyReport.trades.risk.decrease.avgPerTrade,
+            this.strategyReport.trades.risk.close.avgPerTrade,
+            this.strategyReport.trades.risk.freeBet.avgPerTrade]
+        ]
+
+        // create commission data
         this.tradeCommission = trades.map(x => {
           if(x.trade.results.commissionPaid){
             return +x.trade.results.commissionPaid.toFixed(2)
@@ -176,6 +227,12 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return 0
           }
         })
+        this.tradeCommissionStock = [this.utils.getStock(this.tradeCommission,0)]
+        this.tradeCommissionOrder = this.utils.orderAsc(this.tradeCommission)
+        // create tradePL data
+        this.tradePL = trades.map(x => +x.trade.results.netProfit.toFixed(2))
+        this.tradePLOrder = this.utils.orderAsc(this.tradePL)
+
       }
       // finished recalculation and ok to view subcomponent
       this.visibleReport = true
@@ -200,10 +257,6 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveReport(){
-    console.log("saving report")
-    console.log(this.trades.length)
-  }
 
   ngOnDestroy() {
     this.destroy$.next(true);

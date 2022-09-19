@@ -25,7 +25,7 @@ export class PassiveStrategyService {
   }
 
   private returnOddsCount(odd: number, total: number){
-    const num = this.utils.getSumOfArrayNumber(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='back' && y.odds === odd).length))
+    const num = this.utils.sumOfArray(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='back' && y.odds === odd).length))
     return{
       count: num,
       percent: num / total
@@ -33,10 +33,10 @@ export class PassiveStrategyService {
   }
 
   private calculateLowLayReport(): void {
-    const totalOneTen = this.utils.getSumOfArrayNumber(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='lay' && y.odds === 1.1).length))
-    const totalOneTwenty = this.utils.getSumOfArrayNumber(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='lay' && y.odds === 1.2).length))
-    const totalOneThirty = this.utils.getSumOfArrayNumber(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='lay' && y.odds === 1.3).length))
-    const totalOneFourty = this.utils.getSumOfArrayNumber(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='lay' && y.odds === 1.4).length))
+    const totalOneTen = this.utils.sumOfArray(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='lay' && y.odds === 1.1).length))
+    const totalOneTwenty = this.utils.sumOfArray(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='lay' && y.odds === 1.2).length))
+    const totalOneThirty = this.utils.sumOfArray(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='lay' && y.odds === 1.3).length))
+    const totalOneFourty = this.utils.sumOfArray(this.inputTrades.map(x => x.trade.trades.filter(y=> y.type==='lay' && y.odds === 1.4).length))
 
     this.lowLayReport = {
       count: this.inputTrades.length,

@@ -21,5 +21,10 @@ router.post("/strategyInfoByName", ReportController.strategy_get_info_by_name);
 
 router.get("/trade/fix",  ReportController.fix_trades_schema);
 
+router.get("/savedReport/all", checkAuth,  ReportController.get_all_savedReport);
+router.put("/savedReport/create", checkAuth,  ReportController.create_savedReport);
+router.post("/savedReport/:savedReportId", checkAuth,  ReportController.update_savedReport_by_id);
+router.delete("/savedReport/:savedReportId", checkAuth,  ReportController.delete_savedReport_by_id);
+
 
 module.exports = router;

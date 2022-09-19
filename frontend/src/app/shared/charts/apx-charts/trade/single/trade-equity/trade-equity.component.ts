@@ -15,6 +15,7 @@ export class TradeEquityComponent implements OnInit, OnDestroy {
   @Input() allTrades: Observable<NewTrade[]>
   @Input() labels: string[]
 
+
   @Input()
   wantBar: boolean
 

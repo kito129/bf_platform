@@ -3,7 +3,7 @@ import {NotesStates} from './notes.reducers';
 import {NoteStats} from '../../model/dashboard/noteStats';
 import {Utils} from '../../model/calculator/utils';
 import {utils} from 'protractor';
-import {Month} from '../../model/study/study/comparatorTableRow';
+import {MonthTrade} from '../../model/study/study/comparatorTableRow';
 import {Note} from "../../model/note/note";
 
 const getNotesState = createFeatureSelector<NotesStates>(

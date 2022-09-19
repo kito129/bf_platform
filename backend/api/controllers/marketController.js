@@ -3,8 +3,6 @@ const MarketRunners = require("../models/marketBasic/marketRunnersBasic");
 const MarketOdds = require("../models/marketBasic/marketOddsBasic");
 const MarketUpdates = require("../models/marketBasic/marketUpdatesBasic");
 
-const MarketInfoAdvanced = require("../models/marketAdvanced/marketInfoAdvanced");
-
 const MarketFunction = require("./functions/marketFunctions");
 const marketAdditionalInfoTennis = require("../models/marketAdditionalInfoTennis");
 

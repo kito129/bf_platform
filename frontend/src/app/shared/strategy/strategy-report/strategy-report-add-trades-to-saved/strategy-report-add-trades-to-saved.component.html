@@ -1,0 +1,127 @@
+<!-- BUTTON -->
+<button type="button" class="btn btn-outline-warning btn-icon-text" (click)="updateSavedReport(verticalCenteredModal)">
+  <i class="btn-icon-prepend" data-feather="plus" appFeatherIcon></i>
+  Add trades in Report
+</button>
+
+<!-- MODAL -->
+<ng-template #verticalCenteredModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title text-warning">Add trades in Saved report</h5>
+    <button type="button" class="close" (click)="modal.close('close')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- BODY -->
+  <div class="modal-body">
+
+    <form class="forms-sample grid-margin">
+      <div class="form-group">
+        <label> Select Saved Report</label>
+        <ng-select [items]="savedReportList"
+                   bindLabel="name"
+                   bindValue="id"
+                   placeholder="Select item"
+                   [searchable]="true"
+                   [clearable]="true"
+                   [selectOnTab]="true"
+                   [(ngModel)]="selectedId"
+                   [virtualScroll]="true"
+                   [ngModelOptions]="{standalone: true}"
+                   (ngModelChange)="updateSelection()">
+        </ng-select>
+      </div>
+    </form>
+
+    <div *ngIf="selectedId">
+      <div class="form-group">
+        <div class="row">
+          <div class="col">
+            <label>Name</label>
+            <input type="text"
+                   class="form-control mb-1"
+                   [(ngModel)]="savedReport.savedReport.name">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Comment</label>
+            <input type="text"
+                   class="form-control mb-1"
+                   [(ngModel)]="savedReport.savedReport.comment">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Type</label>
+            <input type="text"
+                   class="form-control mb-1"
+                   [(ngModel)]="savedReport.savedReport.type">
+          </div>
+        </div>
+        <div class="row grid-margin">
+          <div class="col">
+            <p> Total Trade in saved report: {{savedReport.savedReport.tradesIds.length}}</p>
+          </div>
+        </div>
+        <div class="row grid-margin">
+          <div class="col">
+            <p class="text-warning"> Total Trades to add: {{selected.length}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- FOOTER -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('close')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('update')">Update</button>
+  </div>
+</ng-template>
+
+
+
+
+<!--
+<div class="form-group">
+      <div class="row">
+        <div class="col">
+          <label>Name</label>
+          <input type="text"
+                 class="form-control mb-1"
+                 [(ngModel)]="savedReport.savedReport.name">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label>Comment</label>
+          <input type="text"
+                 class="form-control mb-1"
+                 [(ngModel)]="savedReport.savedReport.comment">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label>Type</label>
+          <input type="text"
+                 class="form-control mb-1"
+                 [(ngModel)]="savedReport.savedReport.type">
+        </div>
+      </div>
+      <div class="row grid-margin">
+        <div class="col">
+          <p> Total Trade in saved report: {{savedReport.savedReport.tradesIds.length}}</p>
+        </div>
+      </div>
+      <div class="row grid-margin">
+        <div class="col">
+          <p> Total Trades to add: {{selected.length}}</p>
+        </div>
+      </div>
+    </div>
+
+-->
+
+
+

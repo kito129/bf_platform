@@ -47,12 +47,6 @@ export class ColumnChartComponent implements OnInit {
     }
   }
 
-  // tslint:disable-next-line:use-lifecycle-interface
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
-  }
-
   generateChart() {
     this.lineChartOptions = {
       series: [

@@ -135,9 +135,10 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   }
 
   deleteMany(event){
-    if(event[1]==='delete'){
+    if(event[1]==='delete') {
       // DELETE many trades
-      this.store.dispatch(reportActions.deleteManyTrades({ _ids: event[0] }));
+      this.store.dispatch(reportActions.deleteManyTrades({_ids: event[2]}));
+      this.selected = []
     }
   }
 
@@ -145,19 +146,23 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     if(event[1] === 'create'){
       console.log(event[0])
       this.store.dispatch(reportActions.createSavedReport({ savedReport: event[0] }));
+      this.selected = []
     }
+  }
+
+  updateReport(event){
+    console.log(event)
   }
 
   removeTradesFromSavedReportModal(event){
     if(event[1] === 'remove'){
-      console.log(event)
       const temp = []
       for (const tradeId of this.savedReport.savedReport.tradesIds) {
         if(!event[2].includes(tradeId)){
           temp.push(tradeId)
         }
       }
-      let copy = JSON.parse(JSON.stringify(this.savedReport))
+      const copy = JSON.parse(JSON.stringify(this.savedReport))
       copy.savedReport.tradesIds = temp
       copy.updated = Date.now()
       this.store.dispatch(reportActions.updateSavedReport({ savedReport: copy, _id: this.savedReportId}));

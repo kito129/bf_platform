@@ -111,7 +111,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     this.compareStatus$ =  this.store.pipe(select(reportSelectors.getCompareStatus))
 
     // saved report
-    this.allSavedReports$ = this.store.pipe(select(reportSelectors.getSavedReport))
+    this.allSavedReports$ = this.store.pipe(select(reportSelectors.getAllSavedReports))
     this.selectedSavedReport$ = this.store.pipe(select(reportSelectors.getSelectedSavedReport))
     this.selectedSavedReportId$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportId))
     this.savedReportDatatable$ = this.store.pipe(select(reportSelectors.getSavedReportDatatable))

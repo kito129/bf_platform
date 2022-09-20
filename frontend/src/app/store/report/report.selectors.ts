@@ -356,7 +356,7 @@ export const isLoadingSavedReport = createSelector(
 );
 
 
-export const getSavedReport = createSelector(
+export const getAllSavedReports = createSelector(
   getReportState,
   (state ) => state.savedReports
 );

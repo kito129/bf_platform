@@ -101,6 +101,7 @@ exports.update_trade_by_id = (req, res, next) => {
 // delete trade by _id
 exports.delete_trade_by_id = (req, res, next) => {
     const myId = req.params.tradeId;
+    console.log(myId)
     let removed
     Trade.findOneAndRemove({_id: myId})
         .exec()

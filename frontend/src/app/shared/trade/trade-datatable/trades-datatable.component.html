@@ -31,6 +31,12 @@
                                   [title]="title"
                                   (saveReportEmitter)="saveReport($event)">
   </app-strategy-report-save-modal>
+  <app-strategy-report-add-trades-to-saved *ngIf="selected.length>0"
+                                           class="mr-4"
+                                           [selected]="selected"
+                                           [title]="title"
+                                           (updateSavedReportEmitter)="updateReport($event)">
+  </app-strategy-report-add-trades-to-saved>
   <app-delete-modal [type]="'Trade'"
                     [ids]="selectedIds"
                     [id]="savedReportId"
@@ -356,6 +362,7 @@
   <app-strategy-report [selectedStrategyTrades$]="selectedTrades"
                        [selectedStrategy]="null"
                        [title]="'Selected'"
-                       [bank]="100000">
+                       [bank]="100000"
+                       [savedReport]="savedReport">
   </app-strategy-report>
 </div>

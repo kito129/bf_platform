@@ -129,6 +129,7 @@ import {ChartHistogramComponent} from './charts/apx-charts/trade/single/chart-hi
 import { StrategyCompareChartsComponent } from './strategy/strategy-compare-charts/strategy-compare-charts.component';
 import { StrategyReportSaveModalComponent } from './strategy/strategy-report/strategy-report-save-modal/strategy-report-save-modal.component';
 import { TradeDatatableStatsComponent } from './trade/trade-datatable/trade-datatable-stats/trade-datatable-stats.component';
+import { StrategyReportAddTradesToSavedComponent } from './strategy/strategy-report/strategy-report-add-trades-to-saved/strategy-report-add-trades-to-saved.component';
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
@@ -269,6 +270,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyCompareChartsComponent,
     StrategyReportSaveModalComponent,
     TradeDatatableStatsComponent,
+    StrategyReportAddTradesToSavedComponent,
   ],
     exports: [
       CommonModule,

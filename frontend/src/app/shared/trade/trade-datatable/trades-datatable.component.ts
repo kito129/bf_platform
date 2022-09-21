@@ -86,7 +86,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     if(val){
       this.rows = this.temp.filter((d: TradeDetail) => {
         return (d.trade.trade.info.marketInfo.marketName.toLowerCase().indexOf(val) !== -1
-          || d.trade.trade.info.note.description.toLowerCase().indexOf(val) !== -1) || !val;
+          || (d.trade.trade.info.note.description ? d.trade.trade.info.note.description.toLowerCase().indexOf(val) !== -1 : false)) || !val;
       });
       this.table.offset = 0;
     } else {
@@ -151,7 +151,11 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   }
 
   updateReport(event){
-    console.log(event)
+    if(event[1] === 'update'){
+      console.log(event[0])
+      this.store.dispatch(reportActions.updateSavedReport({ _id: event[0]._id, savedReport:event[0] }));
+      this.selected = []
+    }
   }
 
   removeTradesFromSavedReportModal(event){

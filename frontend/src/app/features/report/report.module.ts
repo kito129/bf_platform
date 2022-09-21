@@ -22,12 +22,11 @@ import {CustomFormsModule} from 'ngx-custom-validators';
 
 import {SharedModule} from '../../shared/shared.module';
 
-import {StrategyUpdatesModalComponent} from './components/strategy/modal/strategy-updates-modal/strategy-updates-modal.component';
-import {StrategyCreateModalComponent} from './components/strategy/modal/strategy-create-modal/strategy-create-modal.component';
-import {StrategyDeleteModalComponent} from './components/strategy/modal/strategy-note-delete-modal/strategy-delete-modal.component';
-import { StrategyDatatableComponent } from './components/strategy/strategy-datatable/strategy-datatable.component';
+import {StrategyUpdatesModalComponent} from './components/strategy-modal/strategy-updates-modal/strategy-updates-modal.component';
+import {StrategyCreateModalComponent} from './components/strategy-modal/strategy-create-modal/strategy-create-modal.component';
+import {StrategyDeleteModalComponent} from './components/strategy-modal/strategy-note-delete-modal/strategy-delete-modal.component';
+import { StrategyDatatableComponent } from './components/strategy-datatable/strategy-datatable.component';
 import { ReportMainComponent } from './components/report-main.component';
-import { SavedReportDatatableComponent } from './components/saved-report-datatable/saved-report-datatable.component';
 
 
 
@@ -47,7 +46,6 @@ const routes: Routes = [
     StrategyDeleteModalComponent,
     StrategyDatatableComponent,
     ReportMainComponent,
-    SavedReportDatatableComponent,
   ],
     imports: [
         CommonModule,

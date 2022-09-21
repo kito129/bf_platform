@@ -106,46 +106,6 @@
           </ngx-datatable>
 
         </li>
-
-        <!--
-        <li class="list-group-item" *ngFor="let info of marketStats.marketsInfo" [ngbCollapse]="isCollapsed">
-
-          <div class="row">
-            <div class="col-2">
-              <p>{{info.openDate | date:'M/d/yy'}}</p>
-            </div>
-            <div class="col-3">
-              <p>{{info.eventName}}</p>
-            </div>
-            <div class="col-2">
-              <app-bsp-odd [bspOdd]="info.selectionWin ? info.winner.bsp : info.loser.bsp"></app-bsp-odd>
-            </div>
-            <div class="col-2">
-              <p>min: {{info.selectionWin ? info.winner.minInPlay : info.loser.minInPlay}}</p>
-              <p class="mt-1">MAX: {{info.selectionWin ? info.winner.maxInPlay : info.loser.maxInPlay}}</p>
-            </div>
-            <div class="col-1">
-              <div *ngIf="+info.winner.id === +runnerId">
-                <i data-feather="check" appFeatherIcon class="text-success"></i>
-              </div>
-              <div *ngIf="+info.winner.id !== +runnerId && info.winner.id">
-                <i data-feather="x" appFeatherIcon class="text-danger"></i>
-              </div>
-              <div *ngIf="!info.winner.id">
-                <i data-feather="info" appFeatherIcon class="text-warning"></i>
-              </div>
-            </div>
-            <div class="col-2">
-              <app-market-details-modal [isBasic]="true"
-                                        [marketId]="info.marketId">
-              </app-market-details-modal>
-            </div>
-          </div>
-
-
-
-        </li>
-        -->
         <li class="list-group-item disabled">
           <div class="row">
             <div class="col">

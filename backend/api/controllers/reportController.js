@@ -310,7 +310,7 @@ exports.fix_trades_schema = (req, res, next) => {
                 });
         })
         .catch(err => {
-            console.log("ERRO in cathcR:\n" + err);
+            console.log("ERROR in catch:\n" + err);
             res.status(500).json({
                 error: err
             });
@@ -575,7 +575,7 @@ exports.get_all_savedReport = (req, res, next) => {
                 docs.map(doc => {
                     return {
                         created: doc.created,
-                        updated: doc.lastUpdate,
+                        updated: doc.updated,
                         savedReport: doc.savedReport,
                         _id: doc._id,
                     };
@@ -661,7 +661,7 @@ exports.delete_savedReport_by_id = (req, res, next) => {
         .then(docs => {
             removed = {
                 created: docs.created,
-                updated: docs.lastUpdate,
+                updated: docs.updated,
                 savedReport: docs.savedReport,
                 _id: docs._id,
             }

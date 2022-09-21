@@ -2,7 +2,6 @@
 <div class="col">
   <app-trade-datatable-stats [selected]="selected"
                              [totalSize]=" rows.length">
-    [totalSize]=" rows.length">
   </app-trade-datatable-stats>
 </div>
 <!-- SELECTED BUTTON-->
@@ -43,20 +42,20 @@
                     [name]="' many '"
                     [options]="'Delete'"
                     (deleteEmitter)="deleteMany($event)"
-                    *ngIf="!isSaved">
+                    *ngIf="!isSaved && selected.length">
   </app-delete-modal>
-  <app-delete-modal [type]="'Saved Report'"
+  <app-delete-modal [type]="savedReport.savedReport.name"
                     [ids]="selectedIds"
                     [id]="savedReportId"
                     [name]="' many trades from '"
                     [options]="'Remove'"
                     (deleteEmitter)="removeTradesFromSavedReportModal($event)"
                     [isRemove]="true"
-                    *ngIf="isSaved">
+                    *ngIf="isSaved && selected.length">
   </app-delete-modal>
 </div>
 
-
+<h3>Trades List</h3>
 <!-- DATATABLE BUTTON -->
 <div class="d-flex justify-content-end align-items-center">
   <button type="button" class="btn btn mr-2"
@@ -343,14 +342,19 @@
 
   <ngx-datatable-column name="View" prop="" *ngIf="isSaved">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <app-delete-modal [ids]="[value.trade._id]"
-                        [id]="savedReportId"
-                        [options]="'Remove'"
-                        [isRemove]="true"
-                        [type]="value.trade.trade.info.marketInfo.marketName"
-                        (deleteEmitter)="removeTradesFromSavedReportModal($event)"
-                        *ngIf="isSaved">
-      </app-delete-modal>
+      <div class="d-flex justify-content-end align-items-baseline">
+        <app-trade-and-market-details-modal [trade]="value.trade">
+        </app-trade-and-market-details-modal>
+
+        <app-delete-modal [ids]="[value.trade._id]"
+                          [id]="savedReportId"
+                          [options]="'Remove'"
+                          [isRemove]="true"
+                          [type]="value.trade.trade.info.marketInfo.marketName"
+                          (deleteEmitter)="removeTradesFromSavedReportModal($event)"
+                          *ngIf="isSaved">
+        </app-delete-modal>
+      </div>
     </ng-template>
   </ngx-datatable-column>
 
@@ -360,9 +364,9 @@
 <!-- SELECTED REPORT-->
 <div *ngIf="viewSelectedReport && bug" class="mt-2">
   <app-strategy-report [selectedStrategyTrades$]="selectedTrades"
-                       [selectedStrategy]="null"
                        [title]="'Selected'"
                        [bank]="100000"
-                       [savedReport]="savedReport">
+                       [savedReport]="savedReport"
+                       [isSaved]="false">
   </app-strategy-report>
 </div>

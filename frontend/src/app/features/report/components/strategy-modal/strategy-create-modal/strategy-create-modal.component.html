@@ -1,0 +1,131 @@
+<button type="button" class="btn btn-outline-success" (click)="openVerticalCenteredModal(verticalCenteredModal)">
+  Add new Strategy <i class="feather icon-plus"></i>
+</button>
+
+<!-- Modal -->
+<ng-template #verticalCenteredModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Create New Strategy</h5>
+    <button type="button" class="close" (click)="modal.close('close')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form class="forms-sample grid-margin" #startegyForm="ngForm" *ngIf="strategy!= undefined" >
+
+      <div class="form-group">
+        <label for="name" class="text-gray">Name</label>
+        <input class="form-control"
+               id="name"
+               type="text"
+               placeholder="Name"
+               name="name"
+               [(ngModel)]="strategy.strategy.info.name">
+      </div>
+      <div class="form-group">
+        <label class="text-gray">Sport</label>
+        <ng-select [items]="sport"
+                   id="sport"
+                   name="sport"
+                   bindLabel="value"
+                   bindValue="value"
+                   placeholder="Sport"
+                   [(ngModel)]="strategy.strategy.info.sport">
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="year">Year</label>
+        <input class="form-control"
+               id="year"
+               type="number"
+               placeholder="Year"
+               name="year"
+               [(ngModel)]="strategy.strategy.info.year">
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="executor">Money Management</label>
+        <ng-select [items]="['FIXED', 'STOP LOSS', 'EQUITY LINE', 'DD', 'BLACKSWAN']"
+                   id="moneyManagement"
+                   name="moneyManagement"
+                   placeholder="moneyManagement"
+                   [(ngModel)]="strategy.strategy.info.moneyManagement">
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="bank">Bank</label>
+        <input class="form-control"
+               id="bank"
+               type="number"
+               placeholder="Bank"
+               name="bank"
+               [(ngModel)]="strategy.strategy.info.bank">
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="stake">Stake</label>
+        <input class="form-control"
+               id="stake"
+               type="number"
+               placeholder="Stake"
+               name="stake"
+               [(ngModel)]="strategy.strategy.info.stake">
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="typeOfStake">Type of Stake</label>
+        <ng-select [items]="['fixed', 'percent', 'kelly']"
+                   id="typeOfStake"
+                   name="typeOfStake"
+                   placeholder="typeOfStake"
+                   [(ngModel)]="strategy.strategy.info.typeOfStake">
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <label class="text-gray" for="executor">Executor</label>
+        <ng-select [items]="['BAGNA', 'KEVIN', 'KITO', 'ALL', 'DEMO', 'PLATFORM']"
+                   id="executor"
+                   name="executor"
+                   placeholder="executor"
+                   [(ngModel)]="strategy.strategy.info.executor">
+        </ng-select>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="description" class="text-gray">Description</label>
+          <textarea class="form-control" id="description" rows="5"  placeholder="Description" name="description"
+                    [(ngModel)]="strategy.strategy.info.detail.description"></textarea>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="entryDescription" class="text-gray">Entry Description</label>
+          <textarea class="form-control" id="entryDescription" rows="2"  placeholder="Entry Description" name="entryDescription"
+                    [(ngModel)]="strategy.strategy.info.detail.entryDescription"></textarea>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="exitDescription" class="text-gray">Exit Description</label>
+          <textarea class="form-control" id="exitDescription" rows="2"  placeholder="Exit Description" name="exitDescription"
+                    [(ngModel)]="strategy.strategy.info.detail.exitDescription"></textarea>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="MMDescription" class="text-gray">MM Description</label>
+          <textarea class="form-control" id="MMDescription" rows="3"  placeholder="MM Description" name="MMDescription"
+                    [(ngModel)]="strategy.strategy.info.detail.mmDescription"></textarea>
+        </div>
+      </div>
+    </form>
+
+
+    <p>Strategy created: {{strategy.created | date:'short'}}</p>
+    <p *ngIf="strategy.lastUpdate !== strategy.created">Strategy last update: {{strategy.lastUpdate | date:'short'}}</p>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('close')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('create')">Create</button>
+  </div>
+</ng-template>

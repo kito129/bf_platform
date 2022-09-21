@@ -39,7 +39,8 @@
       </h4>
       <ng-template ngbNavContent>
         <!-- STRATEGY BLOCK -->
-        <div class="col grid-margin">
+        <app-loading-cards *ngIf="(isLoadingSavedReport$ | async).isLoading"></app-loading-cards>
+        <div class="col grid-margin" *ngIf="(isLoadingSavedReport$ | async).isLoadingSuccess">
           <app-strategy-datatable
             [strategyDatatable]="savedReportDatatable$ | async"
             [selectedStrategyId]="selectedStrategyId$ | async"
@@ -49,9 +50,9 @@
           </app-strategy-datatable>
 
           <div class="col grid-margin">
-            <app-strategy-report *ngIf="selectedSavedReportTrades$ | async"
+            <app-strategy-report *ngIf="(selectedSavedReportTrades$ | async) && (selectedSavedReport$ | async)  "
                                  [selectedStrategyTrades$]="selectedSavedReportTrades$"
-                                 [title]="'Saved'"
+                                 [title]="selectedSavedReportName$ | async"
                                  [bank]="1000"
                                  [noBug]="false"
                                  [isSaved]="true"
@@ -281,9 +282,11 @@
 
   <!-- SELECTED REPORT-->
   <div class="col grid-margin">
-    <app-strategy-report *ngIf="(selectedStrategy$ | async)"
+    <app-strategy-report *ngIf="(selectedStrategy$ | async) && (selectedStrategyTrades$ | async) && (selectedStrategyName$ | async)"
                          [selectedStrategyTrades$]="selectedStrategyTrades$"
-                         [selectedStrategy]="selectedStrategy$ | async">
+                         [selectedStrategy]="selectedStrategy$"
+                         [title]="selectedStrategyName$ | async"
+                         [isSaved]="false" [noBug]="true">
     </app-strategy-report>
   </div>
 

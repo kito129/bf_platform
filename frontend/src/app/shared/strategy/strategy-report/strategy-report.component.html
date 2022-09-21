@@ -221,6 +221,7 @@
                                  [isPercent]="false">
               </app-columns-chart>
             </div>
+            <!-- RISK DETAIL ROW -->
             <div class="row">
               <div class="col mr-2">
                 <app-strategy-report-risk [strategyReport]="strategyReport"
@@ -254,11 +255,11 @@
               </div>
             </div>
 
-            <app-columns-chart [seriesData]="[tradeMaxRisk,tradeRiskIncrease,tradeRiskDecrease,tradeRiskClose, tradeRiskFreeBet, tradeRiskOpen]"
-                               [colors]="['#b55b45','#dc8619','#e5e11c','#43d919','#1AE3CC','#bb18d5']"
+            <app-columns-chart [seriesData]="[tradeMaxRisk,tradeRiskOpen,tradeRiskIncrease,tradeRiskDecrease,tradeRiskClose, tradeRiskFreeBet]"
+                               [colors]="['#b55b45','#bb18d5','#dc8619','#e5e11c','#43d919','#1AE3CC']"
                                [height]="chartHeight"
                                [labels]="tradeLabels"
-                               [title]="['Max', 'Decr', 'Incr', 'Close', 'Free Bet', 'Open']"
+                               [title]="['Max','Open','Incr', 'Decr','Close', 'Free Bet']"
                                [isCurrency]="true"
                                [isPercent]="false">
             </app-columns-chart>
@@ -311,18 +312,6 @@
         </li>
 
         <!-- PASSIVE -->
-
-        <!-- BSP FILTER -->
-        <li [ngbNavItem]="11">
-          <h4>
-            <a ngbNavLink class="text-success">Filters</a>
-          </h4>
-          <ng-template ngbNavContent>
-            <app-strategy-report-bspfilter [trades]="trades">
-
-            </app-strategy-report-bspfilter>
-          </ng-template>
-        </li>
 
         <!-- LOW LAY -->
         <li [ngbNavItem]="11">

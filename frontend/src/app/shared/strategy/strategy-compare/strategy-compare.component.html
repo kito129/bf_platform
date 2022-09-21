@@ -130,7 +130,7 @@
 
             <app-strategy-report [selectedStrategyTrades$]="passAsObservable(st.trades)"
                                  [title]="st.strategy.strategy.info.name.toUpperCase()"
-                                 [selectedStrategy]="st.strategy"
+                                 [selectedStrategy]="passAsObservable(st.strategy)"
                                  [bank]="st.strategy.strategy.info.bank">
             </app-strategy-report>
           </ng-template>

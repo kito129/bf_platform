@@ -22,8 +22,6 @@ export class StrategyReportTablesComponent implements OnInit {
   strategyMatch: number[] = []
   strategyPf: number[] = []
 
-  totalTrades: number
-
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   rows = [];

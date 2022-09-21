@@ -2,19 +2,19 @@
 <div class="row">
   <div class="col">
     <h4 class="mt-2"> Net</h4>
-    <app-multiple-columns-chart [title]="['Net']"
+    <app-columns-chart [title]="['Net']"
                                 [isPercent]="false"
                                 [isCurrency]="true"
                                 [labels]="label"
                                 [height]="height"
-                                [colors]="'#ff3030'"
+                                [colors]="['#ff3030']"
                                 [wantStacked]="false"
                                 [seriesData]="pl">
-    </app-multiple-columns-chart>
+    </app-columns-chart>
   </div>
   <div class="col">
     <h4 class="mt-2"> P/L</h4>
-    <app-multiple-columns-chart [title]="['Profit', 'Loss']"
+    <app-columns-chart [title]="['Profit', 'Loss']"
                                 [isPercent]="false"
                                 [isCurrency]="true"
                                 [labels]="label"
@@ -22,53 +22,53 @@
                                 [colors]="['#1fff32','#ff3030']"
                                 [wantStacked]="true"
                                 [seriesData]="profitLoss">
-    </app-multiple-columns-chart>
+    </app-columns-chart>
   </div>
 </div>
 <!-- ROW 2-->
 <div class="row">
   <div class="col">
     <h4 class="mt-2"> Trade</h4>
-    <app-multiple-columns-chart [title]="['Monthly']"
+    <app-columns-chart [title]="['Trade']"
                                 [isPercent]="false"
                                 [isCurrency]="false"
                                 [labels]="label"
                                 [height]="height"
-                                [colors]="'#fffb13'"
+                                [colors]="['#fffb13']"
                                 [wantStacked]="false"
                                 [seriesData]="tradeNumber">
-    </app-multiple-columns-chart>
+    </app-columns-chart>
   </div>
   <div class="col">
     <h4 class="mt-2"> Win Rate</h4>
-    <app-multiple-columns-chart [title]="['Win Rate']"
+    <app-columns-chart [title]="['Win Rate']"
                                 [isPercent]="true"
                                 [isCurrency]="false"
                                 [labels]="label"
                                 [height]="height"
-                                [colors]="'#9c22ff'"
+                                [colors]="['#9c22ff']"
                                 [wantStacked]="false"
                                 [seriesData]="win">
-    </app-multiple-columns-chart>
+    </app-columns-chart>
   </div>
 </div>
 <!-- ROW 3-->
 <div class="row">
   <div class="col">
     <h4 class="mt-2"> DD</h4>
-    <app-multiple-columns-chart [title]="['Max DD']"
+    <app-columns-chart [title]="['Max DD']"
                                 [isPercent]="false"
                                 [isCurrency]="true"
                                 [labels]="label"
                                 [height]="height"
-                                [colors]="'#ff4f33'"
+                                [colors]="['#ff4f33']"
                                 [wantStacked]="false"
                                 [seriesData]="maxDd">
-    </app-multiple-columns-chart>
+    </app-columns-chart>
   </div>
   <div class="col">
     <h4 class="mt-2"> Profit Factor</h4>
-    <app-multiple-columns-chart [title]="['Profit Factor']"
+    <app-columns-chart [title]="['Profit Factor']"
                                 [isPercent]="false"
                                 [isCurrency]="false"
                                 [labels]="label"
@@ -76,7 +76,7 @@
                                 [colors]="['#1b5aff']"
                                 [wantStacked]="true"
                                 [seriesData]="pf">
-    </app-multiple-columns-chart>
+    </app-columns-chart>
 
   </div>
 </div>
@@ -84,7 +84,7 @@
 <div class="row">
   <div class="col">
     <h4 class="mt-2"> Avg Win/loss</h4>
-    <app-multiple-columns-chart [title]="['Avg Win', 'Avg Loss']"
+    <app-columns-chart [title]="['Avg Win', 'Avg Loss']"
                                 [isPercent]="false"
                                 [isCurrency]="true"
                                 [labels]="label"
@@ -92,11 +92,11 @@
                                 [colors]="['#1fff32','#ff3030']"
                                 [wantStacked]="true"
                                 [seriesData]="avgProfitLoss">
-    </app-multiple-columns-chart>
+    </app-columns-chart>
   </div>
   <div class="col">
     <h4 class="mt-2"> Expected Value</h4>
-    <app-multiple-columns-chart [title]="['Expected Value']"
+    <app-columns-chart [title]="['Expected Value']"
                                 [isPercent]="false"
                                 [isCurrency]="true"
                                 [labels]="label"
@@ -104,7 +104,7 @@
                                 [colors]="['#1bffff']"
                                 [wantStacked]="true"
                                 [seriesData]="expectedValue">
-    </app-multiple-columns-chart>
+    </app-columns-chart>
 
   </div>
 </div>

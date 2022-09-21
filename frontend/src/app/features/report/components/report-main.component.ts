@@ -16,7 +16,7 @@ import {CompareStrategy} from '../../../model/report/new/compareStrategy';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {
   getPassiveDemoData,
-  getSelectedSavedReportTrades,
+  getSelectedSavedReportTrades, getSelectedStrategyName,
   isLoadingSavedReport
 } from '../../../store/report/report.selectors';
 import {SavedReport} from '../../../model/report/new/savedReport';
@@ -27,7 +27,7 @@ import {SavedReport} from '../../../model/report/new/savedReport';
 })
 export class ReportMainComponent implements OnInit, OnDestroy {
 
-  defaultNavActiveId = 3
+  defaultNavActiveId = 2
 
   // isLoading
   isLoadingAllStrategy$: Observable<IsLoading>
@@ -54,6 +54,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   otherTrade$: Observable<StrategyDatatable[] | NewTrade[]>
   // selected strategy
   selectedStrategy$: Observable<Strategy>
+  selectedStrategyName$: Observable<string>
   selectedStrategyId$: Observable<string>
   selectedStrategyTrades$: Observable<NewTrade[]>
   // compare strategy
@@ -65,6 +66,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   allSavedReports$: Observable<SavedReport[]>
   selectedSavedReport$: Observable<SavedReport>
   selectedSavedReportId$: Observable<string>
+  selectedSavedReportName$: Observable<string>
   savedReportDatatable$: Observable<StrategyDatatable[]>
   selectedSavedReportTrades$: Observable<NewTrade[]>
 
@@ -104,6 +106,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     // selected strategy
     this.selectedStrategyId$ = this.store.pipe(select(reportSelectors.getSelectedStrategyId))
     this.selectedStrategy$ = this.store.pipe(select(reportSelectors.getSelectedStrategy))
+    this.selectedStrategyName$ = this.store.pipe(select(reportSelectors.getSelectedStrategyName))
     this.selectedStrategyTrades$ = this.store.pipe(select(reportSelectors.getSelectedStrategyTrades))
     // compare
     this.compareList$ =  this.store.pipe(select(reportSelectors.getCompareList))
@@ -113,6 +116,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     // saved report
     this.allSavedReports$ = this.store.pipe(select(reportSelectors.getAllSavedReports))
     this.selectedSavedReport$ = this.store.pipe(select(reportSelectors.getSelectedSavedReport))
+    this.selectedSavedReportName$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportName))
     this.selectedSavedReportId$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportId))
     this.savedReportDatatable$ = this.store.pipe(select(reportSelectors.getSavedReportDatatable))
     this.selectedSavedReportTrades$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportTrades))

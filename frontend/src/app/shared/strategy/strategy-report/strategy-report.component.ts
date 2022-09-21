@@ -15,7 +15,7 @@ import {SavedReport} from '../../../model/report/new/savedReport';
 export class StrategyReportComponent implements OnInit, OnDestroy {
 
   @Input() selectedStrategyTrades$: Observable<NewTrade[]>
-  @Input() selectedStrategy: Strategy
+  @Input() selectedStrategy: Observable<Strategy>
   @Input() title: string
   @Input() bank: number
   @Input() noBug: boolean
@@ -30,6 +30,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   strategyReportClass = new StrategyReportClass()
 
   trades: NewTrade[] = []
+  strategy: Strategy = null
   haveStrategy = false
 
   bug = true
@@ -67,12 +68,23 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.selectedStrategyTrades$
+    if(this.selectedStrategy){
+      combineLatest([this.selectedStrategyTrades$, this.selectedStrategy ])
         .pipe(takeUntil(this.destroy$))
-        .subscribe( data => {
-          this.calculate(data)
-          this.bugFix()
+        .subscribe( data =>{
+          this.strategy = data[1]
+          this.calculate(data[0])
+          // this.bugFix()
         })
+    } else {
+      this.selectedStrategyTrades$.pipe(takeUntil(this.destroy$))
+        .subscribe( data =>{
+          this.calculate(data)
+          // this.bugFix()
+        })
+    }
+
+
   }
 
   private calculate(data: NewTrade[]){
@@ -80,24 +92,24 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
       // order and set trade
       const trades: NewTrade[] = data.sort((a,b) => a.trade.info.date-b.trade.info.date)
       this.trades = trades
-      let strategy: Strategy = null
-      if(this.selectedStrategy){
-        strategy = this.selectedStrategy
-        this.haveStrategy = true
-      } else {
-        this.haveStrategy = false
-      }
+      const strategy: Strategy = this.strategy
+
+      this.haveStrategy = !!this.selectedStrategy;
 
       // strategy report
       if(strategy){
         this.strategyReportClass.setData(strategy,trades)
         this.title = strategy.strategy.info.name
+        console.log('set with strategy')
       } else if(this.title){
         this.strategyReportClass.setDataNoStrategy(this.title,this.bank,trades)
+        console.log('set with NO strategy')
       }
       // get strategy report
       this.strategyReport = this.strategyReportClass.getStrategyReport()
       this.strategyValue = this.strategyReportClass.getStrategyPie()
+
+
       // trades values
       if(trades){
         // check for reset tab position when selected change
@@ -246,7 +258,6 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   // temp to fix odds bug
   bugFix(){
     if(this.noBug){
-      console.log('no bug')
     } else {
       this.bug = false
       setTimeout(() =>

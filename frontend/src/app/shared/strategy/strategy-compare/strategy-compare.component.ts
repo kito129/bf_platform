@@ -7,6 +7,7 @@ import {TradeComparator} from '../../../model/study/study/tradeComparator';
 import {takeUntil} from 'rxjs/operators';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {NewTrade} from '../../../model/report/new/newTrade';
+import {Strategy} from "../../../model/report/strategy";
 
 @Component({
   selector: 'app-strategy-compare',
@@ -242,12 +243,9 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
     }
   }
 
-  passAsObservable(trade: NewTrade[]):Observable<NewTrade[]>{
+  passAsObservable(trade: any):Observable<any>{
     return of(trade)
   }
 
-  passAsObservableAll(trade: NewTrade[]):Observable<NewTrade[]>{
-    return of(trade)
-  }
 
 }

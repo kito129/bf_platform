@@ -1,0 +1,60 @@
+<!-- BUTTON -->
+<button type="button" class="btn btn-outline-light btn-icon-text" (click)="updateSavedReport(verticalCenteredModal)">
+  <i class="btn-icon-prepend" data-feather="edit" appFeatherIcon></i>
+</button>
+
+<!-- MODAL -->
+<ng-template #verticalCenteredModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title text-warning">Update Saved Report</h5>
+    <button type="button" class="close" (click)="modal.close('close')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- BODY -->
+  <div class="modal-body" *ngIf="savedReportOutput">
+
+    <div >
+      <div class="form-group">
+        <div class="row">
+          <div class="col">
+            <label>Name</label>
+            <input type="text"
+                   class="form-control mb-1"
+                   [(ngModel)]="savedReportOutput.savedReport.name">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Comment</label>
+            <input type="text"
+                   class="form-control mb-1"
+                   [(ngModel)]="savedReportOutput.savedReport.comment">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Type</label>
+            <input type="text"
+                   class="form-control mb-1"
+                   [(ngModel)]="savedReportOutput.savedReport.type">
+          </div>
+        </div>
+        <div class="row grid-margin">
+          <div class="col">
+            <p> Total Trade in saved report: {{savedReportOutput.savedReport.tradesIds.length}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- FOOTER -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('close')">Close</button>
+    <button type="button" class="btn btn-primary" [disabled]="!(savedReportOutput)" (click)="modal.close('update')">Update</button>
+  </div>
+</ng-template>
+
+
+

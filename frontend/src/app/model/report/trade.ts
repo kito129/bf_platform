@@ -119,6 +119,16 @@ export interface TradeDetail {
     runnerA: number
     runnerB: number
   }
+  setOdds:{
+    set2: {
+      runnerA: number
+      runnerB: number
+    },
+    set3: {
+      runnerA: number
+      runnerB: number
+    }
+  }
   avgBets: {
     back: {
       runnerA: number

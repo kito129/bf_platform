@@ -74,6 +74,11 @@
     View Odds
   </button>
   <button type="button" class="btn btn mr-2"
+          [ngClass]="viewSetOdds ? 'btn-secondary' : 'btn-outline-secondary' "
+          (click)="viewSetOdds= !viewSetOdds">
+    View Set Odds
+  </button>
+  <button type="button" class="btn btn mr-2"
           [ngClass]="viewStatsService ? 'btn-primary' : 'btn-outline-primary' "
           (click)="viewStatsService= !viewStatsService">
     Stats Service & Break
@@ -169,15 +174,39 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="A BSP" prop="bsp.runnerA" *ngIf=" (viewOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
+  <ngx-datatable-column name="A BSP" prop="bsp.runnerA" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="B BSP" prop="bsp.runnerB" *ngIf=" (viewOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
+  <ngx-datatable-column name="B BSP" prop="bsp.runnerB" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Set 2 Odds" prop="setOdds.set2.runnerA" *ngIf=" (viewSetOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Set 2 Odds" prop="setOdds.set2.runnerB" *ngIf=" (viewSetOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="A Set 3 Odds" prop="setOdds.set3.runnerA" *ngIf=" (viewSetOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="B Set 3 Odds" prop="setOdds.set3.runnerB" *ngIf=" (viewSetOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{value}}</h5>
     </ng-template>
   </ngx-datatable-column>
 

@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       if (event instanceof NavigationEnd) {
 
         /**
-         * Activating the current active item dropdown
+         * Activating the oddsImplicit active item dropdown
          */
         this._activateMenuDropdown();
 
@@ -125,7 +125,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
 
   /**
-   * Reset the menus then hilight current active menu item
+   * Reset the menus then hilight oddsImplicit active menu item
    */
   _activateMenuDropdown() {
     this.resetMenuItems();

@@ -109,6 +109,9 @@ export class ColumnsChartComponent implements OnInit {
         offsetX: 40
       },
       chart: {
+        selection: {
+          enabled: true
+        },
         type: 'bar',
         height: this.height,
         animations: {
@@ -122,7 +125,8 @@ export class ColumnsChartComponent implements OnInit {
         },
         toolbar: {
           show: true,
-          autoSelected: 'zoom',
+          offsetX: 0,
+          offsetY: 0,
           tools: {
             download: true,
             selection: true,
@@ -130,8 +134,10 @@ export class ColumnsChartComponent implements OnInit {
             zoomin: true,
             zoomout: true,
             pan: true,
+            customIcons: []
           },
-        }
+          autoSelected: 'zoom'
+        },
       },
       dataLabels: {
         enabled: false

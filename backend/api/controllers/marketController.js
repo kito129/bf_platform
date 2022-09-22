@@ -419,7 +419,7 @@ exports.markets_get_meta_list = async(req, res, next) => {
     try{
         Promise.all([
             // get all information
-            MarketInfo.find().allowDiskUse(true),
+            MarketInfo.find({"marketInfo.sport": "TENNIS"}).allowDiskUse(true),
             MarketUpdates.find().allowDiskUse(true),
             MarketRunners.find().allowDiskUse(true),
             marketAdditionalInfoTennis.find().allowDiskUse(true),

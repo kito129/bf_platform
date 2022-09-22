@@ -38,7 +38,7 @@ import { TradeFormatterComponent } from './formatter/trade-formatter/trade-forma
 import { SportTextComponent } from './formatter/sport-text/sport-text.component';
 import { EventNameTextComponent } from './formatter/event-name-text/event-name-text.component';
 import { BspComponent } from './formatter/odds-display/bsp/bsp.component';
-import { CurrentComponent } from './formatter/odds-display/current/current.component';
+import { OddsImplicitComponent } from './formatter/odds-display/oddsImplicit/oddsImplicit.component';
 import { MaxComponent } from './formatter/odds-display/max/max.component';
 import { FilterNameFormatterComponent } from './formatter/filter-name-formatter/filter-name-formatter.component';
 import { WinnerFormatterComponent } from './formatter/winner-formatter/winner-formatter.component';
@@ -131,6 +131,7 @@ import { StrategyReportSaveModalComponent } from './strategy/strategy-report/mod
 import { TradeDatatableStatsComponent } from './trade/trade-datatable/trade-datatable-stats/trade-datatable-stats.component';
 import { StrategyReportAddTradesToSavedComponent } from './strategy/strategy-report/modal/strategy-report-add-trades-to-saved/strategy-report-add-trades-to-saved.component';
 import { StrategyReportSavedUpdatesComponent } from './strategy/strategy-report/modal/strategy-report-saved-updates/strategy-report-saved-updates.component';
+import { StrategyReportSetOddsAnalyzerComponent } from './strategy/strategy-report/strategy-report-set-odds-analyzer/strategy-report-set-odds-analyzer.component';
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
@@ -175,7 +176,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     SportTextComponent,
     EventNameTextComponent,
     BspComponent,
-    CurrentComponent,
+    OddsImplicitComponent,
     MaxComponent,
     FilterNameFormatterComponent,
     WinnerFormatterComponent,
@@ -273,6 +274,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     TradeDatatableStatsComponent,
     StrategyReportAddTradesToSavedComponent,
     StrategyReportSavedUpdatesComponent,
+    StrategyReportSetOddsAnalyzerComponent,
   ],
   exports: [
     CommonModule,

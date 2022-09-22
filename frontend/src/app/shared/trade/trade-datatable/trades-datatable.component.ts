@@ -39,6 +39,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   viewTrades = false
   viewResult = true
   viewOdds = true
+  viewSetOdds = false
   viewStatsService = false
   viewStatsSet = false
   viewStatsLeaderboard = false

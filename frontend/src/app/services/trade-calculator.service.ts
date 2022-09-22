@@ -184,7 +184,7 @@ export class TradeCalculatorService {
     tradeForm.result.maxRisk = maxExposition
   }
 
-  addCumulativeInTrade(trade: NewTrade[]){
+  addCumulativeInTrade(trade: NewTrade[]): TradeDetail[]{
 
     let stockPl=0
     let dd = 0
@@ -222,6 +222,18 @@ export class TradeCalculatorService {
           runnerA: x.trade.selections[0].bsp,
           // @ts-ignore
           runnerB: x.trade.selections[1].bsp,
+        },
+        setOdds:{
+          set2: {
+            runnerA: x.trade.selections[0].sets.secondSet,
+            // @ts-ignore
+            runnerB: x.trade.selections[1].sets.secondSet,
+          },
+          set3: {
+            runnerA: x.trade.selections[0].sets.thirdSet,
+            // @ts-ignore
+            runnerB: x.trade.selections[1].sets.thirdSet,
+          }
         },
         avgBets: {
           back:{

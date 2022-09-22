@@ -335,6 +335,17 @@
             </app-strategy-report-bspfilter>
           </ng-template>
         </li>
+
+        <!-- SET ODDS ANALYZER -->
+        <li [ngbNavItem]="13">
+          <h4>
+            <a ngbNavLink class="text-light">Set Odds Analyzer</a>
+          </h4>
+          <ng-template ngbNavContent>
+            <app-strategy-report-set-odds-analyzer [trades]="trades">
+            </app-strategy-report-set-odds-analyzer>
+          </ng-template>
+        </li>
       </ul>
 
       <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>

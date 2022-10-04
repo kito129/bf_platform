@@ -90,13 +90,13 @@
         <div class="row">
           <div class="col">
             <app-odd-form [odds]="noteOutput.note.selection.runnerA.odds"
-                          [title]="'A oddsImplicit odds'"
+                          [title]="'A odds'"
                           (oddsPointEmitter)="setCurrentOdds($event,true)">
             </app-odd-form>
           </div>
           <div class="col">
             <app-odd-form [odds]="noteOutput.note.selection.runnerB.odds"
-                          [title]="'B oddsImplicit odds'"
+                          [title]="'B odds'"
                           (oddsPointEmitter)="setCurrentOdds($event,false)">
             </app-odd-form>
           </div>

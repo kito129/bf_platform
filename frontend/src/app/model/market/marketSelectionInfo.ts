@@ -7,6 +7,14 @@ export interface MarketSelectionInfo {
   name: string,
   sport: string,
   selectionWin: boolean,
+  selection:{
+    id: number,
+    name: string,
+    status: string,
+    bsp: number,
+    maxInPlay: number,
+    minInPlay: number,
+  }
   winner:{
     id: number,
     name: string,

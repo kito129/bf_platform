@@ -103,7 +103,7 @@ export class RunnerDetailBspComponent implements OnInit {
       },
       chart: {
         type: 'line',
-        height: 600,
+        height: 750,
         animations: {
           enabled: false
         }

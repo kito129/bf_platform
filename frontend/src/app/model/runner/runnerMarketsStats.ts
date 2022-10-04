@@ -16,6 +16,7 @@ export interface RunnerMarketsStatsInterface{
     min: number
     max: number
     mean: number
+    name: string
   }
   marketsInfo: MarketSelectionInfo[]
 }
@@ -26,57 +27,21 @@ export class RunnerMarketsStats{
 
   constructor(runnerMarkets: MarketSelectionInfo[], runnerId: number) {
     const ranges: MarketSelectionInfo[][] = []
-    ranges.push(runnerMarkets.filter( x => {
-      if(x.selectionWin){
-        return 1<=x.winner.bsp && x.winner.bsp<1.2
-      } else {
-        return 1<=x.loser.bsp && x.loser.bsp<1.2
-      }
-    }))
-    ranges.push(runnerMarkets.filter( x => {
-      if(x.selectionWin){
-        return 1.2<=x.winner.bsp && x.winner.bsp<1.4
-      } else {
-        return 1.2<=x.loser.bsp && x.loser.bsp<1.4
-      }
-    }))
-    ranges.push(runnerMarkets.filter( x => {
-      if(x.selectionWin){
-        return 1.4<=x.winner.bsp && x.winner.bsp<1.75
-      } else {
-        return 1.4<=x.loser.bsp && x.loser.bsp<1.75
-      }
-    }))
-    ranges.push(runnerMarkets.filter( x => {
-      if(x.selectionWin){
-        return 1.75<=x.winner.bsp && x.winner.bsp< 2.3
-      } else {
-        return 1.75<=x.loser.bsp && x.loser.bsp< 2.3
-      }
-    }))
-    ranges.push(runnerMarkets.filter( x => {
-      if(x.selectionWin){
-        return 2.3<=x.winner.bsp && x.winner.bsp< 4
-      } else {
-        return 2.3<=x.loser.bsp && x.loser.bsp< 4
-      }
-    }))
-    ranges.push(runnerMarkets.filter( x => {
-      if(x.selectionWin){
-        return 4<=x.winner.bsp && x.winner.bsp< 10
-      } else {
-        return 4<=x.loser.bsp && x.loser.bsp< 10
-      }
-    }))
-    ranges.push(runnerMarkets.filter( x => {
-      if(x.selectionWin){
-        return 10<=x.winner.bsp
-      } else {
-        return 10<=x.loser.bsp
-      }
-    }))
+    // filters
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(1, 1.11, x)}))
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(1.12, 1.2, x)}))
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(1.21, 1.30, x)}))
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(1.31, 1.49, x)}))
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(1.50, 1.74, x)}))
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(1.75, 2, x)}))
 
-    const rangeOdds=[1,1.20,1.4,1.75,2.30,4,10,1000]
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(2, 4, x)}))
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(4.01, 6, x)}))
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(6.01, 10, x)}))
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(10.01, 100000, x)}))
+
+    const rangeOdds=[1,1.12,1.21,1.31,1.5,1.75,2,4,6,1000]
+    const rangeName=['Top Dog','Mid Dog','High Dog','Fav','Mid Fav','High Fav','Underdog','Loser','Loser','Loser']
 
     let i=0
     for (const range of ranges){
@@ -92,7 +57,7 @@ export class RunnerMarketsStats{
       this.rangeStats.push({
         range:{
           minOdds: rangeOdds[i],
-          maxOdds: rangeOdds[i+1],
+          maxOdds: rangeOdds[i+1]-0.01,
         },
         match:{
           matchNumber: range.length,
@@ -112,13 +77,22 @@ export class RunnerMarketsStats{
         odds:{
           min: Math.min(...bsp),
           max: Math.max(...bsp),
-          mean: 0
+          mean: 0,
+          name: rangeName[i]
         },
         marketsInfo: range.sort((a,b)=>{
           return new Date(b.openDate).getTime() - new Date(a.openDate).getTime()
         })
       })
       i++
+    }
+  }
+
+  private checkRange(min: number, max:number, value: MarketSelectionInfo){
+    if(value.selectionWin){
+      return min<=value.winner.bsp && value.winner.bsp<=max
+    } else {
+      return min<=value.loser.bsp && value.loser.bsp<=max
     }
   }
 }

@@ -26,7 +26,7 @@ export class StrategyFilterBspClass implements StrategyFilterBsp{
     this.name = name
     this.minOdds = min
     this.maxOdds = max
-    this.filterType = 'BSP'
+    this.filterType = 'BSP (Traded Only)'
     this.filterTournamentType = 'ALL'
     this.filterTournamentSurface = 'ALL'
     this.bank = bank

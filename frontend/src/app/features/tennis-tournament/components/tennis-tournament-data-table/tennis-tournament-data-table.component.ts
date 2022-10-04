@@ -19,8 +19,7 @@ import {CompareStudyCsvGeneratorService} from '../../../../services/compare-stud
 export class TennisTournamentDataTableComponent implements OnInit {
 
 
-  @Input()
-  tennisTournaments?: TennisTournament[]
+  @Input() tennisTournaments?: TennisTournament[]
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 

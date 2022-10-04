@@ -2,7 +2,7 @@
   <div class="row pointer" placement="right" [tooltipClass]="'wider-tooltip'" [ngbTooltip]="noteDescriptionToolTip">
     <div class="col">
       <h3 class="mr-2" [ngClass]=" today -note.created < 1000 * 60 * 60 * 24 * 10 ? 'text-danger' : today -note.created < 1000 * 60 * 60 * 24 * 25 ? 'text-warning' : ''">
-        {{note.created | date:'mediumDate'}}
+        {{note.created | date:'shortDate'}}
       </h3>
     </div>
     <div class="col">

@@ -3,7 +3,7 @@
   <!-- HEADER -->
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h4 class="card-title mb-0">Range {{marketStats.range.minOdds}} - {{marketStats.range.maxOdds}}</h4>
+      <h3>Range {{marketStats.range.minOdds}} - {{marketStats.range.maxOdds}} - {{marketStats.odds.name}}</h3>
     </div>
   </div><!-- /HEADER -->
   <div class="card-body">
@@ -59,37 +59,19 @@
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="Winner BSP" prop="winner.bsp" [flexGrow]="1">
+            <ngx-datatable-column name="Selection BSP" prop="selection.bsp" [flexGrow]="1">
               <ng-template let-value="value" ngx-datatable-cell-template>
                 <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="Winner Max" prop="winner.maxInPlay" [flexGrow]="1">
+            <ngx-datatable-column name="Selection Max" prop="selection.maxInPlay" [flexGrow]="1">
               <ng-template let-value="value" ngx-datatable-cell-template>
                 <p class="text-primary">{{value}}</p>
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="Winner min" prop="winner.minInPlay" [flexGrow]="1">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                <p class="text-danger">{{value}}</p>
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column name="Loser BSP" prop="loser.bsp" [flexGrow]="1">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                  <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column name="Loser Max" prop="loser.maxInPlay" [flexGrow]="1">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                <p class="text-primary">{{value}}</p>
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column name="Loser min" prop="loser.minInPlay" [flexGrow]="1">
+            <ngx-datatable-column name="Selection min" prop="selection.minInPlay" [flexGrow]="1">
               <ng-template let-value="value" ngx-datatable-cell-template>
                 <p class="text-danger">{{value}}</p>
               </ng-template>

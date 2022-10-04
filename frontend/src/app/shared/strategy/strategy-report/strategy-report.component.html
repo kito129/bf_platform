@@ -316,7 +316,7 @@
         <!-- LOW LAY -->
         <li [ngbNavItem]="11">
           <h4>
-            <a ngbNavLink class="text-success">Low Lay Filter</a>
+            <a ngbNavLink class="text-secondary">Low Lay</a>
           </h4>
           <ng-template ngbNavContent>
             <app-strategy-report-passive-low-lay [trades]="selectedStrategyTrades$ |async">
@@ -328,7 +328,7 @@
         <!-- BSP FILTER -->
         <li [ngbNavItem]="12">
           <h4>
-            <a ngbNavLink class="text-success">Odds Filter</a>
+            <a ngbNavLink class="text-success">Filters</a>
           </h4>
           <ng-template ngbNavContent>
             <app-strategy-report-bspfilter [trades]="trades">

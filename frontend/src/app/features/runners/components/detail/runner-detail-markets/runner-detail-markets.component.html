@@ -3,7 +3,7 @@
   <!-- HEADER -->
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h6 class="card-title mb-0">Runner Markets</h6>
+      <h3>Runner Markets</h3>
       <button type="button" [ngClass]="openState ? 'btn btn-outline-primary btn-icon' : 'btn btn-primary btn-icon'" (click)="changeOpenState()">
         <i class="feather icon-chevron-down"></i>
       </button>
@@ -39,7 +39,7 @@
 
           <ngx-datatable-column name="Date" prop="openDate">
             <ng-template let-value="value" ngx-datatable-cell-template>
-              <p>{{ value | date:'short' }}</p>
+              <h5>{{ value | date:'shortDate' }}</h5>
             </ng-template>
           </ngx-datatable-column>
 
@@ -54,30 +54,6 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Selection BSP" [width]="70" prop="selectionBSP">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-              <div class="row">
-                <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Selection Min" [width]="70"  prop="selectionMin">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-              <div class="row">
-                <h6 *ngIf="value>1.01">{{value}}</h6>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Selection Max" [width]="70"  prop="selectionMax">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-              <div class="row">
-                <h6>{{value}}</h6>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-
           <ngx-datatable-column name="Winner" [width]="50"  prop="selectionWin">
             <ng-template let-value="value" ngx-datatable-cell-template>
               <div *ngIf="value" class="text-success">
@@ -89,10 +65,27 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Winner BSP" [width]="70"  prop="winnerBSP">
+          <ngx-datatable-column name="Selection BSP" [width]="70" prop="selectionBSP">
             <ng-template let-value="value" ngx-datatable-cell-template>
-              <app-bsp-odd *ngIf="value" [bspOdd]="value">
-              </app-bsp-odd>
+              <div class="row">
+                <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Selection Min" [width]="70"  prop="selectionMin">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div class="row">
+                <h6 *ngIf="value>1.01" class="text-danger">{{value}}</h6>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Selection Max" [width]="70"  prop="selectionMax">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div class="row">
+                <h6 class="text-primary">{{value}}</h6>
+              </div>
             </ng-template>
           </ngx-datatable-column>
 

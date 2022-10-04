@@ -373,6 +373,8 @@ exports.markets_by_runner_id = async(req, res, next) => {
                 if(selectionsOfMarket){
                     let winnerIndex = ( +info.winner.id === selectionsOfMarket.marketRunners[0].id ? 0 : 1)
                     let loserIndex = ( winnerIndex === 0 ? 1 : 0)
+
+                    let selectionIndex =  ( +runnerId === selectionsOfMarket.marketRunners[0].id ? 0 : 1)
     
                     markResponse.push({
                         marketId: marketData[i].marketId,
@@ -381,6 +383,14 @@ exports.markets_by_runner_id = async(req, res, next) => {
                         openDate: info.openDate,
                         sport: info.sport,
                         selectionWin: +info.winner.id === runnerId,
+                        selection: {
+                            id: selectionsOfMarket.marketRunners[selectionIndex].id,
+                            name: selectionsOfMarket.marketRunners[selectionIndex].name,
+                            status: selectionsOfMarket.marketRunners[selectionIndex].status,
+                            bsp:selectionsOfMarket.marketRunners[selectionIndex].inPlayOdds,
+                            maxInPlay: selectionsOfMarket.marketRunners[selectionIndex].maxInPlay,
+                            minInPlay: selectionsOfMarket.marketRunners[selectionIndex].minInPlay,
+                        },
                         winner: {
                             id: selectionsOfMarket.marketRunners[winnerIndex].id,
                             name: selectionsOfMarket.marketRunners[winnerIndex].name,

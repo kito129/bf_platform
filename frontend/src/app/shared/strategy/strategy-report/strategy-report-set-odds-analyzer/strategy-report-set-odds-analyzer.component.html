@@ -30,6 +30,10 @@
     </div>
   </form>
   <h4> Selected: {{selected.length}}</h4>
+  <button type="button" class="btn btn-outline-light btn-icon-text ml-2 d-none d-md-block" (click)="saveAsCSV()">
+    <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
+    Download
+  </button>
 </div>
 
 <!-- DATA TABLE -->
@@ -66,12 +70,12 @@
       <h5>{{ value}}</h5>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="ResultA" prop="result.set2.runnerA" width="25">
+  <ngx-datatable-column name="ResultA" prop="result.Set1.runnerA" width="25">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5>{{ value}}</h5>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="ResultB" prop="result.set2.runnerB" width="25">
+  <ngx-datatable-column name="ResultB" prop="result.Set1.runnerB" width="25">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5>{{ value}}</h5>
     </ng-template>
@@ -108,7 +112,7 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Winner I" prop="runnerA.winSet2">
+  <ngx-datatable-column name="Winner I" prop="runnerA.winSet1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h4 *ngIf="value" class="text-danger">A</h4>
       <h4 *ngIf="!value" class="text-primary">B</h4>
@@ -122,34 +126,34 @@
   </ngx-datatable-column>
 
   <!-- RUNNER A -->
-  <ngx-datatable-column name="Set2 A" prop="runnerA.set2">
+  <ngx-datatable-column name="Set1 A" prop="runnerA.Set1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h4>{{value}}</h4>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Set2 A Notional" prop="runnerA.set2Notional">
+  <ngx-datatable-column name="Set1 A Notional" prop="runnerA.Set1Notional">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h4 class="text-warning">{{value}}</h4>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Set2 A Notional Delta" prop="runnerA.set2NotionalDelta">
+  <ngx-datatable-column name="Set1 A Notional Delta" prop="runnerA.Set1NotionalDelta">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 [ngClass]="value<limitSuccessMax && value>limitSuccessMin ? 'text-success' : 'text-danger'">{{value | number:'0.2'}}</h5>
     </ng-template>
   </ngx-datatable-column>
 
   <!-- RUNNER B -->
-  <ngx-datatable-column name="Set2 B" prop="runnerB.set2">
+  <ngx-datatable-column name="Set1 B" prop="runnerB.Set1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h4>{{value}}</h4>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Set2 B Notional" prop="runnerB.set2Notional">
+  <ngx-datatable-column name="Set1 B Notional" prop="runnerB.Set1Notional">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h4 class="text-warning">{{value}}</h4>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Set2 B Notional Delta" prop="runnerB.set2NotionalDelta">
+  <ngx-datatable-column name="Set1 B Notional Delta" prop="runnerB.Set1NotionalDelta">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 [ngClass]="value<limitSuccessMax && value>limitSuccessMin ? 'text-success' : 'text-danger'">{{value | number:'0.2'}}</h5>
     </ng-template>
@@ -165,7 +169,7 @@
   </ngx-datatable-column>
 </ngx-datatable>
 
-<!-- CHARTS -->
+<!-- CHARTS
 <app-columns-chart [title]="['BSP', 'Odds', 'Notional', 'Delta']"
                    [isPercent]="false"
                    [isCurrency]="false"
@@ -175,6 +179,7 @@
                    [wantStacked]="false"
                    [seriesData]="[winnerSetBsp,winnerSetOdds,winnerSetNotional,winnerSetNotionalDelta]">
 </app-columns-chart>
+-->
 
 
 <!--  TABLE
@@ -188,14 +193,14 @@
       <th><h4>BspA</h4></th>
       <th><h4>BspB</h4></th>
       <th><h4>Winner Set 2</h4></th>
-      <th><h4>Set2 A</h4></th>
+      <th><h4>Set1 A</h4></th>
 
-      <th><h4>Set2 A Notional</h4></th>
-      <th><h4>Set2 A Delta</h4></th>
-      <th><h4>Set2 B</h4></th>
+      <th><h4>Set1 A Notional</h4></th>
+      <th><h4>Set1 A Delta</h4></th>
+      <th><h4>Set1 B</h4></th>
 
-      <th><h4>Set2 B Notional</h4></th>
-      <th><h4>Set2 B Delta</h4></th>
+      <th><h4>Set1 B Notional</h4></th>
+      <th><h4>Set1 B Delta</h4></th>
     </tr>
     </thead>
     <tbody class="text-white">
@@ -209,27 +214,27 @@
       <td>
         <app-odds-implicit [odds]="trade.runnerB.bsp"></app-odds-implicit>
       </td>
-      <td><h4 [ngClass]="trade.runnerA.winSet2 ? 'text-danger' :  'text-primary'">{{trade.runnerA.winSet2 ? 'A' : 'B'}}</h4></td>
+      <td><h4 [ngClass]="trade.runnerA.winSet1 ? 'text-danger' :  'text-primary'">{{trade.runnerA.winSet1 ? 'A' : 'B'}}</h4></td>
       <td>
-        <app-odds-implicit [odds]="trade.runnerA.set2"></app-odds-implicit>
+        <app-odds-implicit [odds]="trade.runnerA.Set1"></app-odds-implicit>
       </td>
       <td>
-        <app-odds-implicit [odds]="trade.runnerA.set2Notional"></app-odds-implicit>
+        <app-odds-implicit [odds]="trade.runnerA.Set1Notional"></app-odds-implicit>
       </td>
       <td>
-        <h5 [ngClass]="0.25<trade.runnerA.set2Delta && 0.45>trade.runnerA.set2Delta ? 'text-success' : 'text-danger'">
-          {{trade.runnerA.set2Delta | percent}}
+        <h5 [ngClass]="0.25<trade.runnerA.Set1Delta && 0.45>trade.runnerA.Set1Delta ? 'text-success' : 'text-danger'">
+          {{trade.runnerA.Set1Delta | percent}}
         </h5>
       </td>
       <td>
-        <app-odds-implicit [odds]="trade.runnerB.set2"></app-odds-implicit>
+        <app-odds-implicit [odds]="trade.runnerB.Set1"></app-odds-implicit>
       </td>
       <td>
-        <app-odds-implicit [odds]="trade.runnerB.set2Notional"></app-odds-implicit>
+        <app-odds-implicit [odds]="trade.runnerB.Set1Notional"></app-odds-implicit>
       </td>
       <td>
-        <h5 [ngClass]="0.25<trade.runnerB.set2Delta && 0.45>trade.runnerB.set2Delta ? 'text-success' : 'text-danger'">
-          {{trade.runnerB.set2Delta | percent}}
+        <h5 [ngClass]="0.25<trade.runnerB.Set1Delta && 0.45>trade.runnerB.Set1Delta ? 'text-success' : 'text-danger'">
+          {{trade.runnerB.Set1Delta | percent}}
         </h5>
       </td>
     </tr>

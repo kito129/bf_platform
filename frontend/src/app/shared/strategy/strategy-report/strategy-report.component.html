@@ -289,8 +289,20 @@
             </app-multi-line-equity>
           </ng-template>
         </li>
-        <!-- MONTECARLO -->
+
+        <!-- BSP FILTER -->
         <li [ngbNavItem]="9">
+          <h4>
+            <a ngbNavLink class="text-success">Trade Filters</a>
+          </h4>
+          <ng-template ngbNavContent>
+            <app-strategy-report-bspfilter [trades]="trades">
+            </app-strategy-report-bspfilter>
+          </ng-template>
+        </li>
+
+        <!-- MM -->
+        <li [ngbNavItem]="10">
           <h4>
             <a ngbNavLink class="text-secondary">Money Managements</a>
           </h4>
@@ -300,8 +312,9 @@
             </app-mm>
           </ng-template>
         </li>
-        <!-- MONTECARLO -->
-        <li [ngbNavItem]="10">
+
+        <!-- MONTE CARLO -->
+        <li [ngbNavItem]="11">
           <h4>
             <a ngbNavLink class="text-secondary">Monte-Carlo</a>
           </h4>
@@ -311,10 +324,8 @@
           </ng-template>
         </li>
 
-        <!-- PASSIVE -->
-
         <!-- LOW LAY -->
-        <li [ngbNavItem]="11">
+        <li [ngbNavItem]="12">
           <h4>
             <a ngbNavLink class="text-secondary">Low Lay</a>
           </h4>
@@ -322,17 +333,6 @@
             <app-strategy-report-passive-low-lay [trades]="selectedStrategyTrades$ |async">
 
             </app-strategy-report-passive-low-lay>
-          </ng-template>
-        </li>
-
-        <!-- BSP FILTER -->
-        <li [ngbNavItem]="12">
-          <h4>
-            <a ngbNavLink class="text-success">Filters</a>
-          </h4>
-          <ng-template ngbNavContent>
-            <app-strategy-report-bspfilter [trades]="trades">
-            </app-strategy-report-bspfilter>
           </ng-template>
         </li>
 

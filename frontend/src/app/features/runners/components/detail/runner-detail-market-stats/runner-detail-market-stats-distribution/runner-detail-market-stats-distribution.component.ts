@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RunnerMarketsStatsInterface} from "../../../../../../model/runner/runnerMarketsStats";
-import {ChartOptions} from "../../../../../../model/chartOptions";
+import {RunnerMarketsStatsInterface} from '../../../../../../model/runner/runnerMarketsStats';
+import {ChartOptions} from '../../../../../../model/chartOptions';
 
 @Component({
   selector: 'app-runner-detail-market-stats-distribution',
@@ -25,27 +25,27 @@ export class RunnerDetailMarketStatsDistributionComponent implements OnInit {
     this.lineChartOptions = {
       series: [
         {
-          name: "W",
-          type: "bar",
+          name: 'W',
+          type: 'bar',
           data: this.marketStats.map( x => x.match.winner)
         },
         {
-          name: "L",
-          type: "bar",
+          name: 'L',
+          type: 'bar',
           data: this.marketStats.map( x => x.match.loser)
         },
         {
-          name: "N",
-          type: "bar",
+          name: 'N',
+          type: 'bar',
           data: this.marketStats.map( x => x.match.notWinner)
         },
       ],
       colors : ['#627CF5', '#bc427d','#c6cb31'],
       xaxis: {
-        categories: this.marketStats.map( x => {return x.range.minOdds + ' - ' + x.range.maxOdds})
+        categories: this.marketStats.map( x => x.odds.name)
       },
       chart: {
-        type: "bar",
+        type: 'bar',
         animations: {
           enabled: false
         },
@@ -59,8 +59,8 @@ export class RunnerDetailMarketStatsDistributionComponent implements OnInit {
       },
       tooltip: {
         y: {
-          formatter: function (val) {
-            return  val + "";
+          formatter (val) {
+            return  val + '';
           }
         }
       },

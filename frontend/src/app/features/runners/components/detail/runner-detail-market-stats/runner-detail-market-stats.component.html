@@ -3,12 +3,12 @@
   <!-- HEADER -->
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h3>Runner Markets Filter</h3>
+      <h3>BSP Range</h3>
     </div>
   </div><!-- /HEADER -->
   <div class="card-body">
     <div class="row">
-      <div class="col-6" *ngFor="let stats of marketsStats.rangeStats">
+      <div class="col-4" *ngFor="let stats of marketsStats.rangeStats">
         <app-runner-detail-market-stats-table [marketStats]="stats"
                                               [runnerId]="runnerId"
                                               [totalMatch]="runnerMarkets.length">

@@ -2,9 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NewTrade} from '../../../../model/report/new/newTrade';
 import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from '../../../../model/report/tradeSetOddsAnalyzer';
 import {ColumnMode,SelectionType, DatatableComponent} from '@swimlane/ngx-datatable';
-import {of} from "rxjs";
-import {TradeDetail} from "../../../../model/report/trade";
-import {CompareStudyCsvGeneratorService} from "../../../../services/compare-study-csv-generator.service";
+import {CompareStudyCsvGeneratorService} from '../../../../services/compare-study-csv-generator.service';
 
 @Component({
   selector: 'app-strategy-report-set-odds-analyzer',

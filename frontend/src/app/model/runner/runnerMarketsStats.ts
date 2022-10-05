@@ -11,7 +11,6 @@ export interface RunnerMarketsStatsInterface{
     loser: number,
     notWinner: number,
   }
-
   odds:{
     min: number
     max: number
@@ -24,6 +23,7 @@ export interface RunnerMarketsStatsInterface{
 export class RunnerMarketsStats{
 
   public rangeStats: RunnerMarketsStatsInterface[] = []
+  public rangeFav: RunnerMarketsStatsInterface[] = []
 
   constructor(runnerMarkets: MarketSelectionInfo[], runnerId: number) {
     const ranges: MarketSelectionInfo[][] = []
@@ -37,11 +37,10 @@ export class RunnerMarketsStats{
 
     ranges.push(runnerMarkets.filter( x => { return this.checkRange(2, 4, x)}))
     ranges.push(runnerMarkets.filter( x => { return this.checkRange(4.01, 6, x)}))
-    ranges.push(runnerMarkets.filter( x => { return this.checkRange(6.01, 10, x)}))
-    ranges.push(runnerMarkets.filter( x => { return this.checkRange(10.01, 100000, x)}))
+    ranges.push(runnerMarkets.filter( x => { return this.checkRange(6.01, 10000, x)}))
 
     const rangeOdds=[1,1.12,1.21,1.31,1.5,1.75,2,4,6,1000]
-    const rangeName=['Top Dog','Mid Dog','High Dog','Fav','Mid Fav','High Fav','Underdog','Loser','Loser','Loser']
+    const rangeName=['Top Dog [1.01-1.11]','Mid Dog [1.12-1.20]','High Dog [1.21-1.30]','Fav [1.31-1.49]','Mid Fav [1.50-1.74]','High Fav [1.75-1.99]','Underdog [2-4]','Scary [4.01-6]','Loser [6.01-1000]']
 
     let i=0
     for (const range of ranges){

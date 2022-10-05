@@ -15,22 +15,27 @@ export class StrategyReportBspfilterParamsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.reset()
+    this.emptyFilter()
   }
 
-
-  reset(){
+  emptyFilter() {
     this.filters = []
-    this.filters.push(new StrategyFilterBspClass('Top Dog', 1.01,1.11,2000))
-    this.filters.push(new StrategyFilterBspClass('Mid Dog', 1.12,1.20,2000))
-    this.filters.push(new StrategyFilterBspClass('High Dog', 1.21,1.30,2000))
+    this.filters.push(new StrategyFilterBspClass('New', 1.01, 10000, 2000))
+  }
 
-    this.filters.push(new StrategyFilterBspClass('Fav', 1.31,1.49,2000))
-    this.filters.push(new StrategyFilterBspClass('Mid Fav ', 1.50,1.74,2000))
-    this.filters.push(new StrategyFilterBspClass('High Fav', 1.75,2,2000))
+  oddsFilter(){
+    this.filters = []
+    this.filters.push(new StrategyFilterBspClass('Top Dog [1.01-1.11]', 1.01,1.11,2000))
+    this.filters.push(new StrategyFilterBspClass('Mid Dog [1.12-1.20]', 1.12,1.20,2000))
+    this.filters.push(new StrategyFilterBspClass('High Dog [1.21-1.30]', 1.21,1.30,2000))
 
-    this.filters.push(new StrategyFilterBspClass('Underdog', 2,6,2000))
-    this.filters.push(new StrategyFilterBspClass('Loser', 6.01,100000,2000))
+    this.filters.push(new StrategyFilterBspClass('Fav [1.31-1.49]', 1.31,1.49,2000))
+    this.filters.push(new StrategyFilterBspClass('Mid Fav [1.50-1.74]', 1.50,1.74,2000))
+    this.filters.push(new StrategyFilterBspClass('High Fav [1.75-1.99]', 1.75,1.99,2000))
+
+    this.filters.push(new StrategyFilterBspClass('Underdog [2-4]', 2,4,2000))
+    this.filters.push(new StrategyFilterBspClass('Scary [4.01-6]', 4.01,6,2000))
+    this.filters.push(new StrategyFilterBspClass('Loser [6.01-1000]', 6.01,1000,2000))
 
   }
 
@@ -40,12 +45,12 @@ export class StrategyReportBspfilterParamsComponent implements OnInit {
   }
 
   resetEmit(){
-    this.reset()
+    this.emptyFilter()
     this.resetEmitter.emit('close')
   }
 
   addFilter(){
-    this.filters.push(new StrategyFilterBspClass('new', 1.01,1.2, 2000))
+    this.filters.push(new StrategyFilterBspClass('New', 1.01,10000, 2000))
   }
 
   removeFilter(index: number){

@@ -6,24 +6,19 @@
       </li>
       <li class="list-group-item">
         <div class="row">
-          <div class="col">
-            <h4 *ngIf="haveStrategy">
-              {{strategyReport.strategy.strategy.info.name}}
-            </h4>
-            <h4 *ngIf="!haveStrategy">
-              {{strategyReport.title}}
-            </h4>
-          </div>
-          <div class="col" *ngIf="strategyReport.strategy">
-            <app-sport-text [sport]="strategyReport.strategy.strategy.info.sport"></app-sport-text>
-          </div>
+          <h4 *ngIf="haveStrategy">
+            {{strategyReport.strategy.strategy.info.name}}
+          </h4>
+          <h4 *ngIf="!haveStrategy">
+            {{strategyReport.title}}
+          </h4>
         </div>
       </li>
       <div *ngIf="haveStrategy">
         <li class="list-group-item">
-          <h4>
+          <h5>
             Executor: {{strategyReport.strategy.strategy.info.executor}}
-          </h4>
+          </h5>
         </li>
         <li class="list-group-item">
           <h5>
@@ -75,7 +70,7 @@
       </li>
       <li class="list-group-item">
         <div class="row">
-          <div class="col">
+          <div class="col-2">
             <h4>PL:</h4>
           </div>
           <div class="col">

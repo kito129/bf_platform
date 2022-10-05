@@ -3,21 +3,8 @@
   <!-- HEADER -->
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h3 class="text-primary">Compare</h3>
-
-      <div>
-        <form class="forms-sample grid-margin">
-          <input
-            class="form-control"
-            type="text"
-            placeholder="Compare"/>
-        </form>
-        <button type="button"
-                class="btn btn btn-outline-danger"
-                (click)="saveCompare()">
-          Save Compare
-        </button>
-      </div>
+      <h3 *ngIf="!strategyListNoStrategy" class="text-primary">Compare</h3>
+      <h3 *ngIf="strategyListNoStrategy" class="text-success">Filters Result</h3>
 
       <button type="button" [ngClass]="isCollapsed? 'btn btn btn-outline-primary' : 'btn btn btn-primary'" (click)="isCollapsed = !isCollapsed"
               [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">

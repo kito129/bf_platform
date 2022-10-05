@@ -18,16 +18,19 @@
   <div class="card-body" [ngbCollapse]="isCollapsed">
     <!-- ROW -->
     <div class="d-flex justify-content-end align-items-center">
+
       <app-strategy-create-modal *ngIf="!isSaved"
                                  class="mr-3"
                                  (addStrategyCreateEmitter)="createModal($event)">
       </app-strategy-create-modal>
-      <button type="button" class="btn btn ml-3 mb -2"
+
+      <button type="button" class="btn btn mr-3 mb-2"
               [ngClass]="viewId ? 'btn-primary' : 'btn-outline-primary' "
               (click)="viewId= !viewId">
         View Id
       </button>
-      <form class="form-group grid-margin">
+
+      <form class="form-group">
         <div class="row ">
           <div class="col">
             <div class="form-group">

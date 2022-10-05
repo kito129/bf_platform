@@ -11,6 +11,8 @@
         <h5>{{ trade.trade.selections[1].runnerName}}</h5>
       </th>
       <th><h5>Time</h5></th>
+      <th><h5>Notional</h5></th>
+      <th><h5>Notional Delta</h5></th>
     </tr>
     </thead>
     <tbody>
@@ -22,8 +24,8 @@
       <td *ngFor="let selection of trade.trade.selections">
         <app-bsp-odd [bspOdd]="selection.bsp"></app-bsp-odd>
       </td>
-      <h5></h5>
       <td>
+      </td>
     </tr>
     <!-- SECOND -->
     <tr *ngIf="trade.trade.info.setTime.second">

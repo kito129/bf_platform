@@ -128,10 +128,13 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public refresh(){
+  public refreshStrategy(){
     this.store.dispatch(reportActions.getAllStrategies())
-    this.store.dispatch(reportActions.getAllNewTrades())
     this.store.dispatch(reportActions.getAllSavedReport())
+  }
+
+  public refreshTrade(){
+    this.store.dispatch(reportActions.getAllNewTrades())
   }
 
 }

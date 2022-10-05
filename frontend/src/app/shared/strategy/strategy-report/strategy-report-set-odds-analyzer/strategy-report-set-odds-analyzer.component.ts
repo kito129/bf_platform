@@ -32,6 +32,7 @@ export class StrategyReportSetOddsAnalyzerComponent implements OnInit {
   winnerSetOdds: number[] = []
   winnerSetNotional: number[] = []
   winnerSetNotionalDelta: number[] = []
+  winnerSetNotionalDeltaAbs: number[] = []
   labelsMarketName: string[] = []
 
   okValue = false
@@ -43,12 +44,16 @@ export class StrategyReportSetOddsAnalyzerComponent implements OnInit {
   constructor(private compareStudyCsv: CompareStudyCsvGeneratorService) { }
 
   ngOnInit(): void {
+
     this.analyzer = new TradeSetOddsAnalyzer(this.trades).analyzer
+    this.analyzer = this.analyzer.filter( x=> x.winner.bsp<5)
+
     this.rows = this.analyzer
     this.temp = this.analyzer
 
     const winnerSetValue = this.analyzer.map( x => {
-      this.labelsMarketName.push(x.marketName + ' : ' + x.result.set1.runnerA + '-' + x.result.set1.runnerB)
+      this.labelsMarketName.push(x.marketName + ' : ' + x.result.set1.runnerA + '-' + x.result.set1.runnerB
+         + '   ' +x.winner.bsp + ' -> ' + x.winner.set1)
       if(x.runnerA.winSet1){
         return{
           winner: 'A',
@@ -73,6 +78,7 @@ export class StrategyReportSetOddsAnalyzerComponent implements OnInit {
       this.winnerSetOdds.push(winnerSetValueElement.setOdds)
       this.winnerSetNotional.push(winnerSetValueElement.setNotional)
       this.winnerSetNotionalDelta.push(winnerSetValueElement.setNotionalDelta)
+      this.winnerSetNotionalDeltaAbs.push(Math.abs(winnerSetValueElement.setNotionalDelta))
     }
     this.okValue = true
   }
@@ -94,6 +100,11 @@ export class StrategyReportSetOddsAnalyzerComponent implements OnInit {
     } else {
       this.rows = this.temp
     }
+  }
+
+  filterOutlierData() {
+    this.rows = this.analyzer.map( x=> x.winner.bsp<6)
+    this.temp = this.analyzer.map( x=> x.winner.bsp<6)
   }
 
   saveAsCSV(){

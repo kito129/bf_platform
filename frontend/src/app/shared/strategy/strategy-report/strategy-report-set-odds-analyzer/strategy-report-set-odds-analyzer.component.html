@@ -30,9 +30,13 @@
     </div>
   </form>
   <h4> Selected: {{selected.length}}</h4>
-  <button type="button" class="btn btn-outline-light btn-icon-text ml-2 d-none d-md-block" (click)="saveAsCSV()">
+  <button type="button" class="btn btn-outline-light btn-icon-text ml-2" (click)="saveAsCSV()">
     <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
     Download
+  </button>
+  <button type="button" class="btn btn-outline-warning btn-icon-text ml-2" (click)="filterOutlierData()">
+    <i class="btn-icon-prepend" data-feather="x" appFeatherIcon></i>
+    Remove Outlier
   </button>
 </div>
 
@@ -59,54 +63,46 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <!-- RESULT -->
-  <ngx-datatable-column name="ResultA" prop="result.set1.runnerA" width="25">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5>{{ value}}</h5>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="ResultB" prop="result.set1.runnerB" width="25">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5>{{ value}}</h5>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="ResultA" prop="result.Set1.runnerA" width="25">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5>{{ value}}</h5>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="ResultB" prop="result.Set1.runnerB" width="25">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5>{{ value}}</h5>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="ResultA" prop="result.set3.runnerA" width="25">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5>{{ value}}</h5>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="ResultB" prop="result.set3.runnerB" width="25">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5>{{ value}}</h5>
-    </ng-template>
-  </ngx-datatable-column>
-
   <ngx-datatable-column name="Name" prop="marketName">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5>{{ value}}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-
-
-
-  <!-- BSP -->
-  <ngx-datatable-column name="Bsp A" prop="runnerA.bsp">
+  <!-- RESULT -->
+  <ngx-datatable-column name="S1a" prop="result.set1.runnerA" width="20">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
+      <h5>{{ value}}</h5>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Bsp B" prop="runnerB.bsp">
+  <ngx-datatable-column name="S1b" prop="result.set1.runnerB" width="20">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{ value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="S2a" prop="result.set2.runnerA" width="20">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{ value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="S2b" prop="result.set2.runnerB" width="20">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{ value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="S3a" prop="result.set3.runnerA" width="20">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{ value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="S3b" prop="result.set3.runnerB" width="20">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <h5>{{ value}}</h5>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <!-- BSP -->
+  <ngx-datatable-column name="Bsp Winner" prop="winner.bsp">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
     </ng-template>
@@ -125,35 +121,18 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <!-- RUNNER A -->
-  <ngx-datatable-column name="Set1 A" prop="runnerA.Set1">
+  <!-- WINNER ODDS-->
+  <ngx-datatable-column name="Set2 A" prop="winner.set1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h4>{{value}}</h4>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Set1 A Notional" prop="runnerA.Set1Notional">
+  <ngx-datatable-column name="Set2 A Notional" prop="winner.set1Notional">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h4 class="text-warning">{{value}}</h4>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="Set1 A Notional Delta" prop="runnerA.Set1NotionalDelta">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h5 [ngClass]="value<limitSuccessMax && value>limitSuccessMin ? 'text-success' : 'text-danger'">{{value | number:'0.2'}}</h5>
-    </ng-template>
-  </ngx-datatable-column>
-
-  <!-- RUNNER B -->
-  <ngx-datatable-column name="Set1 B" prop="runnerB.Set1">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h4>{{value}}</h4>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Set1 B Notional" prop="runnerB.Set1Notional">
-    <ng-template let-value="value" ngx-datatable-cell-template>
-      <h4 class="text-warning">{{value}}</h4>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="Set1 B Notional Delta" prop="runnerB.Set1NotionalDelta">
+  <ngx-datatable-column name="Set2 A Notional Delta" prop="winner.set1NotionalDelta">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 [ngClass]="value<limitSuccessMax && value>limitSuccessMin ? 'text-success' : 'text-danger'">{{value | number:'0.2'}}</h5>
     </ng-template>
@@ -169,17 +148,61 @@
   </ngx-datatable-column>
 </ngx-datatable>
 
-<!-- CHARTS
-<app-columns-chart [title]="['BSP', 'Odds', 'Notional', 'Delta']"
+<!-- CHARTS-->
+<h3>BSP Winner Set1</h3>
+<app-columns-chart [title]="['BSP']"
                    [isPercent]="false"
                    [isCurrency]="false"
                    [labels]="labelsMarketName"
                    [height]="650"
-                   [colors]="['#ffffff', '#3aff24', '#dc8619', '#e50a55']"
+                   [colors]="['#ffffff']"
                    [wantStacked]="false"
-                   [seriesData]="[winnerSetBsp,winnerSetOdds,winnerSetNotional,winnerSetNotionalDelta]">
+                   [seriesData]="[winnerSetBsp]">
 </app-columns-chart>
--->
+
+<h3>Odds Winner Set1</h3>
+<app-columns-chart [title]="['Odds']"
+                   [isPercent]="false"
+                   [isCurrency]="false"
+                   [labels]="labelsMarketName"
+                   [height]="650"
+                   [colors]="[ '#3aff24']"
+                   [wantStacked]="false"
+                   [seriesData]="[winnerSetOdds]">
+</app-columns-chart>
+
+<h3>Notional Winner Set1</h3>
+<app-columns-chart [title]="[ 'Notional']"
+                   [isPercent]="false"
+                   [isCurrency]="false"
+                   [labels]="labelsMarketName"
+                   [height]="650"
+                   [colors]="['#dc8619']"
+                   [wantStacked]="false"
+                   [seriesData]="[winnerSetNotional]">
+</app-columns-chart>
+
+<h3>Delta Winner Set1</h3>
+<app-columns-chart [title]="['Delta']"
+                   [isPercent]="false"
+                   [isCurrency]="false"
+                   [labels]="labelsMarketName"
+                   [height]="650"
+                   [colors]="['#e50a55']"
+                   [wantStacked]="false"
+                   [seriesData]="[winnerSetNotionalDelta]">
+</app-columns-chart>
+
+<h3>Absolute Delta Winner Set1</h3>
+<app-columns-chart [title]="['ABS Delta']"
+                   [isPercent]="false"
+                   [isCurrency]="false"
+                   [labels]="labelsMarketName"
+                   [height]="650"
+                   [colors]="['#81123a']"
+                   [wantStacked]="false"
+                   [seriesData]="[winnerSetNotionalDeltaAbs]">
+</app-columns-chart>
 
 
 <!--  TABLE

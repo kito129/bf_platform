@@ -1,0 +1,9 @@
+<app-strategy-report-trade-filter-params (filterEmitter)="filterEmit($event)"
+                                      (resetEmitter)="resetEmitter($event)">
+</app-strategy-report-trade-filter-params>
+
+<div *ngIf="validData && bug">
+  <app-strategy-compare [defaultTab]="1"
+                        [strategyListNoStrategy]="compare">
+  </app-strategy-compare>
+</div>

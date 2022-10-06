@@ -22,13 +22,13 @@ export class StrategyFilterBspClass implements StrategyFilterBsp{
   filterTournamentSurface: string
   bank: number
 
-  constructor(name: string, min: number, max: number, bank: number) {
+  constructor(name: string, min: number, max: number, bank: number, surface?: string, sex?: string) {
     this.name = name
     this.minOdds = min
     this.maxOdds = max
     this.filterType = 'BSP (Traded Only)'
-    this.filterTournamentType = 'ALL'
-    this.filterTournamentSurface = 'ALL'
+    this.filterTournamentType = sex ? sex : 'ALL'
+    this.filterTournamentSurface = surface ? surface : 'ALL'
     this.bank = bank
   }
 

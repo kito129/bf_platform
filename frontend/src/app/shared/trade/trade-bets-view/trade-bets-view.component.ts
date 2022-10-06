@@ -27,9 +27,6 @@ export class TradeBetsViewComponent implements OnInit {
       this.tradeA.trade.trades = this.tradeA.trade.trades.filter( x => x.selectionN ===0)
       this.tradeB.trade.trades = this.tradeB.trade.trades.filter( x => x.selectionN ===1)
 
-      console.log(this.tradeA)
-      console.log(this.tradeB)
-
       this.bets = this.generateTrade(this.trade)
       this.betsA = this.generateTrade(this.tradeA)
       this.betsB = this.generateTrade(this.tradeB)

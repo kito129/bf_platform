@@ -80,7 +80,7 @@
 
       <ngx-datatable-column name="Date" prop="savedReport.updated" *ngIf="isSaved" [width]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <h5>{{ value | date:'shortDate' }}</h5>
+          <h5>{{ value | date:'short' }}</h5>
         </ng-template>
       </ngx-datatable-column>
 

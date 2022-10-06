@@ -58,7 +58,6 @@ import { StudyMarketsSelectedDetailComponent } from './study/study-markets-selec
 import { StrategyReportInfoComponent } from './strategy/strategy-report/strategy-report-info/strategy-report-info.component';
 import { StrategyReportResumeComponent } from './strategy/strategy-report/strategy-report-resume/strategy-report-resume.component';
 import { StrategyReportComponent } from './strategy/strategy-report/strategy-report.component';
-import { StrategyReportExpectedValueComponent } from './strategy/strategy-report/strategy-report-expected-value/strategy-report-expected-value.component';
 import { TradeEquityComponent } from './charts/apx-charts/trade/single/trade-equity/trade-equity.component';
 import { TradeDDComponent } from './charts/apx-charts/trade/single/trade-dd/trade-dd.component';
 import { TradeBarChartsComponent } from './charts/apx-charts/trade/single/trade-bar-charts/trade-bar-charts.component';
@@ -79,7 +78,7 @@ import { MontecarloPipe } from '../core/pipe/montecarlo.pipe';
 import { RunnerNamePipePipe } from '../core/pipe/runner-name-pipe.pipe';
 import { PlayersFilterPipe } from '../core/pipe/players-filter-name-pipe.pipe';
 import { StrategyReportMonthComponent } from './strategy/strategy-report/strategy-report-month/strategy-report-month.component';
-import { StrategyReportTablesComponent } from './strategy/strategy-report/strategy-report-tables/strategy-report-tables.component';
+import { StrategyReportComparatorTableComponent } from './strategy/strategy-report/strategy-report-comparator-table/strategy-report-comparator-table.component';
 import { TvAdvancedMultipleSelectionsComponent } from './charts/tradingView-charts/advanced-multiple-selections/tv-advanced-multiple-selections.component';
 import { OHLCPipe } from '../core/pipe/ohlc.pipe';
 import { CurrencyKPipe } from '../core/pipe/currency-k.pipe';
@@ -115,8 +114,8 @@ import { MmParamsComponent } from './strategy/strategy-mm/mm-params/mm-params.co
 import { MmDatatableComponent } from './strategy/strategy-mm/mm-datatable/mm-datatable.component';
 import { MmChartsComponent } from './strategy/strategy-mm/mm-charts/study-mm-charts.component';
 import { TradeSelectedResumeComponent } from './trade/trade-selected-resume/trade-selected-resume.component';
-import { StrategyReportBSPFilterComponent } from './strategy/strategy-report/strategy-report-bspfilter/strategy-report-bspfilter.component';
-import { StrategyReportBspfilterParamsComponent } from './strategy/strategy-report/strategy-report-bspfilter/strategy-report-bspfilter-params/strategy-report-bspfilter-params.component';
+import { StrategyReportTradeFilterComponent} from './strategy/strategy-report/strategy-report-trade-filter/strategy-report-trade-filter.component';
+import { StrategyReportTradeFilterParamsComponent} from './strategy/strategy-report/strategy-report-trade-filter/strategy-report-trade-filter-params/strategy-report-trade-filter-params.component';
 import { ComparatorTradesTableComponent } from './strategy/comparator-trades-table/comparator-trades-table.component';
 import { ColumnsChartComponent } from './charts/apx-charts/columns-chart/columns-chart.component';
 import { BetTableComponent } from './trade/trade-bets-view/bet-table/bet-table.component';
@@ -132,6 +131,8 @@ import { TradeDatatableStatsComponent } from './trade/trade-datatable/trade-data
 import { StrategyReportAddTradesToSavedComponent } from './strategy/strategy-report/modal/strategy-report-add-trades-to-saved/strategy-report-add-trades-to-saved.component';
 import { StrategyReportSavedUpdatesComponent } from './strategy/strategy-report/modal/strategy-report-saved-updates/strategy-report-saved-updates.component';
 import { StrategyReportSetOddsAnalyzerComponent } from './strategy/strategy-report/strategy-report-set-odds-analyzer/strategy-report-set-odds-analyzer.component';
+import { StrategyReportBetFilterComponent} from './strategy/strategy-report/strategy-report-bet-filter/strategy-report-bet-filter.component';
+import { StrategyReportBetFilterParamsComponent } from './strategy/strategy-report/strategy-report-bet-filter/strategy-report-bet-filter-params/strategy-report-bet-filter-params.component';
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
@@ -196,7 +197,6 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyReportInfoComponent,
     StrategyReportResumeComponent,
     StrategyReportComponent,
-    StrategyReportExpectedValueComponent,
     TradeEquityComponent,
     TradeDDComponent,
     TradeBarChartsComponent,
@@ -218,7 +218,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MontecarloChartsComponent,
     MontecarloPipe,
     StrategyReportMonthComponent,
-    StrategyReportTablesComponent,
+    StrategyReportComparatorTableComponent,
     RunnerNamePipePipe,
     PlayersFilterPipe,
     OHLCPipe,
@@ -259,8 +259,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MmDatatableComponent,
     MmChartsComponent,
     TradeSelectedResumeComponent,
-    StrategyReportBSPFilterComponent,
-    StrategyReportBspfilterParamsComponent,
+    StrategyReportTradeFilterComponent,
+    StrategyReportTradeFilterParamsComponent,
     ComparatorTradesTableComponent,
     ColumnsChartComponent,
     BetTableComponent,
@@ -275,6 +275,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyReportAddTradesToSavedComponent,
     StrategyReportSavedUpdatesComponent,
     StrategyReportSetOddsAnalyzerComponent,
+    StrategyReportBetFilterComponent,
+    StrategyReportBetFilterParamsComponent,
   ],
   exports: [
     CommonModule,
@@ -325,7 +327,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MontecarloParamsComponent,
     MontecarloMainComponent,
     MontecarloPipe,
-    StrategyReportTablesComponent,
+    StrategyReportComparatorTableComponent,
     RunnerNamePipePipe,
     PlayersFilterPipe,
     TvAdvancedMultipleSelectionsComponent,
@@ -411,7 +413,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MontecarloParamsComponent,
     MontecarloMainComponent,
     MontecarloPipe,
-    StrategyReportTablesComponent,
+    StrategyReportComparatorTableComponent,
     RunnerNamePipePipe,
     PlayersFilterPipe,
     TvAdvancedMultipleSelectionsComponent,
@@ -452,6 +454,8 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyReportRiskComponent,
     StrategyReportRRComponent,
     StrategyReportSavedUpdatesComponent,
+    StrategyReportTradeFilterComponent,
+    StrategyReportTradeFilterParamsComponent,
   ]
 })
 export class SharedModule { }

@@ -36,21 +36,15 @@ export class AuthService {
     this.http.post<any>(`${baseUrl}/login`, {email, password}, {observe: 'response'}).subscribe(
       (data) => {
         if(data.status===200){
-          console.log(data.body);
           AuthService.setSession(data.body.token)
-
           if (localStorage.getItem('isLoggedin')) {
             this.router.navigate([url]);
           }
-
           this.callDataAfterFirstLogin()
-
           // this.router.navigateByUrl('/');
         } else if(data.status===401){
           console.log('unauthorized')
-
         }
-
       }
     );
   }

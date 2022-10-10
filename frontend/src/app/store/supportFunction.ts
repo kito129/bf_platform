@@ -11,6 +11,12 @@ export function addElement(all: any[], newElement: any ) {
   return copy
 }
 
+export function addElements(all: any[], newElement: any[] ) {
+  let copy = all.map(element => ({...element}));
+  copy = copy.concat(newElement)
+  return copy
+}
+
 export function updateElement(all: any[], update: any ) {
   return all.map((element) =>{
     if(element._id === update._id){

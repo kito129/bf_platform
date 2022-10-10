@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from "rxjs";
-import {IsLoading} from "../../../model/isLoading";
-import {TennisTournament} from "../../../model/tennisTournament/tennisTournament";
-import {select, Store} from "@ngrx/store";
-import * as tennisTournamentSelectors from "../../../store/tennis-tournament/tennisTournament.selectors";
-import * as tennisTournamentActions from "../../../store/tennis-tournament/tennisTournament.actions";
+import {Observable} from 'rxjs';
+import {IsLoading} from '../../../model/isLoading';
+import {TennisTournament} from '../../../model/tennisTournament/tennisTournament';
+import {select, Store} from '@ngrx/store';
+import * as tennisTournamentSelectors from '../../../store/tennis-tournament/tennisTournament.selectors';
+import * as tennisTournamentActions from '../../../store/tennis-tournament/tennisTournament.actions';
 
 @Component({
   selector: 'app-tennis-tournament-main',

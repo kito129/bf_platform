@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NewTrade} from '../../../../model/report/new/newTrade';
 import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from '../../../../model/report/tradeSetOddsAnalyzer';
 import {ColumnMode,SelectionType, DatatableComponent} from '@swimlane/ngx-datatable';
-import {CompareStudyCsvGeneratorService} from '../../../../services/compare-study-csv-generator.service';
+import {Utils} from '../../../../model/calculator/utils';
 
 @Component({
   selector: 'app-strategy-report-set-odds-analyzer',
@@ -40,8 +40,10 @@ export class StrategyReportSetOddsAnalyzerComponent implements OnInit {
   selected: any[] = [];
   SelectionType = SelectionType;
 
+  util = new Utils()
 
-  constructor(private compareStudyCsv: CompareStudyCsvGeneratorService) { }
+
+  constructor() { }
 
   ngOnInit(): void {
 
@@ -109,7 +111,7 @@ export class StrategyReportSetOddsAnalyzerComponent implements OnInit {
 
   saveAsCSV(){
     const date = new Date()
-    this.compareStudyCsv.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_oddsAnalyzer.csv`,
+    this.util.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_oddsAnalyzer.csv`,
       JSON.parse(JSON.stringify(this.analyzer.map( (x:TradeSetOddsAnalyzerInterface) => {
         const t = new Date(x.date)
         const d = `${t.getMonth()+1}/${t.getDate()}/${t.getFullYear()}`

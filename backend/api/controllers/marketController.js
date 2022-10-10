@@ -424,8 +424,8 @@ exports.markets_by_runner_id = async(req, res, next) => {
 
 }
 
-exports.markets_get_meta_list = async(req, res, next) => {
-
+exports.markets_get_meta_list_tennis = async(req, res, next) => {
+    console.log('Tennis metalist loading..')
     try{
         Promise.all([
             // get all information
@@ -509,7 +509,98 @@ exports.markets_get_meta_list = async(req, res, next) => {
             }
         });
     } catch (err){
+        console.log(err)
+        res.status(400).json('error');
+    }
 
+}
+
+exports.markets_get_meta_list_soccer = async(req, res, next) => {
+    console.log('Soccer metalist loading..')
+    try{
+        Promise.all([
+            // get all information
+            MarketInfo.find({"marketInfo.sport": "SOCCER"}).allowDiskUse(true),
+            MarketUpdates.find().allowDiskUse(true),
+            MarketRunners.find().allowDiskUse(true),
+            marketAdditionalInfoTennis.find().allowDiskUse(true),
+        ]).then((values) => {
+            if(values[0] && values[1]  && values[2] && values[3] ){
+        
+                console.log('correct get meta list from db')
+
+                // map data 
+                const map = new Map();
+                values[0].forEach(info => map.set(info.marketId, info));
+                values[1].forEach(update => {
+                    let temp = {
+                        marketInfo : map.get(update.marketId),
+                        marketUpdates :update
+                    }
+                    map.set(update.marketId, temp)
+                });
+                values[2].forEach(runners => {
+                    let data = map.get(runners.marketId)
+                    let temp = {
+                        marketInfo : data.marketInfo,
+                        marketUpdates : data.marketUpdates,
+                        marketRunners : runners,
+                        marketAdditional : null,
+                    }
+                    map.set(runners.marketId, temp)
+                });
+
+                values[3].forEach(additional => {
+                    let data = map.get(additional.marketId)
+                    if(data){
+                        let temp = {
+                            marketInfo : data.marketInfo,
+                            marketUpdates : data.marketUpdates,
+                            marketRunners : data.marketRunners,
+                            marketAdditional : additional,
+                        }
+                        map.set(additional.marketId, temp)
+                    }
+                   
+                });
+
+                console.log('.. end mapping data')
+
+                // merge map in array and fix the value marketAdditionalInfo
+                const mergedArr = Array.from(map.values(), x =>{
+                    let temp = null
+                    if(x.marketAdditional){
+                        temp = {
+                            marketInfo:x.marketInfo,
+                            marketUpdates: x.marketUpdates,
+                            marketRunners: x.marketRunners,
+                            marketAdditionalInfo: x.marketAdditional,
+                        }
+                    } else{
+                        temp = {
+                            marketInfo:x.marketInfo,
+                            marketUpdates: x.marketUpdates,
+                            marketRunners: x.marketRunners,
+                            marketAdditionalInfo: null
+                        }
+                    }
+                    // check for last uploaded market that not have complete data
+                    if(temp.marketInfo && temp.marketUpdates && temp.marketRunners){
+                        return temp
+                    }
+                    
+                });
+
+                console.log('.. end merge, ready to send resp')
+                console.log('Found ' + mergedArr.length + ' market.')
+
+
+                res.status(200).json(mergedArr);
+            } else{
+                res.status(400).json('error');
+            }
+        });
+    } catch (err){
         console.log(err)
         res.status(400).json('error');
     }

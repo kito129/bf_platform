@@ -360,20 +360,20 @@ export class Utils{
 
     let limit = []
     const max = Math.max(...series)
-    const min = Math.min(...series)
-    const delta = Math.abs(max) - Math.abs(min)
+    const minimum = Math.min(...series)
+    const delta = Math.abs(max) - Math.abs(minimum)
     const size = delta / n
 
     const counter = []
     let current =0
-    if(max>0 && min>0){
-      current = min
+    if(max>0 && minimum>0){
+      current = minimum
       for (let i=1; i<n;i++){
         current += size
         limit.push(current)
       }
       limit.push(max)
-      limit.push(min)
+      limit.push(minimum)
       limit = limit.sort((a,b) => a-b)
 
       limit.forEach( x =>{
@@ -394,7 +394,7 @@ export class Utils{
         limit.push(current)
       }
       limit.push(max)
-      limit.push(min)
+      limit.push(minimum)
       limit.sort((a,b) => b-a)
       limit.forEach( x =>{
         counter.push(0)
@@ -511,10 +511,50 @@ export class Utils{
   }
 
   camelize(str) {
-    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-      if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) =>{
+      if (+match === 0) return ''; // or if (/\s+/.test(match)) for white spaces
       return index === 0 ? match.toLowerCase() : match.toUpperCase();
     });
+  }
+
+  exportToCsv(filename: string, rows: object[]) {
+    if (!rows || !rows.length) {
+      return;
+    }
+    const separator = ',';
+    const keys = Object.keys(rows[0]);
+    const csvContent =
+      keys.join(separator) +
+      '\n' +
+      rows.map(row => {
+        return keys.map(k => {
+          let cell = row[k] === null || row[k] === undefined ? '' : row[k];
+          cell = cell instanceof Date
+            ? cell.toLocaleString()
+            : cell.toString().replace(/"/g, '""');
+          if (cell.search(/("|,|\n)/g) >= 0) {
+            cell = `"${cell}"`;
+          }
+          return cell;
+        }).join(separator);
+      }).join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    if (navigator.msSaveBlob) { // IE 10+
+      navigator.msSaveBlob(blob, filename);
+    } else {
+      const link = document.createElement('a');
+      if (link.download !== undefined) {
+        // Browsers that support HTML5 download attribute
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
   }
 
 }

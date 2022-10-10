@@ -30,8 +30,9 @@ router.get("/sameMatch/:marketId",  checkAuth, MarketController.markets_get_same
 // markets where runner is in selection runner id
 router.get("/byRunner/:runnerId",  checkAuth, MarketController.markets_by_runner_id);
 
-
-router.get("/metaList",  checkAuth, MarketController.markets_get_meta_list);
+// return metalist by sport
+router.get("/metaList/tennis",  checkAuth, MarketController.markets_get_meta_list_tennis);
+router.get("/metaList/soccer",  checkAuth, MarketController.markets_get_meta_list_soccer);
 
 
 

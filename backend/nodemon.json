@@ -1,5 +1,6 @@
 {
     "env": {
+        "NODE_OPTIONS": "--max-old-space-size=10192",
         "PORT" : "3000",
         "MONGO_ATLAS_USER": "marco",
         "MONGO_ATLAS_PW": "4Nr1fD8mAOSypUur",

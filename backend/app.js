@@ -37,7 +37,10 @@ setInterval(function() {
   histogram.update(latency)
 }, 100)
 
-// -end pm2
+// check memory
+const maxHeapSz = require('v8').getHeapStatistics().heap_size_limit;
+const maxHeapSz_GB = (maxHeapSz / 1024 ** 3).toFixed(1);
+console.log(`\n\n-----Memory in use: ${maxHeapSz_GB}GB-----\n\n`);
 
 
 //mongoose.set('debug', true);

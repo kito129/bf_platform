@@ -51,8 +51,12 @@ export class MarketService {
     return this.http.get(`${baseUrl}/byRunner/${runnerId}`);
   }
 
-  getMarketMetalist(): Observable<any> {
-    return this.http.get(`${baseUrl}/metalist`);
+  getMarketMetalistTennis(): Observable<any> {
+    return this.http.get(`${baseUrl}/metalist/tennis`);
+  }
+
+  getMarketMetalistSoccer(): Observable<any> {
+    return this.http.get(`${baseUrl}/metalist/soccer`);
   }
 
   getMarketIdByNameAndDate(name: string, date: number): Observable<any> {

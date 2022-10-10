@@ -12,6 +12,7 @@ import {MarketInfoBasic} from '../../../../../model/market/basic/marketInfoBasic
 import {MarketFilterBasket} from '../../../../../model/market/filter/marketFilterBasket';
 import {FilterBasket} from '../../../../../model/market/filter/filterBasket';
 import {Filter} from '../../../../../model/market/filter/basketFilter';
+import {Utils} from '../../../../../model/calculator/utils';
 
 
 @Component({
@@ -45,6 +46,8 @@ export class MarketMetaListBasicComponent implements OnInit, OnDestroy {
   temp: MarketMetaListV2[] = [];
   loadingIndicator = true
   ColumnMode = ColumnMode;
+
+  util = new Utils()
 
   constructor(private readonly store: Store) { }
 
@@ -99,9 +102,38 @@ export class MarketMetaListBasicComponent implements OnInit, OnDestroy {
     this.store.dispatch(marketBasicActions.getAllFilterBasket());
   }
 
-  downloadData(){
-    this.store.dispatch(marketBasicActions.getMarketMetalistBasic());
+  downloadTennis(){
+    this.store.dispatch(marketBasicActions.getMarketMetalistBasicTennis());
   }
+
+  downloadSoccer(){
+    this.store.dispatch(marketBasicActions.getMarketMetalistBasicSoccer());
+  }
+
+  saveAsCSV() {
+    const date = new Date()
+    this.util.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_marketList.csv`,
+      JSON.parse(JSON.stringify(this.rows.sort((a,b) => a.marketInfo.marketInfo.openDate - b.marketInfo.marketInfo.openDate)
+        .map( x => {
+        const d = new Date(x.marketInfo.marketInfo.openDate)
+        return {
+          date: (d.getMonth()+1) +'/' +  d.getDate() + '/' +  d.getFullYear(),
+          marketName: x.marketInfo.marketInfo.eventName,
+          marketType: x.marketInfo.marketInfo.name,
+          duration: x.marketInfo.marketInfo.metadata.inPlayDuration/1000/60,
+          winner: x.marketRunners.runnerWinner.name,
+          loser: x.marketRunners.runnerLoser.name,
+          winnerBSP: x.marketRunners.runnerWinner.inPlayOdds,
+          loserBSP: x.marketRunners.runnerLoser.inPlayOdds,
+          winnerMAX: x.marketRunners.runnerWinner.maxInPlay,
+          loserMAX: x.marketRunners.runnerLoser.maxInPlay,
+          winnerMIN: x.marketRunners.runnerWinner.minInPlay,
+          loserMIN: x.marketRunners.runnerLoser.minInPlay,
+        }
+      })))
+    )
+  }
+
 
   setInRemovedList(id: string){
     this.store.dispatch(marketBasicActions.setMarketIdInRemoved({marketId: id}));

@@ -31,10 +31,15 @@ export const GET_MARKETS_OF_SAME_MATCH = '[Markets] Get same match markets';
 export const GET_MARKET_OF_SAME_MATCH_SUCCESS = '[Markets] Get same match markets Success';
 export const GET_MARKET_OF_SAME_MATCH_FAILURE = '[Markets] Get same match markets Failure';
 
-// market metalist advanced
-export const GET_MARKET_BASIC_METALIST = '[Market Basic] Get market meta list Basic';
-export const GET_MARKET_BASIC_METALIST_SUCCESS = '[Market Basic] Get market meta list Basic Success';
-export const GET_MARKET_BASIC_METALIST_FAILURE = '[Market Basic] Get market meta list Basic Failure';
+// market metalist advanced TENNIS
+export const GET_MARKET_BASIC_METALIST_TENNIS = '[Market Basic] Get market meta list Tennis Basic';
+export const GET_MARKET_BASIC_METALIST_TENNIS_SUCCESS = '[Market Basic] Get market meta list Basic Tennis Success';
+export const GET_MARKET_BASIC_METALIST_TENNIS_FAILURE = '[Market Basic] Get market meta list Basic Tennis Failure';
+
+// market metalist advanced SOCCER
+export const GET_MARKET_BASIC_METALIST_SOCCER = '[Market Basic] Get market meta list Soccer Basic';
+export const GET_MARKET_BASIC_METALIST_SOCCER_SUCCESS = '[Market Basic] Get market meta list Basic Soccer Success';
+export const GET_MARKET_BASIC_METALIST_SOCCER_FAILURE = '[Market Basic] Get market meta list Basic Soccer Failure';
 
 // market metalist filter
 export const SET_MARKET_FILTER = '[Market MetaList] Update the value of the filter';
@@ -119,17 +124,33 @@ export const getMarketsSameMatchFailure = createAction(
 );
 
 // set and get market metalist
-export const getMarketMetalistBasic = createAction(
-  GET_MARKET_BASIC_METALIST,
+// TENNIS
+export const getMarketMetalistBasicTennis = createAction(
+  GET_MARKET_BASIC_METALIST_TENNIS,
 );
 
-export const getMarketMetalistBasicSuccess = createAction(
-  GET_MARKET_BASIC_METALIST_SUCCESS,
+export const getMarketMetalistBasicTennisSuccess = createAction(
+  GET_MARKET_BASIC_METALIST_TENNIS_SUCCESS,
   props<any>()
 );
 
-export const getMarketMetalistBasicFailure = createAction(
-  GET_MARKET_BASIC_METALIST_FAILURE,
+export const getMarketMetalistBasicTennisFailure = createAction(
+  GET_MARKET_BASIC_METALIST_TENNIS_FAILURE,
+  props<any>()
+);
+
+// SOCCER
+export const getMarketMetalistBasicSoccer = createAction(
+  GET_MARKET_BASIC_METALIST_SOCCER,
+);
+
+export const getMarketMetalistBasicSoccerSuccess = createAction(
+  GET_MARKET_BASIC_METALIST_SOCCER_SUCCESS,
+  props<any>()
+);
+
+export const getMarketMetalistBasicSoccerFailure = createAction(
+  GET_MARKET_BASIC_METALIST_SOCCER_FAILURE,
   props<any>()
 );
 

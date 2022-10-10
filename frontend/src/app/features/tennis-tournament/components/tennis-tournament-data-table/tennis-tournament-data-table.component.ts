@@ -1,15 +1,11 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Note} from '../../../../model/note/note';
-import {IsLoading} from '../../../../model/isLoading';
-import {Runner} from '../../../../model/runner/runner';
 import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
 import * as tennisTournementActions from '../../../../store/tennis-tournament/tennisTournament.actions';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {TennisTournament} from '../../../../model/tennisTournament/tennisTournament';
 import * as tennisTournamentActions from '../../../../store/tennis-tournament/tennisTournament.actions';
-import {CompareStudyCsvGeneratorService} from '../../../../services/compare-study-csv-generator.service';
+import {Utils} from "../../../../model/calculator/utils";
 
 @Component({
   selector: 'app-tennis-tournament-data-table',
@@ -49,10 +45,11 @@ export class TennisTournamentDataTableComponent implements OnInit {
     fsRetired: false
   }
 
+  util = new Utils()
+
   constructor(private router: Router,
               private readonly store: Store,
-              private route: ActivatedRoute ,
-              private compareStudyCsv: CompareStudyCsvGeneratorService) { }
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.temp = [... this.tennisTournaments]
@@ -73,7 +70,7 @@ export class TennisTournamentDataTableComponent implements OnInit {
 
   saveAsCSV() {
     const date = new Date()
-    this.compareStudyCsv.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_tennisTournament.csv`,
+    this.util.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_tennisTournament.csv`,
       JSON.parse(JSON.stringify(this.tennisTournaments.map( x => {
         return{
           id: x._id,

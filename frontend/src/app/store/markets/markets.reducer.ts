@@ -4,7 +4,7 @@ import {Action, createReducer, on} from '@ngrx/store';
 
 import * as marketActions from './markets.actions';
 import {
-  addElement,
+  addElement, addElements,
   addMarketRemoved, deleteElement,
   newBasketFilters,
   resetBasketFilters, setterAllFalseLoading,
@@ -146,15 +146,21 @@ const marketsReducer = createReducer(
     {...state, marketsError: 'API error', isLoadingSameMatchMarkets: setterLoadingFailure()})
   ),
 
-  // get market meta list basic
-  on(marketActions.getMarketMetalistBasic, (state,result) => (
-      {...state, isLoadingMetalist: setterLoading()}
-    )
+  // get market meta list basic TENNIS
+  on(marketActions.getMarketMetalistBasicTennis, (state, result) => ({...state, isLoadingMetalist: setterLoading()})),
+  on(marketActions.getMarketMetalistBasicTennisSuccess, (state, result) =>
+    ({...state, marketMetalist: addElements(state.marketMetalist,result.response), isLoadingMetalist: setterLoadingSuccess()})
   ),
-  on(marketActions.getMarketMetalistBasicSuccess, (state, result) =>
-    ({...state, marketMetalist: result.response, isLoadingMetalist: setterLoadingSuccess()})
+  on(marketActions.getMarketMetalistBasicTennisFailure, (state, result) => (
+    {...state, marketsError: 'API error', isLoadingMetalist: setterLoadingFailure()})
   ),
-  on(marketActions.getMarketMetalistBasicFailure, (state, result) => (
+
+  // get market meta list basic SOCCER
+  on(marketActions.getMarketMetalistBasicSoccer, (state, result) => ({...state, isLoadingMetalist: setterLoading()})),
+  on(marketActions.getMarketMetalistBasicSoccerSuccess, (state, result) =>
+    ({...state, marketMetalist: addElements(state.marketMetalist,result.response), isLoadingMetalist: setterLoadingSuccess()})
+  ),
+  on(marketActions.getMarketMetalistBasicSoccerFailure, (state, result) => (
     {...state, marketsError: 'API error', isLoadingMetalist: setterLoadingFailure()})
   ),
 

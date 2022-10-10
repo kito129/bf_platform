@@ -3,9 +3,13 @@
     <h4 class="mb-3 mb-md-0">Tennis Market Basic</h4>
   </div>
   <div class="d-flex align-items-center flex-wrap text-nowrap">
-    <button type="button" class="btn btn-outline-success btn-icon mr-2 d-none d-md-block" (click)="downloadData()">
+    <button type="button" class="btn btn-outline-warning btn-icon mr-2 d-none d-md-block" (click)="downloadTennis()">
       <i class="btn-icon-prepend" data-feather="download-cloud" appFeatherIcon></i>
-      Download Market
+      Download Tennis
+    </button>
+    <button type="button" class="btn btn-outline-success btn-icon mr-2 d-none d-md-block" (click)="downloadSoccer()">
+      <i class="btn-icon-prepend" data-feather="download-cloud" appFeatherIcon></i>
+      Download Soccer
     </button>
     <button type="button" class="btn btn-outline-info btn-icon mr-2 d-none d-md-block" (click)="refreshData()">
       <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
@@ -26,7 +30,7 @@
         <app-filters-main class="mb-3">
         </app-filters-main>
       </div>
-      <!-- BASKET FILTER CRUD LIST-->
+      <!-- BASKET FILTER CRUD LIST -->
       <div class="col-4">
         <app-crud-list [filterBaskets]="filterList$ | async"
                        [currentBasket]="(metaList$ | async).basket"
@@ -45,29 +49,35 @@
     </div>
 
     <!-- NAME FILTER -->
-    <div class="d-flex justify-content-end align-items-baseline">
+    <div class="d-flex justify-content-end align-items-center">
       <form class="forms-sample grid-margin">
         <div class="row">
-          <input
-            class="form-control"
-            type="text"
-            placeholder="Type name..."
-            (keyup)="updateNameFilter($event)"
-          />
+          <div class="col">
+            <label for="search">Search</label>
+            <input
+              class="form-control"
+              type="text"
+              id="search"
+              placeholder="Market name..."
+              (keyup)="updateNameFilter($event)"
+            />
+          </div>
+          <div class="col">
+            <!-- OPTIONS -->
+            <label for="tableSize">Table size</label>
+            <ng-select id="tableSize"
+                       name="options"
+                       [(ngModel)]="tableSize"
+                       [items]="[5, 10,15,20,25,30,40,50,100,200,250,500,1000]"
+                       [clearable]="false">
+            </ng-select>
+          </div>
         </div>
       </form>
-      <div class="row">
-        <div class="form-group">
-          <!-- OPTIONS -->
-          <label for="tableSize">Table size</label>
-          <ng-select id="tableSize"
-                     name="options"
-                     [(ngModel)]="tableSize"
-                     [items]="[5, 10,15,20,25,30,40,50,100,200,250,500,1000]"
-                     [clearable]="false">
-          </ng-select>
-        </div>
-      </div>
+      <button type="button" class="btn btn-outline-light btn-icon ml-2 d-none d-md-block" (click)="saveAsCSV()">
+        <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
+        Download CSV
+      </button>
     </div>
 
     <!-- DATATABLE -->
@@ -220,8 +230,62 @@
 
     </ngx-datatable>
 
+    <!-- REMOVED MARKET
     <div class="row mt-3">
+      <div class="col-6" *ngIf="(removedMarket$ | async).length">
+        <div class="d-flex justify-content-end align-items-baseline">
+          <h4 class="text-warning mr-3">Removed Market, #: {{(removedMarket$ | async).length}} </h4>
+          <button type="button" class="btn btn-icon  btn-outline-danger mr-2 d-none d-md-block"
+                  (click)="resetRemovedList()">
+            <i class="btn-icon-prepend"
+               data-feather="chevrons-right"
+               appFeatherIcon>
+              Flush
+            </i>
+          </button>
+        </div>
+        <ngx-datatable
+          class="dark"
+          [rows]="removedMarket$ | async"
+          [columnMode]="ColumnMode.flex"
+          [headerHeight]="40"
+          [footerHeight]="50"
+          [limit]="10"
+          rowHeight="50"
+          [sorts]="[{prop: 'marketDate', dir: 'desc'}]">
+          <ngx-datatable-column name="Date" prop="marketDate" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <h5>
+                {{ value | date:'shortDate' }}
+              </h5>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Name" prop="marketName" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <h5>
+                {{ value }}
+              </h5>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Tools" prop="marketId" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div class="d-flex justify-content-end align-items-baseline">
+                <app-market-details-modal [isBasic]="true"
+                                          [marketId]="value">
+                </app-market-details-modal>
+                <button type="button" class="btn btn-icon btn-outline-success mr-2 d-none d-md-block"
+                        (click)="setInRemovedList(value)">
+                  <i class="btn-icon-prepend"
+                     data-feather="plus"
+                     appFeatherIcon></i>
+                </button>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
     </div>
+    -->
 
   </div>
 </div>

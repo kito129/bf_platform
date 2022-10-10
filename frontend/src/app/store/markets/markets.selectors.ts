@@ -76,7 +76,7 @@ export const getMetalistBasicBasket = createSelector(
   getMarketState,
   (state: MarketsState):MarketFilterBasket => {
     const tennis = state.marketMetalist.filter(x => {
-      if(x){
+      if(x && x.marketInfo && x.marketInfo.marketInfo){
         return x.marketInfo.marketInfo.sport === 'TENNIS'
       }
     }).map(x => {
@@ -96,7 +96,7 @@ export const getMetalistBasicBasket = createSelector(
 
     // check for soccer market
     const soccer = state.marketMetalist.filter(x => {
-      if(x){
+      if(x && x.marketInfo && x.marketInfo.marketInfo){
         return x.marketInfo.marketInfo.sport === 'SOCCER'
       }
     }).map(x => {

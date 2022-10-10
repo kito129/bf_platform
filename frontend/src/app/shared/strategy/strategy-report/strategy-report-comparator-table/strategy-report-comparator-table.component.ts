@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {StrategyReport} from '../../../../model/report/starategyReport';
 import {ComparatorTableRow} from '../../../../model/study/study/comparatorTableRow';
 import {DatatableComponent, ColumnMode} from '@swimlane/ngx-datatable';
-import {CompareStudyCsvGeneratorService} from '../../../../services/compare-study-csv-generator.service';
+import {Utils} from '../../../../model/calculator/utils';
 
 @Component({
   selector: 'app-strategy-report-comparator-table',
@@ -22,6 +22,8 @@ export class StrategyReportComparatorTableComponent implements OnInit {
   strategyMatch: number[] = []
   strategyPf: number[] = []
 
+  util = new Utils()
+
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   rows = [];
@@ -36,7 +38,7 @@ export class StrategyReportComparatorTableComponent implements OnInit {
   colNumberLargeWidth: 70
   colBarWidth: 100
 
-  constructor(private compareStudyCsv: CompareStudyCsvGeneratorService) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.generateDataForTable()
@@ -54,7 +56,7 @@ export class StrategyReportComparatorTableComponent implements OnInit {
 
   saveAsCSV() {
     const date = new Date()
-    this.compareStudyCsv.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_report.csv`,
+    this.util.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_report.csv`,
       this.strategyTable.sort((a,b) => {
         if(a.studyName < b.studyName) { return -1; }
         if(a.studyName > b.studyName) { return 1; }

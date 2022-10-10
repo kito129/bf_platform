@@ -89,7 +89,10 @@ linux
 export NODE_OPTIONS="--max-old-space-size=5120" # Increase to 5 GB
 
 windows
-set NODE_OPTIONS=--max_old_space_size=7096
+set NODE_OPTIONS=--max_old_space_size=10096
+
+now is configured in nodemon.json file to 10gb
+node -e 'console.log(v8.getHeapStatistics().heap_size_limit/(1024*1024))'
 
 ## NGINX
 

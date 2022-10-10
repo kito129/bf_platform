@@ -1,7 +1,7 @@
 {
   "name": "historicalAPI",
   "version": "1.0.0",
-  "description": "A Node.js RESTful API Betfair Hstorical site",
+  "description": "A Node.js RESTful API Betfair Historical site",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

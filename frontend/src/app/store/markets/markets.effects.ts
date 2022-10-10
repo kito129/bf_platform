@@ -70,17 +70,33 @@ export class MarketsEffects {
     }
   );
 
-  getMarketMetaListBasic$ = createEffect(() => {
+  getMarketMetaListTennisBasic$ = createEffect(() => {
       return this.actions$.pipe(
-        ofType(marketActions.getMarketMetalistBasic),
+        ofType(marketActions.getMarketMetalistBasicTennis),
         exhaustMap(action =>
-          this.marketsService.getMarketMetalist().pipe(
+          this.marketsService.getMarketMetalistTennis().pipe(
             map(response => {
               // console.log('response:::', response)
 
-              return marketActions.getMarketMetalistBasicSuccess({response})
+              return marketActions.getMarketMetalistBasicTennisSuccess({response})
             }),
-            catchError((error: any) => of(marketActions.getMarketMetalistBasicFailure(error))))
+            catchError((error: any) => of(marketActions.getMarketMetalistBasicTennisFailure(error))))
+        )
+      );
+    }
+  );
+
+  getMarketMetaListSoccerBasic$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(marketActions.getMarketMetalistBasicSoccer),
+        exhaustMap(action =>
+          this.marketsService.getMarketMetalistSoccer().pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return marketActions.getMarketMetalistBasicSoccerSuccess({response})
+            }),
+            catchError((error: any) => of(marketActions.getMarketMetalistBasicSoccerFailure(error))))
         )
       );
     }
@@ -96,7 +112,7 @@ export class MarketsEffects {
 
               return marketActions.getAllFilterBasketSuccess({response})
             }),
-            catchError((error: any) => of(marketActions.getMarketMetalistBasicFailure(error))))
+            catchError((error: any) => of(marketActions.getMarketMetalistBasicTennisFailure(error))))
         )
       );
     }

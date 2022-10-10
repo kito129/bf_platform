@@ -116,8 +116,11 @@ server {
         proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 600s;
     }
 }
+
+nginx -s reload
 
 Update config:
     

@@ -27,6 +27,8 @@ export class CrudListComponent implements OnInit, OnDestroy {
   newName = ''
   name = ''
 
+  tableSize = 10
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private readonly store: Store) { }

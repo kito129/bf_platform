@@ -1,7 +1,7 @@
 import {NewTrade} from '../new/newTrade';
 import {TennisTournament} from '../../tennisTournament/tennisTournament';
 
-export interface StrategyFilterBsp{
+export interface StrategyTradeFiltersInterface {
   name: string
   trades: NewTrade[]
   minOdds: number
@@ -12,7 +12,7 @@ export interface StrategyFilterBsp{
   bank: number
 }
 
-export class StrategyFilterBspClass implements StrategyFilterBsp{
+export class StrategyTradeFilter implements StrategyTradeFiltersInterface{
   name: string
   trades: NewTrade[] = []
   minOdds: number

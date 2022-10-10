@@ -2,7 +2,7 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NewTrade} from '../../../../model/report/new/newTrade';
 import {Utils} from '../../../../model/calculator/utils';
 import {CompareStrategy} from '../../../../model/report/new/compareStrategy';
-import {StrategyFilterBspClass} from '../../../../model/report/strategyFilter/strategyFilterBsp';
+import {StrategyTradeFilter} from '../../../../model/report/strategyFilter/strategyTradeFiltersInterface';
 import {select, Store} from '@ngrx/store';
 import * as tennisTournamentSelectors from '../../../../store/tennis-tournament/tennisTournament.selectors';
 import {Observable, Subject} from 'rxjs';
@@ -44,7 +44,7 @@ export class StrategyReportTradeFilterComponent implements OnInit, OnDestroy {
     this.validData = false
     this.compare = []
     if(this.trades.length){
-      event.forEach( (filter: StrategyFilterBspClass) =>{
+      event.forEach( (filter: StrategyTradeFilter) =>{
         filter.filterData(this.trades, this.tennisTournament )
         if(filter.trades.length){
           this.compare.push({

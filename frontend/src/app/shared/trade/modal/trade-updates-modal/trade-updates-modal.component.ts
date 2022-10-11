@@ -3,25 +3,24 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EventEmitter} from '@angular/core';
 import {Trade} from '../../../../model/report/trade';
 import {TradeCalculatorService} from '../../../../services/trade-calculator.service';
-import {TennisPoint} from '../../../../model/point/tennisPoint';
-import {FootballPoint} from '../../../../model/point/footballPoint';
-import {NewTrade} from '../../../../model/report/new/newTrade';
-
+import {NewTrade, Trades} from '../../../../model/report/new/newTrade';
 @Component({
   selector: 'app-trade-updates-modal',
   templateUrl: './trade-updates-modal.component.html',
 })
 export class TradeUpdatesModalComponent implements OnInit {
 
-  @Input()
-  tradeInput: Trade
-  @Output()
-  tradeUpdateEmitter = new EventEmitter()
-  public tradeOutput: Trade
+  @Input() tradeInput: NewTrade
+  @Output() tradeUpdateEmitter = new EventEmitter()
+  public tradeOutput: NewTrade
   // tradeOutput.trade support data
-  public executor = ['BAGNA', 'KEVIN', 'KITO']
-  public exchange = ['UK KEVIN', 'ITA WILLO', 'ITA PIDO', 'ITA KITO' ]
-  public sport = ['TENNIS', 'FOOTBALL', 'HORSE RACING']
+  public executor = ['BAGNA', 'KEVIN', 'KITO', 'BAGNA KEVIN', 'BAGNA KEVIN KITO', 'BAGNA KITO', 'KEVIN KITO']
+  public exchange = ['UK', 'KITO' ]
+  public sport = ['TENNIS', 'SOCCER', 'HORSE']
+
+  addTradeCollapse = true
+  tradesCollapse = true
+  noteCollapse = true
 
 
   public date = null
@@ -36,6 +35,7 @@ export class TradeUpdatesModalComponent implements OnInit {
     },
     isBackEntry: true,
     isLay: false,
+    options: 'OPEN',
     condition: {
       tennis: {
         isTennis: false,
@@ -104,14 +104,14 @@ export class TradeUpdatesModalComponent implements OnInit {
     // update support bets
     this.updateSupportBets()
 
-    this.modalService.open(content, {centered: true, size:'xl', backdrop: 'static', keyboard: false}).result.then((result) => {
+    this.modalService.open(content, {centered: true, size:'xl'}).result.then((result) => {
 
       // action before pass to action
 
-      const trade: Trade ={
+      const trade: NewTrade ={
         _id: this.tradeOutput._id,
         created: this.tradeOutput.created,
-        lastUpdate: new Date().getTime(),
+        updated: new Date().getTime(),
         trade: this.tradeOutput.trade
       }
       this.tradeUpdateEmitter.emit([trade, result]);
@@ -122,7 +122,7 @@ export class TradeUpdatesModalComponent implements OnInit {
     if(this.tradeOutput.trade.info.marketInfo.sport === ('TENNIS')){
       this.supportBets.condition.tennis.isTennis = true
 
-    } else if(this.tradeOutput.trade.info.marketInfo.sport === ('FOOTBALL')) {
+    } else if(this.tradeOutput.trade.info.marketInfo.sport === ('SOCCER')) {
       this.supportBets.condition.football.isFootball = true
 
     }else  if(this.tradeOutput.trade.info.marketInfo.sport === ('HORSE')) {
@@ -144,7 +144,7 @@ export class TradeUpdatesModalComponent implements OnInit {
     } else {
       // im lay
       this.tradeOutput.trade.selections[index].avg.lay.odds = event[1]
-      this.tradeOutput.trade.selections[index].avg.lay.bank = event[2]
+      this.tradeOutput.trade.selections[index].avg.lay.stake = event[2]
       this.tradeOutput.trade.selections[index].avg.lay.liability = event[3]
     }
 
@@ -157,6 +157,11 @@ export class TradeUpdatesModalComponent implements OnInit {
 
   public addSelection(){
     this.tradeOutput.trade.selections.push({
+      selectionN: 0,
+      sets: {
+        secondSet: 0,
+        thirdSet: 0
+      },
       runnerId: 0,
       runnerName: '',
       winner: false,
@@ -165,11 +170,14 @@ export class TradeUpdatesModalComponent implements OnInit {
         back: {
           odds: 0,
           stake: 0,
+          toWin: 0,
+          liability: 0
         },
         lay: {
           odds: 0,
-          bank: 0,
+          stake: 0,
           liability: 0,
+          toWin:0
         }
       }
     })
@@ -182,9 +190,9 @@ export class TradeUpdatesModalComponent implements OnInit {
 
       // remove all back of this selection
       let k =0
-      for (const trade of this.tradeOutput.trade.trades.back){
+      for (const trade of this.tradeOutput.trade.trades){
         if(trade.selectionN === selectionIndex){
-          this.tradeOutput.trade.trades.back.splice(k, 1);
+          this.tradeOutput.trade.trades.splice(k, 1);
           k--
         }
         k++
@@ -198,11 +206,15 @@ export class TradeUpdatesModalComponent implements OnInit {
 
   public addBet() {
 
-    const backBet = {
+    const backBet: Trades = {
+      id: this.tradeOutput.trade.trades.length+1,
       selectionN: 0,
       odds: this.supportBets.odds,
       stake: this.supportBets.stake,
+      liability: this.supportBets.stake,
       ifWin: (this.supportBets.odds - 1) * this.supportBets.stake,
+      options: this.supportBets.options,
+      type: 'BACK',
       condition: {
         tennis: {
           isTennis: null,
@@ -214,33 +226,34 @@ export class TradeUpdatesModalComponent implements OnInit {
         },
         horse: {
           isHorse: null,
-          time: null,
         },
         time: 0,
         note: null,
       }
     }
 
-    const layBet = {
+    const layBet: Trades = {
+      id: this.tradeOutput.trade.trades.length+1,
       selectionN: 0,
       odds: this.supportBets.odds,
-      bank: this.supportBets.stake,
-      ifWin: this.supportBets.stake,
+      stake: this.supportBets.stake,
       liability: (this.supportBets.odds - 1) * this.supportBets.stake,
+      ifWin: this.supportBets.stake,
+      options: this.supportBets.options,
+      type: 'LAY',
       condition: {
         tennis: {
           isTennis: null,
           point: null,
-
         },
         football: {
           isFootball: null,
-          point: null,
+          point: null
         },
         horse: {
           isHorse: null,
         },
-        time: new Date().getTime(),
+        time: 0,
         note: null,
       }
     }
@@ -281,7 +294,7 @@ export class TradeUpdatesModalComponent implements OnInit {
         if (selection.runnerId === this.supportBets.selection.runnerId) {
           // push to back array
           backBet.selectionN = i
-          this.tradeOutput.trade.trades.back.push(backBet)
+          this.tradeOutput.trade.trades.push(backBet)
         }
         i++
       }
@@ -292,7 +305,7 @@ export class TradeUpdatesModalComponent implements OnInit {
       for (const selection of this.tradeOutput.trade.selections) {
         if (selection.runnerId === this.supportBets.selection.runnerId) {
           layBet.selectionN = j
-          this.tradeOutput.trade.trades.lay.push(layBet)
+          this.tradeOutput.trade.trades.push(layBet)
         }
         j++
       }
@@ -315,17 +328,10 @@ export class TradeUpdatesModalComponent implements OnInit {
   }
 
   // remove bets from selection
-  removeBets(selectionIndex: number, type: string){
+  removeBets(selectionIndex: number){
 
-    if(type.indexOf('back')!== -1 ){
+    this.tradeOutput.trade.trades.splice(selectionIndex, 1);
 
-      this.tradeOutput.trade.trades.back.splice(selectionIndex, 1);
-
-    } else if (type.indexOf('lay')!== -1 ){
-
-      this.tradeOutput.trade.trades.lay.splice(selectionIndex, 1);
-
-    }
     this.updateExpositionAndPl()
   }
 
@@ -335,11 +341,9 @@ export class TradeUpdatesModalComponent implements OnInit {
   */
 
   calculatePl(){
-    this.tradeCalculatorService.calculatePl(this.tradeOutput.trade)
   }
+
   public updateExpositionAndPl(){
-    this.tradeCalculatorService.expositionForEachSelection(this.tradeOutput.trade)
-    this.calculatePl()
   }
 
   /*
@@ -380,15 +384,11 @@ export class TradeUpdatesModalComponent implements OnInit {
 
   public exchangeChange(){
     switch (this.tradeOutput.trade.info.exchange.name){
-      case ('UK KEVIN'):{
+      case ('UK'):{
         this.tradeOutput.trade.info.exchange.commission = 0.02
         break
       }
-      case ('ITA PIDO'):{
-        this.tradeOutput.trade.info.exchange.commission = 0.05
-        break
-      }
-      case ('ITA WILLO'):{
+      case ('KITO'):{
         this.tradeOutput.trade.info.exchange.commission = 0.045
         break
       }
@@ -410,7 +410,7 @@ export class TradeUpdatesModalComponent implements OnInit {
     this.tradeOutput.trade.selections[index].runnerName = event[0].name
   }
 
-  setBSPodds(event, index: number){
+  setBSPOdds(event, index: number){
     this.tradeOutput.trade.selections[index].bsp = event[0]
   }
 
@@ -432,13 +432,19 @@ export class TradeUpdatesModalComponent implements OnInit {
 
   public updateFinalResultTennis(event){
     if(event[0]){
-      this.tradeOutput.trade.result.finalScore.tennis = event[0]
+      this.tradeOutput.trade.results.finalScore.tennis = event[0]
+    }
+  }
+
+  public updateTradeResultTennis(event, index: number){
+    if(event[0]){
+      this.tradeOutput.trade.trades[index].condition.tennis.point = event[0]
     }
   }
 
   public updateFinalResultFootball(event){
     if(event[0]){
-      this.tradeOutput.trade.result.finalScore.football = event[0]
+      this.tradeOutput.trade.results.finalScore.football = event[0]
     }
   }
 

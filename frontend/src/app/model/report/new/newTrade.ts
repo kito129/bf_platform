@@ -61,31 +61,7 @@ export interface NewTrade{
         }
       }
     }]
-    trades: {
-      id: number
-      selectionN: number
-      odds: number
-      stake: number
-      liability: number
-      ifWin: number
-      options: string
-      type: string
-      condition: {
-        tennis: {
-          isTennis: boolean
-          point: TennisPoint
-        }
-        football: {
-          isFootball: boolean
-          point: FootballPoint
-        }
-        horse: {
-          isHorse: boolean
-        }
-        note: string
-        time: number
-      }
-    }[]
+    trades: Trades[]
     results: {
       grossProfit: number,
       netProfit: number,
@@ -150,5 +126,31 @@ export interface NewTrade{
         stats10: number
       }
     }
+  }
+}
+
+export interface Trades{
+  id: number
+  selectionN: number
+  odds: number
+  stake: number
+  liability: number
+  ifWin: number
+  options: string
+  type: string
+  condition: {
+    tennis: {
+      isTennis: boolean
+      point: TennisPoint
+    }
+    football: {
+      isFootball: boolean
+      point: FootballPoint
+    }
+    horse: {
+      isHorse: boolean
+    }
+    note: string
+    time: number
   }
 }

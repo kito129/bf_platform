@@ -122,7 +122,7 @@ export const createTradeFailure = createAction(
 // update trade
 export const updateTrade = createAction(
   UPDATE_TRADE,
-  props<{ _id: string, trade: NewTrade }>()
+  props<{ trade: NewTrade }>()
 );
 
 export const updateTradeSuccess = createAction(

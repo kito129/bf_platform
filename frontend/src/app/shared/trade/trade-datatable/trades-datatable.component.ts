@@ -30,7 +30,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   SelectionType = SelectionType;
 
-  utils = new Utils()
+  util = new Utils()
   selected: TradeDetail[] = [];
   selectedIds: string[] = [];
   search = ''
@@ -43,6 +43,8 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   viewStatsService = false
   viewStatsSet = false
   viewStatsLeaderboard = false
+
+  viewNotes = false
 
   viewSelectedReport = false
   selectedTrades: Observable<NewTrade[]>
@@ -109,10 +111,10 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
 
   getTradeDetail(){
     if(this.selected.length){
-      this.tradeSelectedResume =  this.utils.getTradesSeries(this.selected.map( x=> x.trade.trade.results.netProfit),
+      this.tradeSelectedResume =  this.util.getTradesSeries(this.selected.map(x=> x.trade.trade.results.netProfit),
         this.selected.map( x=> x.trade.trade.results.maxRisk),
         'Selected',
-        this.utils.sumOfArray(this.selected.map(x=> x.trade.trade.results.maxRisk)))
+        this.util.sumOfArray(this.selected.map(x=> x.trade.trade.results.maxRisk)))
     } else {
       this.tradeSelectedResume = null
     }
@@ -172,6 +174,55 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       copy.updated = Date.now()
       this.store.dispatch(reportActions.updateSavedReport({ savedReport: copy, _id: this.savedReportId}));
     }
+  }
+
+  saveAsCSV() {
+    const nowDate = new Date()
+    const temp = []
+    this.rows.forEach((x: TradeDetail) => {
+      const t = new Date(x.trade.trade.info.date)
+      const date = `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()}`
+      const winner = x.trade.trade.selections.filter( y => y.winner)[0]
+      const loser = x.trade.trade.selections.filter( y => !y.winner)[0]
+      const winnerIndex = (x.trade.trade.selections[0].winner) ? 0 : 1
+      const loserIndex = winnerIndex ? 0 : 1
+
+      const marketType = (x.trade.trade.info.marketInfo.marketName.indexOf(' - Set')!==-1) ? 'Set Winner' : 'Match Odds'
+
+      if(winner && loser){
+
+        temp.push({
+        date,
+        marketName: x.trade.trade.info.marketInfo.marketName,
+        marketType,
+        duration: 0,
+        winner: winner.runnerName,
+        loser: loser.runnerName,
+        winnerBSP: winner.bsp,
+        loserBSP: loser.bsp,
+          // @ts-ignore
+        winnerSet2: x.trade.trade.selections[winnerIndex].sets.secondSet,
+          // @ts-ignore
+        loserSet2: x.trade.trade.selections[loserIndex].sets.secondSet,
+          // @ts-ignore
+        winnerSet3: x.trade.trade.selections[winnerIndex].sets.thirdSet,
+          // @ts-ignore
+        loserSet3: x.trade.trade.selections[loserIndex].sets.thirdSet,
+          // @ts-ignore
+        winnerAvgBack: x.trade.trade.selections[winnerIndex].avg.back.odds,
+          // @ts-ignore
+        winnerAvgLay: x.trade.trade.selections[winnerIndex].avg.lay.odds,
+          // @ts-ignore
+        loserAvgBack: x.trade.trade.selections[loserIndex].avg.back.odds,
+          // @ts-ignore
+        loserAvgLay: x.trade.trade.selections[loserIndex].avg.lay.odds,
+      })
+      }
+    })
+
+    console.log(temp)
+    this.util.exportToCsv(`${nowDate.getMonth() + 1}_${nowDate.getDate()}_${nowDate.getFullYear()}_trades.csv`,
+      JSON.parse(JSON.stringify(temp)))
   }
 
   // temp to fix odds bug

@@ -8,6 +8,8 @@ const checkAuth = require('../middleware/check-auth');
 //get all marketsInfo
 router.get("/newTrade/all", checkAuth,  newReportController.get_all_new_trades);
 
+router.post("/newTrade/update/:tradeId", checkAuth,  newReportController.update_newTrade_by_id);
+
 
 router.get("/updateStrategy",  newReportController.update_new_strategy);
 

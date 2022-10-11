@@ -175,7 +175,7 @@ export const getAllStrategyDatatable = createSelector(
 export const getInjury2022Data = (wantStrategy: boolean) => createSelector(
   getReportState,
   (state) => {
-    const strategyId = ['622394c2a0074b70dc573b44','622394e7a0074b70dc573b4c','6317a92f75f1fd3184bbb8f6','622394dca0074b70dc573b48','6317a91675f1fd3184bbb8f4','622394d7a0074b70dc573b46','622394e0a0074b70dc573b4a']
+    const strategyId = ['622394c2a0074b70dc573b44','622394e7a0074b70dc573b4c','6317a92f75f1fd3184bbb8f6','622394dca0074b70dc573b48','6317a91675f1fd3184bbb8f4','622394d7a0074b70dc573b46','622394e0a0074b70dc573b4a', '632b7a86df278b8be88388e1']
     return filterStrategyDatatable(state.allStrategy, state.allNewTrades, wantStrategy, strategyId)
   }
 );

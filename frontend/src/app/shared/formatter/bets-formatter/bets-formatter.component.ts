@@ -6,21 +6,15 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class BetsFormatterComponent implements OnInit {
 
-  @Input()
-  type: string
-  @Input()
-  stake: number
-  @Input()
-  bank: number
-  @Input()
-  odds: number
-  @Input()
-  toWin: number
-  @Input()
-  liability: number
+  @Input() type: string
+  @Input() stake: number
+  @Input() bank: number
+  @Input() odds: number
+  @Input() toWin: number
+  @Input() liability: number
 
-  isBack: boolean = false
-  isLay: boolean = false
+  isBack = false
+  isLay = false
 
   constructor() { }
 

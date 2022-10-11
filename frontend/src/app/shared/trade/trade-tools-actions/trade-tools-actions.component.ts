@@ -35,15 +35,6 @@ export class TradeToolsActionsComponent implements OnInit {
     this.store.dispatch(reportActions.createTrade({ trade: newTrade}))
   }
 
-  updateModal(event){
-
-    if(event[1]==='update'){
-      event[0].lastUpdate = new Date().getTime()
-      // UPDATE runner note
-      this.store.dispatch(reportActions.updateTrade({ _id: event[0]._id, trade: event[0] }));
-    }
-
-  }
 
   deleteModal(event){
     console.log(event)

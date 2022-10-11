@@ -16,7 +16,7 @@ export class TradeCalculatorService {
   public expositionForEachSelection(tradeForm: TradeForm) {
 
     // generate the data over calculate
-    this.generateExposition(tradeForm)
+    // this.generateExposition(tradeForm)
 
     // calculate exposition
     this.expositionForTrade()
@@ -28,43 +28,43 @@ export class TradeCalculatorService {
 
   }
 
-  public calculatePl(tradeForm: TradeForm){
+  public calculatePl(tradeForm: NewTrade){
 
     // check the selection number winner
     const winnerIndex = this.findWinner(tradeForm)
     // check for total exposition
 
-    tradeForm.result.grossProfit = tradeForm.exposition[winnerIndex].back
+    tradeForm.trade.results.grossProfit = 0
 
 
     // check for commission
-    if(tradeForm.result.grossProfit>0){
+    if(tradeForm.trade.results.grossProfit>0){
 
       // commission
-      tradeForm.result.commissionPaid = tradeForm.info.exchange.commission * tradeForm.result.grossProfit
-      tradeForm.result.netProfit = tradeForm.result.grossProfit - tradeForm.result.commissionPaid
+      tradeForm.trade.results.commissionPaid = tradeForm.trade.info.exchange.commission * tradeForm.trade.results.grossProfit
+      tradeForm.trade.results.netProfit = tradeForm.trade.results.grossProfit - tradeForm.trade.results.commissionPaid
 
     } else {
-      tradeForm.result.commissionPaid =0
-      tradeForm.result.netProfit = tradeForm.result.grossProfit
+      tradeForm.trade.results.commissionPaid =0
+      tradeForm.trade.results.netProfit = tradeForm.trade.results.grossProfit
     }
 
     // update with correction
-    tradeForm.result.netProfit += tradeForm.result.correctionPl
-    tradeForm.result.grossProfit += tradeForm.result.correctionPl
+    tradeForm.trade.results.netProfit += tradeForm.trade.results.correctionPl
+    tradeForm.trade.results.grossProfit += tradeForm.trade.results.correctionPl
 
     // RR
     // find max rr
-    if(tradeForm.result.maxRisk){
-      tradeForm.result.rr = tradeForm.result.netProfit/-tradeForm.result.maxRisk
+    if(tradeForm.trade.results.maxRisk){
+      tradeForm.trade.results.rr = tradeForm.trade.results.netProfit/-tradeForm.trade.results.maxRisk
     }
 
   }
 
-  private findWinner(tradeForm: TradeForm){
+  private findWinner(tradeForm: NewTrade){
     let winnerIndex =-1
     let i=0
-    for (const selection of tradeForm.selections){
+    for (const selection of tradeForm.trade.selections){
       if(selection.winner){
         winnerIndex = i
       }
@@ -73,13 +73,14 @@ export class TradeCalculatorService {
     return winnerIndex
   }
 
+  /*
   private generateExposition(tradeForm: TradeForm){
     let exp =0
     while (exp<tradeForm.exposition.length){
       this.allExposition.push({
         selectionN: exp,
         trade:{
-          back: tradeForm.trades.back.filter(x =>{
+          back: tradeForm.trades.filter(x =>{
             if (x.selectionN === exp){
               return {
                 odds: x.odds,
@@ -88,11 +89,11 @@ export class TradeCalculatorService {
               }
             }
           }),
-          lay: tradeForm.trades.lay.filter(x => {
+          lay: tradeForm.trades.filter(x => {
             if (x.selectionN === exp) {
               return {
                 odds: x.odds,
-                bank: x.bank,
+                bank: x.stake,
                 liability: x.liability,
                 ifWin: x.ifWin,
               }
@@ -108,6 +109,8 @@ export class TradeCalculatorService {
     }
 
   }
+
+   */
 
   private expositionForTrade(){
 

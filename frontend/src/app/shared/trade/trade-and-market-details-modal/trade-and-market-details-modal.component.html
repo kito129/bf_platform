@@ -11,6 +11,12 @@
   <ng-template #charts let-modal>
     <div class="modal-header">
       <h4 class="modal-title">Trade Detail</h4>
+
+      <app-trade-updates-modal [tradeInput]="trade"
+                               (tradeUpdateEmitter)="tradeUpdate($event)">
+
+      </app-trade-updates-modal>
+
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>

@@ -27,7 +27,7 @@ import {SavedReport} from '../../../model/report/new/savedReport';
 })
 export class ReportMainComponent implements OnInit, OnDestroy {
 
-  defaultNavActiveId = 2
+  defaultNavActiveId = 3
 
   // isLoading
   isLoadingAllStrategy$: Observable<IsLoading>
@@ -44,6 +44,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   activeKitoDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
   otherDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
   // trade
+  allTrade$: Observable<StrategyDatatable[] | NewTrade[]>
   injury2021Trade$: Observable<StrategyDatatable[] | NewTrade[]>
   injury2022Trade$: Observable<StrategyDatatable[] | NewTrade[]>
   passiveLiveTrade$: Observable<StrategyDatatable[] | NewTrade[]>
@@ -94,6 +95,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     this.otherDatatable$ = this.store.pipe(select(reportSelectors.getOtherData(true)))
 
     // strategies trade
+    this.allTrade$ = this.store.pipe(select(reportSelectors.getAllNewTrade))
     this.injury2022Trade$ = this.store.pipe(select(reportSelectors.getInjury2022Data(false)))
     this.injury2021Trade$ = this.store.pipe(select(reportSelectors.getInjury2021Data(false)))
     this.passiveLiveTrade$ = this.store.pipe(select(reportSelectors.getPassiveLiveData(false)))

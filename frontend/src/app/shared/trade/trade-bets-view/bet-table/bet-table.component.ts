@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NewTrade} from '../../../../model/report/new/newTrade';
 import {TradeBets} from '../../../../model/report/tradeBets';
 
 @Component({
@@ -10,10 +9,14 @@ export class BetTableComponent implements OnInit {
 
   @Input() bets: TradeBets[]
   @Input() title: string
+  @Input() view: boolean
+
+  collapsed = false
 
   constructor() { }
 
   ngOnInit(): void {
+    this.collapsed = this.view
   }
 
   getSide(index: number, side: number){

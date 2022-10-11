@@ -42,6 +42,8 @@
                 <div *ngIf="tennisTournament.tournament.detail.type.federation==='ATP'"><h4><span class="badge badge-primary">ATP {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
                 <div *ngIf="tennisTournament.tournament.detail.type.federation==='WTA'"><h4><span class="badge badge-danger">WTA {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
                 <div *ngIf="tennisTournament.tournament.detail.type.isChallenger"><h4><span class="badge badge-success">Challenger</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.type.isSlam"><h4><span class="badge badge-warning">{{tennisTournament.tournament.detail.name}}</span></h4></div>
+
               </div>
             </div>
           <li class="list-group-item">
@@ -225,7 +227,7 @@
         </div>
       </div>
       <div class="card-body">
-        <app-trade-bets-view [trade]="trade"></app-trade-bets-view>
+        <app-trade-bets-view [onlyBets]=true [trade]="trade"></app-trade-bets-view>
       </div>
     </div>
   </div>

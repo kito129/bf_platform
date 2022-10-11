@@ -9,14 +9,16 @@ import {generate} from 'rxjs';
 })
 export class TradeBetsViewComponent implements OnInit {
 
-  // TODO DA QUI
   @Input() trade: NewTrade
+  @Input() onlyBets: boolean
   tradeA: NewTrade = null
   tradeB: NewTrade = null
 
   bets: TradeBets[] = []
   betsA: TradeBets[] = []
   betsB: TradeBets[] = []
+
+  collapsed = false
 
   constructor() { }
 
@@ -37,11 +39,13 @@ export class TradeBetsViewComponent implements OnInit {
     let resp = []
     for(let i=0; i< trade.trade.trades.length; i++){
       const selected = this.trade.trade.trades[i]
+      const selectionN = this.trade.trade.trades[i].selectionN
+      const selectionName = this.trade.trade.selections[selectionN].runnerName
       const temp = {
         id: selected.id,
         type: selected.type,
-        selectionN: this.trade.trade.trades[i].selectionN,
-        selectionName: this.trade.trade.selections[this.trade.trade.trades[i].selectionN].runnerName,
+        selectionN,
+        selectionName,
         odds: selected.odds,
         stake: selected.stake,
         toWin: selected.ifWin,

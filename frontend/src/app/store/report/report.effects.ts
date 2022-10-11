@@ -54,24 +54,7 @@ export class ReportEffects {
     }
   );
 
-  updateTrade$ = createEffect(() => {
-      return this.actions$.pipe(
-        ofType(reportActions.updateTrade),
-        exhaustMap(action =>
-          this.reportServices.updateTrade(action._id,action.trade).pipe(
-            map(response => {
-              // console.log('response:::', response)
 
-              return reportActions.updateTradeSuccess({response})
-            }),
-            catchError((error: any) => {
-              console.log('response:::', error)
-              return of(reportActions.updateTradeFailure(error));
-            }))
-        )
-      );
-    }
-  );
 
   deleteTrade$ = createEffect(() => {
       return this.actions$.pipe(
@@ -203,6 +186,25 @@ export class ReportEffects {
             catchError((error: any) => {
               console.log('response:::', error)
               return of(reportActions.getAllNewTradesFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  updateNewTrade$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.updateTrade),
+        exhaustMap(action =>
+          this.newReportServices.updateNewTrade(action.trade).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.updateTradeSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.updateTradeFailure(error));
             }))
         )
       );

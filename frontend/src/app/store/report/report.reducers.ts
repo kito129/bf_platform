@@ -113,19 +113,7 @@ const reportReducers = createReducer(
   ),
 
 
-  // update trade
-  on(reportActions.updateTrade, (state,result) => (
-    {...state, isLoadingAllNewTrades: setterLoading()
-    })
-  ),
-  on(reportActions.updateTradeSuccess, (state, result) =>
-    ({...state, allNewTrades: updateElement(state.allNewTrades,result.response), isLoadingAllNewTrades: setterLoadingSuccess()
-    })
-  ),
-  on(reportActions.updateTradeFailure, (state, result) => (
-    {...state, tradeError: 'API error', isLoadingAllNewTrades: setterLoadingFailure()
-    })
-  ),
+
 
   // delete trade
   on(reportActions.deleteTrade, (state,result) => (
@@ -168,6 +156,20 @@ const reportReducers = createReducer(
     })
   ),
   on(reportActions.getAllNewTradesFailure, (state, result) => (
+    {...state, tradeError: 'API error', isLoadingAllNewTrades: setterLoadingFailure()
+    })
+  ),
+
+  // update trade
+  on(reportActions.updateTrade, (state,result) => (
+    {...state, isLoadingAllNewTrades: setterLoading()
+    })
+  ),
+  on(reportActions.updateTradeSuccess, (state, result) =>
+    ({...state, allNewTrades: updateElement(state.allNewTrades,result.response), isLoadingAllNewTrades: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.updateTradeFailure, (state, result) => (
     {...state, tradeError: 'API error', isLoadingAllNewTrades: setterLoadingFailure()
     })
   ),

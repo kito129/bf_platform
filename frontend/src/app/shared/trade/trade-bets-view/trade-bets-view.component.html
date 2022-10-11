@@ -1,9 +1,12 @@
 <!-- ODDS MOVEMENTS -->
-<app-odds-movement [trade]="trade"></app-odds-movement>
+<app-odds-movement [view]="!onlyBets" [trade]="trade">
 
-<!-- AVG ODDS
-<app-avg-odds-traded [trade]="trade"></app-avg-odds-traded>
--->
+</app-odds-movement>
+
+<!-- AVG ODDS -->
+<app-avg-odds-traded [trade]="trade">
+
+</app-avg-odds-traded>
 
 <!-- TRADE BETS-->
 <app-bet-table [bets]="bets"

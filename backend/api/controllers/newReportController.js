@@ -1,4 +1,4 @@
-const newTrade = require("../models/report/newTrade");
+const NewTrade = require("../models/report/newTrade");
 
 const Strategy = require("../models/report/strategy");
 const NewStrategy = require("../models/report/newStrategy");
@@ -10,7 +10,7 @@ let mongoose = require('mongoose');
 
 // return all  new trades
 exports.get_all_new_trades = (req, res, next) => {
-    newTrade.find()
+    NewTrade.find()
         .select("_id created updated trade")
         .exec()
         .then(docs => {
@@ -31,6 +31,32 @@ exports.get_all_new_trades = (req, res, next) => {
             });
         });
 };
+
+// update notes
+exports.update_newTrade_by_id = (req, res, next) => {
+    const myId = req.params.tradeId;
+    let updated
+    NewTrade.findOneAndUpdate({_id: myId},req.body,  { new: true})
+        .select("_id created updated trade")
+        .exec()
+        .then(docs => {
+            updated= {
+                created: docs.created,
+                updated: docs.updated,
+                trade: docs.trade,
+                _id: docs._id,
+            }
+            res.status(200).json(updated);
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        })
+
+};
+
 
 exports.update_new_strategy =  (req, res, next) => {
     NewStrategy.find()
@@ -71,7 +97,7 @@ exports.update_new_strategy =  (req, res, next) => {
 
 
 exports.delete_2022_trade =  (req, res, next) => {
-    newTrade.deleteMany({"trade.info.date":{ $gte:1640991600000}})
+    NewTrade.deleteMany({"trade.info.date":{ $gte:1640991600000}})
         .select("_id created updated trade")
         .exec()
         .then(docs => {
@@ -87,7 +113,7 @@ exports.delete_2022_trade =  (req, res, next) => {
 
 
 exports.delete_2021_trade =  (req, res, next) => {
-    newTrade.deleteMany({"trade.info.date":{ $lte:1640991600000}})
+    NewTrade.deleteMany({"trade.info.date":{ $lte:1640991600000}})
         .select("_id created updated trade")
         .exec()
         .then(docs => {

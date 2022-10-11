@@ -1,56 +1,62 @@
-<div class="table-responsive pt-3">
-  <table class="table table-sm table-bordered text-center text-monospace">
-    <caption>Odds Movement</caption>
+<h5 (click)="collapsed = !collapsed" [ngClass]="collapsed ? 'text-gray' : ''">Odds Movement</h5>
+<div class="table-responsive pb-2" [ngbCollapse]="collapsed">
+  <table class="table table-sm table-bordered text-center text-monospace table-striped">
     <thead>
-    <tr>
-      <th><h5>Type</h5></th>
-      <th>
-        <h5>{{ trade.trade.selections[0].runnerName}}</h5>
-      </th>
-      <th>
-        <h5>{{ trade.trade.selections[1].runnerName}}</h5>
-      </th>
-      <th><h5>Time</h5></th>
-      <th><h5>Notional</h5></th>
-      <th><h5>Notional Delta</h5></th>
-    </tr>
+      <tr>
+        <th><h4>Type</h4></th>
+        <th>
+          <h4 class="text-primary">(A) {{ trade.trade.selections[0].runnerName}}</h4>
+        </th>
+        <th>
+          <h4 class="text-danger">(B) {{ trade.trade.selections[1].runnerName}}</h4>
+        </th>
+      </tr>
     </thead>
     <tbody>
-    <!-- BSP -->
-    <tr>
-      <td>
-        <h5>BSP</h5>
-      </td>
-      <td *ngFor="let selection of trade.trade.selections">
-        <app-bsp-odd [bspOdd]="selection.bsp"></app-bsp-odd>
-      </td>
-      <td>
-      </td>
-    </tr>
-    <!-- SECOND -->
-    <tr *ngIf="trade.trade.info.setTime.second">
-      <td>
-        <h5>Set 2</h5>
-      </td>
-      <td *ngFor="let selection of trade.trade.selections">
-        <h4>{{selection.sets.secondSet}}</h4>
-      </td>
-      <td>
-        <h5>{{trade.trade.info.setTime.second | date :'shortTime'}}</h5>
-      </td>
-    </tr>
-    <!-- THIRD -->
-    <tr *ngIf="trade.trade.info.setTime.third">
-      <td>
-        <h5>Set 3</h5>
-      </td>
-      <td *ngFor="let selection of trade.trade.selections">
-        <h5>{{selection.sets.thirdSet}}</h5>
-      </td>
-      <td>
-        <h4> {{trade.trade.info.setTime.third | date :'shortTime'}}</h4>
-      </td>
-    </tr>
+      <!-- BSP -->
+      <tr>
+        <td>
+          <h4>BSP</h4>
+        </td>
+        <td *ngFor="let selection of trade.trade.selections">
+          <app-bsp-odd [bspOdd]="selection.bsp"></app-bsp-odd>
+        </td>
+      </tr>
+      <!-- SECOND -->
+      <tr *ngIf="haveSet2">
+        <td>
+          <h4 class="text-info">Set 2</h4>
+        </td>
+        <td *ngFor="let selection of trade.trade.selections">
+          <h4>{{selection.sets.secondSet}}</h4>
+        </td>
+      </tr>
+      <!-- SECOND NOTIONAL -->
+      <tr *ngIf="haveSet2">
+        <td>
+          <h4 class="text-warning">Notional</h4>
+        </td>
+        <td *ngFor="let selection of trade.trade.selections">
+        </td>
+      </tr>
+      <!-- THIRD -->
+      <tr *ngIf="haveSet3">
+        <td>
+          <h4 class="text-light">Set 3</h4>
+        </td>
+        <td *ngFor="let selection of trade.trade.selections">
+          <h4>{{selection.sets.thirdSet}}</h4>
+        </td>
+      </tr>
+      <!-- THIRD NOTIONAL -->
+      <tr *ngIf="haveSet3">
+        <td>
+          <h4 class="text-warning">Notional</h4>
+        </td>
+        <td *ngFor="let selection of trade.trade.selections">
+          <h4> -- </h4>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

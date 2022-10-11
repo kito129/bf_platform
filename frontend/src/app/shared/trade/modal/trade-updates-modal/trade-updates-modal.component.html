@@ -1,11 +1,12 @@
 <button type="button" class="btn btn-xs btn-outline-light" (click)="openVerticalCenteredModal(verticalCenteredModal)">
   <i class="feather icon-edit"></i>
+  Edit
 </button>
 
 <!-- Modal -->
 <ng-template #verticalCenteredModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel">Update Trade</h5>
+    <h2>Update Trade</h2>
     <button type="button" class="close" (click)="modal.close('close')" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -15,28 +16,18 @@
     <!-- INFO -->
     <div class="card">
       <div class="card-header">
-        <h4>Info</h4>
+        <h3>Info</h3>
       </div>
       <div class="card-body">
 
         <div class="form-group">
-          <label for="marketName" class="text-gray">Market Name</label>
+          <label for="marketName">Market Name</label>
           <input class="form-control"
                  id="marketName"
                  type="text"
                  placeholder="Market Name"
                  name="marketName"
                  [(ngModel)]="tradeOutput.trade.info.marketInfo.marketName">
-        </div>
-
-        <div class="form-group">
-          <label for="marketId" class="text-gray">Market ID</label>
-          <input class="form-control"
-                 id="marketId"
-                 type="text"
-                 placeholder="Market ID"
-                 name="marketId"
-                 [(ngModel)]="tradeOutput.trade.info.marketInfo.marketId">
         </div>
 
         <app-date-form [time]="tradeOutput.trade.info.date"
@@ -55,7 +46,7 @@
           </div>
           <div class="col">
             <div class="form-group disabled">
-              <label class="text-gray">Sport</label>
+              <label>Sport</label>
               <ng-select id="sport"
                          name="sport"
                          placeholder="Sport"
@@ -74,7 +65,7 @@
         </div>
         <p class="text-danger">Importante!! Mettere sempre Strategy e Sport prima di tutte le bets e le selezioni</p>
         <div class="form-group">
-          <label class="text-gray">Executor</label>
+          <label>Executor</label>
           <ng-select
             [items]="executor"
             [multiple]=true
@@ -89,7 +80,7 @@
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label for="exchange" class="text-gray">Exchange</label>
+              <label for="exchange">Exchange</label>
               <ng-select [items]="exchange"
                          id="exchange"
                          name="exchange"
@@ -103,12 +94,12 @@
           </div>
           <div class="col">
             <div class="form-group">
-              <label for="commission" class="text-gray">Commission</label>
+              <label for="commissionRate">Commission</label>
               <input type="number" step='0.001'
                      class="form-control"
-                     id="commission"
+                     id="commissionRate"
                      [(ngModel)]="tradeOutput.trade.info.exchange.commission"
-                     name="commission"
+                     name="commissionRate"
                      min="0"
                      max="1">
             </div>
@@ -120,7 +111,7 @@
     <!-- SELECTIONS -->
     <div class="card mt-2 mb-2">
       <div class="card-header">
-        <h4>Selection</h4>
+        <h3>Selection</h3>
       </div>
       <div class="card-body">
 
@@ -131,7 +122,7 @@
           <!-- SELECTIONS MANAGER-->
           <div *ngFor="let runner of tradeOutput.trade.selections; let i=index">
             <div class="form-group">
-              <label  class="text-gray">Selection {{i+1}}: </label>
+              <label>Selection {{i+1}}: </label>
               <div class="row">
                 <div class="col-10">
 
@@ -150,7 +141,7 @@
               <div class="col">
                 <app-odd-form [title]="'BSP'"
                               [odds]="tradeOutput.trade.selections[i].bsp"
-                              (oddsPointEmitter)="setBSPodds($event,i)">
+                              (oddsPointEmitter)="setBSPOdds($event,i)">
                 </app-odd-form>
               </div>
               <div class="col">
@@ -165,7 +156,7 @@
               <div class="col">
                 <app-bets-form [isBack]="false"
                                [isUpdate]="true"
-                               [bank]="tradeOutput.trade.selections[i].avg.lay.bank"
+                               [bank]="tradeOutput.trade.selections[i].avg.lay.stake"
                                [odds]="tradeOutput.trade.selections[i].avg.lay.odds"
                                [liability]="tradeOutput.trade.selections[i].avg.lay.liability"
                                (betsFormEmitter)="setSelectionAvgOdds($event,i)">
@@ -205,18 +196,18 @@
     <!-- FINAL RESULT -->
     <div class="card mt-2 mb-2">
       <div class="card-header">
-        <h4>Final Result</h4>
+        <h3>Final Result</h3>
       </div>
       <div class="card-body">
         <div *ngIf="tradeOutput.trade.info.marketInfo.sport === ('TENNIS')">
-          <app-tennis-point [tennisPoint]="tradeOutput.trade.result.finalScore.tennis"
+          <app-tennis-point [tennisPoint]="tradeOutput.trade.results.finalScore.tennis"
                             (tennisPointEmitter)="updateFinalResultTennis($event)"
                             [showGame]="false">
 
           </app-tennis-point>
         </div>
         <div *ngIf="tradeOutput.trade.info.marketInfo.sport === ('FOOTBALL')">
-          <app-football-point [footballPoint]="tradeOutput.trade.result.finalScore.football"
+          <app-football-point [footballPoint]="tradeOutput.trade.results.finalScore.football"
                               (footballPointEmitter)="updateFinalResultFootball($event)">
 
           </app-football-point>
@@ -227,10 +218,16 @@
     <!-- CREATE BETS -->
     <div class="card mt-2 mb-2">
       <div class="card-header">
-        <h4>Trade</h4>
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h3>Add Trade</h3>
+          <button type="button" [ngClass]="addTradeCollapse? 'btn btn btn-outline-primary' : 'btn btn btn-primary'"
+                  (click)="addTradeCollapse = !addTradeCollapse">
+            View
+          </button>
+        </div>
       </div>
-      <div class="card-body">
-        <h6 class="text-gray">Create new Trade</h6>
+      <div class="card-body" [ngbCollapse]="addTradeCollapse">
+        <h6>Create new Trade</h6>
         <div class="row">
           <div class="col">
             <div class="form-group">
@@ -272,7 +269,7 @@
           </div>
           <div class="col">
             <div class="form-group">
-              <label for="stake" class="text-gray">Stake / Bank</label>
+              <label for="stake">Stake / Bank</label>
               <input type="number" step='0.01'
                      class="form-control"
                      id="stake"
@@ -285,7 +282,7 @@
         <div class="row">
           <div class="col-10">
             <div class="form-group">
-              <label for="selection" class="text-gray">Selection </label>
+              <label for="selection">Selection </label>
               <ng-select id="selection"
                          name="selection"
                          placeholder="Selection"
@@ -306,7 +303,7 @@
         <div>
           <div *ngIf="supportBets.condition.horse.isHorse">
             <div class="form-group">
-              <label for="horseBetNote" class="text-gray">Note</label>
+              <label for="horseBetNote">Note</label>
               <input class="form-control"
                      id="horseBetNote"
                      type="text"
@@ -322,7 +319,7 @@
           </div>
           <div *ngIf="supportBets.condition.football.isFootball">
             <div class="form-group">
-              <label for="footballBetNote" class="text-gray">Note</label>
+              <label for="footballBetNote">Note</label>
               <input class="form-control"
                      id="footballBetNote"
                      type="text"
@@ -340,7 +337,7 @@
           </div>
           <div  *ngIf="supportBets.condition.tennis.isTennis">
             <div class="form-group">
-              <label for="tennisBetNote" class="text-gray">Note</label>
+              <label for="tennisBetNote">Note</label>
               <input class="form-control"
                      id="tennisBetNote"
                      type="text"
@@ -367,22 +364,28 @@
         </div>
       </div>
     </div>
-    <!-- EXPOSITION ON SELECTIONS -->
+    <!-- SELECTIONS -->
     <div class="card mt-2 mb-2">
       <div class="card-header">
-        <h4>Exposition</h4>
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h3>Bets</h3>
+          <button type="button" [ngClass]="tradesCollapse? 'btn btn btn-outline-primary' : 'btn btn btn-primary'"
+                  (click)="tradesCollapse = !tradesCollapse">
+            View
+          </button>
+        </div>
       </div>
-      <div class="card-body">
+      <div class="card-body" [ngbCollapse]="tradesCollapse">
 
         <div class="form-group">
           <!-- EXPOSITION DISPLAY-->
-          <div *ngFor="let exposition of tradeOutput.trade.exposition; index as i">
+          <div *ngFor="let exposition of tradeOutput.trade.selections; index as i">
             <ul class="list-group mt-2">
               <li class="list-group-item active">
                 <h4>{{tradeOutput.trade.selections[i].runnerName}} Bets:</h4>
               </li>
               <!--BACK FOR THIS SELECTION-->
-              <div *ngFor="let tradeBack of tradeOutput.trade.trades.back; index as h">
+              <div *ngFor="let tradeBack of tradeOutput.trade.trades; index as h">
                 <li *ngIf="tradeBack.selectionN ===i" class="list-group-item">
                   <div class="col">
                     <!-- BETS -->
@@ -391,17 +394,24 @@
                                         [stake]="tradeBack.stake"
                                         [toWin]="tradeBack.ifWin">
                     </app-bets-formatter>
+
                     <!-- POINT -->
-                    <h5 class="text-gray mt-2 mb-2">Point: {{tradeBack.condition.tennis.point | tennisPoint}}</h5>
+                    <app-tennis-point [tennisPoint]="tradeBack.condition.tennis.point"
+                                      (tennisPointEmitter)="updateTradeResultTennis($event, i)"
+                                      [showGame]="false">
+
+                    </app-tennis-point>
+
                     <!-- TIME -->
                     <app-date-form [time]="tradeBack.condition.time"
                                    [showDate]="true"
                                    [showTime]="true"
                                    (dateEmitter)="updateBetsDate($event,tradeBack)">
                     </app-date-form>
+
                     <!-- NOTE -->
                     <div class="form-group">
-                      <label class="text-gray">Note</label>
+                      <label>Note</label>
                         <input class="form-control"
                                type="text"
                                placeholder="Note"
@@ -409,60 +419,12 @@
                                [(ngModel)]="tradeBack.condition.note">
                     </div>
                     <!-- DELETE -->
-                    <button type="button" class="btn-xs btn-danger" (click)="removeBets(h,'back')">
+                    <button type="button" class="btn-xs btn-danger" (click)="removeBets(h)">
                       <i class="feather icon-x"></i>
                     </button>
                   </div>
                 </li>
               </div>
-            </ul>
-            <ul class="list-group">
-              <!--LAY FOR THIS SELECTION-->
-              <div *ngFor="let tradeLay of tradeOutput.trade.trades.lay; index as h">
-                <li *ngIf="tradeLay.selectionN ===i" class="list-group-item">
-                  <div class="col">
-                    <!-- BETS -->
-                    <app-bets-formatter [type]="'lay'"
-                                        [odds]="tradeLay.odds"
-                                        [bank]="tradeLay.bank"
-                                        [liability]="tradeLay.liability">
-                    </app-bets-formatter>
-                    <!-- POINT -->
-                    <h5 class="text-gray mt-2 mb-2">Point: {{tradeLay.condition.tennis.point | tennisPoint}}</h5>
-                    <!-- TIME -->
-                    <app-date-form [time]="tradeLay.condition.time"
-                                   [showDate]="true"
-                                   [showTime]="true"
-                                   (dateEmitter)="updateBetsDate($event,tradeLay)">
-                    </app-date-form>
-                    <!-- NOTE -->
-                    <div class="form-group">
-                      <label class="text-gray">Note</label>
-                      <input class="form-control"
-                             type="text"
-                             placeholder="Note"
-                             name="tradeNote"
-                             [(ngModel)]="tradeLay.condition.note">
-                    </div>
-                    <!-- DELETE -->
-                    <button type="button" class="btn-xs btn-danger" (click)="removeBets(h,'lay')">
-                      <i class="feather icon-x"></i>
-                    </button>
-                  </div>
-                </li>
-              </div>
-              <li class="list-group-item disabled">
-                <div class="row">
-                  <div class="col">
-                    <h6 class="text-primary">Back Side:</h6>
-                    <h5 [ngClass]="tradeOutput.trade.exposition[i].back>0? 'text-success' : 'text-danger' ">{{tradeOutput.trade.exposition[i].back | currency}}</h5>
-                  </div>
-                  <div class="col">
-                    <h6 class="text-danger">Lay Side:</h6>
-                    <h5 [ngClass]="tradeOutput.trade.exposition[i].lay>0? 'text-success' : 'text-danger'">{{tradeOutput.trade.exposition[i].lay | currency}}</h5>
-                  </div>
-                </div>
-              </li>
             </ul>
           </div>
 
@@ -474,58 +436,71 @@
     <!-- RESULT ON SELECTIONS -->
     <div class="card mt-2 mb-2">
       <div class="card-header">
-        <h4>Result</h4>
+        <h3>Results</h3>
       </div>
       <div class="card-body">
         <div class="col mb-2">
           <div class="row grid-margin">
             <div class="col">
-              <h4>Gross:</h4>
-              <h5 [ngClass]="tradeOutput.trade.result.grossProfit>0? 'text-success'  : 'text-danger' ">{{tradeOutput.trade.result.grossProfit | currency}}</h5>
-            </div>
-            <div class="col">
-              <h4>Net:</h4>
-              <h4 [ngClass]="tradeOutput.trade.result.netProfit>0? 'text-success'  : 'text-danger' ">{{tradeOutput.trade.result.netProfit | currency}}</h4>
-            </div>
-            <div class="col">
-              <label for="correctionPl">Correction PL</label>
+              <h3>Gross</h3>
               <input type="number"
                      class="form-control"
-                     id="correctionPl"
-                     [(ngModel)]="tradeOutput.trade.result.correctionPl"
-                     name="correctionPl"
-                     step="0.01"
-                     (ngModelChange)="updateExpositionAndPl()">
+                     id="gross"
+                     [(ngModel)]="tradeOutput.trade.results.grossProfit"
+                     name="gross"
+                     step="0.01">
+            </div>
+            <div class="col">
+              <h3>Net</h3>
+              <input type="number"
+                     class="form-control"
+                     id="netPl"
+                     [(ngModel)]="tradeOutput.trade.results.netProfit"
+                     name="netPl"
+                     step="0.01">
+            </div>
+            <div class="col">
             </div>
           </div>
           <div class="row grid-margin">
             <div class="col">
               <div class="form-group">
-                <label class="text-danger" for="maxRisk">Max Risk</label>
+                <h4>Max Risk</h4>
                 <input type="number"
                        class="form-control"
                        id="maxRisk"
                        name="maxRisk"
                        step="0.01"
-                       [(ngModel)]="tradeOutput.trade.result.maxRisk"
-                       (ngModelChange)="calculatePl()">
+                       [(ngModel)]="tradeOutput.trade.results.maxRisk">
               </div>
             </div>
             <div class="col">
-              <h4 class="text-info">Risk/Reward: {{tradeOutput.trade.result.rr | percent:'0.2'}}</h4>
+              <h4>RR</h4>
+              <input type="number"
+                     class="form-control"
+                     id="rr"
+                     [(ngModel)]="tradeOutput.trade.results.rr"
+                     name="r"
+                     step="0.01">
             </div>
           </div>
           <div class="row grid-margin">
             <div class="col">
-              <h4 class="text-warning">Commission Paid: {{tradeOutput.trade.result.commissionPaid| currency}}</h4>
+              <h4 class="text-warning">Commission</h4>
+              <input type="number"
+                     class="form-control"
+                     id="commission"
+                     [(ngModel)]="tradeOutput.trade.results.commissionPaid"
+                     name="commission"
+                     step="0.01">
+            </div>
+            <div class="col">
+              <h4 class="text-warning">Impact {{ tradeOutput.trade.results.commissionPaid / tradeOutput.trade.results.grossProfit | percent}}</h4>
             </div>
           </div>
         </div>
       </div>
       <div class="card-footer">
-        <button type="button" class="btn btn-warning" (click)="calculatePl()">
-          Calculate Pl
-        </button>
       </div>
     </div>
     <!-- NOTE -->
@@ -533,42 +508,48 @@
       <div class="col">
         <div class="card mt-2 mb-2">
           <div class="card-header">
-            <h4>Note</h4>
+            <div class="d-flex justify-content-between align-items-baseline">
+              <h3>Notes</h3>
+              <button type="button" [ngClass]="noteCollapse? 'btn btn btn-outline-primary' : 'btn btn btn-primary'"
+                      (click)="noteCollapse = !noteCollapse">
+                View
+              </button>
+            </div>
           </div>
-          <div class="card-body">
+          <div class="card-body" [ngbCollapse]="noteCollapse">
 
             <div class="form-group">
-              <label for="description" class="text-gray">Description Note</label>
-              <textarea class="form-control" id="description" rows="5"  placeholder="Description Note" name="description"
+              <label for="description">Description Note</label>
+              <textarea class="form-control" id="description" rows="10"  placeholder="Description Note" name="description"
                         [(ngModel)]="tradeOutput.trade.info.note.description"></textarea>
             </div>
             <div class="form-group">
-              <label for="entry" class="text-gray">Entry Note</label>
-              <textarea class="form-control" id="entry" rows="5"  placeholder="Entry Note" name="entry"
+              <label for="entry">Entry Note</label>
+              <textarea class="form-control" id="entry" rows="10"  placeholder="Entry Note" name="entry"
                         [(ngModel)]="tradeOutput.trade.info.note.entry"></textarea>
             </div>
             <div class="form-group">
-              <label for="position" class="text-gray">Position</label>
+              <label for="position">Position</label>
               <textarea class="form-control" id="position" rows="5"  placeholder="Position Note" name="position"
                         [(ngModel)]="tradeOutput.trade.info.note.position"></textarea>
             </div>
             <div class="form-group">
-              <label for="exit" class="text-gray">Exit Note</label>
+              <label for="exit">Exit Note</label>
               <textarea class="form-control" id="exit" rows="5"  placeholder="Exit Note" name="exit"
                         [(ngModel)]="tradeOutput.trade.info.note.exit"></textarea>
             </div>
             <div class="form-group">
-              <label for="mm" class="text-gray">MM Note</label>
+              <label for="mm">MM Note</label>
               <textarea class="form-control" id="mm" rows="5"  placeholder="MM Note" name="mm"
                         [(ngModel)]="tradeOutput.trade.info.note.mm"></textarea>
             </div>
             <div class="form-group">
-              <label for="odds" class="text-gray">Odds Note</label>
+              <label for="odds">Odds Note</label>
               <textarea class="form-control" id="odds" rows="5"  placeholder="Odds Note" name="odds"
                         [(ngModel)]="tradeOutput.trade.info.note.odds"></textarea>
             </div>
             <div class="form-group">
-              <label for="post" class="text-gray">Post Note</label>
+              <label for="post">Post Note</label>
               <textarea class="form-control" id="post" rows="5"  placeholder="Post Note" name="post"
                         [(ngModel)]="tradeOutput.trade.info.note.post"></textarea>
             </div>

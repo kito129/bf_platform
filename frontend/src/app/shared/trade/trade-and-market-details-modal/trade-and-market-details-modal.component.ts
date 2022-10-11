@@ -9,6 +9,7 @@ import {select, Store} from '@ngrx/store';
 import * as marketSelectors from '../../../store/markets/markets.selectors';
 import {MarketBasic} from '../../../model/market/basic/marketBasic';
 import {NewTrade} from '../../../model/report/new/newTrade';
+import * as reportActions from "../../../store/report/report.actions";
 
 @Component({
   selector: 'app-trade-and-market-details-modal',
@@ -93,8 +94,12 @@ export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
           this.destroy$.complete();
         });
       })
+  }
 
-
+  tradeUpdate(event){
+    console.log(event)
+    if(event[1] === 'update')
+    this.store.dispatch(reportActions.updateTrade({ trade:event[0]}));
   }
 
   ngOnDestroy() {

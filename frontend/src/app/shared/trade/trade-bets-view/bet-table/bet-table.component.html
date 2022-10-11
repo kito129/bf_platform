@@ -1,6 +1,6 @@
-<div class="table-responsive pt-3">
+<h5 (click)="collapsed = !collapsed" [ngClass]="collapsed ? 'text-gray' : ''">Bets</h5>
+<div class="table-responsive pb-2" [ngbCollapse]="collapsed">
   <table class="table table-sm table-bordered text-center text-monospace">
-    <caption><h5><b>{{title}} Only</b></h5></caption>
     <thead>
     <tr>
       <th>#</th>

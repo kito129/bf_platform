@@ -1,47 +1,43 @@
-<div class="table-responsive pt-3">
-  <table class="table table-sm table-bordered text-center text-monospace">
-    <caption>Avg Odds</caption>
+<h5 (click)="collapsed = !collapsed" [ngClass]="collapsed ? 'text-gray' : ''">Avg Odds</h5>
+<div class="table-responsive pb-2" [ngbCollapse]="collapsed">
+  <table class="table table-sm table-bordered text-center text-monospace table-striped">
     <thead>
     <tr>
       <th><h5>Name</h5></th>
-      <th><h5>Type</h5></th>
-      <th><h5>Odds</h5></th>
+      <th><h5>Back Odds</h5></th>
       <th><h5>Stake</h5></th>
-      <th><h5>Type</h5></th>
-      <th><h5>Odds</h5></th>
-      <th><h5>Stake</h5></th>
+      <th><h5>Lay Odds</h5></th>
+      <th><h5>Bank</h5></th>
       <th><h5>Liability</h5></th>
-      <th><h5>Net Stake</h5></th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let selection of trade.trade.selections">
+    <tr *ngFor="let selection of trade.trade.selections, index as i">
       <td>
-        <h4>{{selection.runnerName}}</h4>
+        <h4 [ngClass]="i ? 'text-danger' : 'text-primary'">{{!i ? '(A)' : '(B)'}}{{selection.runnerName}}
+          <i *ngIf="i===1 && winner===0 || i===0 && winner===1" class="text-danger feather icon-x"></i>
+          <i *ngIf="i===1 && winner===1 || i===0 && winner===0" class="text-success feather icon-check"></i>
+        </h4>
       </td>
       <td>
-        <h5 class="text-primary">Back</h5>
+        <h4 *ngIf="selection.avg.back.odds>0" class="text-primary">{{selection.avg.back.odds| number :'1.0-2'}}</h4>
+        <h4 *ngIf="selection.avg.back.odds===0"> -- </h4>
       </td>
       <td>
-        <h4 class="text-primary">{{selection.avg.back.odds| number :'1.0-2'}}</h4>
+        <h5 *ngIf="selection.avg.back.stake>0" class="text-primary">{{selection.avg.back.stake| currency}}</h5>
+        <h4 *ngIf="selection.avg.back.stake===0"> -- </h4>
       </td>
       <td>
-        <h5>{{selection.avg.back.stake| currency}}</h5>
+        <h4 *ngIf="selection.avg.lay.odds>0" class="text-danger">{{selection.avg.lay.odds | number :'1.0-2'}}</h4>
+        <h4 *ngIf="selection.avg.lay.odds===0"> -- </h4>
       </td>
       <td>
-        <h5 class="text-danger">Lay</h5>
+        <h5 *ngIf="selection.avg.lay.stake>0" class="text-danger">{{selection.avg.lay.stake | currency}}</h5>
+        <h4 *ngIf="selection.avg.lay.stake===0"> -- </h4>
       </td>
       <td>
-        <h5 class="text-danger">{{selection.avg.lay.odds | number :'1.0-2'}}</h5>
-      </td>
-      <td>
-        <h5>{{selection.avg.lay.stake | currency}}</h5>
-      </td>
-      <td>
-        <h5>{{selection.avg.lay.liability| currency}}</h5>
-      </td>
-      <td>
-        <h4>{{selection.avg.back.stake - selection.avg.lay.stake| currency}}</h4>
+        <h5 *ngIf="selection.avg.lay.liability>0" class="text-danger">{{selection.avg.lay.liability| currency}}</h5>
+        <h4 *ngIf="selection.avg.lay.liability===0"> -- </h4>
       </td>
     </tr>
     </tbody>

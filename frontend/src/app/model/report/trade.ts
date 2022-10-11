@@ -1,6 +1,6 @@
 import {TennisPoint} from '../point/tennisPoint';
 import {FootballPoint} from '../point/footballPoint';
-import {NewTrade} from './new/newTrade';
+import {NewTrade, Trades} from './new/newTrade';
 
 export interface Trade {
   _id?: string
@@ -197,51 +197,7 @@ export class TradeForm{
     }
   }]
 
-  public trades: {
-    back: [{
-      selectionN: number
-      odds: number
-      stake: number
-      ifWin: number
-      condition: {
-        tennis: {
-          isTennis: boolean
-          point: TennisPoint
-        }
-        football: {
-          isFootball: boolean
-          point: FootballPoint
-        }
-        horse: {
-          isHorse: boolean
-        }
-        note: string
-        time: number
-      }
-    }]
-    lay: [{
-      selectionN: number
-      odds: number
-      bank: number
-      liability: number
-      ifWin: number
-      condition: {
-        tennis: {
-          isTennis: boolean
-          point: TennisPoint
-        }
-        football: {
-          isFootball: boolean
-          point: FootballPoint
-        }
-        horse: {
-          isHorse: boolean
-        }
-        note: string
-        time: number
-      }
-    }]
-  }
+  public trades: Trades[]
 
   public exposition: [{
     back: number
@@ -306,51 +262,7 @@ export class TradeForm{
       }
     }]
 
-    this.trades= {
-      back: [{
-        selectionN: 0,
-        odds: null,
-        stake: null,
-        ifWin: null,
-        condition: {
-          tennis: {
-            isTennis: null,
-            point: null,
-          },
-          football: {
-            isFootball: null,
-            point: null,
-          },
-          horse: {
-            isHorse: null
-          },
-          time: 0,
-          note: null,
-        }
-      }],
-      lay: [{
-        selectionN: 0,
-        odds: null,
-        bank: null,
-        liability: null,
-        ifWin: null,
-        condition: {
-          tennis: {
-            isTennis: null,
-            point: null,
-          },
-          football: {
-            isFootball: null,
-            point: null,
-          },
-          horse: {
-            isHorse: null,
-          },
-          time: 0,
-          note: null,
-        }
-      }]
-    }
+    this.trades= []
     this.exposition= [{
       back: 0,
       lay: 0,
@@ -398,8 +310,6 @@ export class TradeForm{
         }
       }
     }
-    this.trades.back.pop()
-    this.trades.lay.pop()
   }
 
 }

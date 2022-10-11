@@ -102,7 +102,6 @@ import { FilterElementComponent } from './filters/filter-element/filter-element.
 import { TradeAndMarketDetailsModalComponent } from './trade/trade-and-market-details-modal/trade-and-market-details-modal.component';
 import { TvMarketPricesAndTradesComponent } from './charts/tradingView-charts/tv-market-prices-and-trades/tv-market-prices-and-trades.component';
 import { TradeToolsActionsComponent } from './trade/trade-tools-actions/trade-tools-actions.component';
-import {TradeCreateModalComponent} from './trade/modal/trade-create-modal/trade-create-modal.component';
 import {TradeUpdatesModalComponent} from './trade/modal/trade-updates-modal/trade-updates-modal.component';
 import {TradeDetailComponent} from './trade/trade-detail/trade-detail.component';
 import { CrudListComponent } from './filters/crud-list/crud-list.component';
@@ -246,7 +245,6 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     TradeAndMarketDetailsModalComponent,
     TvMarketPricesAndTradesComponent,
     TradeToolsActionsComponent,
-    TradeCreateModalComponent,
     TradeUpdatesModalComponent,
     TradeDetailComponent,
     CrudListComponent,
@@ -351,7 +349,6 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MarketAdvancedDetailComponent,
     FiltersMainComponent,
     TradeAndMarketDetailsModalComponent,
-    TradeCreateModalComponent,
     TradeUpdatesModalComponent,
     TradeToolsActionsComponent,
     TradeDetailComponent,
@@ -437,7 +434,6 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MarketAdvancedDetailComponent,
     FiltersMainComponent,
     TradeAndMarketDetailsModalComponent,
-    TradeCreateModalComponent,
     TradeUpdatesModalComponent,
     TradeToolsActionsComponent,
     TradeDetailComponent,

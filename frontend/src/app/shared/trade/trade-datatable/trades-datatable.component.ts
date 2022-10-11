@@ -4,12 +4,13 @@ import {DatatableComponent, ColumnMode, SelectionType} from '@swimlane/ngx-datat
 import {Store} from '@ngrx/store';
 import {TradeCalculatorService} from '../../../services/trade-calculator.service';
 import {takeUntil} from 'rxjs/operators';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {NewTrade, Trades} from '../../../model/report/new/newTrade';
 import {TradeDetail} from '../../../model/report/trade';
 import {Utils} from '../../../model/calculator/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
 import * as reportActions from '../../../store/report/report.actions';
 import {SavedReport} from '../../../model/report/new/savedReport';
+import {number} from "ngx-custom-validators/src/app/number/validator";
 
 
 @Component({
@@ -190,39 +191,65 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       const marketType = (x.trade.trade.info.marketInfo.marketName.indexOf(' - Set')!==-1) ? 'Set Winner' : 'Match Odds'
 
       if(winner && loser){
-
         temp.push({
-        date,
-        marketName: x.trade.trade.info.marketInfo.marketName,
-        marketType,
-        duration: 0,
-        winner: winner.runnerName,
-        loser: loser.runnerName,
-        winnerBSP: winner.bsp,
-        loserBSP: loser.bsp,
-          // @ts-ignore
-        winnerSet2: x.trade.trade.selections[winnerIndex].sets.secondSet,
-          // @ts-ignore
-        loserSet2: x.trade.trade.selections[loserIndex].sets.secondSet,
-          // @ts-ignore
-        winnerSet3: x.trade.trade.selections[winnerIndex].sets.thirdSet,
-          // @ts-ignore
-        loserSet3: x.trade.trade.selections[loserIndex].sets.thirdSet,
-          // @ts-ignore
-        winnerAvgBack: x.trade.trade.selections[winnerIndex].avg.back.odds,
-          // @ts-ignore
-        winnerAvgLay: x.trade.trade.selections[winnerIndex].avg.lay.odds,
-          // @ts-ignore
-        loserAvgBack: x.trade.trade.selections[loserIndex].avg.back.odds,
-          // @ts-ignore
-        loserAvgLay: x.trade.trade.selections[loserIndex].avg.lay.odds,
-      })
+          date,
+          marketName: x.trade.trade.info.marketInfo.marketName,
+          marketType,
+          duration: 0,
+          winner: winner.runnerName,
+          loser: loser.runnerName,
+          winnerBSP: winner.bsp,
+          loserBSP: loser.bsp,
+            // @ts-ignore
+          winnerSet2: x.trade.trade.selections[winnerIndex].sets.secondSet,
+            // @ts-ignore
+          loserSet2: x.trade.trade.selections[loserIndex].sets.secondSet,
+            // @ts-ignore
+          winnerSet3: x.trade.trade.selections[winnerIndex].sets.thirdSet,
+            // @ts-ignore
+          loserSet3: x.trade.trade.selections[loserIndex].sets.thirdSet,
+            // @ts-ignore
+          winnerAvgBack: x.trade.trade.selections[winnerIndex].avg.back.odds,
+            // @ts-ignore
+          winnerAvgLay: x.trade.trade.selections[winnerIndex].avg.lay.odds,
+            // @ts-ignore
+          loserAvgBack: x.trade.trade.selections[loserIndex].avg.back.odds,
+            // @ts-ignore
+          loserAvgLay: x.trade.trade.selections[loserIndex].avg.lay.odds,
+          empty: null,
+        })
+      }
+
+      const bets =this.createTradeRows(x)
+      for (const [key, value] of Object.entries(bets)) {
+        const h = Object.getOwnPropertyNames(value)
+        for (const [keyT, valueT] of Object.entries(h)) {
+          temp[temp.length-1][`${valueT}${key}`] = value[`${valueT}`]
+        }
       }
     })
 
     console.log(temp)
     this.util.exportToCsv(`${nowDate.getMonth() + 1}_${nowDate.getDate()}_${nowDate.getFullYear()}_trades.csv`,
       JSON.parse(JSON.stringify(temp)))
+  }
+
+  private createTradeRows(trade: TradeDetail){
+    let i =0
+    return trade.trade.trade.trades.map( x =>{
+      i++
+      return {
+        n: i,
+        type: x.type,
+        side: x.selectionN,
+        options: x.options,
+        odds: x.odds,
+        stake: x.stake,
+        liability: x.liability,
+        ifWin: x.ifWin,
+        empty: null
+      }
+    })
   }
 
   // temp to fix odds bug

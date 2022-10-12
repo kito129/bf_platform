@@ -10,7 +10,7 @@ import {Utils} from '../../../model/calculator/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
 import * as reportActions from '../../../store/report/report.actions';
 import {SavedReport} from '../../../model/report/new/savedReport';
-import {number} from "ngx-custom-validators/src/app/number/validator";
+import {number} from 'ngx-custom-validators/src/app/number/validator';
 
 
 @Component({
@@ -90,7 +90,9 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     if(val){
       this.rows = this.temp.filter((d: TradeDetail) => {
         return (d.trade.trade.info.marketInfo.marketName.toLowerCase().indexOf(val) !== -1
-          || (d.trade.trade.info.note.description ? d.trade.trade.info.note.description.toLowerCase().indexOf(val) !== -1 : false)) || !val;
+          || (d.trade.trade.info.note.description ? d.trade.trade.info.note.description.toLowerCase().indexOf(val) !== -1 : false)
+          || (d.trade.trade.info.note.entry ? d.trade.trade.info.note.entry.toLowerCase().indexOf(val) !== -1 : false)
+          || (d.trade.trade.info.note.post ? d.trade.trade.info.note.post.toLowerCase().indexOf(val) !== -1 : false)) || !val
       });
       this.table.offset = 0;
     } else {
@@ -177,71 +179,87 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveAsCSV() {
+  saveAsCSV(type: string) {
     const nowDate = new Date()
     const temp = []
-    this.rows.forEach((x: TradeDetail) => {
-      const t = new Date(x.trade.trade.info.date)
-      const date = `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()}`
-      const winner = x.trade.trade.selections.filter( y => y.winner)[0]
-      const loser = x.trade.trade.selections.filter( y => !y.winner)[0]
-      const winnerIndex = (x.trade.trade.selections[0].winner) ? 0 : 1
-      const loserIndex = winnerIndex ? 0 : 1
+    // sort by the longest trade number
+    JSON.parse(JSON.stringify(this.rows))
+      .sort((a:TradeDetail,b:TradeDetail) =>b.trade.trade.trades.length - a.trade.trade.trades.length)
+      .forEach((x: TradeDetail) => {
+        const t = new Date(x.trade.trade.info.date)
+        const date = `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()}`
+        const winner = x.trade.trade.selections.filter( y => y.winner)[0]
+        const loser = x.trade.trade.selections.filter( y => !y.winner)[0]
+        const winnerIndex = (x.trade.trade.selections[0].winner) ? 0 : 1
+        const loserIndex = winnerIndex ? 0 : 1
 
-      const marketType = (x.trade.trade.info.marketInfo.marketName.indexOf(' - Set')!==-1) ? 'Set Winner' : 'Match Odds'
+        const marketType = (x.trade.trade.info.marketInfo.marketName.indexOf(' - Set')!==-1) ? 'Set Winner' : 'Match Odds'
 
-      if(winner && loser){
-        temp.push({
-          date,
-          marketName: x.trade.trade.info.marketInfo.marketName,
-          marketType,
-          duration: 0,
-          winner: winner.runnerName,
-          loser: loser.runnerName,
-          winnerBSP: winner.bsp,
-          loserBSP: loser.bsp,
+        if(winner && loser){
+          temp.push({
+            date,
+            marketName: x.trade.trade.info.marketInfo.marketName,
+            marketType,
+            duration: 0,
+            winner: winner.runnerName,
+            loser: loser.runnerName,
+            winnerBSP: winner.bsp,
+            loserBSP: loser.bsp,
+              // @ts-ignore
+            winnerSet2: x.trade.trade.selections[winnerIndex].sets.secondSet,
+              // @ts-ignore
+            loserSet2: x.trade.trade.selections[loserIndex].sets.secondSet,
+              // @ts-ignore
+            winnerSet3: x.trade.trade.selections[winnerIndex].sets.thirdSet,
+              // @ts-ignore
+            loserSet3: x.trade.trade.selections[loserIndex].sets.thirdSet,
+              // @ts-ignore
+            winnerAvgBack: x.trade.trade.selections[winnerIndex].avg.back.odds,
             // @ts-ignore
-          winnerSet2: x.trade.trade.selections[winnerIndex].sets.secondSet,
+            winnerAvgBackStake: x.trade.trade.selections[winnerIndex].avg.back.stake,
             // @ts-ignore
-          loserSet2: x.trade.trade.selections[loserIndex].sets.secondSet,
+            winnerAvgBackIfWin: x.trade.trade.selections[winnerIndex].avg.back.toWin,
+              // @ts-ignore
+            winnerAvgLay: x.trade.trade.selections[winnerIndex].avg.lay.odds,
             // @ts-ignore
-          winnerSet3: x.trade.trade.selections[winnerIndex].sets.thirdSet,
+            winnerAvgLayBank: x.trade.trade.selections[winnerIndex].avg.lay.stake,
             // @ts-ignore
-          loserSet3: x.trade.trade.selections[loserIndex].sets.thirdSet,
+            winnerAvgLayLiability: x.trade.trade.selections[winnerIndex].avg.lay.liability,
+              // @ts-ignore
+            loserAvgBack: x.trade.trade.selections[loserIndex].avg.back.odds,
             // @ts-ignore
-          winnerAvgBack: x.trade.trade.selections[winnerIndex].avg.back.odds,
+            loserAvgBackStake: x.trade.trade.selections[loserIndex].avg.back.stake,
             // @ts-ignore
-          winnerAvgLay: x.trade.trade.selections[winnerIndex].avg.lay.odds,
+            loserAvgBackIfWin: x.trade.trade.selections[loserIndex].avg.back.toWin,
+              // @ts-ignore
+            loserAvgLay: x.trade.trade.selections[loserIndex].avg.lay.odds,
             // @ts-ignore
-          loserAvgBack: x.trade.trade.selections[loserIndex].avg.back.odds,
+            loserAvgBank: x.trade.trade.selections[loserIndex].avg.lay.stake,
             // @ts-ignore
-          loserAvgLay: x.trade.trade.selections[loserIndex].avg.lay.odds,
-          empty: null,
-        })
-      }
-
-      const bets =this.createTradeRows(x)
-      for (const [key, value] of Object.entries(bets)) {
-        const h = Object.getOwnPropertyNames(value)
-        for (const [keyT, valueT] of Object.entries(h)) {
-          temp[temp.length-1][`${valueT}${key}`] = value[`${valueT}`]
+            loserAvgLiability: x.trade.trade.selections[loserIndex].avg.lay.liability,
+            empty: null,
+            pl: x.trade.trade.results.netProfit,
+            maxRisk: x.trade.trade.results.maxRisk,
+            emptyy: null,
+          })
         }
+        // add element from bets
+        this.addPropsToObj(x,temp, type)
       }
-    })
+    )
 
-    console.log(temp)
     this.util.exportToCsv(`${nowDate.getMonth() + 1}_${nowDate.getDate()}_${nowDate.getFullYear()}_trades.csv`,
-      JSON.parse(JSON.stringify(temp)))
+      JSON.parse(JSON.stringify(temp.sort((c,d) => c.date - d.date ))))
   }
 
   private createTradeRows(trade: TradeDetail){
     let i =0
     return trade.trade.trade.trades.map( x =>{
       i++
+      const sideName = trade.trade.trade.selections[x.selectionN].runnerName
       return {
-        n: i,
+        name: sideName,
         type: x.type,
-        side: x.selectionN,
         options: x.options,
         odds: x.odds,
         stake: x.stake,
@@ -250,6 +268,133 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
         empty: null
       }
     })
+  }
+
+  private createTradeRowsGrouped(trade: TradeDetail){
+    let i =0
+    const open = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const increase = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const decrease = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const close = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const freeBet = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+
+    trade.trade.trade.trades.map( x =>{
+      i++
+      const sideName = trade.trade.trade.selections[x.selectionN].runnerName
+      switch (x.options){
+        case ('OPEN'):{
+          open.type = x.type
+          open.name = sideName
+          open.options = 'OPEN'
+          const avgOdds = (open.odds * open.stake + x.odds*x.stake)/(open.stake+x.stake)
+          open.stake += x.stake
+          open.odds = avgOdds
+          open.liability = x.type === 'back' ? 0 : open.stake*(open.odds-1)
+          open.ifWin = x.type === 'back' ? open.stake*(open.odds-1) : open.stake
+          break
+        }
+        case ('INCREASE MARGIN'):{
+          increase.type = x.type
+          increase.name = sideName
+          increase.options = 'INCREASE MARGIN'
+          const avgOdds = (increase.odds * increase.stake + x.odds*x.stake)/(increase.stake+x.stake)
+          increase.stake += x.stake
+          increase.odds = avgOdds
+          increase.liability = x.type === 'back' ? 0 : open.stake*(open.odds-1)
+          increase.ifWin = x.type === 'back' ? open.stake*(open.odds-1) : open.stake
+          break
+        }
+        case ('DECREASE MARGIN'):{
+          decrease.type = x.type
+          decrease.name = sideName
+          decrease.options = 'DECREASE MARGIN'
+          const avgOdds = (decrease.odds * decrease.stake + x.odds*x.stake)/(decrease.stake+x.stake)
+          decrease.stake += x.stake
+          decrease.odds = avgOdds
+          decrease.liability = x.type === 'back' ? 0 : open.stake*(open.odds-1)
+          decrease.ifWin = x.type === 'back' ? open.stake*(open.odds-1) : open.stake
+          break
+        }
+        case ('CLOSE'):{
+          close.type = x.type
+          close.name = sideName
+          close.options = 'CLOSE'
+          const avgOdds = (close.odds * close.stake + x.odds*x.stake)/(close.stake+x.stake)
+          close.stake += x.stake
+          close.odds = avgOdds
+          close.liability = x.type === 'back' ? 0 : open.stake*(open.odds-1)
+          close.ifWin = x.type === 'back' ? open.stake*(open.odds-1) : open.stake
+          break
+        }
+      }
+      return {
+        name: sideName,
+        type: x.type,
+        options: x.options,
+        odds: x.odds,
+        stake: x.stake,
+        liability: x.liability,
+        ifWin: x.ifWin,
+        empty: null
+      }
+    })
+    return [open, increase, decrease, close, freeBet]
+  }
+
+  private addPropsToObj(trade: TradeDetail, arrayToAdd, type: string){
+    // add element from bets
+    const bets = type ==="ALL" ? this.createTradeRows(trade) : this.createTradeRowsGrouped(trade)
+    for (const [key, value] of Object.entries(bets)) {
+      const h = Object.getOwnPropertyNames(value)
+      for (const [keyT, valueT] of Object.entries(h)) {
+        arrayToAdd[arrayToAdd.length-1][`${valueT}${key}`] = value[`${valueT}`]
+      }
+    }
   }
 
   // temp to fix odds bug

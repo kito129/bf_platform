@@ -55,7 +55,7 @@ export class StrategyReportSetOddsAnalyzerComponent implements OnInit {
 
     const winnerSetValue = this.analyzer.map( x => {
       this.labelsMarketName.push(x.marketName + ' : ' + x.result.set1.runnerA + '-' + x.result.set1.runnerB
-         + '   ' +x.winner.bsp + ' -> ' + x.winner.set1)
+         + '  / ' +x.winner.bsp + ' -> ' + x.winner.set1 + ' (' + x.winner.set1Notional + ')')
       if(x.runnerA.winSet1){
         return{
           winner: 'A',

@@ -1,4 +1,7 @@
-<h5 (click)="collapsed = !collapsed" [ngClass]="collapsed ? 'text-gray' : ''">Bets</h5>
+<h5 (click)="collapsed = !collapsed"
+    [ngClass]="collapsed ? 'text-gray' : title ? title.indexOf('(A)')!==-1 ? 'text-primary' : 'text-danger' : ''">
+  Bets -  {{title}}
+</h5>
 <div class="table-responsive pb-2" [ngbCollapse]="collapsed">
   <table class="table table-sm table-bordered text-center text-monospace">
     <thead>

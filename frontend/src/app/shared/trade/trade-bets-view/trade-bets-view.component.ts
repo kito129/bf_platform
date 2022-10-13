@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TradeBets} from '../../../model/report/tradeBets';
 import {NewTrade} from '../../../model/report/new/newTrade';
-import {generate} from 'rxjs';
 
 @Component({
   selector: 'app-trade-bets-view',
@@ -11,27 +10,21 @@ export class TradeBetsViewComponent implements OnInit {
 
   @Input() trade: NewTrade
   @Input() onlyBets: boolean
-  tradeA: NewTrade = null
-  tradeB: NewTrade = null
 
   bets: TradeBets[] = []
   betsA: TradeBets[] = []
   betsB: TradeBets[] = []
 
-  collapsed = false
+  split = false
+
 
   constructor() { }
 
   ngOnInit(): void {
     if(this.trade.trade.trades.length){
-      this.tradeA = JSON.parse(JSON.stringify(this.trade))
-      this.tradeB = JSON.parse(JSON.stringify(this.trade))
-      this.tradeA.trade.trades = this.tradeA.trade.trades.filter( x => x.selectionN ===0)
-      this.tradeB.trade.trades = this.tradeB.trade.trades.filter( x => x.selectionN ===1)
-
       this.bets = this.generateTrade(this.trade)
-      this.betsA = this.generateTrade(this.tradeA)
-      this.betsB = this.generateTrade(this.tradeB)
+      this.betsA = this.generateTrade(this.trade).filter( x => x.selectionN === 0 )
+      this.betsB = this.generateTrade(this.trade).filter( x => x.selectionN === 1 )
     }
   }
 
@@ -63,5 +56,4 @@ export class TradeBetsViewComponent implements OnInit {
     })
     return resp
   }
-
 }

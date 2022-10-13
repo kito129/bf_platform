@@ -16,6 +16,9 @@
   background-color: #181818 !important;
 }
 
+// for selected color in ngx datatable
+ngx-datatable{ .datatable-body-row{ &.active{ background-color: #000000 !important; } } }
+
 /deep/ .datatable-row-hover{
   background-color: rgba(189, 189, 189, 0.18) !important;
 }

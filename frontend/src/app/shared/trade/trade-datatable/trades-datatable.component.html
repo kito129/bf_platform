@@ -181,7 +181,7 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Risk" prop="trade.trade.results.maxRisk" *ngIf="!viewNotes &&!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)" [width]="1">
+  <ngx-datatable-column name="Risk" prop="trade.trade.results.maxRisk" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-warning">{{ value | currency }}</h5>
     </ng-template>
@@ -379,7 +379,7 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Trades" prop="trade" *ngIf="!viewNotes && viewTrades" [width]="950">
+  <ngx-datatable-column name="Trades" prop="trade" *ngIf="!viewNotes && viewTrades" [width]="1000">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <app-trade-bets-view [onlyBets]="false" [trade]="value">
       </app-trade-bets-view>

@@ -15,6 +15,8 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 import {CompareStrategy} from '../../../model/report/new/compareStrategy';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {
+  getComparedSavedReportData,
+  getCompareSavedReportList, getCompareSavedReportStatus,
   getPassiveDemoData,
   getSelectedSavedReportTrades, getSelectedStrategyName,
   isLoadingSavedReport
@@ -62,6 +64,10 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   comparedStrategy$: Observable<CompareStrategy[]>
   compareList$: Observable<string[]>
   compareStatus$: Observable<boolean>
+  // compare saved Report
+  comparedSavedReport$: Observable<CompareStrategy[]>
+  compareSavedReportList$: Observable<string[]>
+  compareStatusSavedReport$: Observable<boolean>
 
   // saved report
   selectedSavedReport$: Observable<SavedReport>
@@ -69,6 +75,8 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   selectedSavedReportName$: Observable<string>
   savedReportDatatable$: Observable<StrategyDatatable[]>
   selectedSavedReportTrades$: Observable<NewTrade[]>
+
+  lastTradeDate$: Observable<number>
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -120,6 +128,14 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     this.selectedSavedReportId$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportId))
     this.savedReportDatatable$ = this.store.pipe(select(reportSelectors.getSavedReportDatatable))
     this.selectedSavedReportTrades$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportTrades))
+    // compare saved report
+    this.compareSavedReportList$ =  this.store.pipe(select(reportSelectors.getCompareSavedReportList))
+    this.comparedSavedReport$ =  this.store.pipe(select(reportSelectors.getComparedSavedReportData))
+    this.compareStatusSavedReport$ =  this.store.pipe(select(reportSelectors.getCompareSavedReportStatus))
+
+
+
+    this.lastTradeDate$ = this.store.pipe(select(reportSelectors.getLastTradeUploadedDate))
 
   }
 

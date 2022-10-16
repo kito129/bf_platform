@@ -15,6 +15,8 @@ export class StrategyDatatableComponent implements OnInit {
   @Input() strategyDatatable: StrategyDatatable[]
   @Input() compareList: string[]
   @Input() compareStatus: boolean
+  @Input() compareSavedReportList: string[]
+  @Input() compareSavedReportStatus: boolean
   @Input() isSaved: boolean
 
   @Input() selectedStrategyId: string
@@ -48,7 +50,6 @@ export class StrategyDatatableComponent implements OnInit {
     });
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
-    console.log(val)
   }
 
 
@@ -84,7 +85,6 @@ export class StrategyDatatableComponent implements OnInit {
   }
 
   clickSelectStrategy(id: string){
-
     if(this.selectedStrategyId === id){
       this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
     } else {
@@ -128,6 +128,46 @@ export class StrategyDatatableComponent implements OnInit {
       this.store.dispatch(reportActions.addStrategyInCompare({strategyId: id, first:true}))
     } else {
       this.store.dispatch(reportActions.addStrategyInCompare({strategyId: id, first:true}))
+    }
+  }
+
+  // saved report compare
+  addToCompareSavedReport(id: string){
+    this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    if(this.compareSavedReportList.indexOf(id) !==-1){
+      this.store.dispatch(reportActions.removeSavedReportInCompare({savedReportId: id}))
+    } else {
+      this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: id, first:false}))
+    }
+  }
+
+  compareSavedReport(){
+    this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    this.store.dispatch(reportActions.compareSavedReport())
+  }
+
+  compareAllSavedReport(){
+    this.store.dispatch(reportActions.resetSavedReportCompare())
+    const notEmpty =  this.strategyDatatable.filter( x => x.numberOfTrade)
+    for (const at of notEmpty) {
+      this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: at._id, first:false}))
+    }
+    this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    this.store.dispatch(reportActions.compareSavedReport())
+  }
+
+  resetCompareSavedReport(){
+    this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    this.store.dispatch(reportActions.resetSavedReportCompare())
+  }
+
+  firstToCompareSavedReport($event, id: string){
+    $event.preventDefault();
+    if(this.compareList.indexOf(id) !==-1){
+      this.store.dispatch(reportActions.removeSavedReportInCompare({savedReportId: id}))
+      this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: id, first:true}))
+    } else {
+      this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: id, first:true}))
     }
   }
 

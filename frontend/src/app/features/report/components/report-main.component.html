@@ -3,6 +3,7 @@
     <h3 class="mb-3">Report</h3>
   </div>
   <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <h5 class="mr-3">Last Trade Uploaded on {{lastTradeDate$ | async | date}}</h5>
     <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block" (click)="refreshTrade()">
       <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
       Refresh Trades
@@ -65,16 +66,19 @@
       <ng-template ngbNavContent>
         <!-- STRATEGY BLOCK -->
         <app-loading-cards *ngIf="(isLoadingSavedReport$ | async).isLoading"></app-loading-cards>
-        <div class="col grid-margin" *ngIf="(isLoadingSavedReport$ | async).isLoadingSuccess">
+        <div *ngIf="(isLoadingSavedReport$ | async).isLoadingSuccess">
           <app-strategy-datatable
             [strategyDatatable]="savedReportDatatable$ | async"
             [selectedStrategyId]="selectedStrategyId$ | async"
             [selectedSavedReportId]="(selectedSavedReport$ | async) ? (selectedSavedReport$ | async)._id : null"
             [compareList]="compareList$ | async"
-            [isSaved]="true">
+            [isSaved]="true"
+            [compareSavedReportList]="compareSavedReportList$ | async"
+            [compareSavedReportStatus]="compareStatusSavedReport$ | async"
+            [compareStatus]="compareStatus$ | async" >
           </app-strategy-datatable>
 
-          <div class="col grid-margin">
+          <div>
             <app-strategy-report *ngIf="(selectedSavedReportTrades$ | async) && (selectedSavedReport$ | async)  "
                                  [selectedStrategyTrades$]="selectedSavedReportTrades$"
                                  [title]="selectedSavedReportName$ | async"
@@ -84,6 +88,12 @@
                                  [savedReportId]="selectedSavedReportId$ | async"
                                  [savedReport]="selectedSavedReport$ | async">
             </app-strategy-report>
+          </div>
+
+          <!-- COMPARE REPORTS-->
+          <div class="col grid-margin" *ngIf="(comparedSavedReport$ | async).length && (compareStatusSavedReport$ | async)">
+            <app-strategy-compare class="mb-2" [strategyList$]="comparedSavedReport$">
+            </app-strategy-compare>
           </div>
         </div>
       </ng-template>

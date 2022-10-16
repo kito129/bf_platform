@@ -195,6 +195,14 @@
                     [disabled]="value.numberOfTrade===0">
               <i class="feather icon-eye"></i>
             </button>
+            <button type="button"
+                    [ngbTooltip]="compareTooltip"
+                    class="btn btn-icon mr-2"
+                    [ngClass]="compareSavedReportList.indexOf(value._id)===0 ? 'btn-warning': compareSavedReportList.indexOf(value._id)!==-1 ? 'btn-success' : 'btn-outline-success'"
+                    (click)="addToCompareSavedReport(value._id)"
+                    (contextmenu)="firstToCompareSavedReport($event,value._id)">
+              <i class="feather icon-plus-circle"></i>
+            </button>
             <app-delete-modal [id]="value.strategy._id"
                               [ngbTooltip]="deleteSavedTooltip"
                               [options]="'Delete'"
@@ -233,6 +241,29 @@
       Reset
     </button>
   </div>
+  <!-- FOOTER SAVED REPORT -->
+  <div class="card-footer" *ngIf="!isCollapsed && isSaved">
+    <button type="button"
+            class="btn btn-icon btn-icon-text mr-2"
+            [ngClass]="compareSavedReportStatus ? 'btn-primary' : 'btn-outline-primary' "
+            (click)="compareSavedReport()">
+      <i class="btn-icon-prepend" data-feather="share-2" appFeatherIcon></i>
+      Compare Saved Report
+    </button>
+    <button type="button"
+            class="btn btn-icon btn-outline-info btn-icon-text mr-2"
+            (click)="compareAllSavedReport()">
+      <i class="btn-icon-prepend" data-feather="share-2" appFeatherIcon></i>
+      Compare All Saved Report
+    </button>
+    <button type="button"
+            class="btn btn-icon btn-secondary btn-icon-text mr-2"
+            (click)="resetCompareSavedReport()">
+      <i class="btn-icon-prepend" data-feather="rotate-cw" appFeatherIcon></i>
+      Reset Saved Report
+    </button>
+  </div>
+
 </div>
 
 

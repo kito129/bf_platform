@@ -42,8 +42,10 @@ export interface ReportStates {
     isLoadingError: boolean,
   },
   // compare
-  compareList: string[]
+  compareListStrategy: string[]
   compareStatus: boolean
+  compareListSavedReport: string[]
+  compareSavedReportStatus: boolean
 }
 
 // this is the initial state of the app, before all HTTP call,
@@ -73,8 +75,10 @@ export const reportInitialState: ReportStates = {
     isLoadingSuccess: false,
     isLoadingError: false,
   },
-  compareList: [],
-  compareStatus: false
+  compareListStrategy: [],
+  compareStatus: false,
+  compareListSavedReport: [],
+  compareSavedReportStatus: false,
 }
 
 // reducer that catch the reportActions
@@ -306,17 +310,17 @@ const reportReducers = createReducer(
   **  COMPARE
   */
   on(reportActions.addStrategyInCompare, (state, result) => (
-    {...state, compareList: addStudyCompare(state.compareList, result.strategyId, result.first)
+    {...state, compareListStrategy: addStudyCompare(state.compareListStrategy, result.strategyId, result.first)
     })
   ),
 
   on(reportActions.removeStrategyInCompare, (state, result) => (
-    {...state, compareList: removeStudyCompare(state.compareList, result.strategyId)
+    {...state, compareListStrategy: removeStudyCompare(state.compareListStrategy, result.strategyId)
     })
   ),
 
   on(reportActions.resetStrategyCompare, (state, result) => (
-    {...state, compareList: [], compareStudies: [], compareStatus: false
+    {...state, compareListStrategy: [], compareStudies: [], compareStatus: false
     })
   ),
 
@@ -324,6 +328,32 @@ const reportReducers = createReducer(
     {...state, compareStatus: !state.compareStatus
     })
   ),
+
+
+  /*
+  **  COMPARE SAVED REPORT
+  */
+  on(reportActions.addSavedReportInCompare, (state, result) => (
+    {...state, compareListSavedReport: addStudyCompare(state.compareListSavedReport, result.savedReportId, result.first)
+    })
+  ),
+
+  on(reportActions.removeSavedReportInCompare, (state, result) => (
+    {...state, compareListSavedReport: removeStudyCompare(state.compareListSavedReport, result.savedReportId)
+    })
+  ),
+
+  on(reportActions.compareSavedReport, (state, result) => (
+    {...state, compareSavedReportStatus: !state.compareSavedReportStatus
+    })
+  ),
+
+  on(reportActions.resetSavedReportCompare, (state, result) => (
+    {...state, compareListSavedReport: [], compareSavedReportStatus: false
+    })
+  ),
+
+
 
 
 )

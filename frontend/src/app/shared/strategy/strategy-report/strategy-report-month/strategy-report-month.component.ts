@@ -18,6 +18,7 @@ export class StrategyReportMonthComponent implements OnInit {
   strategyMonth: MonthTrade[] = []
   strategyReportMonth: StrategyReport[] = []
   strategyWinners: number[][] = []
+  monthPl: number[][] = []
 
   monthLabel = []
 
@@ -43,6 +44,11 @@ export class StrategyReportMonthComponent implements OnInit {
       }
       // month label
       this.monthLabel.push(month.month)
+      const tempPl = []
+      for (const monthTrade of month.trades) {
+        tempPl.push(monthTrade.trade.results.netProfit + (tempPl.length ? tempPl[tempPl.length-1] : 0))
+      }
+      this.monthPl.push(tempPl)
     })
 
     this.okData = true

@@ -18,7 +18,6 @@ export interface TradeSetOddsAnalyzerRunnerInterface{
   set1: number
   set1Notional: number
   set1NotionalDelta: number
-  set1Delta: number
   set2: number
   winSet1: boolean
   winSet2: boolean

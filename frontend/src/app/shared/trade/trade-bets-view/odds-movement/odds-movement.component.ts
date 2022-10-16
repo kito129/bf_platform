@@ -21,6 +21,7 @@ export class OddsMovementComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
     this.collapsed = this.view
 
     this.analyzer = new TradeSetOddsAnalyzer([this.trade]).analyzer[0]

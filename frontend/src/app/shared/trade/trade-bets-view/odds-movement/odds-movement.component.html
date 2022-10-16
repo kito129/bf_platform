@@ -36,7 +36,11 @@
         <td>
           <h4 class="text-warning">Notional</h4>
         </td>
-        <td *ngFor="let selection of trade.trade.selections">
+        <td>
+          <h5 class="text-warning">{{analyzer.runnerA.set1Notional}} ({{analyzer.runnerA.set1NotionalDelta| number:'0.2'}})</h5>
+        </td>
+        <td>
+          <h5 class="text-warning">{{analyzer.runnerB.set1Notional}} ({{analyzer.runnerB.set1NotionalDelta | number:'0.2'}})</h5>
         </td>
       </tr>
       <!-- THIRD -->
@@ -53,8 +57,11 @@
         <td>
           <h4 class="text-warning">Notional</h4>
         </td>
-        <td *ngFor="let selection of trade.trade.selections">
-          <h4> -- </h4>
+        <td>
+
+        </td>
+        <td>
+
         </td>
       </tr>
     </tbody>

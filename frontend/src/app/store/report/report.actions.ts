@@ -58,7 +58,6 @@ export const GET_ALL_NEW_TRADES_FAILURE = '[New Trade] Get all new Trades Failur
 export const ADD_STRATEGY_IN_COMPARE = '[Strategy] Add Strategy in compare list';
 export const REMOVE_STRATEGY_IN_COMPARE = '[Strategy] Remove Strategy in compare list';
 export const RESET_STRATEGY_COMPARE = '[Strategy] Reset Strategy compare list';
-
 export const COMPARE_STRATEGY = '[Strategy] Compare Strategy';
 
 // saved report
@@ -81,6 +80,11 @@ export const DELETE_SAVED_REPORT_FAILURE = '[SavedReport] Delete  Saved Report F
 export const SET_SELECTED_SAVED_REPORT = '[SavedReport] Set selected Saved Report';
 export const REMOVE_TRADES_FROM_SAVED_REPORT = '[SavedReport] Remove Trades from Saved Report';
 
+// comparator saved report
+export const ADD_SAVED_REPORT_IN_COMPARE = '[Saved Report] Add Saved Report in compare list';
+export const REMOVE_SAVED_REPORT_IN_COMPARE = '[Saved Report] Remove Saved Report in compare list';
+export const RESET_SAVED_REPORT_COMPARE = '[Saved Report] Reset Saved Report compare list';
+export const COMPARE_SAVED_REPORT = '[Saved Report] Compare Saved Report';
 
 
 
@@ -314,6 +318,31 @@ export const resetStrategyCompare = createAction(
 export const compareStrategy = createAction(
   COMPARE_STRATEGY,
 );
+
+/*
+**  COMPARE SAVED REPROT ACTIONS
+ */
+
+export const addSavedReportInCompare = createAction(
+  ADD_SAVED_REPORT_IN_COMPARE,
+  props<{savedReportId: string, first: boolean}>()
+);
+
+
+export const removeSavedReportInCompare = createAction(
+  REMOVE_SAVED_REPORT_IN_COMPARE,
+  props<{savedReportId: string}>()
+);
+
+export const resetSavedReportCompare = createAction(
+  RESET_SAVED_REPORT_COMPARE,
+);
+
+// compare actions
+export const compareSavedReport = createAction(
+  COMPARE_SAVED_REPORT,
+);
+
 
 
 /*

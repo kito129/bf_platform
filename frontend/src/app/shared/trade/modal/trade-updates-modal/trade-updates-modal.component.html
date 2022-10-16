@@ -231,7 +231,8 @@
       <div class="card-body" [ngbCollapse]="betsCollapse">
         <div class="form-group">
           <ul class="list-group mt-2">
-            <div *ngFor="let bet of tradeOutput.trade.trades; index as h">
+            <!-- EDIT -->
+            <div class="mt-2 mb-3" *ngFor="let bet of tradeOutput.trade.trades; index as h">
               <li class="list-group-item mt-2">
                 <!-- BET TITLE -->
                 <div class="row">
@@ -358,9 +359,13 @@
                 </div>
               </li>
             </div>
+            <!-- BETS VIEW -->
+            <app-trade-bets-view *ngIf="!betsCollapse"
+                                 [trade]="tradeOutput"
+                                 [onlyBets]="true">
+            </app-trade-bets-view>
           </ul>
         </div>
-
       </div>
     </div>
     <!-- RESULT ON SELECTIONS -->

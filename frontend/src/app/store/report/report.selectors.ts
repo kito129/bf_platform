@@ -2,7 +2,6 @@ import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {ReportStates} from './report.reducers';
 import {StrategyDatatable} from '../../model/report/strategyDatatable';
 import {Utils} from '../../model/calculator/utils';
-import {CompareStrategy} from '../../model/report/new/compareStrategy';
 import {NewTrade} from '../../model/report/new/newTrade';
 import {Strategy} from '../../model/report/strategy';
 import {SavedReport} from '../../model/report/new/savedReport';
@@ -264,14 +263,14 @@ export const isLoadingAllNewTrade = createSelector(
 // compare
 export const getCompareList = createSelector(
   getReportState,
-  (state ) => state.compareList
+  (state ) => state.compareListStrategy
 );
 
 export const getComparedData = createSelector(
   getReportState,
   (state ) => {
     const compare = []
-    for (const st of state.compareList){
+    for (const st of state.compareListStrategy){
       compare.push({
         strategy: state.allStrategy.filter(x=> x._id === st)[0],
         trades: state.allNewTrades.map( y=> newTradeStats(y)).filter( x=> x.trade.info.strategyId === st)
@@ -281,10 +280,47 @@ export const getComparedData = createSelector(
   }
 );
 
+export const getLastTradeUploadedDate = createSelector(
+  getReportState,
+  (state ) => {
+    return state.allNewTrades.length ?
+      JSON.parse(JSON.stringify(state.allNewTrades.map(x => x.trade.info.date)))
+      .sort((a,b) => b - a)[0] : 0
+  }
+);
+
 export const getCompareStatus = createSelector(
   getReportState,
   (state ) => state.compareStatus
 );
+
+// compare saved Report
+export const getCompareSavedReportList = createSelector(
+  getReportState,
+  (state ) => state.compareListSavedReport
+);
+
+export const getComparedSavedReportData = createSelector(
+  getReportState,
+  (state ) => {
+    const utils = new Utils()
+    const compare = []
+    for (const st of state.compareListSavedReport){
+      const temp = state.savedReports.filter(x=> x._id === st)[0]
+      compare.push({
+        strategy: utils.generateStrategy(temp.savedReport.name,1000,temp._id),
+        trades: state.allNewTrades.map( y=> newTradeStats(y)).filter( x=> temp.savedReport.tradesIds.includes(x._id))
+      })
+    }
+    return compare
+  }
+);
+
+export const getCompareSavedReportStatus = createSelector(
+  getReportState,
+  (state ) => state.compareSavedReportStatus
+);
+
 
 
 // SAVED REPORT

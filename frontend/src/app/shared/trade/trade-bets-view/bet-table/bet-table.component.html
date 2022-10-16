@@ -46,16 +46,11 @@
         <b *ngIf="bet.point.currentGame.server ? bet.point.currentGame.server==='B' : false"><span class="badge badge-warning">B</span></b>
       </td>
       <td>
-        <h5 *ngIf="bet.options === 'OPEN'"><span class="badge badge-success">{{bet.options}}</span></h5>
-        <h5 *ngIf="bet.options === 'CLOSE'"><span class="badge badge-danger">{{bet.options}}</span></h5>
-        <h5 *ngIf="bet.options === 'INCREASE MARGIN'"><span class="badge badge-warning">{{bet.options}}</span></h5>
-        <h5 *ngIf="bet.options === 'DECREASE MARGIN'"><span class="badge badge-secondary">{{bet.options}}</span></h5>
-        <h5 *ngIf="bet.options === 'FREE BET'"><span class="badge badge-info">{{bet.options}}</span></h5>
-        <h5 *ngIf="bet.options === 'ADJ'"><span class="badge badge-light">{{bet.options}}</span></h5>
+        <app-bet-options-formatter [betOptions]="bet.options"></app-bet-options-formatter>
       </td>
       <td>
-        <h6 *ngIf="bet.selectionN===0" class="text-primary">(A) {{bet.selectionName}}</h6>
-        <h6 *ngIf="bet.selectionN===1" class="text-danger">(B) {{bet.selectionName}}</h6>
+        <h6 *ngIf="bet.selectionN===0" class="text-primary">(A) {{bet.selectionName.substr(0,18)}}</h6>
+        <h6 *ngIf="bet.selectionN===1" class="text-danger">(B) {{bet.selectionName.substr(0,18)}}</h6>
       </td>
       <td>
         <h4>{{bet.odds}}</h4>

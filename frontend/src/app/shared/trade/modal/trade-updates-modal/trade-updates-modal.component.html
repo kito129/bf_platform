@@ -215,220 +215,150 @@
 
       </div>
     </div>
-    <!-- CREATE BETS -->
-    <div class="card mt-2 mb-2">
-      <div class="card-header">
-        <div class="d-flex justify-content-between align-items-baseline">
-          <h3>Add Trade</h3>
-          <button type="button" [ngClass]="addTradeCollapse? 'btn btn btn-outline-primary' : 'btn btn btn-primary'"
-                  (click)="addTradeCollapse = !addTradeCollapse">
-            View
-          </button>
-        </div>
-      </div>
-      <div class="card-body" [ngbCollapse]="addTradeCollapse">
-        <h6>Create new Trade</h6>
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <div class="form-check">
-                <label class="form-check-label text-primary">
-                  <input type="checkbox"
-                         class="form-check-input"
-                         name="back"
-                         id="back"
-                         [(ngModel)]="supportBets.isBackEntry">
-                  <i class="input-frame"></i>
-                  Back
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <div class="form-check">
-                <label class="form-check-label text-danger">
-                  <input type="checkbox"
-                         class="form-check-input"
-                         name="lay"
-                         id="lay"
-                         [(ngModel)]="supportBets.isLay">
-                  <i class="input-frame"></i>
-                  Lay
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col">
-            <app-odd-form [title]="'Odds'"
-                          (oddsPointEmitter)="setBetsOdds($event)">
-            </app-odd-form>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label for="stake">Stake / Bank</label>
-              <input type="number" step='0.01'
-                     class="form-control"
-                     id="stake"
-                     [(ngModel)]="supportBets.stake"
-                     name="stake"
-                     min="0">
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-10">
-            <div class="form-group">
-              <label for="selection">Selection </label>
-              <ng-select id="selection"
-                         name="selection"
-                         placeholder="Selection"
-                         [(ngModel)]="supportBets.selection">
-                <ng-option
-                  *ngFor="let selection of tradeOutput.trade.selections"
-                  [value]="selection"
-                >{{selection.runnerName}}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-          <div class="col-2">
-            <button type="button" class="btn-xs btn-success" (click)="addBet()">+</button>
-          </div>
-        </div>
-        <!--BET CONDITION -->
-        <div>
-          <div *ngIf="supportBets.condition.horse.isHorse">
-            <div class="form-group">
-              <label for="horseBetNote">Note</label>
-              <input class="form-control"
-                     id="horseBetNote"
-                     type="text"
-                     placeholder="Note"
-                     name="horseBetNote"
-                     [(ngModel)]="supportBets.condition.note">
-            </div>
-            <app-date-form [time]="null"
-                           [showTime]="true"
-                           [showDate]="true"
-                           (dateEmitter)="updateDateBets($event)">
-            </app-date-form>
-          </div>
-          <div *ngIf="supportBets.condition.football.isFootball">
-            <div class="form-group">
-              <label for="footballBetNote">Note</label>
-              <input class="form-control"
-                     id="footballBetNote"
-                     type="text"
-                     placeholder="Note"
-                     name="footballBetNote"
-                     [(ngModel)]="supportBets.condition.note">
-            </div>
-            <app-date-form [time]="null"
-                           [showTime]="true"
-                           [showDate]="true"
-                           (dateEmitter)="updateDateBets($event)">
-
-            </app-date-form>
-            <app-football-point [footballPoint]="supportBets.condition.football.point" (footballPointEmitter)="updateFootballPoint($event)" ></app-football-point>
-          </div>
-          <div  *ngIf="supportBets.condition.tennis.isTennis">
-            <div class="form-group">
-              <label for="tennisBetNote">Note</label>
-              <input class="form-control"
-                     id="tennisBetNote"
-                     type="text"
-                     placeholder="Note"
-                     name="tennisBetNote"
-                     [(ngModel)]="supportBets.condition.note">
-            </div>
-            <app-date-form [time]="null"
-                           [showTime]="true"
-                           [showDate]="true"
-                           (dateEmitter)="updateDateBets($event)">
-
-            </app-date-form>
-            <div class="row">
-              <div class="col">
-                <app-tennis-point [tennisPoint]="supportBets.condition.tennis.point"
-                                  (tennisPointEmitter)="updateTennisPoint($event)"
-                                  [showGame]="true">
-
-                </app-tennis-point>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- SELECTIONS -->
     <div class="card mt-2 mb-2">
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-baseline">
           <h3>Bets</h3>
-          <button type="button" [ngClass]="tradesCollapse? 'btn btn btn-outline-primary' : 'btn btn btn-primary'"
-                  (click)="tradesCollapse = !tradesCollapse">
+          <button type="button" [ngClass]="betsCollapse? 'btn btn btn-outline-primary' : 'btn btn btn-primary'"
+                  (click)="betsCollapse = !betsCollapse">
             View
           </button>
         </div>
       </div>
-      <div class="card-body" [ngbCollapse]="tradesCollapse">
-
+      <!--BETS-->
+      <div class="card-body" [ngbCollapse]="betsCollapse">
         <div class="form-group">
-          <!-- EXPOSITION DISPLAY-->
-          <div *ngFor="let exposition of tradeOutput.trade.selections; index as i">
-            <ul class="list-group mt-2">
-              <li class="list-group-item active">
-                <h4>{{tradeOutput.trade.selections[i].runnerName}} Bets:</h4>
-              </li>
-              <!--BACK FOR THIS SELECTION-->
-              <div *ngFor="let tradeBack of tradeOutput.trade.trades; index as h">
-                <li *ngIf="tradeBack.selectionN ===i" class="list-group-item">
+          <ul class="list-group mt-2">
+            <div *ngFor="let bet of tradeOutput.trade.trades; index as h">
+              <li class="list-group-item mt-2">
+                <!-- BET TITLE -->
+                <div class="row">
                   <div class="col">
-                    <!-- BETS -->
-                    <app-bets-formatter [type]="'back'"
-                                        [odds]="tradeBack.odds"
-                                        [stake]="tradeBack.stake"
-                                        [toWin]="tradeBack.ifWin">
-                    </app-bets-formatter>
-
-                    <!-- POINT -->
-                    <app-tennis-point [tennisPoint]="tradeBack.condition.tennis.point"
-                                      (tennisPointEmitter)="updateTradeResultTennis($event, i)"
-                                      [showGame]="false">
-
-                    </app-tennis-point>
-
-                    <!-- TIME -->
-                    <app-date-form [time]="tradeBack.condition.time"
-                                   [showDate]="true"
-                                   [showTime]="true"
-                                   (dateEmitter)="updateBetsDate($event,tradeBack)">
-                    </app-date-form>
-
-                    <!-- NOTE -->
-                    <div class="form-group">
-                      <label>Note</label>
-                        <input class="form-control"
-                               type="text"
-                               placeholder="Note"
-                               name="tradeNote"
-                               [(ngModel)]="tradeBack.condition.note">
-                    </div>
-                    <!-- DELETE -->
-                    <button type="button" class="btn-xs btn-danger" (click)="removeBets(h)">
-                      <i class="feather icon-x"></i>
-                    </button>
+                    <h4>{{h+1}}) {{tradeOutput.trade.selections[bet.selectionN].runnerName}}</h4>
                   </div>
-                </li>
-              </div>
-            </ul>
-          </div>
+                  <div class="col">
+                    <h4 *ngIf="bet.type.indexOf('lay')!==-1" class="text-danger">Lay</h4>
+                    <h4 *ngIf="bet.type.indexOf('back')!==-1" class="text-primary">Back</h4>
+                  </div>
+                  <div class="col">
+                    <app-bet-options-formatter [betOptions]="bet.options"></app-bet-options-formatter>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="col">
+                  <!-- TYPE -->
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="exchange">Selection</label>
+                        <ng-select [items]="['0','1']"
+                                   [id]="'selections'+h"
+                                   [name]="'selections'+h"
+                                   placeholder="Selection N"
+                                   [(ngModel)]="bet.selectionN ">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="exchange">Bet Type</label>
+                        <ng-select [items]="['back','lay']"
+                                   [id]="'betType'+h"
+                                   [name]="'betType'+h"
+                                   placeholder="Bet Type"
+                                   [(ngModel)]="bet.type">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="exchange">Bet Options</label>
+                        <ng-select [items]="['OPEN','INCREASE MARGIN', 'DECREASE MARGIN', 'CLOSE' ,'FREE BET', 'ADJ']"
+                                   [id]="'betOptions'+h"
+                                   [name]="'betOptions'+h"
+                                   placeholder="Bet Options"
+                                   [(ngModel)]="bet.options">
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
 
+                  <!-- BET VALUE -->
+                  <div class="row">
+                    <div class="col">
+                      <app-odd-form [title]="bet.type"
+                                    [odds]="bet.odds"
+                                    (oddsPointEmitter)="setBetsOdds($event,h)">
+                      </app-odd-form>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label [for]="'stake'+h" *ngIf="bet.type==='back'">Stake</label>
+                        <label [for]="'stake'+h" *ngIf="bet.type==='lay'">Bank</label>
+                        <input type="number" step='0.01'
+                               class="form-control"
+                               [id]="'stake'+h"
+                               [(ngModel)]="bet.stake"
+                               [name]="'stake'+h"
+                               min="0">
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label [for]="'liability'+h">Liability</label>
+                        <input type="number" step='0.01'
+                               class="form-control"
+                               [id]="'liability'+h"
+                               [(ngModel)]="bet.liability"
+                               [name]="'liability'+h"
+                               min="0">
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <label [for]="'ifWin'+h">To Win</label>
+                        <input type="number" step='0.01'
+                               class="form-control"
+                               [id]="'ifWin'+h"
+                               [(ngModel)]="bet.ifWin"
+                               [name]="'ifWin'+h"
+                               min="0">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- POINT -->
+                  <app-tennis-point [tennisPoint]="bet.condition.tennis.point"
+                                    [index]="h"
+                                    (tennisPointEmitter)="updateTradeResultTennis($event, h)"
+                                    [showGame]="true">
 
+                  </app-tennis-point>
+                  <!-- TIME -->
+                  <app-date-form [time]="bet.condition.time"
+                                 [showDate]="true"
+                                 [showTime]="true"
+                                 (dateEmitter)="updateBetsDate($event,bet)">
+                  </app-date-form>
+                  <!-- NOTE -->
+                  <div class="form-group">
+                    <label [for]="'tradeNote'+h">Bet Note</label>
+                      <input class="form-control"
+                             type="text"
+                             placeholder="Note"
+                             [name]="'tradeNote'+h"
+                             [(ngModel)]="bet.condition.note">
+                  </div>
+                  <!-- DELETE -->
+                  <button type="button" class="btn-xs btn-danger" (click)="removeBets(h)">
+                    <i class="feather icon-x"></i>
+                  </button>
+                </div>
+              </li>
+            </div>
+          </ul>
         </div>
 
       </div>
@@ -566,3 +496,156 @@
   </div>
 
 </ng-template>
+
+
+
+<!-- CREATE BETS
+<div class="card mt-2 mb-2">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h3>Add Trade</h3>
+      <button type="button" [ngClass]="addTradeCollapse? 'btn btn btn-outline-primary' : 'btn btn btn-primary'"
+              (click)="addTradeCollapse = !addTradeCollapse">
+        View
+      </button>
+    </div>
+  </div>
+  <div class="card-body" [ngbCollapse]="addTradeCollapse">
+    <h6>Create new Trade</h6>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="form-check">
+            <label class="form-check-label text-primary">
+              <input type="checkbox"
+                     class="form-check-input"
+                     name="back"
+                     id="back"
+                     [(ngModel)]="supportBets.isBackEntry">
+              <i class="input-frame"></i>
+              Back
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <div class="form-check">
+            <label class="form-check-label text-danger">
+              <input type="checkbox"
+                     class="form-check-input"
+                     name="lay"
+                     id="lay"
+                     [(ngModel)]="supportBets.isLay">
+              <i class="input-frame"></i>
+              Lay
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <app-odd-form [title]="'Odds'"
+                      (oddsPointEmitter)="setBetsOdds($event)">
+        </app-odd-form>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="stake">Stake / Bank</label>
+          <input type="number" step='0.01'
+                 class="form-control"
+                 id="stake"
+                 [(ngModel)]="supportBets.stake"
+                 name="stake"
+                 min="0">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10">
+        <div class="form-group">
+          <label for="selection">Selection </label>
+          <ng-select id="selection"
+                     name="selection"
+                     placeholder="Selection"
+                     [(ngModel)]="supportBets.selection">
+            <ng-option
+              *ngFor="let selection of tradeOutput.trade.selections"
+              [value]="selection"
+            >{{selection.runnerName}}
+            </ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-2">
+        <button type="button" class="btn-xs btn-success" (click)="addBet()">+</button>
+      </div>
+    </div>
+
+    <div>
+      <div *ngIf="supportBets.condition.horse.isHorse">
+        <div class="form-group">
+          <label for="horseBetNote">Note</label>
+          <input class="form-control"
+                 id="horseBetNote"
+                 type="text"
+                 placeholder="Note"
+                 name="horseBetNote"
+                 [(ngModel)]="supportBets.condition.note">
+        </div>
+        <app-date-form [time]="null"
+                       [showTime]="true"
+                       [showDate]="true"
+                       (dateEmitter)="updateDateBets($event)">
+        </app-date-form>
+      </div>
+      <div *ngIf="supportBets.condition.football.isFootball">
+        <div class="form-group">
+          <label for="footballBetNote">Note</label>
+          <input class="form-control"
+                 id="footballBetNote"
+                 type="text"
+                 placeholder="Note"
+                 name="footballBetNote"
+                 [(ngModel)]="supportBets.condition.note">
+        </div>
+        <app-date-form [time]="null"
+                       [showTime]="true"
+                       [showDate]="true"
+                       (dateEmitter)="updateDateBets($event)">
+
+        </app-date-form>
+        <app-football-point [footballPoint]="supportBets.condition.football.point" (footballPointEmitter)="updateFootballPoint($event)" ></app-football-point>
+      </div>
+      <div  *ngIf="supportBets.condition.tennis.isTennis">
+        <div class="form-group">
+          <label for="tennisBetNote">Note</label>
+          <input class="form-control"
+                 id="tennisBetNote"
+                 type="text"
+                 placeholder="Note"
+                 name="tennisBetNote"
+                 [(ngModel)]="supportBets.condition.note">
+        </div>
+        <app-date-form [time]="null"
+                       [showTime]="true"
+                       [showDate]="true"
+                       (dateEmitter)="updateDateBets($event)">
+
+        </app-date-form>
+        <div class="row">
+          <div class="col">
+            <app-tennis-point [tennisPoint]="supportBets.condition.tennis.point"
+                              (tennisPointEmitter)="updateTennisPoint($event)"
+                              [showGame]="true">
+
+            </app-tennis-point>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+-->

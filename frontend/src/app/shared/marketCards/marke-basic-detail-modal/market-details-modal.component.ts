@@ -31,7 +31,7 @@ export class MarketDetailsModalComponent implements OnInit,OnDestroy {
 
   openModal(content) {
     // check if advanced present
-    this.marketAdvService.chekMarketAdvancedPreset(this.marketId)
+    this.marketAdvService.checkMarketAdvancedPreset(this.marketId)
       .pipe(takeUntil(this.destroy$))
       .subscribe( check => {
         this.basicHaveAdv = check.indexOf('notPresent') === -1;

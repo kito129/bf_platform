@@ -64,7 +64,6 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   compareStatus$: Observable<boolean>
 
   // saved report
-  allSavedReports$: Observable<SavedReport[]>
   selectedSavedReport$: Observable<SavedReport>
   selectedSavedReportId$: Observable<string>
   selectedSavedReportName$: Observable<string>
@@ -116,7 +115,6 @@ export class ReportMainComponent implements OnInit, OnDestroy {
     this.compareStatus$ =  this.store.pipe(select(reportSelectors.getCompareStatus))
 
     // saved report
-    this.allSavedReports$ = this.store.pipe(select(reportSelectors.getAllSavedReports))
     this.selectedSavedReport$ = this.store.pipe(select(reportSelectors.getSelectedSavedReport))
     this.selectedSavedReportName$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportName))
     this.selectedSavedReportId$ = this.store.pipe(select(reportSelectors.getSelectedSavedReportId))

@@ -7,12 +7,10 @@ import {TennisPoint} from '../../../../model/point/tennisPoint';
 })
 export class TennisPointComponent implements OnInit {
 
-  @Input()
-  tennisPoint: TennisPoint
-  @Output()
-  tennisPointEmitter = new EventEmitter();
-  @Input()
-  showGame: boolean
+  @Input() tennisPoint: TennisPoint
+  @Output() tennisPointEmitter = new EventEmitter();
+  @Input() showGame: boolean
+  @Input() index: number
 
   constructor() { }
 
@@ -22,6 +20,9 @@ export class TennisPointComponent implements OnInit {
 
   ngOnInit(): void {
     this.value = this.tennisPoint.currentGame.server
+    if(!this.index){
+      this.index=0
+    }
   }
 
   update(){

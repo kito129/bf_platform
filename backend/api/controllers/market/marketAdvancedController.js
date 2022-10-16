@@ -193,6 +193,7 @@ exports.market_get_details_by_id = async(req, res, next) => {
 exports.markets_find_market_by_name = (req, res, next) => {
     const marketName = req.params.marketName;
     // get market INFO
+    console.log(marketName)
     MarketAdvancedFunction.getMarketIdByName(marketName).then( market => {
         res.status(200).json(market);
     })

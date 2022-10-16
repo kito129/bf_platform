@@ -13,13 +13,13 @@ export class TradeUpdatesModalComponent implements OnInit {
   @Input() tradeInput: NewTrade
   @Output() tradeUpdateEmitter = new EventEmitter()
   public tradeOutput: NewTrade
-  // tradeOutput.trade support data
+
   public executor = ['BAGNA', 'KEVIN', 'KITO', 'BAGNA KEVIN', 'BAGNA KEVIN KITO', 'BAGNA KITO', 'KEVIN KITO']
   public exchange = ['UK', 'KITO' ]
   public sport = ['TENNIS', 'SOCCER', 'HORSE']
 
   addTradeCollapse = true
-  tradesCollapse = true
+  betsCollapse = true
   noteCollapse = true
 
 
@@ -148,7 +148,6 @@ export class TradeUpdatesModalComponent implements OnInit {
       this.tradeOutput.trade.selections[index].avg.lay.liability = event[3]
     }
 
-    console.log(this.tradeOutput.trade.selections[index])
   }
 
   /*
@@ -206,7 +205,7 @@ export class TradeUpdatesModalComponent implements OnInit {
 
   public addBet() {
 
-    const backBet: Trades = {
+    const addedBet: Trades = {
       id: this.tradeOutput.trade.trades.length+1,
       selectionN: 0,
       odds: this.supportBets.odds,
@@ -232,96 +231,43 @@ export class TradeUpdatesModalComponent implements OnInit {
       }
     }
 
-    const layBet: Trades = {
-      id: this.tradeOutput.trade.trades.length+1,
-      selectionN: 0,
-      odds: this.supportBets.odds,
-      stake: this.supportBets.stake,
-      liability: (this.supportBets.odds - 1) * this.supportBets.stake,
-      ifWin: this.supportBets.stake,
-      options: this.supportBets.options,
-      type: 'LAY',
-      condition: {
-        tennis: {
-          isTennis: null,
-          point: null,
-        },
-        football: {
-          isFootball: null,
-          point: null
-        },
-        horse: {
-          isHorse: null,
-        },
-        time: 0,
-        note: null,
-      }
-    }
-
     // check for sport and condition of bet
     if (this.supportBets.condition.tennis.isTennis) {
       // tennis
-      layBet.condition.tennis.isTennis = this.supportBets.condition.tennis.isTennis
-      layBet.condition.tennis.point = JSON.parse(JSON.stringify(this.supportBets.condition.tennis.point))
-
-      backBet.condition.tennis.isTennis = this.supportBets.condition.tennis.isTennis
-      backBet.condition.tennis.point = JSON.parse(JSON.stringify(this.supportBets.condition.tennis.point))
+      addedBet.condition.tennis.isTennis = this.supportBets.condition.tennis.isTennis
+      addedBet.condition.tennis.point = JSON.parse(JSON.stringify(this.supportBets.condition.tennis.point))
 
     } else if (this.supportBets.condition.horse.isHorse) {
       // horse
-      layBet.condition.horse.isHorse = this.supportBets.condition.horse.isHorse
-      backBet.condition.horse.isHorse = this.supportBets.condition.horse.isHorse
+      addedBet.condition.horse.isHorse = this.supportBets.condition.horse.isHorse
 
     } else if (this.supportBets.condition.football.isFootball) {
       // football
-      layBet.condition.football.isFootball = this.supportBets.condition.football.isFootball
-      layBet.condition.football.point = this.supportBets.condition.football.point
-      backBet.condition.football.isFootball = this.supportBets.condition.football.isFootball
-      backBet.condition.football.point = this.supportBets.condition.football.point
+      addedBet.condition.football.isFootball = this.supportBets.condition.football.isFootball
+      addedBet.condition.football.point = this.supportBets.condition.football.point
 
     }
     // time
-    layBet.condition.time = new Date(this.supportBets.condition.time).getTime()
-    backBet.condition.time = new Date(this.supportBets.condition.time).getTime()
+    addedBet.condition.time = new Date(this.supportBets.condition.time).getTime()
     // note
-    backBet.condition.note = this.supportBets.condition.note
-    layBet.condition.note = this.supportBets.condition.note
+    addedBet.condition.note = this.supportBets.condition.note
 
-    if (this.supportBets.isBackEntry) {
-      // is BACK SIDE
-      let i = 0
-      for (const selection of this.tradeOutput.trade.selections) {
-        if (selection.runnerId === this.supportBets.selection.runnerId) {
-          // push to back array
-          backBet.selectionN = i
-          this.tradeOutput.trade.trades.push(backBet)
-        }
-        i++
+    // is BACK SIDE
+    let i = 0
+    for (const selection of this.tradeOutput.trade.selections) {
+      if (selection.runnerId === this.supportBets.selection.runnerId) {
+        // push to back array
+        addedBet.selectionN = i
+        this.tradeOutput.trade.trades.push(addedBet)
       }
-
-    } else if (this.supportBets.isLay) {
-      // is LAY SIDE
-      let j = 0
-      for (const selection of this.tradeOutput.trade.selections) {
-        if (selection.runnerId === this.supportBets.selection.runnerId) {
-          layBet.selectionN = j
-          this.tradeOutput.trade.trades.push(layBet)
-        }
-        j++
-      }
+      i++
     }
-
-    // empty support bet condition
-    this.updateExpositionAndPl()
   }
 
   updateBetsDate(event, trade: any){
     trade.condition.time = event[0]
   }
 
-  updateTradeTennisPoint(event, trade: any){
-    trade.condition.tennis.point = event[0]
-  }
 
   setTennisTournament(event){
     this.tradeOutput.trade.info.tennisTournamentId = event[0].id
@@ -332,26 +278,14 @@ export class TradeUpdatesModalComponent implements OnInit {
 
     this.tradeOutput.trade.trades.splice(selectionIndex, 1);
 
-    this.updateExpositionAndPl()
   }
 
-
-  /*
-  * PL
-  */
-
-  calculatePl(){
-  }
-
-  public updateExpositionAndPl(){
-  }
 
   /*
   * PUBLIC FOR UPDATE IN FORM
   */
 
   public sportChange(){
-
     // set bet condition type
     switch (this.tradeOutput.trade.info.marketInfo.sport){
       case('TENNIS'):{
@@ -402,7 +336,7 @@ export class TradeUpdatesModalComponent implements OnInit {
 
 
   /*
-  * PRIVATE UTILS FUNCTION
+  * UTILS FUNCTION
   */
 
   setCurrentSelectionName(event, index: number){
@@ -414,35 +348,35 @@ export class TradeUpdatesModalComponent implements OnInit {
     this.tradeOutput.trade.selections[index].bsp = event[0]
   }
 
-  setBetsOdds(event){
-    this.supportBets.odds = event[0]
+  setBetsOdds(event, index:number){
+    this.tradeOutput.trade.trades[index].odds = event[0]
   }
 
-  public updateTennisPoint(event){
+  updateTennisPoint(event){
     if(event[0]){
       this.supportBets.condition.tennis.point = event[0]
     }
   }
 
-  public updateFootballPoint(event){
+  updateFootballPoint(event){
     if(event[0]){
       this.supportBets.condition.football.point = event[0]
     }
   }
 
-  public updateFinalResultTennis(event){
+  updateFinalResultTennis(event){
     if(event[0]){
       this.tradeOutput.trade.results.finalScore.tennis = event[0]
     }
   }
 
-  public updateTradeResultTennis(event, index: number){
+  updateTradeResultTennis(event, index: number){
     if(event[0]){
       this.tradeOutput.trade.trades[index].condition.tennis.point = event[0]
     }
   }
 
-  public updateFinalResultFootball(event){
+  updateFinalResultFootball(event){
     if(event[0]){
       this.tradeOutput.trade.results.finalScore.football = event[0]
     }

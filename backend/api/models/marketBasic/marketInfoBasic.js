@@ -44,5 +44,6 @@ const marketInfoSchema = mongoose.Schema({
         },
      },
 });
+marketInfoSchema.index({name: 'text'});
 
 module.exports = mongoose.model('MarketInfoBasic', marketInfoSchema, 'marketInfoBasic');

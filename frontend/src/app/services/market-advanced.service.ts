@@ -36,7 +36,7 @@ export class MarketAdvancedService {
   }
 
 
-  chekMarketAdvancedPreset(marketId: string): Observable<any> {
+  checkMarketAdvancedPreset(marketId: string): Observable<any> {
     return this.http.get(`${baseUrl}/present/${marketId}`);
   }
 

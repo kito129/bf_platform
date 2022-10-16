@@ -132,6 +132,7 @@ import { StrategyReportSavedUpdatesComponent } from './strategy/strategy-report/
 import { StrategyReportSetOddsAnalyzerComponent } from './strategy/strategy-report/strategy-report-set-odds-analyzer/strategy-report-set-odds-analyzer.component';
 import { StrategyReportBetFilterComponent} from './strategy/strategy-report/strategy-report-bet-filter/strategy-report-bet-filter.component';
 import { StrategyReportBetFilterParamsComponent } from './strategy/strategy-report/strategy-report-bet-filter/strategy-report-bet-filter-params/strategy-report-bet-filter-params.component';
+import { BetOptionsFormatterComponent } from './formatter/bet-options-formatter/bet-options-formatter.component';
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
@@ -275,6 +276,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyReportSetOddsAnalyzerComponent,
     StrategyReportBetFilterComponent,
     StrategyReportBetFilterParamsComponent,
+    BetOptionsFormatterComponent,
   ],
   exports: [
     CommonModule,

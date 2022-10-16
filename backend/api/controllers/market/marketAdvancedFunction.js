@@ -5,6 +5,8 @@ const MarketOddsAdvanced = require("../../models/marketAdvanced/marketOddsAdvanc
 const MarketAdditionalInfo = require("../../models/marketAdditionalInfoTennis");
 const mongoose = require("mongoose");
 
+const MarketInfoBasic = require("../../models/marketBasic/marketInfoBasic");
+
 
 exports.getAllMarketInfo = async() =>{
     try {
@@ -293,8 +295,10 @@ exports.getMarketAdditionalInfoById = async(marketId) =>{
 
 exports.getMarketIdByName = async(marketName) =>{
     try {
-        const market = await MarketInfoAdvanced.find({ $text: { $search: marketName }})
+        const market = await MarketInfoBasic.find({ $text: { $search: marketName }})
             .exec();
+
+            console.log(market)
 
         if(market.length){
             const ordered = market.sort((a,b)=>{

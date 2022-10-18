@@ -5,7 +5,6 @@ import {TennisTournament} from '../../../model/tennisTournament/tennisTournament
 import {select, Store} from '@ngrx/store';
 import * as tennisTournamentSelectors from '../../../store/tennis-tournament/tennisTournament.selectors';
 import * as tennisTournamentActions from '../../../store/tennis-tournament/tennisTournament.actions';
-
 @Component({
   selector: 'app-tennis-tournament-main',
   templateUrl: './tennis-tournament-maincomponent.html',
@@ -14,6 +13,7 @@ export class TennisTournamentMainComponent implements OnInit {
 
   tennisTournament$: Observable<TennisTournament[]>
   isLoadingTennisTournament$: Observable<IsLoading>
+  lastTournamentDate$: Observable<number>
 
   constructor(private readonly store: Store) {
 
@@ -22,6 +22,8 @@ export class TennisTournamentMainComponent implements OnInit {
   ngOnInit(): void {
     this.tennisTournament$ = this.store.pipe(select(tennisTournamentSelectors.getAllTennisTournaments))
     this.isLoadingTennisTournament$ = this.store.pipe(select(tennisTournamentSelectors.getIsLoadingAllTennisTournament))
+    this.lastTournamentDate$ = this.store.pipe(select(tennisTournamentSelectors.getLastDateTennisTournaments))
+
   }
 
   refreshAllTennisTournament(){

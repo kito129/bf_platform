@@ -83,7 +83,6 @@ export class LiveDragulaElementComponent implements OnInit {
 
   ]
 
-
   runnerAid: Observable<number>[] = []
   runnerBid: Observable<number>[] = []
 
@@ -119,7 +118,6 @@ export class LiveDragulaElementComponent implements OnInit {
     })
 
   }
-
 
   update(){
     this.changeEmitter.emit([this.index, this.row])
@@ -374,25 +372,6 @@ export class LiveDragulaElementComponent implements OnInit {
     this.setColor(index, element, '', isA, colorIndex)
     this.update()
   }
-
-  setSingle(){
-    this.row.a[0].notInDb = false
-    this.row.a[1].notInDb = false
-    this.row.b[0].notInDb = false
-    this.row.b[1].notInDb = false
-  }
-
-  setDouble(){
-    this.row.a[0].notInDb = true
-    this.row.a[1].notInDb = true
-    this.row.b[0].notInDb = true
-    this.row.b[1].notInDb = true
-    this.notInDb(0,true)
-    this.notInDb(1,true)
-    this.notInDb(0,false)
-    this.notInDb(1,false)
-  }
-
 
   setColor(index: number, element: 'shirt' | 'pants' | 'cap' | 'shoes' , event, isA: boolean, colorIndex: number){
     if(isA){

@@ -5,6 +5,7 @@ import * as notesActions from '../../../store/notes/notes.actions';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Store} from '@ngrx/store';
 import {Runner} from '../../../model/runner/runner';
+import {Utils} from '../../../model/calculator/utils';
 
 @Component({
   selector: 'app-note-data-table',
@@ -23,6 +24,8 @@ export class NoteDataTableComponent implements OnInit {
 
   tableSize = 15
   viewNotes= true
+
+  util = new Utils()
 
   // for button
   public state= {
@@ -232,5 +235,32 @@ export class NoteDataTableComponent implements OnInit {
         break;
       }
     }
+  }
+
+  saveAsCSV() {
+    const date = new Date()
+    this.util.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_tennisTournament.csv`,
+      JSON.parse(JSON.stringify(this.notes.map( x => {
+        const t = new Date(x.created)
+        const d = `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()}`
+        const s = `${t.getHours()}:${t.getMinutes()}:${t.getSeconds()}`
+        const injured = x.note.selection.runnerA.id === x.note.selection.injuredId ? x.note.selection.runnerA : x.note.selection.runnerB
+        const other = x.note.selection.runnerA.id !== x.note.selection.injuredId ? x.note.selection.runnerA : x.note.selection.runnerB
+        return{
+          date: d,
+          time: s,
+          injuredName: injured.name,
+          other: other.name,
+          tournament: x.note.tournament,
+          phase: x.note.phase,
+          injuredOdds: injured.odds,
+          otherOdds: other.odds,
+          injuredBSP: injured.bsp,
+          otherBSP: other.bsp,
+          status: x.note.validation.detailValidation.win ? 'WIN' : x.note.validation.detailValidation.lose ? 'LOSE' : 'RETIRED',
+          type: x.note.type
+        }
+      })))
+    );
   }
 }

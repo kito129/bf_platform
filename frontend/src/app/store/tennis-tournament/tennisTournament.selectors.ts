@@ -26,6 +26,15 @@ export const getTennisTournamentsById  = (id: string) => createSelector(
   (state) => state.allTennisTournaments.filter(x=>x._id === id)[0]
 );
 
+export const getLastDateTennisTournaments = createSelector(
+  getTennisTournamentState,
+  (state: TennisTournamentStates) => {
+    return state.allTennisTournaments.length ?
+      JSON.parse(JSON.stringify(state.allTennisTournaments.map(x => x.created)))
+        .sort((a,b) => b - a)[0] : 0
+  }
+);
+
 export const getTennisTournamentNameById = (id: string) => createSelector(
   getTennisTournamentState,
   (state) => {

@@ -4,11 +4,11 @@
     <p>Discover all tennis tournament in DB </p>
   </div>
   <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <h5 class="mr-3">Last aded on {{lastTournamentDate$ | async | date}}</h5>
     <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block" (click)="refreshAllTennisTournament()">
       <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
       Refresh
     </button>
-  </div>
 </div>
 
 <!-- BREADCRUMB -->

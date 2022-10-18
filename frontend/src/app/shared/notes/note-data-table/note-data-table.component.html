@@ -22,9 +22,15 @@
         <button type="button" [ngClass]="state.fsRetired ? 'btn btn-danger mr-2' :'btn btn-outline-danger mr-2'" (click)="typeFilter('FsRetired')">FS Retired</button>
       </div>
 
+
+    <button type="button" class="btn btn-outline-light btn-icon-text mr-2 d-none d-md-block" (click)="saveAsCSV()">
+      <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
+      Download CSV
+    </button>
+
     <div class="row">
       <div class="col">
-        <button type="button" class="btn btn mr-2"
+        <button type="button" class="btn btn mr-2 mt-2"
                 [ngClass]="viewNotes ? 'btn-primary' : 'btn-outline-primary' "
                 (click)="viewNotes= !viewNotes">
           View Notes

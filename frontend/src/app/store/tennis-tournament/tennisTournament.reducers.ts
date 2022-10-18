@@ -29,7 +29,7 @@ export interface TennisTournamentStates {
 // this is the initial state of the app, before all HTTP call,
 export const tennisTournamentInitialState: TennisTournamentStates = {
   allTennisTournaments: [],
-  selectedTennisTournament: {},
+  selectedTennisTournament: null,
   selectedTennisTournamentID: '',
   tennisTournamentList: [],
   selectedTennisTournamentMarkets: [],

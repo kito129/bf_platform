@@ -72,9 +72,19 @@ export class TennisTournamentDataTableComponent implements OnInit {
     const date = new Date()
     this.util.exportToCsv(`${date.getMonth()+1}_${date.getDate()}_${date.getFullYear()}_tennisTournament.csv`,
       JSON.parse(JSON.stringify(this.tennisTournaments.map( x => {
+        const t = new Date(x.tournament.detail.openDate)
+        const d = `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()}`
         return{
+          name: this.formatterName(x),
           id: x._id,
-          name: this.formatterName(x)
+          openDate: d,
+          surface: x.tournament.detail.surface,
+          federation: x.tournament.detail.type.federation,
+          point: x.tournament.detail.type.point,
+          isSlam: x.tournament.detail.type.isSlam,
+          isChallenger: x.tournament.detail.type.isChallenger,
+          qualifying: x.tournament.detail.qualifying,
+          draw: x.tournament.detail.draw,
         }
       })))
     );

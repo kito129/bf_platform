@@ -49,7 +49,7 @@
         <app-bet-options-formatter [betOptions]="bet.options"></app-bet-options-formatter>
       </td>
       <td>
-        <h6 *ngIf="bet.selectionN===0" class="text-primary">(A) {{bet.selectionName ? bet.selectionName.substr(0,18) : ''}}</h6>
+        <h6 *ngIf="bet.selectionN===0" class="text-primary">(A) {{bet.selectionName ? bet.selectionName.substr(0,18) : ''}} </h6>
         <h6 *ngIf="bet.selectionN===1" class="text-danger">(B) {{bet.selectionName ? bet.selectionName.substr(0,18) : ''}}</h6>
       </td>
       <td>

@@ -4,7 +4,7 @@ import {DatatableComponent, ColumnMode, SelectionType} from '@swimlane/ngx-datat
 import {Store} from '@ngrx/store';
 import {TradeCalculatorService} from '../../../services/trade-calculator.service';
 import {takeUntil} from 'rxjs/operators';
-import {NewTrade, Trades} from '../../../model/report/new/newTrade';
+import {NewTrade, Bets} from '../../../model/report/new/newTrade';
 import {TradeDetail} from '../../../model/report/trade';
 import {Utils} from '../../../model/calculator/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
@@ -270,6 +270,17 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     })
   }
 
+  private addPropsToObj(trade: TradeDetail, arrayToAdd, type: string){
+    // add element from bets
+    const bets = type ==='ALL' ? this.createTradeRows(trade) : type ==='BFL' ? this.createTradeRowsBFLGrouped(trade) :  this.createTradeRowsGrouped(trade)
+    for (const [key, value] of Object.entries(bets)) {
+      const h = Object.getOwnPropertyNames(value)
+      for (const [keyT, valueT] of Object.entries(h)) {
+        arrayToAdd[arrayToAdd.length-1][`${valueT}${key}`] = value[`${valueT}`]
+      }
+    }
+  }
+
   private createTradeRowsGrouped(trade: TradeDetail){
     let i =0
     const open = {
@@ -345,8 +356,8 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
           const avgOdds = (increase.odds * increase.stake + x.odds*x.stake)/(increase.stake+x.stake)
           increase.stake += x.stake
           increase.odds = avgOdds
-          increase.liability = x.type === 'back' ? 0 : open.stake*(open.odds-1)
-          increase.ifWin = x.type === 'back' ? open.stake*(open.odds-1) : open.stake
+          increase.liability = x.type === 'back' ? 0 : increase.stake*(increase.odds-1)
+          increase.ifWin = x.type === 'back' ? increase.stake*(increase.odds-1) : increase.stake
           break
         }
         case ('DECREASE MARGIN'):{
@@ -356,8 +367,8 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
           const avgOdds = (decrease.odds * decrease.stake + x.odds*x.stake)/(decrease.stake+x.stake)
           decrease.stake += x.stake
           decrease.odds = avgOdds
-          decrease.liability = x.type === 'back' ? 0 : open.stake*(open.odds-1)
-          decrease.ifWin = x.type === 'back' ? open.stake*(open.odds-1) : open.stake
+          decrease.liability = x.type === 'back' ? 0 : decrease.stake*(decrease.odds-1)
+          decrease.ifWin = x.type === 'back' ? decrease.stake*(decrease.odds-1) : decrease.stake
           break
         }
         case ('CLOSE'):{
@@ -367,8 +378,19 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
           const avgOdds = (close.odds * close.stake + x.odds*x.stake)/(close.stake+x.stake)
           close.stake += x.stake
           close.odds = avgOdds
-          close.liability = x.type === 'back' ? 0 : open.stake*(open.odds-1)
-          close.ifWin = x.type === 'back' ? open.stake*(open.odds-1) : open.stake
+          close.liability = x.type === 'back' ? 0 : close.stake*(close.odds-1)
+          close.ifWin = x.type === 'back' ? close.stake*(close.odds-1) : close.stake
+          break
+        }
+        case ('FREE BET'):{
+          freeBet.type = x.type
+          freeBet.name = sideName
+          freeBet.options = 'FREE BET'
+          const avgOdds = (freeBet.odds * freeBet.stake + x.odds*x.stake)/(freeBet.stake+x.stake)
+          freeBet.stake += x.stake
+          freeBet.odds = avgOdds
+          freeBet.liability = x.type === 'back' ? 0 : freeBet.stake*(freeBet.odds-1)
+          freeBet.ifWin = x.type === 'back' ? freeBet.stake*(freeBet.odds-1) : freeBet.stake
           break
         }
       }
@@ -386,15 +408,220 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     return [open, increase, decrease, close, freeBet]
   }
 
-  private addPropsToObj(trade: TradeDetail, arrayToAdd, type: string){
-    // add element from bets
-    const bets = type ==="ALL" ? this.createTradeRows(trade) : this.createTradeRowsGrouped(trade)
-    for (const [key, value] of Object.entries(bets)) {
-      const h = Object.getOwnPropertyNames(value)
-      for (const [keyT, valueT] of Object.entries(h)) {
-        arrayToAdd[arrayToAdd.length-1][`${valueT}${key}`] = value[`${valueT}`]
-      }
+  private createTradeRowsBFLGrouped(trade: TradeDetail){
+    let i =0
+    const open = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
     }
+    const increase = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const decrease15 = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const decrease25 = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const decrease30 = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const decreaseOther = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const closeFs = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const close = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+    const freeBet = {
+      name: '',
+      type: '',
+      options: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
+
+    trade.trade.trade.trades.map( x =>{
+      i++
+      const sideName = trade.trade.trade.selections[x.selectionN].runnerName
+      switch (x.options){
+        case ('OPEN'):{
+          open.type = x.type
+          open.name = sideName
+          open.options = 'OPEN'
+          const avgOdds = (open.odds * open.stake + x.odds*x.stake)/(open.stake+x.stake)
+          open.stake += x.stake
+          open.odds = avgOdds
+          open.liability = x.type === 'back' ? 0 : open.stake*(open.odds-1)
+          open.ifWin = x.type === 'back' ? open.stake*(open.odds-1) : open.stake
+          break
+        }
+        case ('INCREASE MARGIN'):{
+          increase.type = x.type
+          increase.name = sideName
+          increase.options = 'INCREASE MARGIN'
+          const avgOdds = (increase.odds * increase.stake + x.odds*x.stake)/(increase.stake+x.stake)
+          increase.stake += x.stake
+          increase.odds = avgOdds
+          increase.liability = x.type === 'back' ? 0 : increase.stake*(increase.odds-1)
+          increase.ifWin = x.type === 'back' ? increase.stake*(increase.odds-1) : increase.stake
+          break
+        }
+        case ('DECREASE MARGIN'):{
+          switch (x.stake){
+            case (1.5):{
+              decrease15.type = x.type
+              decrease15.name = sideName
+              decrease15.options = 'DECREASE MARGIN'
+              const avgOdds = (decrease15.odds * decrease15.stake + x.odds*x.stake)/(decrease15.stake+x.stake)
+              decrease15.stake += x.stake
+              decrease15.odds = avgOdds
+              decrease15.liability = x.type === 'back' ? 0 : decrease15.stake*(decrease15.odds-1)
+              decrease15.ifWin = x.type === 'back' ? decrease15.stake*(decrease15.odds-1) : decrease15.stake
+              break
+            }
+            case (2.5):{
+              decrease25.type = x.type
+              decrease25.name = sideName
+              decrease25.options = 'DECREASE MARGIN'
+              const avgOdds = (decrease25.odds * decrease25.stake + x.odds*x.stake)/(decrease25.stake+x.stake)
+              decrease25.stake += x.stake
+              decrease25.odds = avgOdds
+              decrease25.liability = x.type === 'back' ? 0 : decrease25.stake*(decrease25.odds-1)
+              decrease25.ifWin = x.type === 'back' ? decrease25.stake*(decrease25.odds-1) : decrease25.stake
+              break
+            }
+            case (3):{
+              decrease30.type = x.type
+              decrease30.name = sideName
+              decrease30.options = 'DECREASE MARGIN'
+              const avgOdds = (decrease30.odds * decrease30.stake + x.odds*x.stake)/(decrease30.stake+x.stake)
+              decrease30.stake += x.stake
+              decrease30.odds = avgOdds
+              decrease30.liability = x.type === 'back' ? 0 : decrease30.stake*(decrease30.odds-1)
+              decrease30.ifWin = x.type === 'back' ? decrease30.stake*(decrease30.odds-1) : decrease30.stake
+              break
+            }
+            default:{
+              decreaseOther.type = x.type
+              decreaseOther.name = sideName
+              decreaseOther.options = 'DECREASE MARGIN'
+              const avgOdds = (decreaseOther.odds * decreaseOther.stake + x.odds*x.stake)/(decreaseOther.stake+x.stake)
+              decreaseOther.stake += x.stake
+              decreaseOther.odds = avgOdds
+              decreaseOther.liability = x.type === 'back' ? 0 : decreaseOther.stake*(decreaseOther.odds-1)
+              decreaseOther.ifWin = x.type === 'back' ? decreaseOther.stake*(decreaseOther.odds-1) : decreaseOther.stake
+              break
+            }
+          }
+          break
+        }
+        case ('CLOSE'):{
+          if(x.condition.tennis.point.set3.runnerA>0 ||x.condition.tennis.point.set3.runnerA>0  ){
+            close.type = x.type
+            close.name = sideName
+            close.options = 'CLOSE'
+            const avgOdds = (close.odds * close.stake + x.odds*x.stake)/(close.stake+x.stake)
+            close.stake += x.stake
+            close.odds = avgOdds
+            close.liability = x.type === 'back' ? 0 : close.stake*(close.odds-1)
+            close.ifWin = x.type === 'back' ? close.stake*(close.odds-1) : close.stake
+          } else {
+            closeFs.type = x.type
+            closeFs.name = sideName
+            closeFs.options = 'CLOSE'
+            const avgOdds = (closeFs.odds * closeFs.stake + x.odds*x.stake)/(closeFs.stake+x.stake)
+            closeFs.stake += x.stake
+            closeFs.odds = avgOdds
+            closeFs.liability = x.type === 'back' ? 0 : closeFs.stake*(closeFs.odds-1)
+            closeFs.ifWin = x.type === 'back' ? closeFs.stake*(closeFs.odds-1) : closeFs.stake
+          }
+          break
+        }
+        case ('FREE BET'):{
+          freeBet.type = x.type
+          freeBet.name = sideName
+          freeBet.options = 'FREE BET'
+          const avgOdds = (freeBet.odds * freeBet.stake + x.odds*x.stake)/(freeBet.stake+x.stake)
+          freeBet.stake += x.stake
+          freeBet.odds = avgOdds
+          freeBet.liability = x.type === 'back' ? 0 : freeBet.stake*(freeBet.odds-1)
+          freeBet.ifWin = x.type === 'back' ? freeBet.stake*(freeBet.odds-1) : freeBet.stake
+          break
+        }
+      }
+      return {
+        name: sideName,
+        type: x.type,
+        options: x.options,
+        odds: x.odds,
+        stake: x.stake,
+        liability: x.liability,
+        ifWin: x.ifWin,
+        empty: null
+      }
+    })
+    return [open, increase, decrease15, decrease25, decrease30, decreaseOther, closeFs, close, freeBet]
   }
 
   // temp to fix odds bug

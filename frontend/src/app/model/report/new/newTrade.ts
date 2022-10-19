@@ -61,7 +61,7 @@ export interface NewTrade{
         }
       }
     }]
-    trades: Trades[]
+    trades: Bets[]
     results: {
       grossProfit: number,
       netProfit: number,
@@ -129,7 +129,7 @@ export interface NewTrade{
   }
 }
 
-export interface Trades{
+export interface Bets {
   id: number
   selectionN: number
   odds: number

@@ -1,6 +1,6 @@
 import {TennisPoint} from '../point/tennisPoint';
 import {FootballPoint} from '../point/footballPoint';
-import {NewTrade, Trades} from './new/newTrade';
+import {NewTrade, Bets} from './new/newTrade';
 
 export interface Trade {
   _id?: string
@@ -197,7 +197,7 @@ export class TradeForm{
     }
   }]
 
-  public trades: Trades[]
+  public trades: Bets[]
 
   public exposition: [{
     back: number

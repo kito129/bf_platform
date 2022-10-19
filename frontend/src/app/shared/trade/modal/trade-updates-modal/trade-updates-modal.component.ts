@@ -3,7 +3,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EventEmitter} from '@angular/core';
 import {Trade} from '../../../../model/report/trade';
 import {TradeCalculatorService} from '../../../../services/trade-calculator.service';
-import {NewTrade, Trades} from '../../../../model/report/new/newTrade';
+import {NewTrade, Bets} from '../../../../model/report/new/newTrade';
 @Component({
   selector: 'app-trade-updates-modal',
   templateUrl: './trade-updates-modal.component.html',
@@ -204,64 +204,32 @@ export class TradeUpdatesModalComponent implements OnInit {
  */
 
   public addBet() {
-
-    const addedBet: Trades = {
+    const addedBet: Bets = {
       id: this.tradeOutput.trade.trades.length+1,
       selectionN: 0,
-      odds: this.supportBets.odds,
-      stake: this.supportBets.stake,
-      liability: this.supportBets.stake,
-      ifWin: (this.supportBets.odds - 1) * this.supportBets.stake,
-      options: this.supportBets.options,
-      type: 'BACK',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin: 0,
+      options: 'open',
+      type: 'back',
       condition: {
         tennis: {
-          isTennis: null,
+          isTennis: true,
           point: null,
         },
         football: {
-          isFootball: null,
+          isFootball: false,
           point: null
         },
         horse: {
-          isHorse: null,
+          isHorse: false,
         },
-        time: 0,
-        note: null,
+        time: Date.now(),
+        note: '',
       }
     }
-
-    // check for sport and condition of bet
-    if (this.supportBets.condition.tennis.isTennis) {
-      // tennis
-      addedBet.condition.tennis.isTennis = this.supportBets.condition.tennis.isTennis
-      addedBet.condition.tennis.point = JSON.parse(JSON.stringify(this.supportBets.condition.tennis.point))
-
-    } else if (this.supportBets.condition.horse.isHorse) {
-      // horse
-      addedBet.condition.horse.isHorse = this.supportBets.condition.horse.isHorse
-
-    } else if (this.supportBets.condition.football.isFootball) {
-      // football
-      addedBet.condition.football.isFootball = this.supportBets.condition.football.isFootball
-      addedBet.condition.football.point = this.supportBets.condition.football.point
-
-    }
-    // time
-    addedBet.condition.time = new Date(this.supportBets.condition.time).getTime()
-    // note
-    addedBet.condition.note = this.supportBets.condition.note
-
-    // is BACK SIDE
-    let i = 0
-    for (const selection of this.tradeOutput.trade.selections) {
-      if (selection.runnerId === this.supportBets.selection.runnerId) {
-        // push to back array
-        addedBet.selectionN = i
-        this.tradeOutput.trade.trades.push(addedBet)
-      }
-      i++
-    }
+    this.tradeOutput.trade.trades.push(addedBet)
   }
 
   updateBetsDate(event, trade: any){

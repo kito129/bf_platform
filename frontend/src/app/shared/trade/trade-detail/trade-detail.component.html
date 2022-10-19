@@ -12,17 +12,65 @@
           <li class="list-group-item">
             <div class="row">
               <div class="col">
-                <h5>Date: </h5>
+                <h4>Date</h4>
               </div>
               <div class="col">
-                <h5> {{trade.trade.info.date | date: 'medium'}}</h5>
+                <h4> {{trade.trade.info.date | date: 'medium'}}</h4>
               </div>
             </div>
           </li>
           <li class="list-group-item">
             <div class="row">
               <div class="col">
-                <h5>Exchange: </h5>
+                <h4>Tournament</h4>
+              </div>
+              <div class="col" *ngIf="tennisTournament">
+                <div *ngIf="tennisTournament.tournament.detail.type.federation==='ATP'"><h4><span class="badge badge-primary">ATP {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.type.federation==='WTA'"><h4><span class="badge badge-danger">WTA {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.type.isChallenger"><h4><span class="badge badge-success">Challenger</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.type.isSlam"><h4><span class="badge badge-warning">{{tennisTournament.tournament.detail.name}}</span></h4></div>
+
+              </div>
+            </div>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h4>Surface</h4>
+              </div>
+              <div class="col" *ngIf="tennisTournament">
+                <div *ngIf="tennisTournament.tournament.detail.surface==='HARD'"><h4><span class="badge badge-primary">HARD</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.surface==='GRASS'"><h4><span class="badge badge-success">GRASS</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.surface==='CLAY'"><h4><span class="badge badge-danger">CLAY</span></h4></div>
+                <div *ngIf="tennisTournament.tournament.detail.surface==='INDOOR HARD'"><h4><span class="badge badge-light">INDOOR HARD</span></h4></div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h4>Strategy</h4>
+              </div>
+              <div class="col" *ngIf="strategy">
+                <div><h4>
+                  {{strategy.strategy.info.name}}
+                </h4></div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h4>Executor</h4>
+              </div>
+              <div class="col">
+                <h4 *ngFor="let exe of trade.trade.info.executor">{{exe}}</h4>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+                <h4>Exchange</h4>
               </div>
               <div class="col">
                 <div *ngIf="trade.trade.info.exchange.name==='UK KEVIN' || trade.trade.info.exchange.name==='UK'"><h4><span class="badge badge-danger">UK</span></h4></div>
@@ -36,85 +84,40 @@
           <li class="list-group-item">
             <div class="row">
               <div class="col">
-                <h5>Tournament: </h5>
+                <h4 class="text-warning">Commission</h4>
               </div>
-              <div class="col" *ngIf="tennisTournament">
-                <div *ngIf="tennisTournament.tournament.detail.type.federation==='ATP'"><h4><span class="badge badge-primary">ATP {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
-                <div *ngIf="tennisTournament.tournament.detail.type.federation==='WTA'"><h4><span class="badge badge-danger">WTA {{tennisTournament.tournament.detail.name}} - {{tennisTournament.tournament.detail.type.point}}</span></h4></div>
-                <div *ngIf="tennisTournament.tournament.detail.type.isChallenger"><h4><span class="badge badge-success">Challenger</span></h4></div>
-                <div *ngIf="tennisTournament.tournament.detail.type.isSlam"><h4><span class="badge badge-warning">{{tennisTournament.tournament.detail.name}}</span></h4></div>
-
-              </div>
-            </div>
-          <li class="list-group-item">
-            <div class="row">
               <div class="col">
-                <h5>Surface: </h5>
-              </div>
-              <div class="col" *ngIf="tennisTournament">
-                <div *ngIf="tennisTournament.tournament.detail.surface==='HARD'"><h4><span class="badge badge-primary">HARD</span></h4></div>
-                <div *ngIf="tennisTournament.tournament.detail.surface==='GRASS'"><h4><span class="badge badge-success">GRASS</span></h4></div>
-                <div *ngIf="tennisTournament.tournament.detail.surface==='CLAY'"><h4><span class="badge badge-danger">CLAY</span></h4></div>
-                <div *ngIf="tennisTournament.tournament.detail.surface==='INDOOR HARD'"><h4><span class="badge badge-light">INDOOR HARD</span></h4></div>
+                <h4 *ngIf="trade.trade.results.commissionPaid>0" class="text-warning">{{trade.trade.results.commissionPaid | currency}} ({{trade.trade.info.exchange.commission | percent:'0.2'}})</h4>
               </div>
             </div>
           </li>
           <li class="list-group-item">
             <div class="row">
               <div class="col">
-                <h5>Strategy: </h5>
+                <h4 class="text-danger">Max Risk</h4>
               </div>
-              <div class="col" *ngIf="strategy">
-                <div><h4>
-                  {{strategy.strategy.info.name}}
-                </h4></div>
+              <div class="col">
+                <h4 class="text-danger">{{trade.trade.results.maxRisk | currency}}</h4>
               </div>
             </div>
           </li>
           <li class="list-group-item">
             <div class="row">
               <div class="col">
-                <h5>Commission %: </h5>
+                <h4 class="text-info">rR</h4>
               </div>
               <div class="col">
-                <h5>{{trade.trade.info.exchange.commission | percent:'0.2'}}</h5>
-                <h5 *ngIf="trade.trade.results.commissionPaid>0" class="text-warning">{{trade.trade.results.commissionPaid | currency}}</h5>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col">
-                <h5>Executor: </h5>
-              </div>
-              <div class="col">
-                <h5 *ngFor="let exe of trade.trade.info.executor">{{exe}}</h5>
+                <h4 class="text-info">{{trade.trade.results.rr | percent}}</h4>
               </div>
             </div>
           </li>
           <li class="list-group-item">
             <div class="row">
               <div class="col">
-                <h5>Max Risk: </h5>
+                <h4>Pl</h4>
               </div>
               <div class="col">
-                <h5>{{trade.trade.results.maxRisk | currency}}</h5>
-              </div>
-              <div class="col">
-                <h5>rR: </h5>
-              </div>
-              <div class="col">
-                <h5>{{trade.trade.results.rr | percent}}</h5>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col">
-                <h5>Pl:</h5>
-              </div>
-              <div class="col">
-                <h5 [ngClass]="trade.trade.results.netProfit>0 ? 'text-success' : 'text-danger'">{{trade.trade.results.netProfit | currency}}</h5>
+                <h3 [ngClass]="trade.trade.results.netProfit>0 ? 'text-success' : 'text-danger'">{{trade.trade.results.netProfit | currency}}</h3>
               </div>
             </div>
           </li>
@@ -127,7 +130,7 @@
     <div class="card">
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-baseline">
-          <h5 class="card-title mb-0">Result</h5>
+          <h4 class="card-title mb-0">Result</h4>
         </div>
       </div>
       <div class="card-body">
@@ -135,15 +138,15 @@
           <li class="list-group-item">
             <div class="row">
               <div class="col">
-                <h5>Final Result: </h5>
+                <h4>Final Result</h4>
               </div>
               <div class="col">
-                <h5 *ngIf="trade.trade.info.marketInfo?.sport.indexOf('TENNIS')!==-1">
+                <h4 *ngIf="trade.trade.info.marketInfo?.sport.indexOf('TENNIS')!==-1">
                   {{trade.trade.results.finalScore.tennis | tennisPoint: true : true}}
-                </h5>
-                <h5 *ngIf="trade.trade.info.marketInfo?.sport.indexOf('FOOTBALL')!==-1">
+                </h4>
+                <h4 *ngIf="trade.trade.info.marketInfo?.sport.indexOf('FOOTBALL')!==-1">
                   {{trade.trade.results.finalScore.football.home + ' - ' + trade.trade.results.finalScore.football.away}}
-                </h5>
+                </h4>
               </div>
             </div>
           </li>
@@ -151,7 +154,7 @@
             <div class="row">
               <div class="col">
                 <div class="row"></div>
-                <h5>{{selection.runnerName}}</h5>
+                <h4>{{selection.runnerName}}</h4>
               </div>
               <div class="col">
                 <app-bsp-odd [bspOdd]="selection.bsp" ></app-bsp-odd>
@@ -182,33 +185,33 @@
     <div class="card">
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-baseline">
-          <h5 class="card-title mb-0">Note</h5>
+          <h4 class="card-title mb-0">Note</h4>
         </div>
       </div>
       <div class="card-body">
         <ul class="list-group">
           <li class="list-group-item" *ngIf="trade.trade.info.note.description !== null">
-            <h5 class="text-gray">Description: </h5>
+            <h4 class="text-gray">Description: </h4>
             <p>{{trade.trade.info.note.description}}</p>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.entry!== null">
-            <h5 class="text-gray">Entry: </h5>
+            <h4 class="text-gray">Entry: </h4>
             <p>{{trade.trade.info.note.entry}}</p>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.position!== null">
-            <h5 class="text-gray">Position: </h5>
+            <h4 class="text-gray">Position: </h4>
             <p>{{trade.trade.info.note.position}}</p>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.exit!== null">
-            <h5 class="text-gray">Exit: </h5>
+            <h4 class="text-gray">Exit: </h4>
             <p>{{trade.trade.info.note.exit}}</p>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.mm!== null">
-            <h5 class="text-gray">MM: </h5>
+            <h4 class="text-gray">MM: </h4>
             <p>{{trade.trade.info.note.mm}}</p>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.post!== null">
-            <h5 class="text-gray">Post: </h5>
+            <h4 class="text-gray">Post: </h4>
             <p>{{trade.trade.info.note.post}}</p>
           </li>
         </ul>
@@ -223,7 +226,7 @@
     <div class="card">
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-baseline">
-          <h5 class="card-title mb-0">Trades</h5>
+          <h4 class="card-title mb-0">Trades</h4>
         </div>
       </div>
       <div class="card-body">

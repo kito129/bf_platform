@@ -98,14 +98,6 @@
           (click)="viewStatsLeaderboard= !viewStatsLeaderboard">
     Stats Leaderboard
   </button>
-  <button type="button" class="btn btn-outline-light btn-icon-text mr-2" (click)="saveAsCSV('ALL')">
-    <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
-    Download CSV
-  </button>
-  <button type="button" class="btn btn-outline-light btn-icon-text mr-2" (click)="saveAsCSV('GROUPED')">
-    <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
-    Download Grouped Type CSV
-  </button>
   <form class="form-group grid-margin">
     <div class="row ">
       <div class="col">
@@ -136,6 +128,23 @@
     </div>
   </form>
 </div>
+<!-- CSV BUTTON -->
+<div class="d-flex justify-content-end align-items-center mb-3">
+  <button type="button" class="btn btn-outline-light btn-icon-text mr-2" (click)="saveAsCSV('ALL')">
+    <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
+    Download CSV
+  </button>
+  <button type="button" class="btn btn-outline-light btn-icon-text mr-2" (click)="saveAsCSV('GROUPED')">
+    <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
+    Download Grouped Type CSV
+  </button>
+
+  <button type="button" class="btn btn-outline-light btn-icon-text mr-2" (click)="saveAsCSV('BFL')">
+    <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
+    Download Grouped BFL CSV
+  </button>
+</div>
+
 <!-- DATA TABLE -->
 <ngx-datatable
   class="dark"

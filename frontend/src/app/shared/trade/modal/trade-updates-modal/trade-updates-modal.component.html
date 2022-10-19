@@ -231,6 +231,10 @@
       <div class="card-body" [ngbCollapse]="betsCollapse">
         <div class="form-group">
           <ul class="list-group mt-2">
+            <button type="button" class="btn btn-outline-success'"
+                    (click)="addBet()">
+              Add Bets
+            </button>
             <!-- EDIT -->
             <div class="mt-2 mb-3" *ngFor="let bet of tradeOutput.trade.trades; index as h">
               <li class="list-group-item mt-2">

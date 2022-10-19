@@ -14,7 +14,7 @@
     <tbody>
     <tr *ngFor="let selection of trade.trade.selections, index as i">
       <td>
-        <h4 [ngClass]="i ? 'text-danger' : 'text-primary'">{{!i ? '(A)' : '(B)'}}{{selection.runnerName}}
+        <h4 [ngClass]="i ? 'text-danger' : 'text-primary'">{{!i ? '(A) ' : '(B) '}}{{selection.runnerName}}
           <i *ngIf="i===1 && winner===0 || i===0 && winner===1" class="text-danger feather icon-x"></i>
           <i *ngIf="i===1 && winner===1 || i===0 && winner===0" class="text-success feather icon-check"></i>
         </h4>

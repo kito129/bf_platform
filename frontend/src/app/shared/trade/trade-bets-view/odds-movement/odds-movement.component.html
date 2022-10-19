@@ -3,12 +3,12 @@
   <table class="table table-sm table-bordered text-center text-monospace table-striped">
     <thead>
       <tr>
-        <th><h4>Type</h4></th>
+        <th><h4>RUNNER</h4></th>
         <th>
-          <h4 class="text-primary">(A) {{ trade.trade.selections[0].runnerName}}</h4>
+          <h4 class="text-primary">(A) {{ trade.trade.selections[0].runnerName}} <i *ngIf="trade.trade.selections[0].winner" class="feather icon-check"></i></h4>
         </th>
         <th>
-          <h4 class="text-danger">(B) {{ trade.trade.selections[1].runnerName}}</h4>
+          <h4 class="text-danger">(B) {{ trade.trade.selections[1].runnerName}} <i *ngIf="trade.trade.selections[1].winner" class="feather icon-check"></i></h4>
         </th>
       </tr>
     </thead>
@@ -26,42 +26,64 @@
       <tr *ngIf="haveSet2">
         <td>
           <h4 class="text-info">Set 2</h4>
+          <h4 class="text-info">{{trade.trade.results.finalScore.tennis.set1.runnerA}} - {{trade.trade.results.finalScore.tennis.set1.runnerB}}</h4>
         </td>
-        <td *ngFor="let selection of trade.trade.selections">
-          <h4>{{selection.sets.secondSet}}</h4>
+        <td *ngFor="let selection of trade.trade.selections, index as i ">
+          <div *ngIf="i===0">
+            <h4 *ngIf="trade.trade.results.finalScore.tennis.set1.runnerA > trade.trade.results.finalScore.tennis.set1.runnerB "><i class="feather icon-check"></i></h4>
+          </div>
+          <div *ngIf="i===1">
+            <h4 *ngIf="trade.trade.results.finalScore.tennis.set1.runnerB > trade.trade.results.finalScore.tennis.set1.runnerA "><i class="feather icon-check"></i></h4>
+          </div>
+          <h4 class="text-info">{{selection.sets.secondSet}} ({{(i ? analyzer.runnerB.set1NotionalDelta :  analyzer.runnerA.set1NotionalDelta) | number:'0.2'}})</h4>
         </td>
       </tr>
       <!-- SECOND NOTIONAL -->
       <tr *ngIf="haveSet2">
         <td>
-          <h4 class="text-warning">Notional</h4>
+          <h4 class="text-warning">Notional Set 2</h4>
         </td>
         <td>
-          <h5 class="text-warning">{{analyzer.runnerA.set1Notional}} ({{analyzer.runnerA.set1NotionalDelta| number:'0.2'}})</h5>
+          <h5 class="text-warning">{{analyzer.runnerA.set1Notional}}</h5>
         </td>
         <td>
-          <h5 class="text-warning">{{analyzer.runnerB.set1Notional}} ({{analyzer.runnerB.set1NotionalDelta | number:'0.2'}})</h5>
+          <h5 class="text-warning">{{analyzer.runnerB.set1Notional}}</h5>
         </td>
       </tr>
       <!-- THIRD -->
       <tr *ngIf="haveSet3">
         <td>
           <h4 class="text-light">Set 3</h4>
+          <h4 class="text-info">{{trade.trade.results.finalScore.tennis.set2.runnerA}} - {{trade.trade.results.finalScore.tennis.set2.runnerB}}</h4>
+
         </td>
-        <td *ngFor="let selection of trade.trade.selections">
-          <h4>{{selection.sets.thirdSet}}</h4>
+        <td *ngFor="let selection of trade.trade.selections, index as i">
+          <div *ngIf="i===0">
+            <h4 *ngIf="trade.trade.results.finalScore.tennis.set2.runnerA > trade.trade.results.finalScore.tennis.set2.runnerB "><i class="feather icon-check"></i></h4>
+          </div>
+          <div *ngIf="i===1">
+            <h4 *ngIf="trade.trade.results.finalScore.tennis.set2.runnerB > trade.trade.results.finalScore.tennis.set2.runnerA "><i class="feather icon-check"></i></h4>
+          </div>
+          <h4 class="text-light">{{selection.sets.thirdSet}} ({{selection.sets.thirdSet - selection.bsp  | number:'0.2'}})</h4>
         </td>
       </tr>
       <!-- THIRD NOTIONAL -->
       <tr *ngIf="haveSet3">
         <td>
-          <h4 class="text-warning">Notional</h4>
+          <h4 class="text-warning">Notional Set 3</h4>
+        </td>
+        <td *ngFor="let selection of trade.trade.selections">
+          <h5>{{selection.bsp}}</h5>
+        </td>
+      </tr>
+      <tr *ngIf="haveSet2">
+        <td>
+          <h4>Result</h4>
+        </td>
+        <td *ngFor="let selection of trade.trade.selections">
+          <h3 *ngIf="selection.winner">{{trade.trade.results.finalScore.tennis | tennisPoint: false : false}}</h3>
         </td>
         <td>
-
-        </td>
-        <td>
-
         </td>
       </tr>
     </tbody>

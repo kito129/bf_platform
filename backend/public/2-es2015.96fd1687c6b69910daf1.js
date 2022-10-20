@@ -495,7 +495,7 @@ LiveService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var firebase = __webpack_require__(/*! @firebase/app */ "wj3C");
-var tslib = __webpack_require__(/*! tslib */ "30Go");
+var tslib = __webpack_require__(/*! tslib */ "2ZXk");
 var util = __webpack_require__(/*! @firebase/util */ "zVF4");
 var logger$1 = __webpack_require__(/*! @firebase/logger */ "q/0M");
 var component = __webpack_require__(/*! @firebase/component */ "S+S0");

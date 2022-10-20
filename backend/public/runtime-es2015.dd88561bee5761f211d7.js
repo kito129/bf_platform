@@ -64,11 +64,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-<<<<<<<< HEAD:backend/public/runtime-es2015.dd88561bee5761f211d7.js
 /******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + "-es2015." + {"0":"f16be8aff744bc9a4ae3","1":"ee73262a0d5847edb0ae","2":"96fd1687c6b69910daf1","3":"fa28f57489f3468e0f1a","4":"1216424a4f7625ec44f1","5":"836fa35b7fc096b1a6d6","6":"4aefff3b5bf1e9567135","7":"7a4ad3ba9e94c0aaefd4","8":"21ff7ba866be0dd3cb08","9":"11d06996b76d6cd4090b","10":"33fc976fab40716f148e","11":"8e350c05c234ef0345b9","12":"4bc9c9e7ceae99c1cc76","13":"82255d381f0acb98efb0","14":"d0fabe22c1523f5b14a6","15":"9dd8a3a96a74778a28b9","16":"93df5f20614f47587ff0","17":"9b2759340b4c92848213"}[chunkId] + ".js"
-========
-/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + "-es2015." + {"0":"f16be8aff744bc9a4ae3","1":"915940d0980d64ed2191","2":"5e1519749d940a1adfb6","3":"fa28f57489f3468e0f1a","4":"1216424a4f7625ec44f1","5":"7662747910bc98fcbf33","6":"4aefff3b5bf1e9567135","7":"7a4ad3ba9e94c0aaefd4","8":"21ff7ba866be0dd3cb08","9":"11d06996b76d6cd4090b","10":"098df19c8d1e6fba7db2","11":"8e350c05c234ef0345b9","12":"4bc9c9e7ceae99c1cc76","13":"82255d381f0acb98efb0","14":"d0fabe22c1523f5b14a6","15":"9dd8a3a96a74778a28b9","16":"93df5f20614f47587ff0","17":"9b2759340b4c92848213"}[chunkId] + ".js"
->>>>>>>> 7a5c2d1330cc9dbe6a798ab30bc62d2103bc93fc:backend/public/runtime-es2015.19f1abeab77e7c675f95.js
 /******/ 	}
 /******/
 /******/ 	// The require function

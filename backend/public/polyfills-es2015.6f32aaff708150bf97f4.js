@@ -105,8 +105,8 @@ module.exports = getBuiltIn('document', 'documentElement');
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\marco\00 PROJECT\lastBF\frontend\src\polyfills.ts */"hN/g");
-module.exports = __webpack_require__(/*! C:\Users\marco\00 PROJECT\lastBF\frontend\node_modules\@angular-devkit\build-angular\src\webpack\jit-polyfills.js */"rZy+");
+__webpack_require__(/*! M:\03_PROJECT\04_BF\lastBF\frontend\src\polyfills.ts */"hN/g");
+module.exports = __webpack_require__(/*! M:\03_PROJECT\04_BF\lastBF\frontend\node_modules\@angular-devkit\build-angular\src\webpack\jit-polyfills.js */"rZy+");
 
 
 /***/ }),

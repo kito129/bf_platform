@@ -53,11 +53,11 @@
     /***/
     function _(module, exports, __webpack_require__) {
       __webpack_require__(
-      /*! C:\Users\marco\00 PROJECT\lastBF\frontend\src\styles.scss */
+      /*! M:\03_PROJECT\04_BF\lastBF\frontend\src\styles.scss */
       "+EN/");
 
       module.exports = __webpack_require__(
-      /*! C:\Users\marco\00 PROJECT\lastBF\frontend\src\assets\scss\style.scss */
+      /*! M:\03_PROJECT\04_BF\lastBF\frontend\src\assets\scss\style.scss */
       "eKdF");
       /***/
     },

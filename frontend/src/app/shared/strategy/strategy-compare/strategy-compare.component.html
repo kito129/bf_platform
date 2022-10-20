@@ -111,6 +111,20 @@
 
           </ng-template>
         </li>
+        <!-- STRATEGY
+        <li *ngFor="let report of strategyReports, index as i" [ngbNavItem]="7+i+1">
+          <a ngbNavLink class="text-warning">{{(report.strategy.strategy.info.name).toUpperCase()}} - Report</a>
+          <ng-template ngbNavContent>
+
+            <app-strategy-report [selectedStrategyTrades$]="passAsObservable(report.trades)"
+                                 [title]="report.strategy.strategy.info.name.toUpperCase()"
+                                 [selectedStrategy]="passAsObservable(report.strategy)"
+                                 [bank]="report.strategy.strategy.info.bank">
+            </app-strategy-report>
+          </ng-template>
+        </li>
+        -->
+        <!-- NO STRATEGY-->
         <li *ngFor="let st of strategyListNoStrategy, index as i" [ngbNavItem]="7+i+1">
           <a ngbNavLink class="text-warning">{{(st.strategy.strategy.info.name).toUpperCase()}} - Report</a>
           <ng-template ngbNavContent>

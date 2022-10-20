@@ -46,6 +46,7 @@ export class StrategyReportClass{
     this.title = title
     this.bank = bank
     this.trades = trades
+    this.strategy = this.utils.generateStrategy(title,bank,'')
     this.calculateReport()
   }
 
@@ -81,7 +82,7 @@ export class StrategyReportClass{
       bank = this.strategy.strategy.info.bank>0 ? this.strategy.strategy.info.bank : this.bank
     }
 
-    console.log(bank)
+    // console.log(bank)
 
     const dd = this.utils.ddOfTrades(this.tradesPL,false, bank)
     const ddPercent = this.utils.ddOfTrades(this.tradesPL,true, bank)

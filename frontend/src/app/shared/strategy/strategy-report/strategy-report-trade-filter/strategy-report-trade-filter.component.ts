@@ -19,7 +19,7 @@ export class StrategyReportTradeFilterComponent implements OnInit, OnDestroy {
 
   tennisTournament: TennisTournament[]
 
-  compare:CompareStrategy[] = []
+  compare: CompareStrategy[] = []
   utils = new Utils()
   validData = false
 

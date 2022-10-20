@@ -1,9 +1,11 @@
 
-<button  *ngIf="runnerNotes.length"
+<button  *ngIf="(runnerNotes$ | async) && (runnerNotes$ | async).length"
          class="btn btn-icon" [ngClass]="color"
          (click)="open(content)">
   <i class="feather icon-info"></i>
 </button>
+
+
 
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -78,4 +80,3 @@
     </div>
   </div>
 </ng-template>
-

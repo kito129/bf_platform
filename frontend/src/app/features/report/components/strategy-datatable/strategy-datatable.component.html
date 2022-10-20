@@ -40,7 +40,9 @@
                 type="text"
                 id="name"
                 placeholder="Type name..."
-                name="search"/>
+                [(ngModel)]="search"
+                name="search"
+                (ngModelChange)="updateFilter()"/>
             </div>
           </div>
           <div class="col">
@@ -72,67 +74,67 @@
       [reorderable]="true"
       [sorts]="!isSaved ? [{prop: 'pl', dir: 'desc'}] : [{prop: 'savedReport.updated', dir: 'desc'}]">
 
-      <ngx-datatable-column name="Id" prop="_id" *ngIf="viewId" [width]="1">
+      <ngx-datatable-column name="Id" prop="_id" *ngIf="viewId">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Date" prop="savedReport.updated" *ngIf="isSaved" [width]="1">
+      <ngx-datatable-column name="Date" prop="savedReport.updated" *ngIf="isSaved" [width]="270">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value | date:'short' }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Name" prop="name" [width]="3">
+      <ngx-datatable-column name="Name" prop="name" [width]="350">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
 
-      <ngx-datatable-column name="Year" prop="year" *ngIf="!isSaved" [width]="1">
+      <ngx-datatable-column name="Year" prop="year" *ngIf="!isSaved">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5 [ngClass]="value===2021 ? 'text-info' : 'text-light'">{{ value }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="# of Trade" prop="numberOfTrade" [width]="1">
+      <ngx-datatable-column name="# of Trade" prop="numberOfTrade">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h4>{{ value }}</h4>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Executor" prop="executor" *ngIf="!isSaved" [width]="1">
+      <ngx-datatable-column name="Executor" prop="executor" *ngIf="!isSaved" [width]="60">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value}}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Comment" prop="savedReport.savedReport.comment" *ngIf="isSaved" [width]="1">
+      <ngx-datatable-column name="Comment" prop="savedReport.savedReport.comment" *ngIf="isSaved" [width]="400">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value}}</h5>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Type" prop="savedReport.savedReport.type" *ngIf="isSaved" [width]="1">
+      <ngx-datatable-column name="Type" prop="savedReport.savedReport.type" *ngIf="isSaved" [width]="100">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5>{{ value}}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Pl" prop="pl" [width]="1">
+      <ngx-datatable-column name="Pl" prop="pl">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h4 [ngClass]="value>0 ? 'text-success' : value ===0 ? 'text-warning' : 'text-danger'">{{ value | currency }}</h4>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Pl %" prop="plPercent" [width]="1">
+      <ngx-datatable-column name="Pl %" prop="plPercent">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5 class="text-primary">{{ value | percent }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Max DD" prop="maxDD" [width]="1">
+      <ngx-datatable-column name="Max DD" prop="maxDD">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5 class="text-danger">{{ value | currency }}</h5>
         </ng-template>
@@ -146,14 +148,14 @@
       </ngx-datatable-column>
       -->
 
-      <ngx-datatable-column name="Win ratio" prop="winRatio" [width]="1">
+      <ngx-datatable-column name="Win ratio" prop="winRatio" [width]="60">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <h5 [ngClass]="value>0.60 ? 'text-success' : value>0.30 ? 'text-warning' : 'text-danger'">{{ value | percent }}</h5>
         </ng-template>
       </ngx-datatable-column>
 
       <!-- TOOLS NOT SAVED-->
-      <ngx-datatable-column name="Tolls" prop="" *ngIf="!isSaved" [width]="2">
+      <ngx-datatable-column name="Tolls" prop="" *ngIf="!isSaved" [width]="250">
         <ng-template let-value="value"  ngx-datatable-cell-template>
 
           <div class="d-flex justify-content-center align-items-center">
@@ -186,7 +188,7 @@
       </ngx-datatable-column>
 
       <!-- TOOLS SAVED-->
-      <ngx-datatable-column name="Tolls" prop="" *ngIf="isSaved"  [width]="2">
+      <ngx-datatable-column name="Tolls" prop="" *ngIf="isSaved"  [width]="350">
         <ng-template let-value="value"  ngx-datatable-cell-template>
           <div class="d-flex justify-content-center align-items-center">
             <button type="button" class="btn btn-icon mr-2" [ngbTooltip]="viewReportTooltip"
@@ -202,6 +204,12 @@
                     (click)="addToCompareSavedReport(value._id)"
                     (contextmenu)="firstToCompareSavedReport($event,value._id)">
               <i class="feather icon-plus-circle"></i>
+            </button>
+            <button type="button"
+                    [ngbTooltip]="duplicateTooltip"
+                    class="btn btn-icon btn-outline-info mr-2"
+                    (click)="duplicateSavedReport(value.savedReport)">
+              <i class="feather icon-copy"></i>
             </button>
             <app-delete-modal [id]="value.strategy._id"
                               [ngbTooltip]="deleteSavedTooltip"
@@ -270,6 +278,10 @@
 <!-- TEMPLATE -->
 <ng-template #compareTooltip>
   <p>Add to compare, right click to place first</p>
+</ng-template>
+
+<ng-template #duplicateTooltip>
+  <p>Duplicate Saved Report</p>
 </ng-template>
 
 <ng-template #viewReportTooltip>

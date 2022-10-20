@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LiveRow} from '../../../../model/live/liveRunner';
 import {Observable, of, Subject} from 'rxjs';
-import {Note} from "../../../../model/note/note";
 
 @Component({
   selector: 'app-live-dragula-element',
@@ -44,7 +43,6 @@ import {Note} from "../../../../model/note/note";
 export class LiveDragulaElementComponent implements OnInit {
 
   @Input() row: LiveRow
-  @Input() allNotes: Note[]
   @Input() index: number
   @Output() changeEmitter = new EventEmitter()
 

@@ -6,6 +6,7 @@ import {NewTrade} from '../report/new/newTrade';
 import {Note} from "../note/note";
 import {min} from 'simple-statistics';
 import {Strategy} from '../report/strategy';
+import {TennisPoint} from "../point/tennisPoint";
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -515,6 +516,29 @@ export class Utils{
       if (+match === 0) return ''; // or if (/\s+/.test(match)) for white spaces
       return index === 0 ? match.toLowerCase() : match.toUpperCase();
     });
+  }
+
+  getPointInStringWay(tennisPoint: TennisPoint){
+    let check = ""
+    if(tennisPoint.set3.runnerA >0 || tennisPoint.set3.runnerB >0){
+      // set 3
+      check = check.concat(tennisPoint.set1.runnerA.toString().concat(tennisPoint.set1.runnerB.toString())).concat('-')
+      check = check.concat(tennisPoint.set2.runnerA.toString().concat(tennisPoint.set2.runnerB.toString())).concat('-')
+      check = check.concat(tennisPoint.set3.runnerA.toString().concat(tennisPoint.set3.runnerB.toString()))
+      check =  tennisPoint.currentGame.server ? check.concat(' / ').concat(tennisPoint.currentGame.server) : check
+    } else {
+      if(tennisPoint.set2.runnerA >0 || tennisPoint.set2.runnerB >0){
+        // set 2
+        check = check.concat(tennisPoint.set1.runnerA.toString().concat(tennisPoint.set1.runnerB.toString())).concat('-')
+        check = check.concat(tennisPoint.set2.runnerA.toString().concat(tennisPoint.set2.runnerB.toString()))
+        check =  tennisPoint.currentGame.server ? check.concat(' / ').concat(tennisPoint.currentGame.server) : check
+      } else {
+        // set 1
+        check = check.concat(tennisPoint.set1.runnerA.toString().concat(tennisPoint.set1.runnerB.toString()))
+        check =  tennisPoint.currentGame.server ? check.concat(' / ').concat(tennisPoint.currentGame.server) : check
+      }
+    }
+    return check
   }
 
   exportToCsv(filename: string, rows: object[]) {

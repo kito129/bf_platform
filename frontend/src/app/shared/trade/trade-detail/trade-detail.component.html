@@ -73,11 +73,11 @@
                 <h4>Exchange</h4>
               </div>
               <div class="col">
-                <div *ngIf="trade.trade.info.exchange.name==='UK KEVIN' || trade.trade.info.exchange.name==='UK'"><h4><span class="badge badge-danger">UK</span></h4></div>
-                <div *ngIf="trade.trade.info.exchange.name==='ITA WILLO'"><h4><span class="badge badge-warning">OLD W-ITA</span></h4></div>
-                <div *ngIf="trade.trade.info.exchange.name==='ITA KITO' || trade.trade.info.exchange.name==='KITO'"><h4><span class="badge badge-primary">KITO</span></h4></div>
-                <div *ngIf="trade.trade.info.exchange.name==='ITA PIDO'"><h4><span class="badge badge-info">OLD P-ITA</span></h4></div>
-                <div *ngIf="trade.trade.info.exchange.name==='DEMO'"><h4><span class="badge badge-dark">DEMO</span></h4></div>
+                <h4 *ngIf="trade.trade.info.exchange.name==='UK KEVIN' || trade.trade.info.exchange.name==='UK'"><span class="badge badge-danger">UK</span></h4>
+                <h4 *ngIf="trade.trade.info.exchange.name==='ITA WILLO'"><span class="badge badge-warning">OLD W-ITA</span></h4>
+                <h4 *ngIf="trade.trade.info.exchange.name==='ITA KITO' || trade.trade.info.exchange.name==='KITO'"><span class="badge badge-primary">KITO</span></h4>
+                <h4 *ngIf="trade.trade.info.exchange.name==='ITA PIDO'"><span class="badge badge-info">OLD P-ITA</span></h4>
+                <h4 *ngIf="trade.trade.info.exchange.name==='DEMO'"><span class="badge badge-dark">DEMO</span></h4>
               </div>
             </div>
           </li>
@@ -192,27 +192,27 @@
         <ul class="list-group">
           <li class="list-group-item" *ngIf="trade.trade.info.note.description !== null">
             <h4 class="text-gray">Description: </h4>
-            <p>{{trade.trade.info.note.description}}</p>
+            <h6>{{trade.trade.info.note.description}}</h6>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.entry!== null">
             <h4 class="text-gray">Entry: </h4>
-            <p>{{trade.trade.info.note.entry}}</p>
+            <h6>{{trade.trade.info.note.entry}}</h6>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.position!== null">
             <h4 class="text-gray">Position: </h4>
-            <p>{{trade.trade.info.note.position}}</p>
+            <h6>{{trade.trade.info.note.position}}</h6>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.exit!== null">
             <h4 class="text-gray">Exit: </h4>
-            <p>{{trade.trade.info.note.exit}}</p>
+            <h6>{{trade.trade.info.note.exit}}</h6>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.mm!== null">
             <h4 class="text-gray">MM: </h4>
-            <p>{{trade.trade.info.note.mm}}</p>
+            <h6>{{trade.trade.info.note.mm}}</h6>
           </li>
           <li class="list-group-item" *ngIf="trade.trade.info.note.post!== null">
             <h4 class="text-gray">Post: </h4>
-            <p>{{trade.trade.info.note.post}}</p>
+            <h6>{{trade.trade.info.note.post}}</h6>
           </li>
         </ul>
       </div>

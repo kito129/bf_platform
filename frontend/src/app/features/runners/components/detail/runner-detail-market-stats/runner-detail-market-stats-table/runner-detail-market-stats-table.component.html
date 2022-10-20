@@ -15,7 +15,7 @@
             <h4>#: {{marketStats.match.matchNumber}} ({{ marketStats.match.matchNumber / totalMatch | percent}})</h4>
             <h3>Win: {{marketStats.match.winner}}</h3>
             <h3>Loss: {{marketStats.match.loser}} </h3>
-            <h3>Win Rate: {{ marketStats.match.winner / totalMatch | percent}}</h3>
+            <h3>Win Rate: {{ marketStats.match.winner / marketStats.match.matchNumber | percent}}</h3>
             <button type="button" [ngClass]="isCollapsed? 'btn btn-outline-dark' : 'btn btn-dark'"
                     (click)="isCollapsed = !isCollapsed">
               View

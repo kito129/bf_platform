@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-end align-items-center flex-wrap mb-2">
+<div class="d-flex justify-content-end align-items-center flex-wrap text-nowrap mb-2">
   <h3>Live Now:
     {{counter(runnerRowsFirstMonitor)
     + counter(runnerRowsSecondMonitor)
@@ -15,8 +15,7 @@
       <app-live-dragula-element [row]="row"
                                 [index]="i+1"
                                 (changeEmitter)="updateRow($event,'a')"
-                                [multiple]="3"
-                                [allNotes]="allNotes$ | async">
+                                [multiple]="3">
       </app-live-dragula-element>
     </li>
   </ul>
@@ -29,8 +28,7 @@
       <app-live-dragula-element [row]="row"
                                 [index]="i+1"
                                 (changeEmitter)="updateRow($event,'b')"
-                                [multiple]="3"
-                                [allNotes]="allNotes$ | async">
+                                [multiple]="3">
       </app-live-dragula-element>
     </li>
   </ul>
@@ -43,8 +41,7 @@
       <app-live-dragula-element [row]="row"
                                 [index]="i+1"
                                 (changeEmitter)="updateRow($event,'c')"
-                                [multiple]="3"
-                                [allNotes]="allNotes$ | async">
+                                [multiple]="3">
       </app-live-dragula-element>
     </li>
   </ul>
@@ -57,8 +54,7 @@
       <app-live-dragula-element [row]="row"
                                 [index]="i+1"
                                 (changeEmitter)="updateRow($event,'d')"
-                                [multiple]="3"
-                                [allNotes]="allNotes$ | async">
+                                [multiple]="3">
       </app-live-dragula-element>
     </li>
   </ul>
@@ -71,8 +67,7 @@
       <app-live-dragula-element [row]="row"
                                 [index]="i+1"
                                 (changeEmitter)="updateRow($event,'e')"
-                                [multiple]="3"
-                                [allNotes]="allNotes$ | async">
+                                [multiple]="3">
       </app-live-dragula-element>
     </li>
   </ul>
@@ -85,13 +80,11 @@
       <app-live-dragula-element [row]="row"
                                 [index]="i+1"
                                 (changeEmitter)="updateRow($event,'f')"
-                                [multiple]="3"
-                                [allNotes]="allNotes$ | async">
+                                [multiple]="3">
       </app-live-dragula-element>
     </li>
   </ul>
 </div>
-
 
 
 

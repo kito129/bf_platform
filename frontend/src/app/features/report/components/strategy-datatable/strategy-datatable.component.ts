@@ -4,6 +4,7 @@ import { Store} from '@ngrx/store';
 import {StrategyDatatable} from '../../../../model/report/strategyDatatable';
 import * as reportActions from '../../../../store/report/report.actions';
 import {removeTradesFromSavedReport} from '../../../../store/report/report.actions';
+import {SavedReport} from "../../../../model/report/new/savedReport";
 
 @Component({
   selector: 'app-strategy-datatable',
@@ -25,31 +26,43 @@ export class StrategyDatatableComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   rows = [];
-  temp =[] ;
   loadingIndicator = true
   ColumnMode = ColumnMode;
-  tableSize = 30
+  tableSize = 10
   page = 1
 
   isCollapsed = false
 
   viewId = false
 
+  search = ''
+
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
+    this.rows = JSON.parse(JSON.stringify(this.strategyDatatable))
   }
 
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase();
-    console.log(val)
-    // filter our data
-    // update the rows
-    this.rows = this.strategyDatatable.filter((d: StrategyDatatable) => {
-      return (d.name.toLowerCase().indexOf(val) !== -1 || d.sport.toLowerCase().indexOf(val) !== -1);
-    });
-    // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+  updateFilter() {
+    const val = this.search.toLowerCase();
+    if(val){
+      this.strategyDatatable = this.rows.filter((d: StrategyDatatable) => {
+        if(!this.isSaved){
+          return d.name.toLowerCase().indexOf(val) !== -1
+            || d.year.toString().indexOf(val)!==-1
+            || d.executor.indexOf(val)!==-1
+        } else {
+          return d.name.toLowerCase().indexOf(val) !== -1
+            || d.year.toString().indexOf(val)!==-1
+            || d.executor.indexOf(val)!==-1
+            || d.savedReport.savedReport.type.toLowerCase().indexOf(val) !== -1
+            || d.savedReport.savedReport.comment.toLowerCase().indexOf(val) !== -1
+        }
+      });
+    } else {
+      this.strategyDatatable = this.rows
+    }
+    // this.table.offset = 0;
   }
 
 
@@ -104,6 +117,7 @@ export class StrategyDatatableComponent implements OnInit {
   compare(){
     this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
     this.store.dispatch(reportActions.compareStrategy())
+    this.search = ''
   }
 
   compareAll(){
@@ -114,11 +128,14 @@ export class StrategyDatatableComponent implements OnInit {
     }
     this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
     this.store.dispatch(reportActions.compareStrategy())
+    this.search = ''
   }
 
   resetCompare(){
     this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    this.store.dispatch(reportActions.setSelectedSavedReport({ _id: null}));
     this.store.dispatch(reportActions.resetStrategyCompare())
+    this.search = ''
   }
 
   firstToCompare($event, id: string){
@@ -144,6 +161,7 @@ export class StrategyDatatableComponent implements OnInit {
   compareSavedReport(){
     this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
     this.store.dispatch(reportActions.compareSavedReport())
+    this.search = ''
   }
 
   compareAllSavedReport(){
@@ -154,11 +172,14 @@ export class StrategyDatatableComponent implements OnInit {
     }
     this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
     this.store.dispatch(reportActions.compareSavedReport())
+    this.search = ''
   }
 
   resetCompareSavedReport(){
     this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    this.store.dispatch(reportActions.setSelectedSavedReport({ _id: null}));
     this.store.dispatch(reportActions.resetSavedReportCompare())
+    this.search = ''
   }
 
   firstToCompareSavedReport($event, id: string){
@@ -184,6 +205,15 @@ export class StrategyDatatableComponent implements OnInit {
     if(event[1]==='update'){
       this.store.dispatch(reportActions.updateSavedReport({ _id: event[0]._id, savedReport: event[0]}));
     }
+    this.search = ''
+  }
+
+  duplicateSavedReport(savedReport: SavedReport){
+    const temp = JSON.parse(JSON.stringify(savedReport))
+    temp.created = Date.now()
+    temp.updated = Date.now()
+    temp.savedReport.name = temp.savedReport.name.concat(' - duplicate')
+    this.store.dispatch(reportActions.createSavedReport({savedReport: temp}))
   }
 
 }

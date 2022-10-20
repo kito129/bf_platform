@@ -68,8 +68,7 @@
 
             <h2 *ngIf="run.name!==''">{{run.name}}
               <app-live-dragula-notes [runnerId$]="runnerAid[i]"
-                                      [runnerName]="row.a[0].name"
-                                      [allNotes]="allNotes">
+                                      [runnerName]="row.a[0].name">
               </app-live-dragula-notes>
             </h2>
 
@@ -258,8 +257,7 @@
 
             <h2 *ngIf="run.name!==''">{{run.name}}
               <app-live-dragula-notes [runnerId$]="runnerBid[i]"
-                                      [runnerName]="row.b[0].name"
-                                      [allNotes]="allNotes">
+                                      [runnerName]="row.b[0].name">
               </app-live-dragula-notes>
             </h2>
 

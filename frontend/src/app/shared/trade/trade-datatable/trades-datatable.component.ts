@@ -199,6 +199,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
           temp.push({
             date,
             marketName: x.trade.trade.info.marketInfo.marketName,
+            result: this.util.getPointInStringWay(x.trade.trade.results.finalScore.tennis),
             marketType,
             duration: 0,
             winner: winner.runnerName,
@@ -238,9 +239,8 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
             // @ts-ignore
             loserAvgLiability: x.trade.trade.selections[loserIndex].avg.lay.liability,
             empty: null,
-            pl: x.trade.trade.results.netProfit,
+            pl: x.trade.trade.results.grossProfit,
             maxRisk: x.trade.trade.results.maxRisk,
-            emptyy: null,
           })
         }
         // add element from bets
@@ -283,56 +283,11 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
 
   private createTradeRowsGrouped(trade: TradeDetail){
     let i =0
-    const open = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const increase = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const decrease = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const close = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const freeBet = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
+    const open = this.getEmptyGroup()
+    const increase = this.getEmptyGroup()
+    const decrease = this.getEmptyGroup()
+    const close = this.getEmptyGroup()
+    const freeBet = this.getEmptyGroup()
 
     trade.trade.trade.trades.map( x =>{
       i++
@@ -410,96 +365,15 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
 
   private createTradeRowsBFLGrouped(trade: TradeDetail){
     let i =0
-    const open = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const increase = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const decrease15 = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const decrease25 = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const decrease30 = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const decreaseOther = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const closeFs = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const close = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-    const freeBet = {
-      name: '',
-      type: '',
-      options: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
+    const open = this.getEmptyGroup()
+    const increase = this.getEmptyGroup()
+    const decrease15 = this.getEmptyGroup()
+    const decrease25 = this.getEmptyGroup()
+    const decrease30 = this.getEmptyGroup()
+    const decreaseOther = this.getEmptyGroup()
+    const closeFs = this.getEmptyGroup()
+    const close = this.getEmptyGroup()
+    const freeBet = this.getEmptyGroup()
 
     trade.trade.trade.trades.map( x =>{
       i++
@@ -509,6 +383,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
           open.type = x.type
           open.name = sideName
           open.options = 'OPEN'
+          open.point = this.util.getPointInStringWay(x.condition.tennis.point)
           const avgOdds = (open.odds * open.stake + x.odds*x.stake)/(open.stake+x.stake)
           open.stake += x.stake
           open.odds = avgOdds
@@ -520,6 +395,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
           increase.type = x.type
           increase.name = sideName
           increase.options = 'INCREASE MARGIN'
+          increase.point = this.util.getPointInStringWay(x.condition.tennis.point)
           const avgOdds = (increase.odds * increase.stake + x.odds*x.stake)/(increase.stake+x.stake)
           increase.stake += x.stake
           increase.odds = avgOdds
@@ -533,6 +409,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
               decrease15.type = x.type
               decrease15.name = sideName
               decrease15.options = 'DECREASE MARGIN'
+              decrease15.point = this.util.getPointInStringWay(x.condition.tennis.point)
               const avgOdds = (decrease15.odds * decrease15.stake + x.odds*x.stake)/(decrease15.stake+x.stake)
               decrease15.stake += x.stake
               decrease15.odds = avgOdds
@@ -544,6 +421,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
               decrease25.type = x.type
               decrease25.name = sideName
               decrease25.options = 'DECREASE MARGIN'
+              decrease25.point = this.util.getPointInStringWay(x.condition.tennis.point)
               const avgOdds = (decrease25.odds * decrease25.stake + x.odds*x.stake)/(decrease25.stake+x.stake)
               decrease25.stake += x.stake
               decrease25.odds = avgOdds
@@ -555,6 +433,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
               decrease30.type = x.type
               decrease30.name = sideName
               decrease30.options = 'DECREASE MARGIN'
+              decrease30.point = this.util.getPointInStringWay(x.condition.tennis.point)
               const avgOdds = (decrease30.odds * decrease30.stake + x.odds*x.stake)/(decrease30.stake+x.stake)
               decrease30.stake += x.stake
               decrease30.odds = avgOdds
@@ -566,6 +445,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
               decreaseOther.type = x.type
               decreaseOther.name = sideName
               decreaseOther.options = 'DECREASE MARGIN'
+              decreaseOther.point = this.util.getPointInStringWay(x.condition.tennis.point)
               const avgOdds = (decreaseOther.odds * decreaseOther.stake + x.odds*x.stake)/(decreaseOther.stake+x.stake)
               decreaseOther.stake += x.stake
               decreaseOther.odds = avgOdds
@@ -577,10 +457,11 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
           break
         }
         case ('CLOSE'):{
-          if(x.condition.tennis.point.set3.runnerA>0 ||x.condition.tennis.point.set3.runnerA>0  ){
+          if(x.condition.tennis.point.set3.runnerA>0 ||x.condition.tennis.point.set3.runnerB>0  ){
             close.type = x.type
             close.name = sideName
             close.options = 'CLOSE'
+            close.point = this.util.getPointInStringWay(x.condition.tennis.point)
             const avgOdds = (close.odds * close.stake + x.odds*x.stake)/(close.stake+x.stake)
             close.stake += x.stake
             close.odds = avgOdds
@@ -590,6 +471,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
             closeFs.type = x.type
             closeFs.name = sideName
             closeFs.options = 'CLOSE'
+            closeFs.point = this.util.getPointInStringWay(x.condition.tennis.point)
             const avgOdds = (closeFs.odds * closeFs.stake + x.odds*x.stake)/(closeFs.stake+x.stake)
             closeFs.stake += x.stake
             closeFs.odds = avgOdds
@@ -602,6 +484,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
           freeBet.type = x.type
           freeBet.name = sideName
           freeBet.options = 'FREE BET'
+          freeBet.point = this.util.getPointInStringWay(x.condition.tennis.point)
           const avgOdds = (freeBet.odds * freeBet.stake + x.odds*x.stake)/(freeBet.stake+x.stake)
           freeBet.stake += x.stake
           freeBet.odds = avgOdds
@@ -622,6 +505,20 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       }
     })
     return [open, increase, decrease15, decrease25, decrease30, decreaseOther, closeFs, close, freeBet]
+  }
+
+  getEmptyGroup(){
+    return{
+      name: '',
+      type: '',
+      options: '',
+      point: '',
+      odds: 0,
+      stake: 0,
+      liability: 0,
+      ifWin:0,
+      empty: null
+    }
   }
 
   // temp to fix odds bug

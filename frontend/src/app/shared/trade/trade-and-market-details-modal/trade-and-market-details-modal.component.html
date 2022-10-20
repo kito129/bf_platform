@@ -1,14 +1,14 @@
 <div>
   <button type="button" class="btn  btn-icon mr-2 d-none d-md-block"
           [ngClass]="notFound ? 'btn-outline-warning' :'btn-outline-info' "
-          (click)="openModal(charts)">
+          (click)="openModal(tradeModal)">
     <i class="btn-icon-prepend"
        data-feather="eye"
        appFeatherIcon></i>
   </button>
 
 
-  <ng-template #charts let-modal>
+  <ng-template #tradeModal let-modal>
     <div class="modal-header">
       <h4 class="modal-title">Trade Detail</h4>
 

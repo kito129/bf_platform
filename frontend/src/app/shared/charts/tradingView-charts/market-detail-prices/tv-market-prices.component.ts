@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {createChart, ISeriesApi, LineStyle, PriceScaleMode, UTCTimestamp} from 'lightweight-charts';
+import {createChart, ISeriesApi, LineStyle, PriceScaleMode, UTCTimestamp,CrosshairMode} from 'lightweight-charts';
 import { DatePipe } from '@angular/common'
 import {MarketBasic} from '../../../../model/market/basic/marketBasic';
 import {SelectedTradeCharts} from '../../../../model/study/selectedTradeCharts';
@@ -31,7 +31,6 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
   private chart: any;
 
   timeCorrect= '-1h'
-  timeCorrection = 0
 
   utc = 0
   toAdd = 0
@@ -107,7 +106,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
           time: update.timestamp/1000 + this.toAdd as UTCTimestamp,
           position: 'inBar',
           color,
-          size:2,
+          size:3,
           shape: 'circle',
           id: 'update Runner' + index,
         })
@@ -120,10 +119,13 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
   private generateChart(){
     this.tv = document.getElementById('TVCharts') as HTMLElement
     this.chart = createChart(this.tv, {
-      width: document.getElementById('TvContainer').clientWidth-70,
-      height: (document.getElementById('TvContainer').clientWidth-70)*0.60,
+      width: document.getElementById('TvContainer').clientWidth-20,
+      height: (document.getElementById('TvContainer').clientWidth-20)*0.718,
       localization: {
         locale: 'en-GB',
+      },
+      crosshair:{
+        mode: CrosshairMode.Normal
       },
       rightPriceScale: {
         scaleMargins: {
@@ -137,6 +139,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
       layout: {
         backgroundColor: '#060c17',
         textColor: '#ffffff',
+        fontSize: 17,
       },
       grid: {
         vertLines: {
@@ -150,9 +153,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
       },
       watermark: {
         visible: true,
-        fontSize: 36,
-        horzAlign: 'center',
-        vertAlign: 'center',
+        fontSize: 52,
         color: 'rgba(171, 71, 188, 0.2)',
         text: this.marketDetail.marketInfo.marketInfo.eventName,
       },
@@ -167,7 +168,8 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
   // generate correct TV data form runner data
   public createTvData(isUpdate: boolean){
     // generate data for all runner
-    let firstColor = '#c86f6f'
+    let firstColor = '#54ff00'
+    const colorList = ['#298afa', '#e04434','#f3ea2d' ,'#65ef56' ,'#1c65ff']
     let i =0
     // empty last markers
     this.tradeMarkersA = []
@@ -175,7 +177,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
     for (const odd of this.marketDetail.marketOdds.marketOdds){
 
       // increment the color for each runner
-      firstColor = incrementColor(firstColor,5000)
+      firstColor = i<4 ? colorList[i] : incrementColor(firstColor,5000)
 
       // initialize runner data
       const tempRunner: RunnerData = {
@@ -350,15 +352,15 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
         title: 'end',
         price: 1,
         color: '#919191',
-        lineWidth: 2,
-        lineStyle: LineStyle.Dotted,
+        lineWidth: 3,
+        lineStyle: LineStyle.Solid,
         axisLabelVisible: false
       });
       runnerSerie.createPriceLine({
         title: '2odds',
         price: 2,
-        color: '#ffbdbd',
-        lineWidth: 2,
+        color: '#fded31',
+        lineWidth: 3,
         lineStyle: LineStyle.SparseDotted,
         axisLabelVisible: false
       });
@@ -431,14 +433,14 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
     }
     let i=0
     // switch tradeData to originalData
-    for(const serie of this.lineSeriesData){
+    for(const series of this.lineSeriesData){
       if(this.showTrades){
         this.lineSeriesData[i].setData(this.runnersData[i].tradeData);
       } else {
         this.lineSeriesData[i].setData(this.runnersData[i].originalData);
       }
       // update markers
-      this.setMarkers(serie,i)
+      this.setMarkers(series,i)
       i++
     }
 
@@ -454,18 +456,18 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
 
   }
 
-  private setMarkers(runnerSerie, i: number){
+  private setMarkers(runnerSeries, i: number){
     if(i===0) {
       if (this.showTrades) {
-        runnerSerie.setMarkers(this.updateMarkers.concat(this.tradeMarkersA))
+        runnerSeries.setMarkers(this.updateMarkers.concat(this.tradeMarkersA))
       } else {
-        runnerSerie.setMarkers(this.updateMarkers)
+        runnerSeries.setMarkers(this.updateMarkers)
       }
     } else {
       if (this.showTrades) {
-        runnerSerie.setMarkers(this.updateMarkers.concat(this.tradeMarkersB))
+        runnerSeries.setMarkers(this.updateMarkers.concat(this.tradeMarkersB))
       } else {
-        runnerSerie.setMarkers(this.updateMarkers)
+        runnerSeries.setMarkers(this.updateMarkers)
       }
     }
   }
@@ -482,9 +484,9 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
       position,
       color,
       shape: arrow,
-      size: 1,
+      size: 3,
       id: 'entry' + trade.id,
-      text: trade.id + ') ' + trade.odds + ', ' + trade.options
+      text: trade.id + ') ' + trade.odds + ', ' + trade.options.substr(0,5)
     }
 
   }
@@ -493,6 +495,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
 // increment the color function
 export function incrementColor(color, step){
   let colorToInt = parseInt(color.substr(1), 16)
+  // tslint:disable-next-line:radix
   const nStep = parseInt(step);
   if(!isNaN(colorToInt) && !isNaN(nStep)){
     colorToInt += nStep;

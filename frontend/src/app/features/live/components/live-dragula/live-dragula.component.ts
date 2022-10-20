@@ -5,17 +5,12 @@ import {Observable, Subject} from 'rxjs';
 import {LiveService} from '../../../../services/live.service';
 import {AngularFireObject} from '@angular/fire/database';
 import {takeUntil} from 'rxjs/operators';
-import {Note} from "../../../../model/note/note";
-import {select, Store} from "@ngrx/store";
-import * as notesSelectors from "../../../../store/notes/notes.selectors";
 
 @Component({
   selector: 'app-live-dragula',
   templateUrl: './live-dragula.component.html',
 })
 export class LiveDragulaComponent implements OnInit, OnDestroy {
-
-  allNotes$: Observable<Note[]>
 
   runnerRowsFirstMonitor: LiveRow[] = []
   runnerRowsSecondMonitor: LiveRow[] = []
@@ -40,8 +35,7 @@ export class LiveDragulaComponent implements OnInit, OnDestroy {
 
 
   constructor(private dragulaService: DragulaService,
-              private liveServices: LiveService,
-              private readonly store: Store) {}
+              private liveServices: LiveService) {}
 
   updateRow(event, type: 'a' | 'b' | 'c' | 'd' | 'e' |'f'){
     if(type==='a'){
@@ -60,9 +54,6 @@ export class LiveDragulaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-    this.allNotes$ = this.store.pipe(select(notesSelectors.getAllNotes))
-
     this.itemRef = this.liveServices.itemRef
     this.item$ = this.liveServices.item$
 

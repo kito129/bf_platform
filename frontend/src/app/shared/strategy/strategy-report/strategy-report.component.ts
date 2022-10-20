@@ -100,10 +100,8 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
       if(strategy){
         this.strategyReportClass.setData(strategy,trades)
         this.title = strategy.strategy.info.name
-        console.log('set with strategy')
       } else if(this.title){
         this.strategyReportClass.setDataNoStrategy(this.title,this.bank,trades)
-        console.log('set with NO strategy')
       }
       // get strategy report
       this.strategyReport = this.strategyReportClass.getStrategyReport()

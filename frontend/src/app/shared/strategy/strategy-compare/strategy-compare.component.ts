@@ -7,7 +7,6 @@ import {TradeComparator} from '../../../model/study/study/tradeComparator';
 import {takeUntil} from 'rxjs/operators';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {NewTrade} from '../../../model/report/new/newTrade';
-import {Strategy} from "../../../model/report/strategy";
 
 @Component({
   selector: 'app-strategy-compare',
@@ -26,7 +25,8 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   // main studies data
-  strategies: CompareStrategy[]
+  allTrades: NewTrade[] = []
+  allCompareStrategy: CompareStrategy[] = []
 
   seriesName: string[] = []
   equity: number[][] = []
@@ -66,25 +66,21 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
       this.defaultNavActiveId = this.defaultTab
     }
 
+    // static report for components
     if(this.strategyListNoStrategy){
-      // generate and set subTrades data
-      this.generateSubTrades(this.strategyListNoStrategy)
-      // generate tables
-      this.generateTradesTable()
-      // strategy report
       this.generateStrategyReports(this.strategyListNoStrategy)
+      this.generateDataForChart()
+      this.generateCompareTradesTable()
       this.dataOk = true
     } else {
+      // from observer
       this.strategyList$
         .pipe(takeUntil(this.destroy$))
         .subscribe( data => {
           if(data){
-            // generate and set subTrades data
-            this.generateSubTrades(data)
-            // generate tables
-            this.generateTradesTable()
-            // strategy report
             this.generateStrategyReports(data)
+            this.generateDataForChart()
+            this.generateCompareTradesTable()
             this.dataOk = true
           } else {
             this.dataOk = false
@@ -93,34 +89,38 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveCompare(){
-
-  }
-
-
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.complete();
   }
 
-  // generate and Array with all strategy report
   private generateStrategyReports(data: CompareStrategy[]){
-    for (const study of data){
+    this.allCompareStrategy = data
+    for (const strategy of data){
       const tempReport = new StrategyReportClass()
 
-      tempReport.setDataNoStrategy(study.strategy.strategy.info.name, study.strategy.strategy.info.bank, study.trades)
+      this.allTrades = this.allTrades.concat(strategy.trades)
+      tempReport.setDataNoStrategy(strategy.strategy.strategy.info.name, strategy.strategy.strategy.info.bank, strategy.trades)
       this.strategyPies.push(tempReport.getStrategyPie())
       this.strategyReports.push(tempReport.getStrategyReport())
     }
+    // generate sum reports
+    const sumReports = new StrategyReportClass()
+    sumReports.setDataNoStrategy('SUM', 1000,this.allTrades)
+    this.strategyPies.push(sumReports.getStrategyPie())
+    this.strategyReports.push(sumReports.getStrategyReport())
+    this.allCompareStrategy.push({
+      strategy: sumReports.strategy,
+      trades: this.allTrades
+    })
   }
 
-  // generate and Array of array with all sub props of trades
-  private generateSubTrades(data: CompareStrategy[]){
-
+  private generateDataForChart(){
     // series name, this size is the number of study to compare, [0] is to compare
-    this.seriesName = data.map(x => x.strategy.strategy.info.name)
+    this.seriesName = this.allCompareStrategy.map(x => x.strategy.strategy.info.name)
+    console.log(this.seriesName)
     // generate sub trades
-    for(const trades of data){
+    for(const strategy of this.allCompareStrategy){
       let stock =0
       const tempStock = []
       const tempPl = []
@@ -129,7 +129,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
       const tempTrade: TradeComparator[] = []
       let counterTrade =1
       // run over trade and set propriety
-      for(const trade of trades.trades.sort((a,b) => a.trade.info.date - b.trade.info.date)){
+      for(const trade of strategy.trades.sort((a,b) => a.trade.info.date - b.trade.info.date)){
         stock += trade.trade.results.netProfit
         tempStock.push(+stock.toFixed(2))
         tempPl.push(+(trade.trade.results.netProfit).toFixed(2))
@@ -164,8 +164,8 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
         counterTrade++
       }
 
-      const ddPercent = this.utils.ddOfTrades(tempPl, true, trades.strategy.strategy.info.bank)
-      const ddMonetary = this.utils.ddOfTrades(tempPl, false, trades.strategy.strategy.info.bank)
+      const ddPercent = this.utils.ddOfTrades(tempPl, true, strategy.strategy.strategy.info.bank)
+      const ddMonetary = this.utils.ddOfTrades(tempPl, false, strategy.strategy.strategy.info.bank)
       const maDDMonetary = this.utils.minOfArray(ddMonetary)
       const maxDDPercent = this.utils.minOfArray(ddPercent)
       const avgDDPercent = this.utils.avgOfArrayNumber(ddPercent)
@@ -184,8 +184,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
 
   }
 
-
-  private generateTradesTable(){
+  private generateCompareTradesTable(){
 
     const maxLength = Math.max(...this.trades.map( x => x.length))
     this.tradesTable = []

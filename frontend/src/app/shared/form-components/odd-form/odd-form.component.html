@@ -1,9 +1,9 @@
 <div class="form-group">
-  <label [ngClass]="title === 'back'? 'text-primary' : 'text-danger'">{{title}}</label>
+  <label [ngClass]="title === 'back'? 'text-primary' : 'text-danger'">{{title ? title.toUpperCase() : ''}}</label>
   <input type="number"
          step='0.01'
          class="form-control"
-         [(ngModel)]="odds_"
+         [(ngModel)]="oddsChild"
          name="odds"
          #odds="ngModel"
          [gte]="1.01"

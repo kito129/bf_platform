@@ -95,6 +95,8 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   }
 
   private generateStrategyReports(data: CompareStrategy[]){
+    this.allTrades = []
+    this.allCompareStrategy = []
     this.allCompareStrategy = data
     for (const strategy of data){
       const tempReport = new StrategyReportClass()

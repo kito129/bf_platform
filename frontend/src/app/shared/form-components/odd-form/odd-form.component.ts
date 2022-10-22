@@ -9,20 +9,20 @@ export class OddFormComponent implements OnInit {
   @Input() title: string
   @Output() oddsPointEmitter = new EventEmitter();
 
-  odds_ = 0
+  oddsChild = 0
 
   constructor() { }
 
   ngOnInit(): void {
     if(this.odds){
-      this.odds_ = this.odds
+      this.oddsChild = this.odds
     } else {
-      this.odds_ = 1.01
+      this.oddsChild = 1.01
     }
   }
 
   update(){
-    this.oddsPointEmitter.emit([this.odds_])
+    this.oddsPointEmitter.emit([this.oddsChild])
   }
 
 }

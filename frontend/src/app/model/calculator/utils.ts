@@ -581,4 +581,35 @@ export class Utils{
     }
   }
 
+  getEmptyTennisPoint(): TennisPoint {
+    return {
+      set1: {
+        runnerA: 0,
+        runnerB: 0,
+      },
+      set2: {
+        runnerA: 0,
+        runnerB: 0,
+      },
+      set3: {
+        runnerA: 0,
+        runnerB: 0,
+      },
+      set4: {
+        runnerA: 0,
+        runnerB: 0,
+      },
+      set5: {
+        runnerA: 0,
+        runnerB: 0,
+      },
+      currentGame: {
+        runnerA: '0',
+        runnerB: '0',
+        server: 'A',
+      }
+    }
+  }
 }
+
+

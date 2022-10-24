@@ -10,7 +10,7 @@
 
   <ng-template #tradeModal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title">Trade Detail</h4>
+      <h2>Trade Detail</h2>
 
       <app-trade-updates-modal [tradeInput]="trade"
                                (tradeUpdateEmitter)="tradeUpdate($event)">
@@ -27,7 +27,6 @@
 
         </app-trade-detail>
       </div>
-
       <div>
         <h4 *ngIf="notFound" class="text-warning mt-3 mb-3">Searching for</h4>
         <pre *ngIf="notFound">

@@ -30,7 +30,7 @@
         {{bet.id}}
       </td>
       <td>
-        <b> {{bet.time | date:'HH:mm:ss'}}</b>
+        <b> {{bet.time ? (bet.time | date:'HH:mm:ss') : 0 }}</b>
         <!--          <b> {{bet.time | date:'HH:mm:ss'}}</b>-->
       </td>
       <td>

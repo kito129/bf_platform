@@ -20,9 +20,9 @@ export class TradeUpdatesModalComponent implements OnInit {
   public sport = ['TENNIS', 'SOCCER', 'HORSE']
 
   addTradeCollapse = true
-  betsCollapse = true
+  betsCollapse = false
   noteCollapse = true
-  updateBetsView = true
+  updateBets = true
 
   utils = new Utils()
 
@@ -211,6 +211,41 @@ export class TradeUpdatesModalComponent implements OnInit {
     const bet = this.tradeOutput.trade.trades[index]
     bet.liability = bet.type === 'back' ? bet.stake : bet.stake * (bet.odds-1)
     bet.ifWin = bet.type === 'back' ? bet.stake * (bet.odds-1) : bet.stake
+    this.updateAvgOddsPlayer()
+  }
+
+  updateAvgOddsPlayer(){
+    let i =0
+    for (const selection of this.tradeOutput.trade.selections) {
+      let back = 0
+      let lay = 0
+      let totStake = 0
+      let totBank = 0
+      let totLiab = 0
+      for (const trade of this.tradeOutput.trade.trades) {
+        console.log(trade)
+        if(trade.selectionN === i){
+          if(trade.type==='back'){
+            back += trade.odds*trade.stake
+            totStake += trade.stake
+          } else {
+            lay += trade.odds*trade.stake
+            totBank += trade.stake
+            totLiab += trade.liability
+          }
+        }
+      }
+      if(back && totStake){
+        selection.avg.back.odds = Math.round((back / totStake)*100)/100
+        selection.avg.back.stake = totStake
+      }
+      if(lay && totLiab && totBank){
+        selection.avg.lay.odds = Math.round((lay / totBank)*100)/100
+        selection.avg.lay.liability = totLiab
+        selection.avg.lay.stake = totBank
+      }
+      i++
+    }
   }
 
   updateFinalResultTennis(event){
@@ -231,4 +266,13 @@ export class TradeUpdatesModalComponent implements OnInit {
     }
   }
 
+  updateBetsView(){
+    this.updateAvgOddsPlayer()
+    this.updateBets = false
+    setTimeout(() =>
+      {
+        this.updateBets = true
+      },
+      100);
+  }
 }

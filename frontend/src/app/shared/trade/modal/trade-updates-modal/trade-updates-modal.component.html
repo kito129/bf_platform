@@ -29,7 +29,7 @@
                  [(ngModel)]="tradeOutput.trade.info.marketInfo.marketName">
         </div>
 
-        <app-date-form [time]="tradeOutput.trade.info.date"
+        <app-date-form [time]="tradeOutput.trade.info.date ? tradeOutput.trade.info.date : 0"
                        (dateEmitter)="updateDateTrade($event)"
                        [showTime]="true"
                        [showDate]="true">
@@ -120,7 +120,7 @@
           <!-- SELECTIONS MANAGER-->
           <div *ngFor="let runner of tradeOutput.trade.selections; let i=index">
             <div class="form-group">
-              <label>Selection {{i+1}}: </label>
+              <h5>Selection {{i+1}}: </h5>
               <div class="row">
                 <div class="col-10">
 
@@ -143,22 +143,11 @@
                 </app-odd-form>
               </div>
               <div class="col">
-                <app-bets-form [isBack]="true"
-                               [isUpdate]="true"
-                               [stake]="tradeOutput.trade.selections[i].avg.back.stake"
-                               [odds]="tradeOutput.trade.selections[i].avg.back.odds"
-                               (betsFormEmitter)="setSelectionAvgOdds($event,i)">
-
-                </app-bets-form>
-              </div>
-              <div class="col">
-                <app-bets-form [isBack]="false"
-                               [isUpdate]="true"
-                               [bank]="tradeOutput.trade.selections[i].avg.lay.stake"
-                               [odds]="tradeOutput.trade.selections[i].avg.lay.odds"
-                               [liability]="tradeOutput.trade.selections[i].avg.lay.liability"
-                               (betsFormEmitter)="setSelectionAvgOdds($event,i)">
-                </app-bets-form>
+                <h5 class="text-primary mb-3">Avg Back: {{tradeOutput.trade.selections[i].avg.back.stake | currency}}
+                  @ {{tradeOutput.trade.selections[i].avg.back.odds}}</h5>
+                <h5 class="text-danger">Avg Lay: {{tradeOutput.trade.selections[i].avg.lay.stake | currency}}
+                  @ {{tradeOutput.trade.selections[i].avg.lay.odds}}
+                  ({{tradeOutput.trade.selections[i].avg.lay.liability | currency}})</h5>
               </div>
             </div>
             <!--WINNER / LOSER-->
@@ -331,7 +320,7 @@
 
                   </app-tennis-point>
                   <!-- TIME -->
-                  <app-date-form [time]="bet.condition.time"
+                  <app-date-form [time]="bet.condition.time ? bet.condition.time : 0"
                                  [showDate]="true"
                                  [showTime]="true"
                                  (dateEmitter)="updateBetsDate($event,bet)">
@@ -349,12 +338,12 @@
               </li>
             </div>
             <!-- BETS VIEW -->
-            <button type="button" class="btn btn-outline-success"
-                    [ngClass]="updateBetsView ? 'btn btn-outline-success' : 'btn btn-success'"
-                    (click)="updateBetsView = !updateBetsView">
+            <button type="button" class="btn btn-outline-info"
+                    [ngClass]="updateBets ? 'btn btn-outline-info' : 'btn btn-info'"
+                    (click)="updateBetsView()">
               Update Bets
             </button>
-            <app-trade-bets-view *ngIf="updateBetsView"
+            <app-trade-bets-view *ngIf="updateBets"
                                  [trade]="tradeOutput"
                                  [onlyBets]="false">
             </app-trade-bets-view>

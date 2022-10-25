@@ -1,10 +1,9 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {EventEmitter} from '@angular/core';
-import {Trade} from '../../../../model/report/trade';
 import {TradeCalculatorService} from '../../../../services/trade-calculator.service';
-import {NewTrade, Bets} from '../../../../model/report/new/newTrade';
+import {Bets, NewTrade} from '../../../../model/report/new/newTrade';
 import {Utils} from "../../../../model/calculator/utils";
+
 @Component({
   selector: 'app-trade-updates-modal',
   templateUrl: './trade-updates-modal.component.html',
@@ -43,7 +42,7 @@ export class TradeUpdatesModalComponent implements OnInit {
 
     this.tradeOutput = JSON.parse(JSON.stringify(this.tradeInput))
 
-    this.modalService.open(content, {centered: true, size:'xl'}).result.then((result) => {
+    this.modalService.open(content, {centered: true, size:'xl', backdrop: 'static', keyboard: false}).result.then((result) => {
 
       // action before pass to action
 
@@ -274,5 +273,11 @@ export class TradeUpdatesModalComponent implements OnInit {
         this.updateBets = true
       },
       100);
+  }
+
+  updateResultsData(){
+    this.tradeOutput.trade.results.rr = Math.round((this.tradeOutput.trade.results.netProfit / (-this.tradeOutput.trade.results.maxRisk)) * 100) / 100
+    this.tradeOutput.trade.results.commissionPaid = this.tradeOutput.trade.results.grossProfit>0 ?
+      Math.round((this.tradeOutput.trade.results.grossProfit - this.tradeOutput.trade.results.netProfit)*1000)/1000 : 0
   }
 }

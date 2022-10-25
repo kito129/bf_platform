@@ -366,7 +366,8 @@
                      id="gross"
                      [(ngModel)]="tradeOutput.trade.results.grossProfit"
                      name="gross"
-                     step="0.01">
+                     step="0.01"
+                     (ngModelChange)="updateResultsData()">
             </div>
             <div class="col">
               <h3>Net</h3>
@@ -375,31 +376,20 @@
                      id="netPl"
                      [(ngModel)]="tradeOutput.trade.results.netProfit"
                      name="netPl"
-                     step="0.01">
+                     step="0.01"
+                     (ngModelChange)="updateResultsData()">
             </div>
-            <div class="col">
-            </div>
-          </div>
-          <div class="row grid-margin">
             <div class="col">
               <div class="form-group">
-                <h4>Max Risk</h4>
+                <h4 class="text-warning">Max Risk</h4>
                 <input type="number"
                        class="form-control"
                        id="maxRisk"
                        name="maxRisk"
                        step="0.01"
-                       [(ngModel)]="tradeOutput.trade.results.maxRisk">
+                       [(ngModel)]="tradeOutput.trade.results.maxRisk"
+                       (ngModelChange)="updateResultsData()">
               </div>
-            </div>
-            <div class="col">
-              <h4>RR</h4>
-              <input type="number"
-                     class="form-control"
-                     id="rr"
-                     [(ngModel)]="tradeOutput.trade.results.rr"
-                     name="r"
-                     step="0.01">
             </div>
           </div>
           <div class="row grid-margin">
@@ -411,9 +401,16 @@
                      [(ngModel)]="tradeOutput.trade.results.commissionPaid"
                      name="commission"
                      step="0.01">
+              <h4 class="text-warning">Impact {{ tradeOutput.trade.results.commissionPaid / tradeOutput.trade.results.grossProfit | percent:'0.2'}}</h4>
             </div>
             <div class="col">
-              <h4 class="text-warning">Impact {{ tradeOutput.trade.results.commissionPaid / tradeOutput.trade.results.grossProfit | percent}}</h4>
+              <h4 class="text-info">RR</h4>
+              <input type="number"
+                     class="form-control"
+                     id="rr"
+                     [(ngModel)]="tradeOutput.trade.results.rr"
+                     name="r"
+                     step="0.01">
             </div>
           </div>
         </div>

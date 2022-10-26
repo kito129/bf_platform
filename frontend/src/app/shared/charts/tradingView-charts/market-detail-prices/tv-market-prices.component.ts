@@ -125,7 +125,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
         locale: 'en-GB',
       },
       crosshair:{
-        mode: CrosshairMode.Normal
+        mode: CrosshairMode.Magnet
       },
       rightPriceScale: {
         scaleMargins: {

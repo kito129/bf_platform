@@ -107,6 +107,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
       this.strategyReports.push(tempReport.getStrategyReport())
     }
     // generate sum reports
+    /*
     const sumReports = new StrategyReportClass()
     sumReports.setDataNoStrategy('SUM', 1000,this.allTrades)
     this.strategyPies.push(sumReports.getStrategyPie())
@@ -115,12 +116,12 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
       strategy: sumReports.strategy,
       trades: this.allTrades
     })
+     */
   }
 
   private generateDataForChart(){
     // series name, this size is the number of study to compare, [0] is to compare
     this.seriesName = this.allCompareStrategy.map(x => x.strategy.strategy.info.name)
-    console.log(this.seriesName)
     // generate sub trades
     for(const strategy of this.allCompareStrategy){
       let stock =0

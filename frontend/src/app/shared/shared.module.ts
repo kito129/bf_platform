@@ -133,32 +133,38 @@ import { StrategyReportSetOddsAnalyzerComponent } from './strategy/strategy-repo
 import { StrategyReportBetFilterComponent} from './strategy/strategy-report/strategy-report-bet-filter/strategy-report-bet-filter.component';
 import { StrategyReportBetFilterParamsComponent } from './strategy/strategy-report/strategy-report-bet-filter/strategy-report-bet-filter-params/strategy-report-bet-filter-params.component';
 import { BetOptionsFormatterComponent } from './formatter/bet-options-formatter/bet-options-formatter.component';
+import { TradeDataGridComponent } from './trade/trade-data-grid/trade-data-grid.component';
+import {TableModule} from 'primeng/table';
+import {ButtonModule} from "primeng/button";
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
 
 @NgModule({
-    imports: [
-        CommonModule,
-        PlotlyViaCDNModule,
-        DataTablesModule,
-        RouterModule,
-        NgxDatatableModule,
-        NgSelectModule,
-        CustomFormsModule,
-        NgxMaskModule.forRoot(),
-        FeahterIconModule,
-        NgbDatepickerModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgApexchartsModule,
-        NgbNavModule,
-        NgbPopoverModule,
-        NgbTooltipModule,
-        NgbCollapseModule,
-        NgbProgressbarModule
-    ],
+  imports: [
+    CommonModule,
+    PlotlyViaCDNModule,
+    DataTablesModule,
+    RouterModule,
+    NgxDatatableModule,
+    NgSelectModule,
+    CustomFormsModule,
+    NgxMaskModule.forRoot(),
+    FeahterIconModule,
+    NgbDatepickerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgApexchartsModule,
+    NgbNavModule,
+    NgbPopoverModule,
+    NgbTooltipModule,
+    NgbCollapseModule,
+    NgbProgressbarModule,
+    TableModule,
+    TableModule,
+    ButtonModule
+  ],
   declarations: [
     NoteDataTableComponent,
     NoteDeleteModalComponent,
@@ -277,6 +283,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyReportBetFilterComponent,
     StrategyReportBetFilterParamsComponent,
     BetOptionsFormatterComponent,
+    TradeDataGridComponent,
   ],
   exports: [
     CommonModule,

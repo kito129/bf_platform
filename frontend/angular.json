@@ -30,7 +30,8 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/scss/style.scss"
+              "src/assets/scss/style.scss",
+              "node_modules/primeng/resources/themes/mdc-dark-indigo/theme.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js"

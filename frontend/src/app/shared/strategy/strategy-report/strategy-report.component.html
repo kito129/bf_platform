@@ -344,6 +344,16 @@
           </app-strategy-report-set-odds-analyzer>
         </ng-template>
       </li>
+
+      <!-- NEW TRADE TABLE -->
+      <li [ngbNavItem]="15">
+        <h4>
+          <a ngbNavLink class="text-light">Data grid</a>
+        </h4>
+        <ng-template ngbNavContent>
+          <app-trade-data-grid [trades]="trades"></app-trade-data-grid>
+        </ng-template>
+      </li>
     </ul>
     <!-- SELECTED NAV-->
     <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>

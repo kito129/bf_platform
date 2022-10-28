@@ -1,0 +1,114 @@
+<!-- PAG BUTTON -->
+<div class="d-flex justify-content-start align-items-center mb-3">
+  <button type="button" class="btn btn-outline-primary btn-icon-text mr-2" [disabled]="isFirstPage()" (click)="prev()">
+    <i class="btn-icon-prepend" data-feather="arrow-left" appFeatherIcon></i>
+  </button>
+  <button type="button" class="btn btn-outline-primary btn-icon-text mr-2" (click)="reset()">
+    <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
+  </button>
+  <button type="button" class="btn btn-outline-primary btn-icon-text mr-2" [disabled]="isLastPage()" (click)="next()">
+    <i class="btn-icon-prepend" data-feather="arrow-right" appFeatherIcon></i>
+  </button>
+  <!--
+  <div class="form-group">
+    <label>Columns</label>
+    <ng-select
+      [items]="cols"
+      [multiple]=true
+      [closeOnSelect]="false"
+      [searchable]="false"
+      bindLabel="header"
+      bindValue="header"
+      placeholder="Select columns"
+      [(ngModel)]="selectedColumns">
+    </ng-select>
+  </div>
+  -->
+</div>
+
+<!-- TABLE -->
+<p-table #dt
+         [value]="trades"
+         [columns]="cols"
+         [(rows)]="rows"
+         sortMode="multiple"
+         [scrollable]="true"
+         scrollHeight="850px"
+         [virtualScroll]="true"
+         [virtualRowHeight]="14"
+         [(first)]="first"
+         selectionMode="multiple"
+         dataKey="_id"
+         styleClass="p-datatable-sm p-datatable-striped"
+         [filterDelay]="0"
+         [globalFilterFields]="['name','country.name','representative.name','status']">
+  <!-- HEADER -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th [pSortableColumn]="'rowIndex'">#</th>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+        {{col.header}}
+      </th>
+    </tr>
+  </ng-template>
+  <!-- BODY -->
+  <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+    <tr>
+      <td>
+        <p>{{rowIndex}}</p>
+      </td>
+      <td>
+        <p>{{row.trade.info.date | date: 'shortDate'}}</p>
+      </td>
+      <td>
+        <p>{{row.trade.info.marketInfo.marketName}}</p>
+      </td>
+      <td>
+        <p>{{row.trade.results.finalScore.tennis | tennisPoint}}</p>
+      </td>
+      <td>
+        <h6 [ngClass]="row.trade.results.netProfit>0? 'text-success' : 'text-danger'">{{ row.trade.results.netProfit | currency }}</h6>
+      </td>
+      <td>
+        <h6 class="'text-danger'">{{ row.trade.results.maxRisk | currency }}</h6>
+      </td>
+      <td>
+        <app-trade-and-market-details-modal [trade]="row"></app-trade-and-market-details-modal>
+      </td>
+    </tr>
+  </ng-template>
+
+</p-table>
+
+<!-- PAGINATOR BUTTON -->
+<ng-template pTemplate="paginatorright">
+  <button type="button" class="btn btn-outline-primary btn-icon-text mr-2" [disabled]="isFirstPage()" (click)="prev()">
+    <i class="btn-icon-prepend" data-feather="arrow-left" appFeatherIcon></i>
+  </button>
+  <button type="button" class="btn btn-outline-primary btn-icon-text mr-2" [disabled]="isLastPage()" (click)="next()">
+    <i class="btn-icon-prepend" data-feather="arrow-right" appFeatherIcon></i>
+  </button>
+</ng-template>
+
+<!-- FILTER ROW
+<tr>
+  <th>
+  </th>
+  <th>
+  </th>
+  <th>
+      <input class="form-control"
+             id="name"
+             type="text"
+             placeholder="Name"
+             name="name"
+             (input)="dt.filter($event.target.value, 'trade.info.marketInfo.marketName', 'contains')">
+  </th>
+  <th>
+  </th>
+  <th>
+  </th>
+  <th>
+  </th>
+</tr>
+-->

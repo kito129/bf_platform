@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Mm, MmResult} from '../model/calculator/mm';
 import {Trade} from '../model/report/trade';
-import {Utils} from '../model/calculator/utils';
+import {Utils} from '../model/utils';
 import {NewTrade} from '../model/report/new/newTrade';
 
 @Injectable({

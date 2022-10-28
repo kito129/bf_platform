@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TradeCalculatorService} from '../../../../services/trade-calculator.service';
 import {Bets, NewTrade} from '../../../../model/report/new/newTrade';
-import {Utils} from "../../../../model/calculator/utils";
+import {Utils} from "../../../../model/utils";
 
 @Component({
   selector: 'app-trade-updates-modal',

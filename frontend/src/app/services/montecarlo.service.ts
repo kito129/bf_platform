@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {TradePlSeries} from '../model/calculator/montecarlo';
-import {Utils} from '../model/calculator/utils';
+import {Utils} from '../model/utils';
 import {NewTrade} from '../model/report/new/newTrade';
 
 @Injectable({

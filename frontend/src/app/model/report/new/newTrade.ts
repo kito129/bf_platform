@@ -129,6 +129,38 @@ export interface NewTrade{
   }
 }
 
+export interface CSVTrade {
+  date: number
+  marketName: string
+  result: string
+  marketType: string
+  duration: number
+  winner: string
+  loser: string
+  winnerBSP: number
+  loserBSP: number
+  winnerSet2: number
+  loserSet2: number
+  winnerSet3: number
+  loserSet3: number
+  winnerAvgBack: number
+  winnerAvgBackStake: number
+  winnerAvgBackIfWin: number
+  winnerAvgLay: number
+  winnerAvgLayBank: number
+  winnerAvgLayLiability: number
+  loserAvgBack: number
+  loserAvgBackStake: number
+  loserAvgBackIfWin: number
+  loserAvgLay: number
+  loserAvgBank: number
+  loserAvgLiability: number
+  empty: null,
+  pl: number
+  maxRisk: number
+  trade?: NewTrade
+}
+
 export interface Bets {
   id: number
   selectionN: number
@@ -153,4 +185,20 @@ export interface Bets {
     note: string
     time: number
   }
+}
+
+export interface CSVBetGroup {
+  name: string
+  id: number
+  selectionN: number
+  odds: number
+  stake: number
+  liability: number
+  ifWin: number
+  options: string
+  type: string
+  point: TennisPoint | string
+  note: string
+  time: number
+  empty?: null
 }

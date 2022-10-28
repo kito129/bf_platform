@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Utils} from '../../../../../../model/calculator/utils';
+import {Utils} from '../../../../../../model/utils';
 
 @Component({
   selector: 'app-chart-histogram',

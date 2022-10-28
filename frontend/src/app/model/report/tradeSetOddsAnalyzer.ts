@@ -1,6 +1,6 @@
 import {NewTrade} from './new/newTrade';
 import {TennisPoint} from '../point/tennisPoint';
-import {Utils} from '../calculator/utils';
+import {Utils} from '../utils';
 
 export interface TradeSetOddsAnalyzerInterface{
   tradeId: string

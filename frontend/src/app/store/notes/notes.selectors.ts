@@ -1,7 +1,7 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {NotesStates} from './notes.reducers';
 import {NoteStats} from '../../model/dashboard/noteStats';
-import {Utils} from '../../model/calculator/utils';
+import {Utils} from '../../model/utils';
 import {utils} from 'protractor';
 import {MonthTrade} from '../../model/study/study/comparatorTableRow';
 import {Note} from "../../model/note/note";

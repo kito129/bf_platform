@@ -4,7 +4,7 @@ import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {TradeComparator} from '../../../../../model/study/study/tradeComparator';
 import {StrategyReport} from '../../../../../model/report/starategyReport';
-import {Utils} from '../../../../../model/calculator/utils';
+import {Utils} from '../../../../../model/utils';
 import {StrategyReportClass} from '../../../../../model/calculator/strategyReport';
 
 @Component({
@@ -133,7 +133,7 @@ export class StudyComparatorComponent implements OnInit,OnDestroy {
       const ddMonetary = this.utils.ddOfTrades(tempPl, false, 10000)
       const maDDMonetary = this.utils.minOfArray(ddMonetary)
       const maxDDPercent = this.utils.minOfArray(ddPercent)
-      const avgDDPercent = this.utils.avgOfArrayNumber(ddPercent)
+      const avgDDPercent = this.utils.avgOfArray(ddPercent)
       // set to local props
       this.equity.push(tempStock)
       this.pl.push(tempPl)

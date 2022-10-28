@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NewTrade} from '../../../../model/report/new/newTrade';
-import {Utils} from '../../../../model/calculator/utils';
+import {Utils} from '../../../../model/utils';
 import {CompareStrategy} from '../../../../model/report/new/compareStrategy';
 import {StrategyTradeFilter} from '../../../../model/report/strategyFilter/strategyTradeFiltersInterface';
 import {select, Store} from '@ngrx/store';

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MonthTrade} from '../../../../model/study/study/comparatorTableRow';
-import {Utils} from '../../../../model/calculator/utils';
+import {Utils} from '../../../../model/utils';
 import {StrategyReport} from '../../../../model/report/starategyReport';
 import {NewTrade} from '../../../../model/report/new/newTrade';
 import {StrategyReportClass} from '../../../../model/calculator/strategyReport';

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {StrategyReport} from '../../../../model/report/starategyReport';
-import {Utils} from "../../../../model/calculator/utils";
+import {Utils} from "../../../../model/utils";
 
 @Component({
   selector: 'app-strategy-report-risk',

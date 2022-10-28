@@ -5,7 +5,7 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 import {Strategy} from '../../../model/report/strategy';
 import {StrategyReportClass} from '../../../model/calculator/strategyReport';
 import {StrategyReport} from '../../../model/report/starategyReport';
-import {Utils} from '../../../model/calculator/utils';
+import {Utils} from '../../../model/utils';
 import {SavedReport} from '../../../model/report/new/savedReport';
 
 @Component({
@@ -130,7 +130,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return 0
           }
         })
-        this.tradeRROrder = this.utils.orderAsc(this.tradeRR)
+        this.tradeRROrder = this.utils.orderAscArray(this.tradeRR)
         // create risk data
         // max
         this.tradeMaxRisk = trades.map(x => {
@@ -140,7 +140,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
             return 0
           }
         })
-        this.tradeMaxRiskOrder = this.utils.orderAsc(this.tradeMaxRisk)
+        this.tradeMaxRiskOrder = this.utils.orderAscArray(this.tradeMaxRisk)
         // open
         this.tradeRiskOpen = this.trades.map(x => {
           let stake = 0
@@ -238,10 +238,10 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
           }
         })
         this.tradeCommissionStock = [this.utils.getStock(this.tradeCommission,0)]
-        this.tradeCommissionOrder = this.utils.orderAsc(this.tradeCommission)
+        this.tradeCommissionOrder = this.utils.orderAscArray(this.tradeCommission)
         // create tradePL data
         this.tradePL = trades.map(x => +x.trade.results.netProfit.toFixed(2))
-        this.tradePLOrder = this.utils.orderAsc(this.tradePL)
+        this.tradePLOrder = this.utils.orderAscArray(this.tradePL)
 
       }
       // finished recalculation and ok to view subcomponent

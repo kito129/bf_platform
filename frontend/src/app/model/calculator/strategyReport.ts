@@ -1,6 +1,6 @@
 import {Strategy} from '../report/strategy';
 import {NewTrade} from '../report/new/newTrade';
-import {Utils} from './utils';
+import {Utils} from '../utils';
 import {StrategyReport} from '../report/starategyReport';
 import {utils} from 'protractor';
 
@@ -165,10 +165,10 @@ export class StrategyReportClass{
           total: {
             count: Math.round((this.tradesPL).length * 100) / 100,
             grossCash: Math.round(this.utils.sumOfArray(this.tradesPL) * 100) / 100,
-            averageCash: Math.round(this.utils.avgOfArrayNumber(this.tradesPL) * 100) / 100,
+            averageCash: Math.round(this.utils.avgOfArray(this.tradesPL) * 100) / 100,
             stdvCash: Math.round(this.utils.stdvOfArray(this.tradesPL) * 100) / 100,
             maxCash: Math.round(this.utils.maxOfArray(this.tradesPL) * 100) / 100,
-            maxPercent: Math.round(this.utils.maxPercentNumberArray(this.tradesPL) * 100) / 100,
+            maxPercent: Math.round(this.utils.maxPercentArray(this.tradesPL) * 100) / 100,
             consecutiveNumber: 0,
             consecutiveAvgNumber: 0,
             consecutiveCash: 0,
@@ -178,10 +178,10 @@ export class StrategyReportClass{
           profit: {
             count: Math.round((this.profitTrades).length * 100) / 100,
             grossCash: Math.round(this.utils.sumOfArray(this.profitTrades) * 100) / 100,
-            averageCash: Math.round(this.utils.avgOfArrayNumber(this.profitTrades) * 100) / 100,
+            averageCash: Math.round(this.utils.avgOfArray(this.profitTrades) * 100) / 100,
             stdvCash: Math.round(this.utils.stdvOfArray(this.profitTrades) * 100) / 100,
             maxCash: Math.round(this.utils.maxOfArray(this.profitTrades) * 100) / 100,
-            maxPercent: Math.round(this.utils.maxPercentNumberArray(this.profitTrades) * 100) / 100,
+            maxPercent: Math.round(this.utils.maxPercentArray(this.profitTrades) * 100) / 100,
             consecutiveNumber: Math.round(this.utils.maxOfConsecutive(consecutiveProfit) * 100) / 100,
             consecutiveAvgNumber: Math.round(this.utils.avgOfConsecutive(consecutiveProfit) * 100) / 100,
             consecutiveCash: Math.round(this.utils.maxOfConsecutivePl(consecutiveProfit) * 100) / 100,
@@ -191,7 +191,7 @@ export class StrategyReportClass{
           loss: {
             count: Math.round((this.lossTrades).length * 100) / 100,
             grossCash: Math.round(this.utils.sumOfArray(this.lossTrades) * 100) / 100,
-            averageCash: Math.round(this.utils.avgOfArrayNumber(this.lossTrades) * 100) / 100,
+            averageCash: Math.round(this.utils.avgOfArray(this.lossTrades) * 100) / 100,
             stdvCash: Math.round(this.utils.stdvOfArray(this.lossTrades) * 100) / 100,
             maxCash: Math.round(this.utils.minOfArray(this.lossTrades) * 100) / 100,
             maxPercent: Math.round(this.utils.minPercentOfArray(this.lossTrades) * 100) / 100,
@@ -225,27 +225,27 @@ export class StrategyReportClass{
         },
         oddsStats: {
           runnerA: {
-            back: Math.round(this.utils.avgOfArrayNumber(this.trades.filter(x => x.trade.selections[0].avg.back.odds > 0).map(y => y.trade.selections[0].avg.back.odds)) * 100) / 100,
-            lay: Math.round(this.utils.avgOfArrayNumber(this.trades.filter(x => x.trade.selections[0].avg.lay.odds > 0).map(y => y.trade.selections[0].avg.lay.odds)) * 100) / 100,
+            back: Math.round(this.utils.avgOfArray(this.trades.filter(x => x.trade.selections[0].avg.back.odds > 0).map(y => y.trade.selections[0].avg.back.odds)) * 100) / 100,
+            lay: Math.round(this.utils.avgOfArray(this.trades.filter(x => x.trade.selections[0].avg.lay.odds > 0).map(y => y.trade.selections[0].avg.lay.odds)) * 100) / 100,
           },
           runnerB: {
             // @ts-ignore
-            back: Math.round(this.utils.avgOfArrayNumber(this.trades.filter(x => x.trade.selections[1].avg.back.odds > 0).map(y => y.trade.selections[1].avg.back.odds)) * 100) / 100,
+            back: Math.round(this.utils.avgOfArray(this.trades.filter(x => x.trade.selections[1].avg.back.odds > 0).map(y => y.trade.selections[1].avg.back.odds)) * 100) / 100,
             // @ts-ignore
-            lay: Math.round(this.utils.avgOfArrayNumber(this.trades.filter(x => x.trade.selections[1].avg.lay.odds > 0).map(y => y.trade.selections[1].avg.lay.odds)) * 100) / 100,
+            lay: Math.round(this.utils.avgOfArray(this.trades.filter(x => x.trade.selections[1].avg.lay.odds > 0).map(y => y.trade.selections[1].avg.lay.odds)) * 100) / 100,
           },
           total: {
             // @ts-ignore
-            back: Math.round(this.utils.avgOfArrayNumber((this.trades.filter(x => x.trade.selections[1].avg.back.odds > 0).map(y => y.trade.selections[1].avg.back.odds)).concat(
+            back: Math.round(this.utils.avgOfArray((this.trades.filter(x => x.trade.selections[1].avg.back.odds > 0).map(y => y.trade.selections[1].avg.back.odds)).concat(
               this.trades.filter(x => x.trade.selections[0].avg.back.odds > 0).map(y => y.trade.selections[0].avg.back.odds))) * 100) / 100,
             // @ts-ignore
-            lay: Math.round(this.utils.avgOfArrayNumber((this.trades.filter(x => x.trade.selections[1].avg.lay.odds > 0).map(y => y.trade.selections[1].avg.lay.odds)).concat(
+            lay: Math.round(this.utils.avgOfArray((this.trades.filter(x => x.trade.selections[1].avg.lay.odds > 0).map(y => y.trade.selections[1].avg.lay.odds)).concat(
               this.trades.filter(x => x.trade.selections[0].avg.lay.odds > 0).map(y => y.trade.selections[0].avg.lay.odds))) * 100) / 100,
           }
         },
         commission: {
           total: this.utils.sum(this.trades.map(x => x.trade.results.commissionPaid)),
-          avgPerTrade: this.utils.avgOfArrayNumber(this.trades.map(x => x.trade.results.commissionPaid)),
+          avgPerTrade: this.utils.avgOfArray(this.trades.map(x => x.trade.results.commissionPaid)),
           max: this.utils.maxOfArray(this.trades.map(x => x.trade.results.commissionPaid)),
           impactPercent: Math.round(((this.utils.sum(this.trades.map(x => x.trade.results.commissionPaid))) /
             (this.utils.sumOfArray(this.tradesPL)+ this.utils.sum(this.trades.map(x => x.trade.results.commissionPaid))))
@@ -254,7 +254,7 @@ export class StrategyReportClass{
         },
         rr: {
           total: Math.round(Math.abs(this.utils.sumOfArray(this.profitTrades)/this.utils.sumOfArray(this.lossTrades)) * 100) / 100,
-          avgPerTrade: Math.round(this.utils.avgOfArrayNumber(this.trades.map( x=> x.trade.results.rr))*100)/100,
+          avgPerTrade: Math.round(this.utils.avgOfArray(this.trades.map(x=> x.trade.results.rr))*100)/100,
           max: Math.round(this.utils.maxOfArray(this.trades.map(x=> x.trade.results.rr))*100)/100,
           stdv: this.utils.stdvOfArray(this.trades.map(x=> x.trade.results.rr)),
         },
@@ -262,7 +262,7 @@ export class StrategyReportClass{
           total: {
             count: this.trades.length,
             total: this.utils.sumOfArray(this.trades.map(x=> x.trade.results.maxRisk)),
-            avgPerTrade: this.utils.avgOfArrayNumber(this.trades.map( x=> x.trade.results.maxRisk)),
+            avgPerTrade: this.utils.avgOfArray(this.trades.map(x=> x.trade.results.maxRisk)),
             max: this.utils.minOfArray(this.trades.map(x=> x.trade.results.maxRisk)),
             min: this.utils.maxOfArray(this.trades.map(x=> x.trade.results.maxRisk)),
             stdv: this.utils.stdvOfArray(this.trades.map(x=> x.trade.results.maxRisk)),

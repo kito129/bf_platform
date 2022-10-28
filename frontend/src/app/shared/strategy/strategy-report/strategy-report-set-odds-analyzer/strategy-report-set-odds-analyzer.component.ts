@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NewTrade} from '../../../../model/report/new/newTrade';
 import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from '../../../../model/report/tradeSetOddsAnalyzer';
 import {ColumnMode,SelectionType, DatatableComponent} from '@swimlane/ngx-datatable';
-import {Utils} from '../../../../model/calculator/utils';
+import {Utils} from '../../../../model/utils';
 
 @Component({
   selector: 'app-strategy-report-set-odds-analyzer',

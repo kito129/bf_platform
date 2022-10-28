@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {StrategyReport} from '../../../../model/report/starategyReport';
 import {ComparatorTableRow} from '../../../../model/study/study/comparatorTableRow';
 import {DatatableComponent, ColumnMode} from '@swimlane/ngx-datatable';
-import {Utils} from '../../../../model/calculator/utils';
+import {Utils} from '../../../../model/utils';
 
 @Component({
   selector: 'app-strategy-report-comparator-table',

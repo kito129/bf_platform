@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TradeDetail} from '../../../../model/report/trade';
-import {Utils} from '../../../../model/calculator/utils';
+import {Utils} from '../../../../model/utils';
 
 @Component({
   selector: 'app-trade-datatable-stats',
@@ -35,7 +35,7 @@ export class TradeDatatableStatsComponent implements OnInit {
   }
 
   getAvgPL(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.netProfit))
+    return this.utils.avgOfArray(trade.map(x =>x.trade).map(x=> x.trade.results.netProfit))
   }
 
   getRisk(trade: TradeDetail[]){
@@ -43,21 +43,21 @@ export class TradeDatatableStatsComponent implements OnInit {
   }
 
   getAvgRisk(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.maxRisk))
+    return this.utils.avgOfArray(trade.map(x =>x.trade).map(x=> x.trade.results.maxRisk))
   }
 
   getRR(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).map( x=> x.trade.results.rr))
+    return this.utils.avgOfArray(trade.map(x =>x.trade).map(x=> x.trade.results.rr))
   }
   getAvgBack(trade: TradeDetail[]) {
     // @ts-ignore
-    return Math.round(this.utils.avgOfArrayNumber((trade.filter( x => x.trade.trade.selections[1].avg.back.odds >0).map( y => y.trade.trade.selections[1].avg.back.odds)).concat(
+    return Math.round(this.utils.avgOfArray((trade.filter(x => x.trade.trade.selections[1].avg.back.odds >0).map(y => y.trade.trade.selections[1].avg.back.odds)).concat(
       trade.filter( x => x.trade.trade.selections[0].avg.back.odds >0).map( y => y.trade.trade.selections[0].avg.back.odds))) *100)/100
   }
 
   getAvgLay(trade: TradeDetail[]){
     // @ts-ignore
-    return Math.round(this.utils.avgOfArrayNumber((trade.filter( x => x.trade.trade.selections[1].avg.lay.odds >0).map( y => y.trade.trade.selections[1].avg.lay.odds)).concat(
+    return Math.round(this.utils.avgOfArray((trade.filter(x => x.trade.trade.selections[1].avg.lay.odds >0).map(y => y.trade.trade.selections[1].avg.lay.odds)).concat(
       trade.filter( x => x.trade.trade.selections[0].avg.lay.odds >0).map( y => y.trade.trade.selections[0].avg.lay.odds))) *100)/100
   }
 
@@ -70,14 +70,14 @@ export class TradeDatatableStatsComponent implements OnInit {
   }
 
   getAvg(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map( x=> x.trade.trade.results.netProfit))
+    return this.utils.avgOfArray(trade.map(x=> x.trade.trade.results.netProfit))
   }
   getAvgWin(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>=0).map( x=> x.trade.results.netProfit))
+    return this.utils.avgOfArray(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit>=0).map(x=> x.trade.results.netProfit))
   }
 
   getAvgLoss(trade: TradeDetail[]){
-    return this.utils.avgOfArrayNumber(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).map( x=> x.trade.results.netProfit))
+    return this.utils.avgOfArray(trade.map(x =>x.trade).filter(y => y.trade.results.netProfit<0).map(x=> x.trade.results.netProfit))
   }
 
   getPf(trade: TradeDetail[]){

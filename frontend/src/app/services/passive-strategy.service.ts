@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {NewTrade} from '../model/report/new/newTrade';
 import {LowLayReport} from '../model/report/new/lowLayReport';
-import {Utils} from '../model/calculator/utils';
+import {Utils} from '../model/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -41,9 +41,9 @@ export class PassiveStrategyService {
     this.lowLayReport = {
       count: this.inputTrades.length,
       avgTradesNumber: {
-        total: this.utils.avgOfArrayNumber(this.inputTrades.map(trades => trades.trade.trades.length)),
-        back: this.utils.avgOfArrayNumber(this.inputTrades.map(trades => trades.trade.trades.filter(y => y.type === 'back').length)),
-        lay: this.utils.avgOfArrayNumber(this.inputTrades.map(trades => trades.trade.trades.filter(y => y.type === 'lay').length)),
+        total: this.utils.avgOfArray(this.inputTrades.map(trades => trades.trade.trades.length)),
+        back: this.utils.avgOfArray(this.inputTrades.map(trades => trades.trade.trades.filter(y => y.type === 'back').length)),
+        lay: this.utils.avgOfArray(this.inputTrades.map(trades => trades.trade.trades.filter(y => y.type === 'lay').length)),
       },
       oneTen: {
         count: totalOneTen,

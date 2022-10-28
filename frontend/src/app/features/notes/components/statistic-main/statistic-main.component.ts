@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NoteStats} from '../../../../model/dashboard/noteStats';
-import {Utils} from '../../../../model/calculator/utils';
+import {Utils} from '../../../../model/utils';
 
 @Component({
   selector: 'app-statistic-main',
@@ -47,11 +47,11 @@ export class StatisticMainComponent implements OnInit {
     this.check = this.win.reduce((a,b) => a+b) + this.loss.reduce((a,b) => a+b) +this.retired.reduce((a,b) => a+b)
 
     // check avg
-    this.avgLength = this.util.avgOfArrayNumber(this.length).toFixed(0)
-    this.avgWin = this.util.avgOfArrayNumber(this.win).toFixed(0)
-    this.avgLoss = this.util.avgOfArrayNumber(this.loss).toFixed(0)
-    this.avgRetired = this.util.avgOfArrayNumber(this.retired).toFixed(0)
-    this.avgNoMed = this.util.avgOfArrayNumber(this.nMretired).toFixed(0)
+    this.avgLength = this.util.avgOfArray(this.length).toFixed(0)
+    this.avgWin = this.util.avgOfArray(this.win).toFixed(0)
+    this.avgLoss = this.util.avgOfArray(this.loss).toFixed(0)
+    this.avgRetired = this.util.avgOfArray(this.retired).toFixed(0)
+    this.avgNoMed = this.util.avgOfArray(this.nMretired).toFixed(0)
   }
 
 }

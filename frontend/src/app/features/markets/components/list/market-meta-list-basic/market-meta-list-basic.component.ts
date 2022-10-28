@@ -12,7 +12,7 @@ import {MarketInfoBasic} from '../../../../../model/market/basic/marketInfoBasic
 import {MarketFilterBasket} from '../../../../../model/market/filter/marketFilterBasket';
 import {FilterBasket} from '../../../../../model/market/filter/filterBasket';
 import {Filter} from '../../../../../model/market/filter/basketFilter';
-import {Utils} from '../../../../../model/calculator/utils';
+import {Utils} from '../../../../../model/utils';
 
 
 @Component({

@@ -4,14 +4,12 @@ import {DatatableComponent, ColumnMode, SelectionType} from '@swimlane/ngx-datat
 import {Store} from '@ngrx/store';
 import {TradeCalculatorService} from '../../../services/trade-calculator.service';
 import {takeUntil} from 'rxjs/operators';
-import {NewTrade, Bets} from '../../../model/report/new/newTrade';
+import {NewTrade} from '../../../model/report/new/newTrade';
 import {TradeDetail} from '../../../model/report/trade';
-import {Utils} from '../../../model/calculator/utils';
+import {Utils} from '../../../model/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
 import * as reportActions from '../../../store/report/report.actions';
 import {SavedReport} from '../../../model/report/new/savedReport';
-import {number} from 'ngx-custom-validators/src/app/number/validator';
-
 
 @Component({
   selector: 'app-trades-datatable',
@@ -44,10 +42,9 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   viewStatsService = false
   viewStatsSet = false
   viewStatsLeaderboard = false
-
   viewNotes = false
-
   viewSelectedReport = false
+
   selectedTrades: Observable<NewTrade[]>
 
   rows = [];
@@ -84,7 +81,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-
   updateFilter() {
     const val = this.search.toLowerCase();
     if(val){
@@ -100,8 +96,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  // click selection
+  // selection work
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
@@ -140,6 +135,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     this.bugFix()
   }
 
+  // save report
   deleteMany(event){
     if(event[1]==='delete') {
       // DELETE many trades
@@ -179,68 +175,56 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
+  // DEPRECATED - to csv to fix with new version in utils
   saveAsCSV(type: string) {
     const nowDate = new Date()
     const temp = []
     // sort by the longest trade number
-    JSON.parse(JSON.stringify(this.rows))
-      .sort((a:TradeDetail,b:TradeDetail) =>b.trade.trade.trades.length - a.trade.trade.trades.length)
-      .forEach((x: TradeDetail) => {
-        const t = new Date(x.trade.trade.info.date)
+    const data: NewTrade[]  = JSON.parse(JSON.stringify(this.rows.map(x => x.trade)))
+      data
+      .sort((a:NewTrade,b:NewTrade) =>b.trade.trades.length - a.trade.trades.length)
+      .forEach((x: NewTrade) => {
+        const t = new Date(x.trade.info.date)
         const date = `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()}`
-        const winner = x.trade.trade.selections.filter( y => y.winner)[0]
-        const loser = x.trade.trade.selections.filter( y => !y.winner)[0]
-        const winnerIndex = (x.trade.trade.selections[0].winner) ? 0 : 1
+        const winner = x.trade.selections.filter( y => y.winner)[0]
+        const loser = x.trade.selections.filter( y => !y.winner)[0]
+        const winnerIndex = (x.trade.selections[0].winner) ? 0 : 1
         const loserIndex = winnerIndex ? 0 : 1
 
-        const marketType = (x.trade.trade.info.marketInfo.marketName.indexOf(' - Set')!==-1) ? 'Set Winner' : 'Match Odds'
+        const marketType = (x.trade.info.marketInfo.marketName.indexOf(' - Set')!==-1) ? 'Set Winner' : 'Match Odds'
 
         if(winner && loser){
+
           temp.push({
             date,
-            marketName: x.trade.trade.info.marketInfo.marketName,
-            result: this.util.getPointInStringWay(x.trade.trade.results.finalScore.tennis),
+            marketName: x.trade.info.marketInfo.marketName,
+            result: this.util.getPointInStringWay(x.trade.results.finalScore.tennis),
             marketType,
             duration: 0,
             winner: winner.runnerName,
             loser: loser.runnerName,
             winnerBSP: winner.bsp,
             loserBSP: loser.bsp,
-              // @ts-ignore
-            winnerSet2: x.trade.trade.selections[winnerIndex].sets.secondSet,
-              // @ts-ignore
-            loserSet2: x.trade.trade.selections[loserIndex].sets.secondSet,
-              // @ts-ignore
-            winnerSet3: x.trade.trade.selections[winnerIndex].sets.thirdSet,
-              // @ts-ignore
-            loserSet3: x.trade.trade.selections[loserIndex].sets.thirdSet,
-              // @ts-ignore
-            winnerAvgBack: x.trade.trade.selections[winnerIndex].avg.back.odds,
             // @ts-ignore
-            winnerAvgBackStake: x.trade.trade.selections[winnerIndex].avg.back.stake,
-            // @ts-ignore
-            winnerAvgBackIfWin: x.trade.trade.selections[winnerIndex].avg.back.toWin,
-              // @ts-ignore
-            winnerAvgLay: x.trade.trade.selections[winnerIndex].avg.lay.odds,
-            // @ts-ignore
-            winnerAvgLayBank: x.trade.trade.selections[winnerIndex].avg.lay.stake,
-            // @ts-ignore
-            winnerAvgLayLiability: x.trade.trade.selections[winnerIndex].avg.lay.liability,
-              // @ts-ignore
-            loserAvgBack: x.trade.trade.selections[loserIndex].avg.back.odds,
-            // @ts-ignore
-            loserAvgBackStake: x.trade.trade.selections[loserIndex].avg.back.stake,
-            // @ts-ignore
-            loserAvgBackIfWin: x.trade.trade.selections[loserIndex].avg.back.toWin,
-              // @ts-ignore
-            loserAvgLay: x.trade.trade.selections[loserIndex].avg.lay.odds,
-            // @ts-ignore
-            loserAvgBank: x.trade.trade.selections[loserIndex].avg.lay.stake,
-            // @ts-ignore
-            loserAvgLiability: x.trade.trade.selections[loserIndex].avg.lay.liability,
+            winnerSet2: x.trade.selections[winnerIndex].sets.secondSet,      // @ts-ignore
+            loserSet2: x.trade.selections[loserIndex].sets.secondSet,      // @ts-ignore
+            winnerSet3: x.trade.selections[winnerIndex].sets.thirdSet,      // @ts-ignore
+            loserSet3: x.trade.selections[loserIndex].sets.thirdSet,      // @ts-ignore
+            winnerAvgBack: x.trade.selections[winnerIndex].avg.back.odds,      // @ts-ignore
+            winnerAvgBackStake: x.trade.selections[winnerIndex].avg.back.stake,      // @ts-ignore
+            winnerAvgBackIfWin: x.trade.selections[winnerIndex].avg.back.toWin,      // @ts-ignore
+            winnerAvgLay: x.trade.selections[winnerIndex].avg.lay.odds,      // @ts-ignore
+            winnerAvgLayBank: x.trade.selections[winnerIndex].avg.lay.stake,      // @ts-ignore
+            winnerAvgLayLiability: x.trade.selections[winnerIndex].avg.lay.liability,      // @ts-ignore
+            loserAvgBack: x.trade.selections[loserIndex].avg.back.odds,      // @ts-ignore
+            loserAvgBackStake: x.trade.selections[loserIndex].avg.back.stake,      // @ts-ignore
+            loserAvgBackIfWin: x.trade.selections[loserIndex].avg.back.toWin,      // @ts-ignore
+            loserAvgLay: x.trade.selections[loserIndex].avg.lay.odds,      // @ts-ignore
+            loserAvgBank: x.trade.selections[loserIndex].avg.lay.stake,      // @ts-ignore
+            loserAvgLiability: x.trade.selections[loserIndex].avg.lay.liability,      // @ts-ignore
             empty: null,
-            pl: x.trade.trade.results.grossProfit,
-            maxRisk: x.trade.trade.results.maxRisk,
+            pl: x.trade.results.grossProfit,
+            maxRisk: x.trade.results.maxRisk,
           })
         }
         // add element from bets
@@ -252,11 +236,11 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       JSON.parse(JSON.stringify(temp.sort((c,d) => c.date - d.date ))))
   }
 
-  private createTradeRows(trade: TradeDetail){
+  private createTradeRows(trade: NewTrade){
     let i =0
-    return trade.trade.trade.trades.map( x =>{
+    return trade.trade.trades.map( x =>{
       i++
-      const sideName = trade.trade.trade.selections[x.selectionN].runnerName
+      const sideName = trade.trade.selections[x.selectionN].runnerName
       return {
         name: sideName,
         type: x.type,
@@ -270,9 +254,11 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     })
   }
 
-  private addPropsToObj(trade: TradeDetail, arrayToAdd, type: string){
+  private addPropsToObj(trade: NewTrade, arrayToAdd, type: string){
     // add element from bets
-    const bets = type ==='ALL' ? this.createTradeRows(trade) : type ==='BFL' ? this.createTradeRowsBFLGrouped(trade) :  this.createTradeRowsGrouped(trade)
+    const bets = type ==='ALL' ? this.createTradeRows(trade) :
+      type ==='BFL' ? this.createTradeRowsBFLGrouped(trade) :  this.createTradeRowsGrouped(trade)
+    // match the key for csv
     for (const [key, value] of Object.entries(bets)) {
       const h = Object.getOwnPropertyNames(value)
       for (const [keyT, valueT] of Object.entries(h)) {
@@ -281,17 +267,17 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createTradeRowsGrouped(trade: TradeDetail){
+  private createTradeRowsGrouped(trade: NewTrade){
     let i =0
-    const open = this.getEmptyGroup()
-    const increase = this.getEmptyGroup()
-    const decrease = this.getEmptyGroup()
-    const close = this.getEmptyGroup()
-    const freeBet = this.getEmptyGroup()
+    const open = this.util.getEmptyCSVBetGroup()
+    const increase = this.util.getEmptyCSVBetGroup()
+    const decrease = this.util.getEmptyCSVBetGroup()
+    const close = this.util.getEmptyCSVBetGroup()
+    const freeBet = this.util.getEmptyCSVBetGroup()
 
-    trade.trade.trade.trades.map( x =>{
+    trade.trade.trades.map( x =>{
       i++
-      const sideName = trade.trade.trade.selections[x.selectionN].runnerName
+      const sideName = trade.trade.selections[x.selectionN].runnerName
       switch (x.options){
         case ('OPEN'):{
           open.type = x.type
@@ -363,21 +349,21 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     return [open, increase, decrease, close, freeBet]
   }
 
-  private createTradeRowsBFLGrouped(trade: TradeDetail){
+  private createTradeRowsBFLGrouped(trade: NewTrade){
     let i =0
-    const open = this.getEmptyGroup()
-    const increase = this.getEmptyGroup()
-    const decrease15 = this.getEmptyGroup()
-    const decrease25 = this.getEmptyGroup()
-    const decrease30 = this.getEmptyGroup()
-    const decreaseOther = this.getEmptyGroup()
-    const closeFs = this.getEmptyGroup()
-    const close = this.getEmptyGroup()
-    const freeBet = this.getEmptyGroup()
+    const open = this.util.getEmptyCSVBetGroup()
+    const increase = this.util.getEmptyCSVBetGroup()
+    const decrease15 = this.util.getEmptyCSVBetGroup()
+    const decrease25 = this.util.getEmptyCSVBetGroup()
+    const decrease30 = this.util.getEmptyCSVBetGroup()
+    const decreaseOther = this.util.getEmptyCSVBetGroup()
+    const closeFs = this.util.getEmptyCSVBetGroup()
+    const close = this.util.getEmptyCSVBetGroup()
+    const freeBet = this.util.getEmptyCSVBetGroup()
 
-    trade.trade.trade.trades.map( x =>{
+    trade.trade.trades.map( x =>{
       i++
-      const sideName = trade.trade.trade.selections[x.selectionN].runnerName
+      const sideName = trade.trade.selections[x.selectionN].runnerName
       switch (x.options){
         case ('OPEN'):{
           open.type = x.type
@@ -507,20 +493,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     return [open, increase, decrease15, decrease25, decrease30, decreaseOther, closeFs, close, freeBet]
   }
 
-  getEmptyGroup(){
-    return{
-      name: '',
-      type: '',
-      options: '',
-      point: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
-      empty: null
-    }
-  }
-
   // temp to fix odds bug
   bugFix(){
     this.bug = false
@@ -530,7 +502,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       },
       500);
   }
-
 
   ngOnDestroy() {
     this.destroy$.next(true);

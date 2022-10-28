@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
 import {CompareStrategy} from '../../../model/report/new/compareStrategy';
-import {Utils} from '../../../model/calculator/utils';
+import {Utils} from '../../../model/utils';
 import {StrategyReport} from '../../../model/report/starategyReport';
 import {TradeComparator} from '../../../model/study/study/tradeComparator';
 import {takeUntil} from 'rxjs/operators';
@@ -171,7 +171,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
       const ddMonetary = this.utils.ddOfTrades(tempPl, false, strategy.strategy.strategy.info.bank)
       const maDDMonetary = this.utils.minOfArray(ddMonetary)
       const maxDDPercent = this.utils.minOfArray(ddPercent)
-      const avgDDPercent = this.utils.avgOfArrayNumber(ddPercent)
+      const avgDDPercent = this.utils.avgOfArray(ddPercent)
       // set to local props
       this.equity.push(tempStock)
       this.pl.push(tempPl)

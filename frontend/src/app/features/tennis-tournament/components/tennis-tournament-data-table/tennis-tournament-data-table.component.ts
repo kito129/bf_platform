@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {TennisTournament} from '../../../../model/tennisTournament/tennisTournament';
 import * as tennisTournamentActions from '../../../../store/tennis-tournament/tennisTournament.actions';
-import {Utils} from "../../../../model/calculator/utils";
+import {Utils} from "../../../../model/utils";
 
 @Component({
   selector: 'app-tennis-tournament-data-table',

@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Trade} from '../../../../../../model/report/trade';
 import {ChartComponent} from 'ng-apexcharts';
 import {ChartOptions} from '../../../../../../model/chartOptions';
-import {Utils} from '../../../../../../model/calculator/utils';
+import {Utils} from '../../../../../../model/utils';
 import {CurrencyPipe, PercentPipe} from '@angular/common';
 import {NewTrade} from '../../../../../../model/report/new/newTrade';
 import {Observable, Subject} from 'rxjs';

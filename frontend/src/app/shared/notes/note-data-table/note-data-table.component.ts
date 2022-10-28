@@ -5,7 +5,7 @@ import * as notesActions from '../../../store/notes/notes.actions';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Store} from '@ngrx/store';
 import {Runner} from '../../../model/runner/runner';
-import {Utils} from '../../../model/calculator/utils';
+import {Utils} from '../../../model/utils';
 
 @Component({
   selector: 'app-note-data-table',

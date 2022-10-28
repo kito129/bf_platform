@@ -1,7 +1,7 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {ReportStates} from './report.reducers';
 import {StrategyDatatable} from '../../model/report/strategyDatatable';
-import {Utils} from '../../model/calculator/utils';
+import {Utils} from '../../model/utils';
 import {NewTrade} from '../../model/report/new/newTrade';
 import {Strategy} from '../../model/report/strategy';
 import {SavedReport} from '../../model/report/new/savedReport';
@@ -108,8 +108,8 @@ function generateStrategyDatatable(allStrategy: Strategy[], allTrades: NewTrade[
         bank: strategy.strategy.info.bank,
         pl,
         plPercent: pl/strategy.strategy.info.bank,
-        maxDD: utils.maxDDOfTrades(tradePLValue, false, strategy.strategy.info.bank),
-        maxDDPercent: utils.maxDDOfTrades(tradePLValue, true, strategy.strategy.info.bank),
+        maxDD: utils.maxDDOfPl(tradePLValue, false, strategy.strategy.info.bank),
+        maxDDPercent: utils.maxDDOfPl(tradePLValue, true, strategy.strategy.info.bank),
         winRatio: utils.getWinRatioTrades(trades),
         strategy
       })
@@ -394,8 +394,8 @@ function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: Ne
         numberOfTrade: trades.length,
         pl,
         plPercent: pl/bank,
-        maxDD: utils.maxDDOfTrades(tradePLValue, false, bank),
-        maxDDPercent: utils.maxDDOfTrades(tradePLValue, true, bank),
+        maxDD: utils.maxDDOfPl(tradePLValue, false, bank),
+        maxDDPercent: utils.maxDDOfPl(tradePLValue, true, bank),
         winRatio: utils.getWinRatioTrades(trades),
         strategy: tempStrategy,
         savedReport: sr,

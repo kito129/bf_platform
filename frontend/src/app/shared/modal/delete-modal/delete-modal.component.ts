@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {TradeDetail} from '../../../model/report/trade';
 
 @Component({
   selector: 'app-delete-modal',

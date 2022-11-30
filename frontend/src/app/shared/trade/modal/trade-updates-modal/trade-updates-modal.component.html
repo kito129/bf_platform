@@ -343,10 +343,10 @@
                     (click)="updateBetsView()">
               Update Bets
             </button>
-            <app-trade-bets-view *ngIf="updateBets"
-                                 [trade]="tradeOutput"
-                                 [onlyBets]="false">
-            </app-trade-bets-view>
+            <app-trade-bets-detail *ngIf="updateBets"
+                                   [trade]="tradeOutput"
+                                   [onlyBets]="false">
+            </app-trade-bets-detail>
           </ul>
         </div>
       </div>

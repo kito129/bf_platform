@@ -48,7 +48,7 @@ import { BetsFormComponent } from './form-components/bets-form/bets-form.compone
 import { MarketInfoCardComponent } from './marketCards/market-detail-info-card/market-detail-info-card.component';
 import { MarketUpdateCardComponent } from './marketCards/market-update-card/market-update-card.component';
 import { MarketRunnersCardComponent } from './marketCards/market-runners-card/market-runners-card.component';
-import { TvSingleSelectionPriceComponent } from './charts/tradingView-charts/tv-single-selection-price/tv-single-selection-price.component';
+import { TvSingleSelectionPriceComponent } from './charts/tradingView-charts/tv-single-selection-price-deprecated/tv-single-selection-price.component';
 import { DeleteModalComponent } from './modal/delete-modal/delete-modal.component';
 import { OptionsSelectorsComponent } from './form-components/options-selectors/options-selectors.component';
 import { ListSelectionFormComponent } from './form-components/selection-forms/list-selection-form/list-selection-form.component';
@@ -85,7 +85,7 @@ import { CurrencyKPipe } from '../core/pipe/currency-k.pipe';
 import { WinnerOddsByMarketAdvancedPipe } from '../core/pipe/winner-odds-by-market-advanced.pipe';
 import { MarketAdvancedDatatableComponent } from './tables/market-list/market-advanced-datatable.component';
 import { SecAndMinutePipe } from '../core/pipe/sec-and-minute.pipe';
-import { TradeBetsViewComponent } from './trade/trade-bets-view/trade-bets-view.component';
+import { TradeBetsDetailComponent } from './trade/trade-bets-detail/trade-bets-detail.component';
 import { AdvancedGridComponent } from './charts/tradingView-charts/advanced-grid/advanced-grid.component';
 import { ColumnChartComponent } from './charts/apx-charts/all/column-chart/column-chart.component';
 import { MarketAdditionalInfoComponent } from './marketCards/market-additional-info/market-additional-info.component';
@@ -94,13 +94,13 @@ import {MarketDetailsModalComponent} from './marketCards/marke-basic-detail-moda
 import {MarketDetailPointComponent} from './marketCards/market-detail-point/market-detail-point.component';
 import {MarketDetailPricesAnalysisComponent} from './marketCards/market-detail-prices-analysis/market-detail-prices-analysis.component';
 import {MarketDetailSameMatchComponent} from './marketCards/market-detail-same-match/market-detail-same-match.component';
-import {TvMarketPricesComponent} from './charts/tradingView-charts/market-detail-prices/tv-market-prices.component';
+import {TvMarketPricesComponent} from './charts/tradingView-charts/tv-detail-prices/tv-market-prices.component';
 import {MarketsDetailComponent} from './marketCards/market-basic-details/markets-detail.component';
 import {MarketAdvancedDetailComponent} from './marketCards/market-advanced-detail/market-advanced-detail.component';
 import { FiltersMainComponent } from './filters/filters-main/filters-main.component';
 import { FilterElementComponent } from './filters/filter-element/filter-element.component';
 import { TradeAndMarketDetailsModalComponent } from './trade/trade-and-market-details-modal/trade-and-market-details-modal.component';
-import { TvMarketPricesAndTradesComponent } from './charts/tradingView-charts/tv-market-prices-and-trades/tv-market-prices-and-trades.component';
+import { TradeDetailPriceChartComponent } from './trade/trade-detail-price-chart/trade-detail-price-chart.component';
 import { TradeToolsActionsComponent } from './trade/trade-tools-actions/trade-tools-actions.component';
 import {TradeUpdatesModalComponent} from './trade/modal/trade-updates-modal/trade-updates-modal.component';
 import {TradeDetailComponent} from './trade/trade-detail/trade-detail.component';
@@ -112,14 +112,13 @@ import { MmComponent } from './strategy/strategy-mm/mm.component';
 import { MmParamsComponent } from './strategy/strategy-mm/mm-params/mm-params.component';
 import { MmDatatableComponent } from './strategy/strategy-mm/mm-datatable/mm-datatable.component';
 import { MmChartsComponent } from './strategy/strategy-mm/mm-charts/study-mm-charts.component';
-import { TradeSelectedResumeComponent } from './trade/trade-selected-resume/trade-selected-resume.component';
 import { StrategyReportTradeFilterComponent} from './strategy/strategy-report/strategy-report-trade-filter/strategy-report-trade-filter.component';
 import { StrategyReportTradeFilterParamsComponent} from './strategy/strategy-report/strategy-report-trade-filter/strategy-report-trade-filter-params/strategy-report-trade-filter-params.component';
 import { ComparatorTradesTableComponent } from './strategy/comparator-trades-table/comparator-trades-table.component';
 import { ColumnsChartComponent } from './charts/apx-charts/columns-chart/columns-chart.component';
-import { BetTableComponent } from './trade/trade-bets-view/bet-table/bet-table.component';
-import { AvgOddsTradedComponent } from './trade/trade-bets-view/avg-odds-traded/avg-odds-traded.component';
-import {OddsMovementComponent} from './trade/trade-bets-view/odds-movement/odds-movement.component';
+import { BetsTableComponent } from './trade/trade-bets-detail/bets-table/bets-table.component';
+import { BetsAvgOddsComponent } from './trade/trade-bets-detail/bets-avg-odds/bets-avg-odds.component';
+import {BetsSetOddsComponent} from './trade/trade-bets-detail/bets-set-odds/bets-set-odds.component';
 import {StrategyReportCommissionComponent} from './strategy/strategy-report/strategy-report-commission/strategy-report-commission.component';
 import { StrategyReportRRComponent } from './strategy/strategy-report/strategy-report-rr/strategy-report-rr.component';
 import { StrategyReportRiskComponent } from './strategy/strategy-report/strategy-report-risk/strategy-report-risk.component';
@@ -135,7 +134,7 @@ import { StrategyReportBetFilterParamsComponent } from './strategy/strategy-repo
 import { BetOptionsFormatterComponent } from './formatter/bet-options-formatter/bet-options-formatter.component';
 import { TradeDataGridComponent } from './trade/trade-data-grid/trade-data-grid.component';
 import {TableModule} from 'primeng/table';
-import {ButtonModule} from "primeng/button";
+import {ButtonModule} from 'primeng/button';
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
@@ -233,7 +232,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     CurrencyKPipe,
     WinnerOddsByMarketAdvancedPipe,
     SecAndMinutePipe,
-    TradeBetsViewComponent,
+    TradeBetsDetailComponent,
     AdvancedGridComponent,
     ColumnChartComponent,
     MarketAdditionalInfoComponent,
@@ -250,7 +249,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     FiltersMainComponent,
     FilterElementComponent,
     TradeAndMarketDetailsModalComponent,
-    TvMarketPricesAndTradesComponent,
+    TradeDetailPriceChartComponent,
     TradeToolsActionsComponent,
     TradeUpdatesModalComponent,
     TradeDetailComponent,
@@ -263,14 +262,14 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     MmParamsComponent,
     MmDatatableComponent,
     MmChartsComponent,
-    TradeSelectedResumeComponent,
+    TradeDatatableSelectedDetailComponent,
     StrategyReportTradeFilterComponent,
     StrategyReportTradeFilterParamsComponent,
     ComparatorTradesTableComponent,
     ColumnsChartComponent,
-    BetTableComponent,
-    AvgOddsTradedComponent,
-    OddsMovementComponent,
+    BetsTableComponent,
+    BetsAvgOddsComponent,
+    BetsSetOddsComponent,
     StrategyReportCommissionComponent,
     StrategyReportRiskComponent,
     StrategyReportRRComponent,
@@ -343,7 +342,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     CurrencyKPipe,
     WinnerOddsByMarketAdvancedPipe,
     SecAndMinutePipe,
-    TradeBetsViewComponent,
+    TradeBetsDetailComponent,
     MarketAdditionalInfoComponent,
     ColumnChartComponent,
     MarketAdvancedMetalistStatsComponent,
@@ -428,7 +427,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     CurrencyKPipe,
     WinnerOddsByMarketAdvancedPipe,
     SecAndMinutePipe,
-    TradeBetsViewComponent,
+    TradeBetsDetailComponent,
     MarketAdditionalInfoComponent,
     ColumnChartComponent,
     MarketAdvancedMetalistStatsComponent,

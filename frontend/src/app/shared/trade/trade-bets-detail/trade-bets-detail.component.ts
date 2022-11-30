@@ -3,10 +3,10 @@ import {TradeBets} from '../../../model/report/tradeBets';
 import {NewTrade} from '../../../model/report/new/newTrade';
 
 @Component({
-  selector: 'app-trade-bets-view',
-  templateUrl: './trade-bets-view.component.html',
+  selector: 'app-trade-bets-detail',
+  templateUrl: './trade-bets-detail.component.html',
 })
-export class TradeBetsViewComponent implements OnInit {
+export class TradeBetsDetailComponent implements OnInit {
 
   @Input() trade: NewTrade
   @Input() onlyBets: boolean

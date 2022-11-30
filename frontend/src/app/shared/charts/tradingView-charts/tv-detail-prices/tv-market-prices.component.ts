@@ -15,7 +15,7 @@ export interface RunnerData{
 }
 
 @Component({
-  selector: 'app-tv-market-detail-prices',
+  selector: 'app-tv-market-prices',
   templateUrl: './tv-market-prices.component.html',
 })
 export class TvMarketPricesComponent implements OnInit, AfterViewInit {

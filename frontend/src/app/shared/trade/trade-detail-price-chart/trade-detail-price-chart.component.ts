@@ -1,13 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MarketBasic, } from '../../../../model/market/basic/marketBasic';
-import {SelectedTradeCharts} from '../../../../model/study/selectedTradeCharts';
-import {NewTrade} from '../../../../model/report/new/newTrade';
+import {MarketBasic, } from '../../../model/market/basic/marketBasic';
+import {SelectedTradeCharts} from '../../../model/study/selectedTradeCharts';
+import {NewTrade} from '../../../model/report/new/newTrade';
 
 @Component({
-  selector: 'app-tv-market-prices-and-trades',
-  templateUrl: './tv-market-prices-and-trades.component.html',
+  selector: 'app-trade-detail-price-chart',
+  templateUrl: './trade-detail-price-chart.component.html',
 })
-export class TvMarketPricesAndTradesComponent implements OnInit {
+export class TradeDetailPriceChartComponent implements OnInit {
 
   @Input() trade: NewTrade
   @Input() marketDetail: MarketBasic

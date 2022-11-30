@@ -2,10 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NewTrade} from "../../../../model/report/new/newTrade";
 
 @Component({
-  selector: 'app-avg-odds-traded',
-  templateUrl: './avg-odds-traded.component.html',
+  selector: 'app-bets-avg-odds',
+  templateUrl: './bets-avg-odds.component.html',
 })
-export class AvgOddsTradedComponent implements OnInit {
+export class BetsAvgOddsComponent implements OnInit {
 
   @Input() trade: NewTrade
   @Input() view: boolean

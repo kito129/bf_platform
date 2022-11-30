@@ -227,7 +227,7 @@
                 <!-- BET TITLE -->
                 <div class="row">
                   <div class="col">
-                    <h4>{{h+1}}) {{tradeOutput.trade.selections[bet.selectionN].runnerName}}</h4>
+                    <h4>{{h+1}}) {{tradeOutput.trade.selections.length >=bet.selectionN ?  tradeOutput.trade.selections[bet.selectionN].runnerName : ""}}</h4>
                   </div>
                   <div class="col">
                     <h4 *ngIf="bet.type.indexOf('lay')!==-1" class="text-danger">Lay</h4>

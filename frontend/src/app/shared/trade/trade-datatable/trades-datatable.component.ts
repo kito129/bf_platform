@@ -186,6 +186,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       .forEach((x: NewTrade) => {
         const t = new Date(x.trade.info.date)
         const date = `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()}`
+        const time = `${t.getHours()}:${t.getMinutes()}:${t.getSeconds()}`
         const winner = x.trade.selections.filter( y => y.winner)[0]
         const loser = x.trade.selections.filter( y => !y.winner)[0]
         const winnerIndex = (x.trade.selections[0].winner) ? 0 : 1
@@ -199,8 +200,8 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
             date,
             marketName: x.trade.info.marketInfo.marketName,
             result: this.util.getPointInStringWay(x.trade.results.finalScore.tennis),
-            marketType,
-            duration: 0,
+            marketType: x.trade.info.tennisTournamentId,
+            duration: time,
             winner: winner.runnerName,
             loser: loser.runnerName,
             winnerBSP: winner.bsp,
@@ -236,10 +237,26 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       JSON.parse(JSON.stringify(temp.sort((c,d) => c.date - d.date ))))
   }
 
+  private addPropsToObj(trade: NewTrade, arrayToAdd, type: string){
+    // add element from bets
+    const bets = type ==='ALL' ? this.createTradeRows(trade) :
+      type ==='BFL' ? this.createTradeRowsBFLGrouped(trade) :  this.createTradeRowsGrouped(trade)
+    // match the key for csv
+    for (const [key, value] of Object.entries(bets)) {
+      const h = Object.getOwnPropertyNames(value)
+      for (const [keyT, valueT] of Object.entries(h)) {
+        arrayToAdd[arrayToAdd.length-1][`${valueT}${key}`] = value[`${valueT}`]
+      }
+    }
+  }
+
   private createTradeRows(trade: NewTrade){
     let i =0
     return trade.trade.trades.map( x =>{
+      console.log(trade.trade.info.marketInfo.marketName)
+      console.log(trade.trade.selections.length)
       i++
+      console.log(x.selectionN)
       const sideName = trade.trade.selections[x.selectionN].runnerName
       return {
         name: sideName,
@@ -252,19 +269,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
         empty: null
       }
     })
-  }
-
-  private addPropsToObj(trade: NewTrade, arrayToAdd, type: string){
-    // add element from bets
-    const bets = type ==='ALL' ? this.createTradeRows(trade) :
-      type ==='BFL' ? this.createTradeRowsBFLGrouped(trade) :  this.createTradeRowsGrouped(trade)
-    // match the key for csv
-    for (const [key, value] of Object.entries(bets)) {
-      const h = Object.getOwnPropertyNames(value)
-      for (const [keyT, valueT] of Object.entries(h)) {
-        arrayToAdd[arrayToAdd.length-1][`${valueT}${key}`] = value[`${valueT}`]
-      }
-    }
   }
 
   private createTradeRowsGrouped(trade: NewTrade){

@@ -1,4 +1,3 @@
-import {Trade, TradeDetail} from './report/trade';
 import {ConsecutiveTrade} from './report/consecutiveTrade';
 import {TradePlSeries} from './calculator/montecarlo';
 import { MonthTrade} from './study/study/comparatorTableRow';
@@ -7,6 +6,10 @@ import {Note} from './note/note';
 import {min} from 'simple-statistics';
 import {Strategy} from './report/strategy';
 import {TennisPoint} from './point/tennisPoint';
+import {MarketBasic} from './market/basic/marketBasic';
+import {FootballPoint} from './point/footballPoint';
+import {utils} from 'protractor';
+import {MarketSelectionInfo} from './market/marketSelectionInfo';
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -553,11 +556,11 @@ export class Utils{
   /*
   * Trade Consecutive
   */
-  maxOfConsecutive(trade: Trade[][]){
+  maxOfConsecutive(trade: NewTrade[][]){
     return  Math.max.apply(Math, trade.map( x => x.length))
   }
 
-  avgOfConsecutive(trade: Trade[][]){
+  avgOfConsecutive(trade: NewTrade[][]){
     return  trade.map( x => x.length).reduce((acc, val) =>{return val ? acc+=val : acc},
       0) / trade.length
   }
@@ -810,6 +813,149 @@ export class Utils{
             entryDescription: '',
             exitDescription: '',
             mmDescription: '',
+          }
+        }
+      }
+    }
+  }
+
+  public generateTradeFromMarket(marketInfo: MarketBasic): NewTrade{
+    const todayDate = new Date().getTime()
+    let selCount = -1
+    const selections = []
+    const stats = []
+    const params = []
+      marketInfo.marketRunners.marketRunners.map( x => {
+      selCount++
+        selections.push({
+          selectionN: selCount,
+          runnerId: x.id,
+          runnerName: x.name,
+          winner: x.status === 'WINNER',
+          bsp: x.inPlayOdds,
+          sets: {
+            secondSet: 0,
+            thirdSet: 0,
+          },
+          avg: {
+            back: {
+              odds: 0,
+              stake: 0,
+              toWin: 0,
+              liability: 0,
+            },
+            lay: {
+              odds: 0,
+              stake: 0,
+              toWin: 0,
+              liability: 0,
+            }
+          }
+        })
+        stats.push({
+          runnerId: x.id,
+          stats1: 0,
+          stats2: 0,
+          stats3: 0,
+          stats4: 0,
+          stats5: 0,
+          stats6: 0,
+          stats7: 0,
+          stats8: 0,
+          stats9: 0,
+          stats10: 0,
+        })
+        params.push({
+          runnerId: x.id,
+          params1: 0,
+          params2: 0,
+          params3: 0,
+          params4: 0,
+          params5: 0,
+          params6: 0,
+          params7: 0,
+          params8: 0,
+          params9: 0,
+          params10: 0
+        })
+    })
+    return {
+      created: todayDate,
+      updated: todayDate,
+      trade: {
+        info: {
+          setTime: {
+            second: 0,
+            third: 0,
+          },
+          strategyId: '',
+          tennisTournamentId: '',
+          date: marketInfo.marketInfo.marketInfo.openDate,
+          marketInfo: {
+            marketName: marketInfo.marketInfo.marketInfo.name,
+            marketId: marketInfo.marketId,
+            marketType: marketInfo.marketInfo.marketInfo.marketType,
+            eventName: marketInfo.marketInfo.marketInfo.eventName,
+            sport: marketInfo.marketInfo.marketInfo.sport,
+          },
+          executor: ['BACKTEST'],
+          exchange: {
+            name: 'BACKTEST',
+            commission: 0.02,
+          },
+          note: {
+            description: 'backtest trade',
+            entry: '',
+            exit: '',
+            position: '',
+            mm: '',
+            odds: '',
+            post: '',
+          }
+        },
+        selections,
+        trades: [],
+        results: {
+          grossProfit: 0,
+          netProfit: 0,
+          rr: 0,
+          commissionPaid: 0,
+          maxRisk: 0,
+          correctionPl: 0,
+          finalScore: {
+            tennis: this.getEmptyTennisPoint(),
+            football:{
+              home: 0,
+              away: 0
+            }
+          }
+        },
+        stats,
+        params,
+        statistic: {
+          runnerA: {
+            stats1: 0,
+            stats2: 0,
+            stats3: 0,
+            stats4: 0,
+            stats5: 0,
+            stats6: 0,
+            stats7: 0,
+            stats8: 0,
+            stats9: 0,
+            stats10: 0,
+          },
+          runnerB: {
+            stats1: 0,
+            stats2: 0,
+            stats3: 0,
+            stats4: 0,
+            stats5: 0,
+            stats6: 0,
+            stats7: 0,
+            stats8: 0,
+            stats9: 0,
+            stats10: 0,
           }
         }
       }

@@ -67,19 +67,14 @@ export class AuthService {
     this.store.dispatch(tennisTournamentActions.getAllTennisTournament())
     this.store.dispatch(reportActions.getAllStrategies())
     this.store.dispatch(reportActions.getAllSavedReport())
+    this.store.dispatch(runnerActions.getAllRunners())
+    this.store.dispatch(marketActions.getAllFilterBasket())
+    this.store.dispatch(reportActions.getAllNewTrades())
     // this.store.dispatch(reportActions.getAllTrades())
     // this.store.dispatch(basketsActions.getAllBaskets())
     // this.store.dispatch(entryActions.getAllEntries())
     // this.store.dispatch(studyActions.getAllStudies())
     // this.store.dispatch(playersActions.getAllPlayers())
-
-    this.store.dispatch(runnerActions.getAllRunners())
-    this.store.dispatch(marketActions.getAllFilterBasket())
-
-
-    this.store.dispatch(reportActions.getAllNewTrades())
-
-
     // this.store.dispatch(marketActions.getAllMarkets())
     // this.store.dispatch(marketAdvancedActions.getMarketsAdvancedList())
 
@@ -99,13 +94,9 @@ export class AuthService {
     this.store.dispatch(tennisTournamentActions.getAllTennisTournament())
     this.store.dispatch(reportActions.getAllStrategies())
     this.store.dispatch(reportActions.getAllSavedReport())
-    // this.store.dispatch(reportActions.getAllTrades())
-    this.store.dispatch(reportActions.getAllNewTrades())
-    this.store.dispatch(basketsActions.getAllBaskets())
-    this.store.dispatch(entryActions.getAllEntries())
-    this.store.dispatch(studyActions.getAllStudies())
-    this.store.dispatch(playersActions.getAllPlayers())
+    this.store.dispatch(runnerActions.getAllRunners())
     this.store.dispatch(marketActions.getAllFilterBasket())
+    this.store.dispatch(reportActions.getAllNewTrades())
 
   }
 

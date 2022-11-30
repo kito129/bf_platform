@@ -1,7 +1,7 @@
-import {IsLoading} from "../../../model/isLoading";
-import {Study} from "../../../model/study/study/study";
-import {Action, createReducer, on} from "@ngrx/store";
-import * as studyActions from "../study/study.actions";
+import {IsLoading} from '../../../model/isLoading';
+import {Study} from '../../../model/study/study/study';
+import {Action, createReducer, on} from '@ngrx/store';
+import * as studyActions from '../study/study.actions';
 import {
   addElement, deleteElement, reset,
   setterLoading,
@@ -10,11 +10,10 @@ import {
   updateElement,
   addStudyCompare,
   removeStudyCompare, addMultipleStudyCompare
-} from "../../supportFunction";
-import {Trade} from "../../../model/report/trade";
-import {MarketSinglePrices} from "../../../model/market/marketSinglePrices";
-import {CompareStudy} from "../../../model/report/compareStudy";
-import {addStudiesInCompare} from "../study/study.actions";
+} from '../../supportFunction';
+import {MarketSinglePrices} from '../../../model/market/marketSinglePrices';
+import {CompareStudy} from '../../../model/report/compareStudy';
+import {addStudiesInCompare} from '../study/study.actions';
 import {NewTrade} from '../../../model/report/new/newTrade';
 
 export interface StudyStates {

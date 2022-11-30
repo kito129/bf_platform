@@ -1,5 +1,4 @@
-import {Trade} from "./trade";
-import {Study} from "../study/study/study";
+import {Study} from '../study/study/study';
 import {NewTrade} from './new/newTrade';
 
 export interface CompareStudy{

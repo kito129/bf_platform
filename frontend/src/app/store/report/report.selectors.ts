@@ -474,6 +474,20 @@ function newTradeStats(trade: NewTrade): NewTrade{
   return t
 }
 
+/*
+**  BACKTEST
+ */
+export const getBacktestModeState = createSelector(
+  getReportState,
+  (state ) => state.backtestModeOn
+);
+
+export const getBacktestCurrentTradesCount = createSelector(
+  getReportState,
+  (state ) => state.backtestCurrentTrades.length
+);
+
+
 
 
 

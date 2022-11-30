@@ -36,7 +36,7 @@ export interface NewTrade{
         post: string
       }
     }
-    selections: [{
+    selections: {
       selectionN: number
       runnerId: number
       runnerName: string
@@ -60,7 +60,7 @@ export interface NewTrade{
           liability: number
         }
       }
-    }]
+    }[]
     trades: Bets[]
     results: {
       grossProfit: number,
@@ -74,7 +74,7 @@ export interface NewTrade{
         football: FootballPoint
       }
     },
-    stats: [{
+    stats: {
       runnerId: number
       stats1: number
       stats2: number
@@ -86,8 +86,8 @@ export interface NewTrade{
       stats8: number
       stats9: number
       stats10: number
-    }],
-    params: [{
+    }[],
+    params: {
       runnerId: number
       params1: number
       params2: number
@@ -99,7 +99,7 @@ export interface NewTrade{
       params8: number
       params9: number
       params10: number
-    }],
+    }[],
     statistic:{
       runnerA: {
         stats1: number

@@ -1,10 +1,13 @@
-import {Trade} from '../../model/report/trade';
 import {Action, createReducer, on} from '@ngrx/store';
 import * as reportActions from './report.actions';
 import {Strategy} from '../../model/report/strategy';
 import {
-  addElement, addStudyCompare,
-  deleteElement, deleteElements, removeStudyCompare,
+  addElement,
+  addStudyCompare,
+  backtestChangeMode,
+  deleteElement,
+  deleteElements,
+  removeStudyCompare,
   setterLoading,
   setterLoadingFailure,
   setterLoadingSuccess,
@@ -46,6 +49,9 @@ export interface ReportStates {
   compareStatus: boolean
   compareListSavedReport: string[]
   compareSavedReportStatus: boolean
+  // backtest
+  backtestModeOn: boolean
+  backtestCurrentTrades: NewTrade[]
 }
 
 // this is the initial state of the app, before all HTTP call,
@@ -79,6 +85,9 @@ export const reportInitialState: ReportStates = {
   compareStatus: false,
   compareListSavedReport: [],
   compareSavedReportStatus: false,
+  // backtest
+  backtestModeOn: false,
+  backtestCurrentTrades: []
 }
 
 // reducer that catch the reportActions
@@ -350,6 +359,13 @@ const reportReducers = createReducer(
 
   on(reportActions.resetSavedReportCompare, (state, result) => (
     {...state, compareListSavedReport: [], compareSavedReportStatus: false
+    })
+  ),
+
+
+  // BACKTEST
+  on(reportActions.backtestChangeMode, (state, result) => (
+    {...state, backtestModeOn: backtestChangeMode(state.backtestModeOn)
     })
   ),
 

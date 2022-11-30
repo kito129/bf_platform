@@ -1,4 +1,3 @@
-import {Trade} from "../../report/trade";
 import {NewTrade} from '../../report/new/newTrade';
 
 export interface ComparatorTableRow{

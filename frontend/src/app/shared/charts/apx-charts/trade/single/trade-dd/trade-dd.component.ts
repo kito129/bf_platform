@@ -1,5 +1,4 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Trade} from '../../../../../../model/report/trade';
 import {ChartComponent} from 'ng-apexcharts';
 import {ChartOptions} from '../../../../../../model/chartOptions';
 import {Utils} from '../../../../../../model/utils';

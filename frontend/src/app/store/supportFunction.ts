@@ -78,7 +78,6 @@ export function resetBasketFilters(): Filter[]{
   return new BasketFilters().filters
 }
 
-
 export function reset(){
   return {
     isLoading: false,
@@ -115,6 +114,9 @@ export function addMarketRemoved(all: string[], newElement: string ) {
   } else {
      return all.filter( x=> x !==newElement)
   }
+}
+export function backtestChangeMode(currentState: boolean){
+  return !currentState
 }
 
 

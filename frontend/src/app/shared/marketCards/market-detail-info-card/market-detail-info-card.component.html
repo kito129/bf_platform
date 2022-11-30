@@ -26,7 +26,10 @@
         <tr>
           <td> <h5> {{marketInfoBasic.marketInfo.openDate | date:'shortDate'}} </h5></td>
           <td> <h5> {{marketInfoBasic.marketInfo.metadata.inPlayDuration | secAndMinute}} </h5></td>
-          <td> <h5> {{marketInfoBasic.marketInfo.eventName}} </h5></td>
+          <td> <h5 class="text-primary pointer" (click)="searchMarketNameGoogle(marketInfoBasic.marketInfo.eventName)">
+            {{marketInfoBasic.marketInfo.eventName}}
+          </h5>
+          </td>
           <td> <app-event-name-text [eventName]="marketInfoBasic.marketInfo.name"></app-event-name-text></td>
           <td> <h5>   <app-sport-text [sport]="marketInfoBasic.marketInfo.sport"></app-sport-text> </h5></td>
           <td> <h5> {{marketInfoBasic.marketInfo.delay}} </h5></td>

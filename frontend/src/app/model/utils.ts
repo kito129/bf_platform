@@ -819,14 +819,14 @@ export class Utils{
     }
   }
 
-  public generateTradeFromMarket(marketInfo: MarketBasic): NewTrade{
+  public generateTradeFromMarket(marketInfo: MarketBasic, trade: NewTrade): NewTrade{
     const todayDate = new Date().getTime()
     let selCount = -1
     const selections = []
     const stats = []
     const params = []
-      marketInfo.marketRunners.marketRunners.map( x => {
-      selCount++
+    marketInfo.marketRunners.marketRunners.map( x => {
+        selCount++
         selections.push({
           selectionN: selCount,
           runnerId: x.id,
@@ -879,23 +879,26 @@ export class Utils{
           params10: 0
         })
     })
+    // if have trade
+
     return {
+      _id: todayDate.toString(),
       created: todayDate,
       updated: todayDate,
       trade: {
         info: {
           setTime: {
-            second: 0,
-            third: 0,
+            second:  trade ? trade.trade.info.setTime.second : 0,
+            third: trade ? trade.trade.info.setTime.third : 0,
           },
           strategyId: '',
-          tennisTournamentId: '',
+          tennisTournamentId: trade ? trade.trade.info.tennisTournamentId : '',
           date: marketInfo.marketInfo.marketInfo.openDate,
           marketInfo: {
-            marketName: marketInfo.marketInfo.marketInfo.name,
+            marketName: marketInfo.marketInfo.marketInfo.eventName,
             marketId: marketInfo.marketId,
             marketType: marketInfo.marketInfo.marketInfo.marketType,
-            eventName: marketInfo.marketInfo.marketInfo.eventName,
+            eventName: marketInfo.marketInfo.marketInfo.name,
             sport: marketInfo.marketInfo.marketInfo.sport,
           },
           executor: ['BACKTEST'],
@@ -904,7 +907,7 @@ export class Utils{
             commission: 0.02,
           },
           note: {
-            description: 'backtest trade',
+            description: '',
             entry: '',
             exit: '',
             position: '',
@@ -923,16 +926,16 @@ export class Utils{
           maxRisk: 0,
           correctionPl: 0,
           finalScore: {
-            tennis: this.getEmptyTennisPoint(),
+            tennis: trade ? trade.trade.results.finalScore.tennis : this.getEmptyTennisPoint(),
             football:{
               home: 0,
               away: 0
             }
           }
         },
-        stats,
-        params,
-        statistic: {
+        stats: trade ? trade.trade.stats : stats,
+        params: trade ? trade.trade.stats : params,
+        statistic: trade ? trade.trade.statistic : {
           runnerA: {
             stats1: 0,
             stats2: 0,

@@ -26,7 +26,7 @@
         <tbody>
         <tr>
         <tr *ngFor="let selection of marketRunnersBasic.marketRunners">
-          <td><h4>{{ selection.name }}</h4></td>
+          <td><h4 class="text-primary pointer" (click)="searchMarketNameGoogle(selection.name)">{{ selection.name }}</h4></td>
           <td>
             <app-winner-formatter [winner]="selection.status == 'WINNER'">
 

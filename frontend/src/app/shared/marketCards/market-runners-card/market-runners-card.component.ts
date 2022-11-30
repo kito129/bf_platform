@@ -19,5 +19,13 @@ export class MarketRunnersCardComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  searchMarketNameGoogle(toSearch: string){
+    const URL = 'https://www.google.com/search?q=' + toSearch + ' flashscore';
+    const viewportWidth = document.documentElement.clientWidth;
+    const viewportHeight = document.documentElement.clientHeight;
+    window.moveTo(0,0);
+    window.open(URL, toSearch, 'height= 950, width=850, left='+(viewportWidth-300)+', top=0');
+  }
+
 
 }

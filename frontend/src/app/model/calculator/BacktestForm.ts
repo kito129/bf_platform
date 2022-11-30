@@ -9,13 +9,13 @@ export interface BacktestFormInterface{
 }
 
 export interface BacktestSide{
+  active: string
+  selection: number
   back:{
     stake: number
-    selection: number
   }
   lay:{
     stake: number
-    selection: number
   }
 }
 
@@ -26,18 +26,19 @@ export class BacktestForm implements BacktestFormInterface{
   side: BacktestSide;
   tradeForm: NewTrade;
 
-  constructor(market) {
+  constructor(market: MarketBasic, trade: NewTrade) {
     this.marketInfo = market
     this.side = {
+      active: 'Back',
+      // default entry on runner 1
+      selection: market.marketRunners.marketRunners.length ? market.marketRunners.marketRunners[0].id : 0,
       back:{
-        stake: 0,
-        selection: 0,
+        stake: 100,
       },
       lay:{
-        stake: 0,
-        selection: 0,
+        stake: 100,
       }
     }
-    this.tradeForm = this.util.generateTradeFromMarket(market)
+    this.tradeForm = this.util.generateTradeFromMarket(market, trade)
   }
 }

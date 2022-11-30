@@ -4,7 +4,12 @@
     <div class="card">
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-baseline">
-          <h3>{{trade.trade.info.marketInfo.marketName}}</h3>
+          <h3 class="text-primary pointer"
+              (click)="searchMarketNameGoogle(trade.trade.info.marketInfo.marketName, ' sofascore')">
+            {{trade.trade.info.marketInfo.marketName}}
+            <i class="feather icon-search">
+            </i>
+          </h3>
         </div>
       </div>
       <div class="card-body">
@@ -77,47 +82,7 @@
                 <h4 *ngIf="trade.trade.info.exchange.name==='ITA WILLO'"><span class="badge badge-warning">OLD W-ITA</span></h4>
                 <h4 *ngIf="trade.trade.info.exchange.name==='ITA KITO' || trade.trade.info.exchange.name==='KITO'"><span class="badge badge-primary">KITO</span></h4>
                 <h4 *ngIf="trade.trade.info.exchange.name==='ITA PIDO'"><span class="badge badge-info">OLD P-ITA</span></h4>
-                <h4 *ngIf="trade.trade.info.exchange.name==='DEMO'"><span class="badge badge-dark">DEMO</span></h4>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col">
-                <h4 class="text-warning">Commission</h4>
-              </div>
-              <div class="col">
-                <h4 *ngIf="trade.trade.results.commissionPaid>0" class="text-warning">{{trade.trade.results.commissionPaid | currency}} ({{trade.trade.info.exchange.commission | percent:'0.2'}})</h4>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col">
-                <h4 class="text-danger">Max Risk</h4>
-              </div>
-              <div class="col">
-                <h4 class="text-danger">{{trade.trade.results.maxRisk | currency}}</h4>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col">
-                <h4 class="text-info">rR</h4>
-              </div>
-              <div class="col">
-                <h4 class="text-info">{{trade.trade.results.rr | percent}}</h4>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col">
-                <h4>Pl</h4>
-              </div>
-              <div class="col">
-                <h3 [ngClass]="trade.trade.results.netProfit>0 ? 'text-success' : 'text-danger'">{{trade.trade.results.netProfit | currency}}</h3>
+                <h4 *ngIf="trade.trade.info.exchange.name==='DEMO' || trade.trade.info.exchange.name==='BACKTEST'"><span class="badge badge-dark">DEMO</span></h4>
               </div>
             </div>
           </li>
@@ -125,12 +90,12 @@
       </div>
     </div>
   </div>
-  <!-- RESULT -->
+  <!-- FINAL RESULT -->
   <div class="col">
     <div class="card">
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-baseline">
-          <h3>Result</h3>
+          <h3>Final Result</h3>
         </div>
       </div>
       <div class="card-body">
@@ -154,7 +119,10 @@
             <div class="row">
               <div class="col">
                 <div class="row"></div>
-                <h4>{{selection.runnerName}}</h4>
+                <h4 class="text-primary pointer"
+                    (click)="searchMarketNameGoogle(selection.runnerName, ' flashscore')">
+                  {{selection.runnerName}}
+                </h4>
               </div>
               <div class="col">
                 <app-bsp-odd [bspOdd]="selection.bsp" ></app-bsp-odd>
@@ -178,6 +146,62 @@
       </div>
     </div>
   </div>
+</div>
+<!-- TRADE RESULTS -->
+<div class="row grid-margin">
+  <div class="col">
+  <div class="card">
+    <div class="card-header">
+      <div class="d-flex justify-content-between align-items-baseline">
+        <h3>Trade Results</h3>
+      </div>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col">
+              <h4 class="text-warning">Commission</h4>
+            </div>
+            <div class="col">
+              <h4 *ngIf="trade.trade.results.commissionPaid>0" class="text-warning">{{trade.trade.results.commissionPaid | currency}} ({{trade.trade.info.exchange.commission | percent:'0.2'}})</h4>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col">
+              <h4 class="text-danger">Max Risk</h4>
+            </div>
+            <div class="col">
+              <h4 class="text-danger">{{trade.trade.results.maxRisk | currency}}</h4>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col">
+              <h4 class="text-info">rR</h4>
+            </div>
+            <div class="col">
+              <h4 class="text-info">{{trade.trade.results.rr | percent}}</h4>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col">
+              <h4>Pl</h4>
+            </div>
+            <div class="col">
+              <h4 [ngClass]="trade.trade.results.netProfit>0 ? 'text-success' : 'text-danger'">{{trade.trade.results.netProfit | currency}}</h4>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 </div>
 <!-- NOTE -->
 <div class="row grid-margin" *ngIf="notePresent">
@@ -219,14 +243,13 @@
     </div>
   </div>
 </div>
-
 <!-- BETS -->
 <div class="row grid-margin">
   <div class="col">
     <div class="card">
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-baseline">
-          <h3>Trades</h3>
+          <h3>Bets</h3>
         </div>
       </div>
       <div class="card-body">
@@ -236,7 +259,8 @@
   </div>
 </div>
 
-<!--
+
+<!-- PREVIEW
 <div class="row grid-margin">
   <pre>
     {{trade | json}}

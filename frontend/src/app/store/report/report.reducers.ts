@@ -86,7 +86,7 @@ export const reportInitialState: ReportStates = {
   compareListSavedReport: [],
   compareSavedReportStatus: false,
   // backtest
-  backtestModeOn: false,
+  backtestModeOn: true,
   backtestCurrentTrades: []
 }
 
@@ -368,10 +368,6 @@ const reportReducers = createReducer(
     {...state, backtestModeOn: backtestChangeMode(state.backtestModeOn)
     })
   ),
-
-
-
-
 )
 
 // create the reducer

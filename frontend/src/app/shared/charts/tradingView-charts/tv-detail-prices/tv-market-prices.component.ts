@@ -1,11 +1,12 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {createChart, ISeriesApi, LineStyle, PriceScaleMode, UTCTimestamp,CrosshairMode} from 'lightweight-charts';
 import { DatePipe } from '@angular/common'
 import {MarketBasic} from '../../../../model/market/basic/marketBasic';
-import {SelectedTradeCharts} from '../../../../model/study/selectedTradeCharts';
+import {BetsTV} from '../../../../model/study/betsTV';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import * as reportSelectors from '../../../../store/report/report.selectors';
+import {Bets, NewTrade} from '../../../../model/report/new/newTrade';
 
 
 export interface RunnerData{
@@ -21,45 +22,44 @@ export interface RunnerData{
   selector: 'app-tv-market-prices',
   templateUrl: './tv-market-prices.component.html',
 })
-export class TvMarketPricesComponent implements OnInit, AfterViewInit {
+export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() marketDetail: MarketBasic
-  @Input() trades: SelectedTradeCharts[]
+  @Input() trade: NewTrade
+  @Input() bets: BetsTV[]
 
-  public runnersData: RunnerData[] = [];
-
-  // initialize chart
-  public lineSeriesData =[];
-  private tv: HTMLElement;
-  private chart: any;
-
-  timeCorrect= '-1h'
-
-  utc = 0
-  toAdd = 0
-
-  showTrades = true
-  bug = true
-
+  // chart
+  lineSeriesData =[];
+  tv: HTMLElement;
+  chart: any;
+  runnersData: RunnerData[] = [];
+  // markers and legend
   updateMarkers= []
   tradeMarkersA= []
   tradeMarkersB= []
-
   legend: {
     name: string,
     value: number[],
     time: number,
     openTime: number
   }
-
-  //backtest
+  // time correction
+  timeCorrect= '-1h'
+  utc = 0
+  toAdd = 0
+  // backtest
   $backtestMode: Observable<boolean>
+  backtestBets = []
+  selectionBlock = null
+  // other
+  showTrades = true
+  bug = true
 
-  constructor(public datePipe: DatePipe,
-              private readonly store: Store) {  }
+  constructor(private readonly store: Store) {  }
 
+  // on component start
   ngOnInit(): void {
-    //backtest state
+    // backtest state
     this.$backtestMode = this.store.pipe(select(reportSelectors.getBacktestModeState))
 
     // chart initialization
@@ -75,36 +75,62 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.startChart()
+    this.initializeChart()
   }
 
-  private startChart(){
-    this.generateChart()
-    this.setRunnerTvDataInChart()
+  ngOnDestroy() {
+    this.chart.unsubscribeCrosshairMove((param) =>{
+      console.log(param)
+    });
 
-    // cross hair subscribe
-    this.chart.subscribeCrosshairMove((param) =>{
-      this.subscriber(param)
+    this.chart.unsubscribeClick((param) =>{
+      console.log(param)
     });
   }
 
-  subscriber(param) {
+  // chart initialization
+  private initializeChart(){
+    // generate chart and set data
+    this.generateChart()
+    this.setRunnersSeriesInTV()
+
+    // crosshair subscribe
+    this.chart.subscribeCrosshairMove((param) =>{
+      this.crosshairSubscriber(param)
+    });
+    this.chart.subscribeClick((param) =>{
+      this.crosshairClickSubscriber(param)
+    });
+  }
+
+  crosshairClickSubscriber(param){
+    const prices = []
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.lineSeriesData.length; i++) {
+      prices.push(param.seriesPrices.get(this.lineSeriesData[i]))
+    }
+    this.backtestBets.push([param.time,prices])
+
+    // update charts with bets
+    this.createTvData(true)
+  }
+
+  crosshairSubscriber(param) {
     if (param.point) {
+      // console.log(param)
       const prevValue = this.legend.value
       // empty list
       this.legend.value = []
       // valid data point
       this.legend.time = (param.time * 1000) - this.toAdd*1000
-
+      // update legend
       for (let i = 0; i < this.lineSeriesData.length; i++) {
         this.legend.value.push(param.seriesPrices.get(this.lineSeriesData[i]) ? param.seriesPrices.get(this.lineSeriesData[i]) : prevValue[i])
       }
     } else {
       return
     }
-
   }
-
 
   // generate updates point
   private generateUpdatesPoint(){
@@ -126,7 +152,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // plot TV trade in div
+  // TV main creation, params and set in DOM
   private generateChart(){
     this.tv = document.getElementById('TVCharts') as HTMLElement
     this.chart = createChart(this.tv, {
@@ -186,10 +212,8 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
     this.tradeMarkersA = []
     this.tradeMarkersB = []
     for (const odd of this.marketDetail.marketOdds.marketOdds){
-
       // increment the color for each runner
       firstColor = i<4 ? colorList[i] : incrementColor(firstColor,5000)
-
       // initialize runner data
       const tempRunner: RunnerData = {
         runnerId: odd.runnerId,
@@ -200,9 +224,9 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
         visible: true
       }
 
+      // --  TIME CORRECTION --
       // calculate time zone and offset
       this.utc = new Date(odd.odds[0].timestamp).getTimezoneOffset()
-
       if(this.utc===-120){
         this.toAdd = 7200
       } else if(this.utc===-60){
@@ -211,18 +235,6 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
       else if(this.utc===0){
         this.toAdd = 0
       }
-
-      // add odds for this runner
-      for (const  o of odd.odds){
-        const t =  (o.timestamp/1000) + this.toAdd as UTCTimestamp
-        const temp = {
-          time: t,
-          value: o.ltp,
-        }
-        tempRunner.originalData.push(temp)
-        tempRunner.tradeData.push(temp)
-      }
-
       // check for day, here add a const based on form value
       let timeCorrection = 0
       switch (this.timeCorrect){
@@ -279,31 +291,43 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
           break
       }
 
-      // add trades value
-      // iterate over trade
+      // add odds for this runner
+      for (const  o of odd.odds){
+        const t =  (o.timestamp/1000) + this.toAdd as UTCTimestamp
+        const temp = {
+          time: t,
+          value: o.ltp,
+        }
+        tempRunner.originalData.push(temp)
+        tempRunner.tradeData.push(temp)
+      }
+
+      // add bets value
+      // iterate over bets
       let prevTime = 0
-      if(this.trades){
-        for (const trade of this.trades){
+      if(this.bets){
+        for (const bet of this.bets){
           let temp = {}
-          const time = (trade.time/1000)  + timeCorrection + this.toAdd as UTCTimestamp
-          if (i===0 && trade.sideA){
+          const time = (bet.time/1000)  + timeCorrection + this.toAdd as UTCTimestamp
+          if (i===0 && bet.sideA){
             temp = {
               time,
-              value: trade.odds,
+              value: bet.odds,
             }
-            this.tradeMarkersA.push(this.generateTradeMarker(trade,time))
+            this.tradeMarkersA.push(this.generateTradeMarker(bet,time))
             prevTime !== time ? tempRunner.tradeData.push(temp)  : console.log()
-          } else if (i===1 && !trade.sideA) {
+          } else if (i===1 && !bet.sideA) {
             temp = {
               time,
-              value: trade.odds,
+              value: bet.odds,
             }
-            this.tradeMarkersB.push(this.generateTradeMarker(trade,time))
+            this.tradeMarkersB.push(this.generateTradeMarker(bet,time))
             prevTime !== time ? tempRunner.tradeData.push(temp)  : console.log()
           }
           prevTime =  time
         }
       }
+
       // reorder
       tempRunner.tradeData = tempRunner.tradeData.sort((a, b) => a.time - b.time)
       tempRunner.originalData = tempRunner.originalData.sort((a, b) => a.time - b.time)
@@ -320,28 +344,35 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
       }
       i++
     }
+
+    // add backtest value
+    if(this.backtestBets){
+      for (const backtestBet of this.backtestBets){
+        const time = backtestBet[0] as UTCTimestamp
+        if (backtestBet[1][0] && this.selectionBlock !==0){
+          this.tradeMarkersA.push(this.generateTradeMarker(null,time))
+        }
+        if (backtestBet[1][1] && this.selectionBlock !==1){
+          this.tradeMarkersB.push(this.generateTradeMarker(null,time))
+        }
+      }
+    }
+    this.showTrade(false)
+  }
+
+  selectionBlockEvent(event){
+    if(this.marketDetail.marketRunners.marketRunners[0].id === event[0]) this.selectionBlock = 1
+    else this.selectionBlock = 0
   }
 
   // set TvData to trade
-  private setRunnerTvDataInChart(){
+  private setRunnersSeriesInTV(){
     // for runner create their TvData and append their odds
     // tslint:disable-next-line:forin
     for(const i in this.runnersData){
       // this runner series
       const runnerSerie = this.chart.addLineSeries({
         title: this.marketDetail.marketRunners.marketRunners[i].name,
-        /*
-        autoscaleInfoProvider: () => ({
-          priceRange: {
-            minValue: 1,
-            maxValue: 8,
-          },
-          margins: {
-            above: 0,
-            below: 0,
-          },
-        }),
-         */
       });
       // set data
       if(this.showTrades){
@@ -375,15 +406,12 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
         axisLabelVisible: false
       });
 
-
       if(this.marketDetail.marketInfo.marketInfo.sport==='FOOTBALL'){
 
       } else {
         // only for tennis market
         this.setMarkers(runnerSerie,+i)
-
       }
-
       this.lineSeriesData.push(runnerSerie)
     }
     this.chart.timeScale().fitContent();
@@ -457,7 +485,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
   }
 
 
-  // change the visibility for the runner in this position
+  // change the visibility for the runner in this position in data and series
   private changeRunnerVisibility(runnerPos: number, status:boolean){
     this.runnersData[runnerPos].visible = status
     this.lineSeriesData[runnerPos].applyOptions({
@@ -482,21 +510,26 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private generateTradeMarker(trade: SelectedTradeCharts, time: number){
+  private generateTradeMarker(trade: BetsTV, time: number){
 
     // markers
-    const color = trade.isBackTrade ? '#30d6e5' : '#ce86ea'
-    const arrow = trade.isBackTrade ? 'arrowDown' : 'arrowUp'
-    const position = trade.isBackTrade ? 'aboveBar' : 'belowBar'
+    let color = '#b9e11c'
+    let arrow = 'square'
+    let position = 'inBar'
+    if(trade){
+      color = trade.isBackTrade ? '#30d6e5' : '#ce86ea'
+      arrow = trade.isBackTrade ? 'arrowDown' : 'arrowUp'
+      position = trade.isBackTrade ? 'aboveBar' : 'belowBar'
+    }
 
     return {
       time,
       position,
       color,
       shape: arrow,
-      size: 3,
-      id: 'entry' + trade.id,
-      text: trade.id + ') ' + trade.odds + ', ' + trade.options.substr(0,5)
+      size:  trade  ? 3 : 2,
+      id: trade ? 'entry' +  trade.id : Math.random().toString(),
+      text: trade ? trade.id + ') ' + trade.odds + ', ' + trade.options.substr(0,5) : 'BT'
     }
 
   }

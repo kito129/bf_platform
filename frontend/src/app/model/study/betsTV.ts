@@ -1,4 +1,4 @@
-export  interface SelectedTradeCharts{
+export  interface BetsTV {
   id: number
   odds: number
   stake: number

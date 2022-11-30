@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SelectedTradeCharts} from "../../../model/study/selectedTradeCharts";
+import {BetsTV} from "../../../model/study/betsTV";
 import * as studyActions from "../../../store/study/study/study.actions";
 import * as basketActions from "../../../store/study/basket/basket.actions";
 import {Store} from "@ngrx/store";
@@ -13,7 +13,7 @@ export class StudyMarketsSelectedDetailComponent implements OnInit {
 
   @Input() selectedMarketData: any
   @Input() detail: boolean
-  @Input() selectedTrades: SelectedTradeCharts[]
+  @Input() selectedTrades: BetsTV[]
   @Input() haveTrades: boolean
   @Input() basketBspTime: number
   @Input() basketBspOdds: number

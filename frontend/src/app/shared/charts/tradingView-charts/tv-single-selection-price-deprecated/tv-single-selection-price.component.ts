@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {createChart, LineStyle, PriceScaleMode} from 'lightweight-charts';
-import {SelectedTradeCharts} from '../../../../model/study/selectedTradeCharts';
+import {BetsTV} from '../../../../model/study/betsTV';
 import {RunnerPrices} from '../../../../model/study/runnerPrices';
 
 @Component({
@@ -12,7 +12,7 @@ export class TvSingleSelectionPriceComponent implements OnInit, AfterViewInit {
 
   @Input() runnerPrices: RunnerPrices
   @Input() title: string
-  @Input() selectedTrades: SelectedTradeCharts[]
+  @Input() selectedTrades: BetsTV[]
   @Input() haveTrade: boolean
   @Input() basketBspTime: number
   @Input() basketBspOdd: number

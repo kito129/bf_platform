@@ -1,20 +1,57 @@
-<!-- INPUT -->
+<!-- SELECTION SELECTOR
+<div>
+  <ul>
+    <li *ngFor="let bet of backtestBets">
+      {{bet[0] | date}}
+      {{bet[1]}}
+    </li>
+  </ul>
+</div>
+-->
+<div class="col">
+  <form>
+    <div class="form-group">
+      <label>Selection</label>
+      <ng-select id="sport"
+                 name="sport"
+                 placeholder="Selection"
+                 [items]="selection"
+                 bindValue="id"
+                 bindLabel="name"
+                 [(ngModel)]="backtestForm.side.selection"
+                 (ngModelChange)="selectionUpdate()">
+      </ng-select>
+    </div>
+  </form>
+</div>
+<!-- STAKE BUTTON -->
 <div class="row">
-  <!-- BACK -->
   <div class="col">
-
+    <app-backtest-stake [stakeForm]="backtestForm.side" [type]="'Back'"></app-backtest-stake>
   </div>
-  <!-- LAY -->
   <div class="col">
-
-  </div>
-  <!-- RESULT -->
-  <div class="col">
-
+    <app-backtest-stake [stakeForm]="backtestForm.side" [type]="'Lay'"></app-backtest-stake>
   </div>
 </div>
-<!-- PREVIEW -->
-<div class="row">
-  <app-market-info-card [marketInfoBasic]="backtestForm.marketInfo.marketInfo"></app-market-info-card>
-  <app-trade-detail [trade]="backtestForm.tradeForm"></app-trade-detail>
+<!-- INFO ROW -->
+<h2 class="text-warning">Backtest Simulator</h2>
+<div class="d-flex justify-content-between align-items-center">
+  <h3>{{backtestForm.tradeForm.trade.info.marketInfo.marketName}} - {{backtestForm.tradeForm.trade.results.netProfit | currency}}</h3>
+  <h3 [ngClass]="!checkTradeValid() ? 'text-success' : 'text-danger'">{{!checkTradeValid() ? 'Valid' : 'Invalid'}}</h3>
+  <div>
+    <app-trade-updates-modal [tradeInput]="backtestForm.tradeForm"
+                             (tradeUpdateEmitter)="updateTradeFromEdit($event)">
+
+    </app-trade-updates-modal>
+    <button type="button"
+            class="btn btn-outline-success  ml-2"
+            [disabled]="checkTradeValid()"
+            (click)="addInBackTest()">
+      Add in Backtest
+    </button>
+  </div>
 </div>
+<!-- PREVIEW ROW -->
+<h2 class="text-warning">Preview</h2>
+<app-trade-detail [trade]="backtestForm.tradeForm" *ngIf="bug">
+</app-trade-detail>

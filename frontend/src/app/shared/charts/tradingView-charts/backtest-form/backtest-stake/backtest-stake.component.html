@@ -1,0 +1,37 @@
+<div class="d-grid gap-2">
+  <button type="button btn-lg"
+          [ngClass]="stakeForm.active===type ? normalColor : outlineColor"
+          (click)="setBetActiveType()"
+          [disabled]="getCorrectSideByType().stake===0">
+    {{type.toUpperCase()}}
+  </button>
+</div>
+<!-- stake form-->
+<form class="forms-sample grid-margin">
+  <div class="form-group">
+    <label for="mainStake"
+           class="text-gray">{{type}} Stake</label>
+    <input type="number"
+           class="form-control"
+           id="mainStake"
+           placeholder="Main Stake"
+           [(ngModel)]="getCorrectSideByType().stake"
+           name="mainStake">
+  </div>
+</form>
+<!-- stake default button-->
+<p class="text-gray grid-margin">Default Stake</p>
+<div class="d-flex justify-content-center align-items-center grid-margin">
+  <button type="button"
+          *ngFor="let stake of stakeButton"
+          class="mr-1"
+          [ngClass]="getCorrectSideByType().stake===stake ? normalColor : outlineColor"
+          (click)="setStake(stake)">
+    {{stake}}
+  </button>
+</div>
+<!-- reset button -->
+<div class="d-flex justify-content-center align-items-center grid-margin">
+  <button type="button" class="btn mr-2" [ngClass]="outlineColor" (click)="resetStake()">Reset {{type}}</button>
+</div>
+

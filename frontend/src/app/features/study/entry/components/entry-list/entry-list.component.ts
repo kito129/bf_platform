@@ -43,14 +43,14 @@ export class EntryListComponent implements OnInit {
   }
 
   onDuplicateClick(entry: Entry) {
-    let newEntry = JSON.parse(JSON.stringify(entry))
+    const newEntry = JSON.parse(JSON.stringify(entry))
     newEntry.created = Date.now()
     newEntry.lastUpdate = Date.now()
     newEntry.entry.name = newEntry.entry.name + ' - DUPLICATE'
 
     // remove id from data
     delete newEntry._id;
-    for(let bet of newEntry.entry.bets){
+    for(const bet of newEntry.entry.bets){
       delete bet._id
     }
     // dispatch actions with duplicated payload

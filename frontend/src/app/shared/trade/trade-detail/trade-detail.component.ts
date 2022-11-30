@@ -57,5 +57,12 @@ export class TradeDetailComponent implements OnInit,OnDestroy {
     this.destroy$.complete();
   }
 
+  searchMarketNameGoogle(toSearch: string, secondary: string){
+    const URL = 'https://www.google.com/search?q=' + toSearch + secondary;
+    const viewportWidth = document.documentElement.clientWidth;
+    window.moveTo(0,0);
+    window.open(URL, toSearch, 'height= 950, width=850, left='+(viewportWidth-300)+', top=0');
+  }
+
 
 }

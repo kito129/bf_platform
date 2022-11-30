@@ -136,6 +136,9 @@ import { TradeDataGridComponent } from './trade/trade-data-grid/trade-data-grid.
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { BacktestFormComponent } from './charts/tradingView-charts/backtest-form/backtest-form.component';
+import {
+  BacktestStakeComponent
+} from "./charts/tradingView-charts/backtest-form/backtest-stake/backtest-stake.component";
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
@@ -284,6 +287,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     BetOptionsFormatterComponent,
     TradeDataGridComponent,
     BacktestFormComponent,
+    BacktestStakeComponent,
   ],
   exports: [
     CommonModule,

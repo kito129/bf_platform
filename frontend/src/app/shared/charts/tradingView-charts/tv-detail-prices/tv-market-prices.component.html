@@ -64,14 +64,17 @@
       </div>
     </div>
     -->
-
     <!-- CHARTS -->
     <div class="align-content-center" id="TVCharts" style="width: 100%; height: 100%"></div>
 
+    {{selectionBlock}}
   </div>
+  <!-- BACKTEST BETS -->
   <div class="card-footer" *ngIf="($backtestMode | async)">
-    <app-backtest-form [market]="marketDetail">
-
+    <app-backtest-form [market]="marketDetail"
+                       [trade]="trade"
+                       [backtestBets]="backtestBets"
+                       (selectionEmitter)="selectionBlockEvent($event)">
     </app-backtest-form>
   </div>
 

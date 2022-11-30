@@ -390,8 +390,8 @@
 
   <ngx-datatable-column name="Trades" prop="trade" *ngIf="!viewNotes && viewTrades" [width]="1000">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <app-trade-bets-view [onlyBets]="false" [trade]="value">
-      </app-trade-bets-view>
+      <app-trade-bets-detail [onlyBets]="false" [trade]="value">
+      </app-trade-bets-detail>
     </ng-template>
   </ngx-datatable-column>
 

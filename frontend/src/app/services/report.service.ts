@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Trade} from "../model/report/trade";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import {Strategy} from "../model/report/strategy";
+import {Strategy} from '../model/report/strategy';
 import {NewTrade} from '../model/report/new/newTrade';
 import {SavedReport} from '../model/report/new/savedReport';
 

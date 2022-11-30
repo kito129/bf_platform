@@ -1,13 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NewTrade} from '../../../model/report/new/newTrade';
-import {TradeDetail} from '../../../model/report/trade';
 import {select, Store} from '@ngrx/store';
 import * as tennisTournamentSelectors from '../../../store/tennis-tournament/tennisTournament.selectors';
 import * as strategySelectors from '../../../store/report/report.selectors';
 import {takeUntil} from 'rxjs/operators';
 import {TennisTournament} from '../../../model/tennisTournament/tennisTournament';
 import {Subject} from 'rxjs';
-import {Strategy} from "../../../model/report/strategy";
+import {Strategy} from '../../../model/report/strategy';
 
 @Component({
   selector: 'app-trade-detail',

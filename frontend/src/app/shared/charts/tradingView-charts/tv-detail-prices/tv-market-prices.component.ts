@@ -3,6 +3,9 @@ import {createChart, ISeriesApi, LineStyle, PriceScaleMode, UTCTimestamp,Crossha
 import { DatePipe } from '@angular/common'
 import {MarketBasic} from '../../../../model/market/basic/marketBasic';
 import {SelectedTradeCharts} from '../../../../model/study/selectedTradeCharts';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import * as reportSelectors from '../../../../store/report/report.selectors';
 
 
 export interface RunnerData{
@@ -15,7 +18,7 @@ export interface RunnerData{
 }
 
 @Component({
-  selector: 'app-tv-market-detail-prices',
+  selector: 'app-tv-market-prices',
   templateUrl: './tv-market-prices.component.html',
 })
 export class TvMarketPricesComponent implements OnInit, AfterViewInit {
@@ -49,9 +52,17 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
     openTime: number
   }
 
-  constructor(public datePipe: DatePipe) {  }
+  //backtest
+  $backtestMode: Observable<boolean>
+
+  constructor(public datePipe: DatePipe,
+              private readonly store: Store) {  }
 
   ngOnInit(): void {
+    //backtest state
+    this.$backtestMode = this.store.pipe(select(reportSelectors.getBacktestModeState))
+
+    // chart initialization
     this.createTvData(false)
     this.generateUpdatesPoint()
 
@@ -330,7 +341,6 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit {
             below: 0,
           },
         }),
-
          */
       });
       // set data

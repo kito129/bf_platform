@@ -1,9 +1,8 @@
 /*
 **  STUDY ACTIONS
  */
-import {createAction, props} from "@ngrx/store";
-import {Study} from "../../../model/study/study/study";
-import {Trade} from "../../../model/report/trade";
+import {createAction, props} from '@ngrx/store';
+import {Study} from '../../../model/study/study/study';
 import {NewTrade} from '../../../model/report/new/newTrade';
 
 export const GET_ALL_STUDIES = '[Study] Get all Studies';

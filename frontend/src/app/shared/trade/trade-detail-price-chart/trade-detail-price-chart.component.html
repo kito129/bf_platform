@@ -1,7 +1,7 @@
 <div *ngIf="marketDetailsFound">
-  <app-tv-market-detail-prices [marketDetail]="marketDetail"
-                               [trades]="trades">
-  </app-tv-market-detail-prices>
+  <app-tv-market-prices [marketDetail]="marketDetail"
+                        [trades]="trades">
+  </app-tv-market-prices>
 
   <app-market-runners-card [marketInfoBasic]="marketDetail.marketInfo"
                            [marketRunnersBasic]="marketDetail.marketRunners">
@@ -14,6 +14,5 @@
                           [marketUpdates]="marketDetail.marketUpdates"
                           [marketUpdateOnlyData]="">
   </app-market-update-card>
-
 </div>
 

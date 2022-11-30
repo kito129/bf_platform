@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NewTrade} from "../../../../model/report/new/newTrade";
-import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from "../../../../model/report/tradeSetOddsAnalyzer";
+import {NewTrade} from '../../../../model/report/new/newTrade';
+import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from '../../../../model/report/tradeSetOddsAnalyzer';
 
 @Component({
-  selector: 'app-odds-movement',
-  templateUrl: './odds-movement.component.html',
+  selector: 'app-bets-set-odds',
+  templateUrl: './bets-set-odds.component.html',
 })
-export class OddsMovementComponent implements OnInit {
+export class BetsSetOddsComponent implements OnInit {
 
   @Input() trade: NewTrade
   @Input() view: boolean

@@ -1,0 +1,35 @@
+<!-- ODDS MOVEMENTS -->
+<app-bets-set-odds [view]="!onlyBets" [trade]="trade">
+
+</app-bets-set-odds>
+
+<!-- AVG ODDS -->
+<app-bets-avg-odds [trade]="trade">
+
+</app-bets-avg-odds>
+
+
+<button type="button" class="btn btn-xs" [disabled]="!(betsA.length && betsB.length)"
+        [ngClass]="split ? 'btn-warning' : 'btn-outline-warning' "
+        (click)="split= !split">
+  Split
+</button>
+
+<!-- TRADE BETS-->
+<app-bets-table *ngIf="!split"
+                [bets]="bets"
+                [title]="'All Bets'">
+</app-bets-table>
+
+
+
+<app-bets-table *ngIf="betsA.length && split"
+                [bets]="betsA"
+                [title]="'(A) ' + trade.trade.selections[0].runnerName">
+</app-bets-table>
+<app-bets-table *ngIf="betsB.length  && split"
+                [bets]="betsB"
+                [title]="'(B) ' + trade.trade.selections[1].runnerName">
+</app-bets-table>
+
+

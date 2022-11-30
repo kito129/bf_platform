@@ -2,10 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TradeBets} from '../../../../model/report/tradeBets';
 
 @Component({
-  selector: 'app-bet-table',
-  templateUrl: './bet-table.component.html',
+  selector: 'app-bets-table',
+  templateUrl: './bets-table.component.html',
 })
-export class BetTableComponent implements OnInit {
+export class BetsTableComponent implements OnInit {
 
   @Input() bets: TradeBets[]
   @Input() title: string

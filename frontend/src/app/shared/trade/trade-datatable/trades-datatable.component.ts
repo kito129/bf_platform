@@ -9,7 +9,7 @@ import {Utils} from '../../../model/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
 import * as reportActions from '../../../store/report/report.actions';
 import {SavedReport} from '../../../model/report/new/savedReport';
-import {TradeDetail} from '../../../model/report/trade';
+import { TradeDetail} from '../../../model/report/new/newTrade';
 
 @Component({
   selector: 'app-trades-datatable',

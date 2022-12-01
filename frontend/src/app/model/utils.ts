@@ -1,7 +1,7 @@
 import {ConsecutiveTrade} from './report/consecutiveTrade';
 import {TradePlSeries} from './calculator/montecarlo';
 import { MonthTrade} from './study/study/comparatorTableRow';
-import {Bets, CSVBetGroup, CSVTrade, NewTrade} from './report/new/newTrade';
+import {Bets, CSVBetGroup, CSVTrade, NewTrade, TradeResult, TradeSelectionsAvg} from './report/new/newTrade';
 import {Note} from './note/note';
 import {min} from 'simple-statistics';
 import {Strategy} from './report/strategy';
@@ -10,7 +10,8 @@ import {MarketBasic} from './market/basic/marketBasic';
 import {FootballPoint} from './point/footballPoint';
 import {utils} from 'protractor';
 import {MarketSelectionInfo} from './market/marketSelectionInfo';
-import {TradeBets} from "./report/tradeBets";
+import {TradeBets} from './report/tradeBets';
+import {TVBets} from './TV/TVBets';
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -794,7 +795,7 @@ export class Utils{
   * Month Calculator functions
   */
 
-  public generateStrategy(name: string, bank: number, id: string): Strategy{
+  generateStrategy(name: string, bank: number, id: string): Strategy{
     return {
       _id: id ? id : Date.now().toFixed(),
       created: Date.now(),
@@ -820,65 +821,142 @@ export class Utils{
     }
   }
 
-  public generateTradeFromMarket(marketInfo: MarketBasic, trade: NewTrade): NewTrade{
+  // TODO FIX IF TRADE IS NOT PRESENT BUT ONLY MARKET, from MarketBasic
+  generateBetsFromBacktestBets(backtestBets: any[], trade: NewTrade, market?: MarketBasic): TradeBets[]{
+    let resp = []
+    // tslint:disable-next-line:prefer-for-of
+    for(let i=0; i< backtestBets.length; i++){
+      const selected = backtestBets[i]
+      const selectionN = trade.trade.selections[0].runnerName === selected[2] ? 0 : 1
+      const selectionName = selected[2]
+      const type = selected[3].toLowerCase()
+      const odds = selectionN===0 ? selected[1][0] : selected[1][1]
+      const stake = type ==='back' ? selected[4] : selected[5]
+      const temp = {
+        id: i+1,
+        type,
+        selectionN,
+        selectionName,
+        odds,
+        stake,
+        toWin: type ==='back' ? stake*(odds-1) : stake,
+        liability: type ==='back' ? stake : stake*(odds-1),
+        time:  selected[0],
+        point: this.getEmptyTennisPoint(),
+        note: '',
+        options: selected[6]
+      }
+      resp.push(temp)
+    }
+    // sort by time
+    resp = resp.sort((a,b)=>{
+      return a.time - b.time
+    })
+    return resp
+  }
+
+  getNotesStats(notes: Note[]){
+    return {
+      length: notes.length,
+        stats: {
+      medical: notes.map(x => x.note.type).reduce((acc, val) =>{
+        return val === 'Medical' ? acc+=1 : acc;},0),
+        note: notes.map(x => x.note.type).reduce((acc, val) =>{
+        return val === 'Note' ? acc+=1 : acc;},0),
+        walkover: notes.map(x => x.note.type).reduce((acc, val) =>{
+        return val === 'Walkover' ? acc+=1 : acc;},0),
+        nmRetires: notes.map(x => x.note.type).reduce((acc, val) =>{
+        return val === 'No Med Retired' ? acc+=1 : acc;},0),
+        validated: notes.map(x => x.note.validation.isValidated).reduce((acc, val) =>{
+        return val ? acc+=1 : acc;},0)
+    },
+      medical: {
+        winner: notes.map(x => x.note.validation.detailValidation.win).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0),
+          looser: notes.map(x => x.note.validation.detailValidation.lose).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0),
+          retired: notes.map(x => x.note.validation.detailValidation.retired).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0),
+          fsRetired: notes.map(x => x.note.validation.detailValidation.retired &&
+          (x.note.validation.tennisPoints.set2.runnerA ===0
+            && x.note.validation.tennisPoints.set2.runnerB ===0
+            && x.note.validation.tennisPoints.set3.runnerA ===0
+            && x.note.validation.tennisPoints.set3.runnerB ===0
+            && x.note.validation.tennisPoints.set4.runnerA ===0
+            && x.note.validation.tennisPoints.set4.runnerB ===0
+            && x.note.validation.tennisPoints.set5.runnerA ===0
+            && x.note.validation.tennisPoints.set5.runnerB ===0)).reduce((acc, val) =>{
+          return val
+            ? acc+=1
+            : acc;
+        },0),
+      }
+    }
+  }
+
+  /*
+  * Backetest
+  */
+
+  generateTradeFromMarket(marketInfo: MarketBasic, trade: NewTrade): NewTrade{
     const todayDate = new Date().getTime()
     let selCount = -1
     const selections = []
     const stats = []
     const params = []
     marketInfo.marketRunners.marketRunners.map( x => {
-        selCount++
-        selections.push({
-          selectionN: selCount,
-          runnerId: x.id,
-          runnerName: x.name,
-          winner: x.status === 'WINNER',
-          bsp: x.inPlayOdds,
-          sets: {
-            secondSet: 0,
-            thirdSet: 0,
+      selCount++
+      selections.push({
+        selectionN: selCount,
+        runnerId: x.id,
+        runnerName: x.name,
+        winner: x.status === 'WINNER',
+        bsp: x.inPlayOdds,
+        sets: {
+          secondSet: 0,
+          thirdSet: 0,
+        },
+        avg: {
+          back: {
+            odds: 0,
+            stake: 0,
+            toWin: 0,
+            liability: 0,
           },
-          avg: {
-            back: {
-              odds: 0,
-              stake: 0,
-              toWin: 0,
-              liability: 0,
-            },
-            lay: {
-              odds: 0,
-              stake: 0,
-              toWin: 0,
-              liability: 0,
-            }
+          lay: {
+            odds: 0,
+            stake: 0,
+            toWin: 0,
+            liability: 0,
           }
-        })
-        stats.push({
-          runnerId: x.id,
-          stats1: 0,
-          stats2: 0,
-          stats3: 0,
-          stats4: 0,
-          stats5: 0,
-          stats6: 0,
-          stats7: 0,
-          stats8: 0,
-          stats9: 0,
-          stats10: 0,
-        })
-        params.push({
-          runnerId: x.id,
-          params1: 0,
-          params2: 0,
-          params3: 0,
-          params4: 0,
-          params5: 0,
-          params6: 0,
-          params7: 0,
-          params8: 0,
-          params9: 0,
-          params10: 0
-        })
+        }
+      })
+      stats.push({
+        runnerId: x.id,
+        stats1: 0,
+        stats2: 0,
+        stats3: 0,
+        stats4: 0,
+        stats5: 0,
+        stats6: 0,
+        stats7: 0,
+        stats8: 0,
+        stats9: 0,
+        stats10: 0,
+      })
+      params.push({
+        runnerId: x.id,
+        params1: 0,
+        params2: 0,
+        params3: 0,
+        params4: 0,
+        params5: 0,
+        params6: 0,
+        params7: 0,
+        params8: 0,
+        params9: 0,
+        params10: 0
+      })
     })
     // if have trade
 
@@ -996,76 +1074,166 @@ export class Utils{
     return resp
   }
 
-  generateBetsFromBacktestBets(backtestBets: any[], trade: NewTrade): TradeBets[]{
-    let resp = []
-    // tslint:disable-next-line:prefer-for-of
-    for(let i=0; i< backtestBets.length; i++){
-      const selected = backtestBets[i]
-      const selectionN = trade.trade.selections[0].runnerName === selected[2] ? 0 : 1
-      const selectionName = selected[2]
-      const type = selected[3].toLowerCase()
-      const odds = selectionN===0 ? selected[1][0] : selected[1][1]
-      const stake = type ==='back' ? selected[4] : selected[5]
-      const temp = {
-        id: i+1,
-        type,
-        selectionN,
-        selectionName,
-        odds,
-        stake,
-        toWin: type ==='back' ? stake*(odds-1) : stake,
-        liability: type ==='back' ? stake : stake*(odds-1),
-        time:  selected[0],
-        point: this.getEmptyTennisPoint(),
-        note: '',
-        options: selected[6]
-      }
-      resp.push(temp)
+  generateBetsFromTradeBets(TVbets: TradeBets[]): Bets[]{
+    const temp =[]
+    for (const bets of TVbets) {
+     temp.push({
+       id: bets.id,
+       selectionN: bets.selectionN,
+       odds: bets.odds,
+       stake: bets.stake,
+       liability: bets.liability,
+       ifWin: bets.toWin,
+       options: bets.options,
+       type: bets.type,
+       condition: {
+         tennis: {
+           isTennis: true,
+           point: this.getEmptyTennisPoint(),
+         },
+         football: {
+           isFootball: false,
+           point: this.getEmptyFotballPoint(),
+         },
+         horse: {
+           isHorse: false,
+         },
+         note: '',
+         time: bets.time
+       }
+     })
     }
-    // sort by time
-    resp = resp.sort((a,b)=>{
-      return a.time - b.time
-    })
-    return resp
+    console.log(temp)
+    // done
+    return temp
   }
 
-  getNotesStats(notes: Note[]){
-    return {
-      length: notes.length,
-        stats: {
-      medical: notes.map(x => x.note.type).reduce((acc, val) =>{
-        return val === 'Medical' ? acc+=1 : acc;},0),
-        note: notes.map(x => x.note.type).reduce((acc, val) =>{
-        return val === 'Note' ? acc+=1 : acc;},0),
-        walkover: notes.map(x => x.note.type).reduce((acc, val) =>{
-        return val === 'Walkover' ? acc+=1 : acc;},0),
-        nmRetires: notes.map(x => x.note.type).reduce((acc, val) =>{
-        return val === 'No Med Retired' ? acc+=1 : acc;},0),
-        validated: notes.map(x => x.note.validation.isValidated).reduce((acc, val) =>{
-        return val ? acc+=1 : acc;},0)
-    },
-      medical: {
-        winner: notes.map(x => x.note.validation.detailValidation.win).reduce((acc, val) =>{
-          return val ? acc+=1 : acc;},0),
-          looser: notes.map(x => x.note.validation.detailValidation.lose).reduce((acc, val) =>{
-          return val ? acc+=1 : acc;},0),
-          retired: notes.map(x => x.note.validation.detailValidation.retired).reduce((acc, val) =>{
-          return val ? acc+=1 : acc;},0),
-          fsRetired: notes.map(x => x.note.validation.detailValidation.retired &&
-          (x.note.validation.tennisPoints.set2.runnerA ===0
-            && x.note.validation.tennisPoints.set2.runnerB ===0
-            && x.note.validation.tennisPoints.set3.runnerA ===0
-            && x.note.validation.tennisPoints.set3.runnerB ===0
-            && x.note.validation.tennisPoints.set4.runnerA ===0
-            && x.note.validation.tennisPoints.set4.runnerB ===0
-            && x.note.validation.tennisPoints.set5.runnerA ===0
-            && x.note.validation.tennisPoints.set5.runnerB ===0)).reduce((acc, val) =>{
-          return val
-            ? acc+=1
-            : acc;
-        },0),
+  generateTradeResultsFromTradeBets(trade: NewTrade): TradeResult{
+     return this.resultFromBets(trade)
+  }
+
+  resultFromBets(trade: NewTrade): TradeResult {
+    const bets = trade.trade.trades
+    const winnerIndex = trade.trade.selections[0].winner ? 0 : 1
+    const intermediateA = []
+    const intermediateB = []
+    let winA = 0
+    let winB = 0
+
+    // calculate result
+    for (const bet of bets) {
+      if(bet){
+        if (bet.type === 'back' && bet.selectionN === 0) {
+          winA += bet.ifWin
+          winB += -bet.stake
+        }
+        if (bet.type === 'lay' && bet.selectionN === 0) {
+          winA += -bet.liability
+          winB += +bet.ifWin
+        }
+        if (bet.type === 'lay' && bet.selectionN === 1) {
+          winA += +bet.ifWin
+          winB += -bet.liability
+        }
+        if (bet.type === 'back' && bet.selectionN === 1) {
+          winA += -bet.stake
+          winB += +bet.ifWin
+        }
+        // save intermediate value in array
+        intermediateA.push(winA)
+        intermediateB.push(winB)
       }
     }
+    // calculate commission with 2% rate
+    let netPl = 0
+    if(winnerIndex===0){
+      if(winA>0){
+        netPl =  Math.round((winA * (1-0.02))*100)/100
+      } else{
+        netPl = Math.round((winA)*100)/100
+      }
+    } else if (winnerIndex===1) {
+      if(winB>0){
+        netPl = Math.round((winB * (1-0.02))*100)/100
+      } else{
+        netPl = Math.round((winB)*100)/100
+      }
+    }
+
+    // other calculation and return the results
+    const grossPl = netPl/ (1-0.02)
+    let maxRisk = this.minOfArray([this.minOfArray(intermediateA), this.minOfArray(intermediateB)])
+    if(maxRisk>=0){
+      maxRisk = 0
+    }
+    return {
+      grossProfit: grossPl,
+      netProfit: netPl,
+      rr: maxRisk ?  netPl / (-maxRisk) : 0,
+      commissionPaid: grossPl - netPl,
+      maxRisk,
+      correctionPl: 0,
+      finalScore: trade.trade.results.finalScore
+    }
+  }
+
+  generateAvgOddsTrade(trade: NewTrade): TradeSelectionsAvg[]{
+    const temp:TradeSelectionsAvg[]  = []
+    let i =0
+    // over selections
+    for (const selection of trade.trade.selections) {
+      let back = 0
+      let lay = 0
+      let totStake = 0
+      let totBank = 0
+      let totLiab = 0
+      let backOdds = 0
+      let backStake = 0
+      let layOdds = 0
+      let liab = 0
+      let layStake = 0
+      // over bets
+      for (const bet of trade.trade.trades) {
+        if(bet.selectionN === i){
+          if(bet.type==='back'){
+            back += bet.odds*bet.stake
+            totStake += bet.stake
+          } else {
+            lay += bet.odds*bet.stake
+            totBank += bet.stake
+            totLiab += bet.liability
+          }
+        }
+      }
+      // calculate avg value
+      if(back && totStake){
+        backOdds = Math.round((back / totStake)*100)/100
+        backStake = totStake
+      }
+      if(lay && totLiab && totBank){
+        layOdds = Math.round((lay / totBank)*100)/100
+        liab = totLiab
+        layStake = totBank
+      }
+
+      // push
+      temp.push({
+        back: {
+          odds: backOdds,
+          stake: backStake,
+          toWin: backStake ?  backStake * (backOdds - 1) : 0,
+          liability: backStake,
+        },
+        lay: {
+          odds: layOdds,
+          stake: layStake,
+          toWin: layStake,
+          liability: layStake ?  layStake * (layOdds - 1): 0,
+        }
+      })
+      i++
+    }
+    return temp
   }
 
   /*
@@ -1130,6 +1298,14 @@ export class Utils{
         server: 'A',
       }
     }
+  }
+
+  getEmptyFotballPoint(): FootballPoint {
+    return {
+      home: 0,
+      away: 0
+    }
+
   }
 
   exportToCsv(filename: string, rows: object[]) {

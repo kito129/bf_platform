@@ -1,12 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TradeDetail} from '../../../../../model/report/trade';
 import {SavedReport} from '../../../../../model/report/new/savedReport';
-import {ListForm} from '../../../../../model/listForm';
 import {Subject} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {select, Store} from '@ngrx/store';
-import * as reportSelectors from '../../../../../store/report/report.selectors';
-import {takeUntil} from 'rxjs/operators';
+import { Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-strategy-report-saved-updates',

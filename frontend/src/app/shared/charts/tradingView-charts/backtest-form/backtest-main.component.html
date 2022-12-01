@@ -76,7 +76,8 @@
 <div class="d-flex justify-content-center align-items-center grid-margin">
     <button type="button"
             class="btn btn-lg btn-outline-info mr-2"
-            (click)="addBetsInTrade()">
+            (click)="addBetsInTrade()"
+            [disabled]="backtestForm.backtestBets.length===0">
       Confirm Bets
     </button>
 </div>
@@ -87,7 +88,7 @@
   <h3 [ngClass]="!checkTradeValid() ? 'text-success' : 'text-danger'">{{!checkTradeValid() ? 'Valid' : 'Invalid'}}</h3>
   <div>
     <app-trade-updates-modal [tradeInput]="backtestForm.tradeForm"
-                             (tradeUpdateEmitter)="updateTradeFromEdit($event)">
+                             (tradeUpdateEmitter)="updateBacktestTradeFromEdit($event)">
 
     </app-trade-updates-modal>
     <button type="button"

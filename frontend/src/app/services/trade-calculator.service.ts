@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {TradeForm, TradeDetail} from '../model/report/trade';
+import { TradeForm, TradeDetail} from '../model/report/new/newTrade';
 import {Exposition} from '../model/report/exposition';
 import {NewTrade} from '../model/report/new/newTrade';
 

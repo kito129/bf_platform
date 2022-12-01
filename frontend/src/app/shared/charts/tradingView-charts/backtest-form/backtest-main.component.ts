@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MarketBasic} from '../../../../model/market/basic/marketBasic';
 import {BacktestForm} from '../../../../model/TV/backtestForm';
-import {Utils} from "../../../../model/utils";
-import {NewTrade} from "../../../../model/report/new/newTrade";
-import {TradeBets} from "../../../../model/report/tradeBets";
+import {Utils} from '../../../../model/utils';
+import {NewTrade} from '../../../../model/report/new/newTrade';
+import {TradeBets} from '../../../../model/report/tradeBets';
 
 @Component({
   selector: 'app-backtest-main',
@@ -38,26 +38,39 @@ export class BacktestMainComponent implements OnInit {
   }
 
   // update form form update modal and refresh view
-  updateTradeFromEdit(event){
+  updateBacktestTradeFromEdit(event){
     console.log('updated trade')
     console.log(event)
     this.backtestForm.tradeForm = event[0]
     this.bugFix()
   }
 
-  // return true if trad is valid to add in backtest
+  // return true if trade is valid to add in backtest
   checkTradeValid(){
     const trade = this.backtestForm.tradeForm.trade
     return (trade.trades.length === 0 ||
       trade.info.tennisTournamentId === null);
   }
 
+  // convert bets to trade bets and add in trade from, then refresh trade view
   addBetsInTrade(){
     console.log('bets ready to be added in trade')
-    // generate trade bets and add in trade
-    console.log(this.backtestTradeBets)
 
-    // calculate reuslt based on winner of the market, if winner not present leave at 0
+    // generate trade bets and add in trade
+    this.backtestForm.tradeForm.trade.trades = this.util.generateBetsFromTradeBets(this.backtestTradeBets)
+
+    // calculate result based on winner of the market, if winner not present leave at 0
+    this.backtestForm.tradeForm.trade.results = this.util.generateTradeResultsFromTradeBets(this.backtestForm.tradeForm)
+
+    // calculate avg for each selection
+    const avg = this.util.generateAvgOddsTrade(this.backtestForm.tradeForm)
+    let i = 0
+    for (const selection of this.backtestForm.tradeForm.trade.selections) {
+      selection.avg = avg[i]
+      i++
+    }
+    // refresh
+    this.bugFix()
   }
 
   // valid trade to add in backtest list

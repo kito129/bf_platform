@@ -63,20 +63,6 @@ export class TradeUpdatesModalComponent implements OnInit {
     this.tradeOutput.trade.info.strategyId = event[0].id
   }
 
-  setSelectionAvgOdds(event, index){
-
-    if(event[0]){
-      // im back
-      this.tradeOutput.trade.selections[index].avg.back.odds = event[1]
-      this.tradeOutput.trade.selections[index].avg.back.stake = event[2]
-    } else {
-      // im lay
-      this.tradeOutput.trade.selections[index].avg.lay.odds = event[1]
-      this.tradeOutput.trade.selections[index].avg.lay.stake = event[2]
-      this.tradeOutput.trade.selections[index].avg.lay.liability = event[3]
-    }
-
-  }
 
   /*
   * SELECTIONS
@@ -213,37 +199,13 @@ export class TradeUpdatesModalComponent implements OnInit {
   }
 
   updateAvgOddsPlayer(){
-    let i =0
-    for (const selection of this.tradeOutput.trade.selections) {
-      let back = 0
-      let lay = 0
-      let totStake = 0
-      let totBank = 0
-      let totLiab = 0
-      for (const trade of this.tradeOutput.trade.trades) {
-        console.log(trade)
-        if(trade.selectionN === i){
-          if(trade.type==='back'){
-            back += trade.odds*trade.stake
-            totStake += trade.stake
-          } else {
-            lay += trade.odds*trade.stake
-            totBank += trade.stake
-            totLiab += trade.liability
-          }
-        }
-      }
-      if(back && totStake){
-        selection.avg.back.odds = Math.round((back / totStake)*100)/100
-        selection.avg.back.stake = totStake
-      }
-      if(lay && totLiab && totBank){
-        selection.avg.lay.odds = Math.round((lay / totBank)*100)/100
-        selection.avg.lay.liability = totLiab
-        selection.avg.lay.stake = totBank
-      }
+    const temp = this.utils.generateAvgOddsTrade(this.tradeOutput)
+    let i = 0
+    for (const sel of this.tradeOutput.trade.selections){
+      sel.avg = temp[i]
       i++
     }
+    console.log(this.tradeOutput)
   }
 
   updateFinalResultTennis(event){

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {TradeDetail} from '../../../../../model/report/trade';
+import { TradeDetail} from "../../../../../model/report/new/newTrade";
 import {SavedReport} from '../../../../../model/report/new/savedReport';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {select, Store} from '@ngrx/store';

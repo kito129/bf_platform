@@ -1,13 +1,25 @@
-<!-- SELECTION SELECTOR
+<!-- SELECTION SELECTOR -->
 <div>
   <ul>
-    <li *ngFor="let bet of backtestBets">
-      {{bet[0] | date}}
-      {{bet[1]}}
+    <li *ngFor="let bet of backtestBets, index as i">
+      <div class="row">
+        <div class="col">
+          {{i+1}}
+        </div>
+        <div class="col">
+          {{bet[0] | date:'longTime'}}
+        </div>
+        <div class="col">
+          {{bet[1][0]}}
+        </div>
+        <div class="col">
+          {{bet[1][1]}}
+        </div>
+      </div>
     </li>
   </ul>
 </div>
--->
+
 <div class="col">
   <form>
     <div class="form-group">

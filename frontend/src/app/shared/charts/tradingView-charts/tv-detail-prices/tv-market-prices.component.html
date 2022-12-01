@@ -67,12 +67,24 @@
     <!-- CHARTS -->
     <div class="align-content-center" id="TVCharts" style="width: 100%; height: 100%"></div>
 
-    {{selectionBlock}}
+    <div class="d-flex justify-content-start align-items-center" *ngIf="($backtestMode | async)">
+      <button type="button"
+              class="btn mr-2"
+              [ngClass]="removeState ? 'btn-warning' : 'btn-outline-warning'"
+              (click)="changeRemoveState()">
+        Remove Bet
+      </button>
+      <button type="button"
+              class="btn btn-outline-danger"
+              (click)="removeAllBets()">
+        Remove All Bets
+      </button>
+    </div>
   </div>
   <!-- BACKTEST BETS -->
   <div class="card-footer" *ngIf="($backtestMode | async)">
     <app-backtest-form [market]="marketDetail"
-                       [trade]="trade"
+                       [originalTrade]="trade"
                        [backtestBets]="backtestBets"
                        (selectionEmitter)="selectionBlockEvent($event)">
     </app-backtest-form>

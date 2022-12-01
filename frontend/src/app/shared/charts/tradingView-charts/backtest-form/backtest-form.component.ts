@@ -10,7 +10,7 @@ import {NewTrade} from '../../../../model/report/new/newTrade';
 export class BacktestFormComponent implements OnInit {
 
   @Input() market : MarketBasic
-  @Input() trade: NewTrade
+  @Input() originalTrade: NewTrade
   @Input() backtestBets: any
 
   @Output() selectionEmitter = new EventEmitter();
@@ -24,7 +24,7 @@ export class BacktestFormComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.market){
-      this.backtestForm = new BacktestForm(this.market, this.trade)
+      this.backtestForm = new BacktestForm(this.market, this.originalTrade)
       this.selection = this.market.marketRunners.marketRunners.map( x => {
         return{
           id: x.id,
@@ -33,6 +33,10 @@ export class BacktestFormComponent implements OnInit {
       })
     }
     this.selectionEmitter.emit([this.backtestForm.side.selection])
+
+    this.backtestBets.onChange( x=> {
+      console.log('im changed')
+    })
   }
 
   updateTradeFromEdit(event){

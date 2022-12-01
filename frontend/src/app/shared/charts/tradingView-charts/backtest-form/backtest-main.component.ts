@@ -1,44 +1,43 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MarketBasic} from '../../../../model/market/basic/marketBasic';
-import {BacktestForm} from '../../../../model/calculator/BacktestForm';
-import {NewTrade} from '../../../../model/report/new/newTrade';
+import {BacktestForm} from '../../../../model/TV/backtestForm';
+import {Utils} from "../../../../model/utils";
+import {NewTrade} from "../../../../model/report/new/newTrade";
+import {TradeBets} from "../../../../model/report/tradeBets";
 
 @Component({
-  selector: 'app-backtest-form',
-  templateUrl: './backtest-form.component.html',
+  selector: 'app-backtest-main',
+  templateUrl: './backtest-main.component.html',
 })
-export class BacktestFormComponent implements OnInit {
+export class BacktestMainComponent implements OnInit {
 
   @Input() market : MarketBasic
-  @Input() originalTrade: NewTrade
-  @Input() backtestBets: any
+  @Input() trade : NewTrade
+  @Input() backtestForm: BacktestForm
+  @Input() backtestTradeBets: TradeBets[]
 
   @Output() selectionEmitter = new EventEmitter();
 
-  backtestForm: BacktestForm
+  util = new Utils()
+
   bug = true
-
-  selection = []
-
+  runners = []
   constructor() { }
 
   ngOnInit(): void {
     if(this.market){
-      this.backtestForm = new BacktestForm(this.market, this.originalTrade)
-      this.selection = this.market.marketRunners.marketRunners.map( x => {
+      this.runners = this.market.marketRunners.marketRunners.map(x => {
         return{
           id: x.id,
           name: x.name
         }
       })
     }
+    // emit default runner 1
     this.selectionEmitter.emit([this.backtestForm.side.selection])
-
-    this.backtestBets.onChange( x=> {
-      console.log('im changed')
-    })
   }
 
+  // update form form update modal and refresh view
   updateTradeFromEdit(event){
     console.log('updated trade')
     console.log(event)
@@ -46,19 +45,30 @@ export class BacktestFormComponent implements OnInit {
     this.bugFix()
   }
 
+  // return true if trad is valid to add in backtest
   checkTradeValid(){
     const trade = this.backtestForm.tradeForm.trade
     return (trade.trades.length === 0 ||
       trade.info.tennisTournamentId === null);
   }
 
-  addInBackTest(){
+  addBetsInTrade(){
+    console.log('bets ready to be added in trade')
+    // generate trade bets and add in trade
+    console.log(this.backtestTradeBets)
+
+    // calculate reuslt based on winner of the market, if winner not present leave at 0
+  }
+
+  // valid trade to add in backtest list
+  addInBacktest(){
     console.log('trade ready to be added in backtest list in state')
     // remove temp _id
     // delete this.backtestForm.tradeForm._id
     console.log(this.backtestForm.tradeForm)
   }
 
+  // emit current selection id to block in father
   selectionUpdate(){
     this.selectionEmitter.emit([this.backtestForm.side.selection])
   }

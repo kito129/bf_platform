@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BacktestSide} from '../../../../../model/calculator/BacktestForm';
+import {BacktestSide} from '../../../../../model/TV/backtestForm';
 
 @Component({
   selector: 'app-backtest-stake',

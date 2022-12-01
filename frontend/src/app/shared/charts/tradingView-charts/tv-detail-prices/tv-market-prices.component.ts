@@ -1,21 +1,15 @@
 import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {createChart, LineStyle, PriceScaleMode, UTCTimestamp,CrosshairMode} from 'lightweight-charts';
 import {MarketBasic} from '../../../../model/market/basic/marketBasic';
-import {BetsTV} from '../../../../model/study/betsTV';
+import {TVBets} from '../../../../model/TV/TVBets';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import * as reportSelectors from '../../../../store/report/report.selectors';
 import {NewTrade} from '../../../../model/report/new/newTrade';
-
-
-export interface RunnerData{
-  runnerId: string,
-  originalData: any[],
-  tradeData: any[]
-  color: string,
-  name: string,
-  visible: boolean
-}
+import {BacktestForm} from '../../../../model/TV/backtestForm';
+import {TVRunners} from '../../../../model/TV/TVRunners';
+import {TradeBets} from '../../../../model/report/tradeBets';
+import {Utils} from '../../../../model/utils';
 
 @Component({
   selector: 'app-tv-market-prices',
@@ -25,13 +19,13 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
 
   @Input() marketDetail: MarketBasic
   @Input() trade: NewTrade
-  @Input() bets: BetsTV[]
+  @Input() bets: TVBets[]
 
   // chart
   lineSeriesData =[];
   tv: HTMLElement;
   chart: any;
-  runnersData: RunnerData[] = [];
+  runnersData: TVRunners[] = [];
   // markers and legend
   updateMarkers= []
   tradeMarkersA= []
@@ -46,26 +40,32 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   timeCorrect= '-1h'
   utc = 0
   toAdd = 0
+  timeCorrection = 0
   // backtest
+  backtestForm: BacktestForm
   $backtestMode: Observable<boolean>
-  backtestBets = []
+  backtestTradeBets: TradeBets[]
   selectionBlock = null
   removeState = false
   // other
   showTrades = true
   bug = true
 
+  util = new Utils()
+
   constructor(private readonly store: Store) {  }
 
-  // on component start
+  // -- COMPONENT LIFETIME --
   ngOnInit(): void {
     // backtest state
     this.$backtestMode = this.store.pipe(select(reportSelectors.getBacktestModeState))
+    this.backtestForm = new BacktestForm(this.marketDetail, this.trade)
 
     // chart initialization
-    this.createTvData(false)
-    this.generateUpdatesPoint()
+    this.createTVData(false)
+    this.generateUpdatesMarkers()
 
+    // legend initialization
     this.legend ={
       name: '',
       value: [],
@@ -73,11 +73,9 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
       openTime: this.marketDetail.marketInfo.marketInfo.openDate as UTCTimestamp
     }
   }
-
   ngAfterViewInit() {
     this.initializeChart()
   }
-
   ngOnDestroy() {
     // unsubscribe from Crosshair
     this.chart.unsubscribeCrosshairMove((param) =>{
@@ -88,6 +86,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     });
   }
 
+  // -- CHART --
   // chart initialization
   private initializeChart(){
     // generate chart and set data
@@ -96,13 +95,14 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
 
     // crosshair subscribe
     this.chart.subscribeCrosshairMove((param) =>{
-      this.crosshairSubscriber(param)
+      this.crosshairMoveSubscriber(param)
     });
     this.chart.subscribeClick((param) =>{
       this.crosshairClickSubscriber(param)
     });
   }
 
+  // subscriber function for click
   crosshairClickSubscriber(param){
     const prices = []
     // tslint:disable-next-line:prefer-for-of
@@ -118,25 +118,40 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     if (time){
       if(!this.removeState){
         // add backtest bets
+        const temp =[
+          time,
+          prices,
+          this.backtestForm.side.selection,
+          this.backtestForm.side.active,
+          this.backtestForm.side.back.stake,
+          this.backtestForm.side.lay.stake,
+          this.backtestForm.side.option
+        ]
         if(this.selectionBlock===1){
-          prices[0] ? this.backtestBets.push([time,prices]) : console.log()
+          prices[0] ? this.backtestForm.backtestBets.push(temp)
+            : console.log()
         } else {
-          prices[1] ? this.backtestBets.push([time,prices]) : console.log()
+          prices[1] ? this.backtestForm.backtestBets.push(temp) : console.log()
         }
       } else {
         // remove backtest bets
         if(this.selectionBlock===0){
-          this.backtestBets = this.backtestBets.filter( x => !(x[0] === time && x[1] !== null))
+          this.backtestForm.backtestBets = this.backtestForm.backtestBets.filter( x => !(x[0] === time && x[1] !== null))
         } else {
-          this.backtestBets = this.backtestBets.filter( x => !(x[0] === time && x[0] !== null))
+          this.backtestForm.backtestBets = this.backtestForm.backtestBets.filter( x => !(x[0] === time && x[0] !== null))
         }
       }
     }
-    // update charts with bets
-    this.createTvData(true)
+    // reorder backtest bets
+    this.backtestForm.backtestBets.sort((a,b) => a[0]-b[0])
+
+    // refresh all
+    this.createTVData(true)
+    this.backtestTradeBets = this.util.generateBetsFromBacktestBets(this.backtestForm.backtestBets,this.trade)
   }
 
-  crosshairSubscriber(param) {
+  // subscriber function for move
+  crosshairMoveSubscriber(param) {
     if (param.point) {
       // console.log(param)
       const prevValue = this.legend.value
@@ -150,26 +165,6 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
       }
     } else {
       return
-    }
-  }
-
-  // generate updates point
-  private generateUpdatesPoint(){
-    let color = '#b0fa74'
-    let index=0
-    for (const update of this.marketDetail.marketUpdates.marketUpdates){
-      if(update.status.indexOf('OPEN')!==-1 && update.betDelay>0 && update.inPlay){
-        color = incrementColor(color, 20000)
-        this.updateMarkers.push({
-          time: update.timestamp/1000 + this.toAdd as UTCTimestamp,
-          position: 'inBar',
-          color,
-          size:3,
-          shape: 'circle',
-          id: 'update Runner' + index,
-        })
-      }
-      index++
     }
   }
 
@@ -224,7 +219,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   // generate correct TV data form runner data
-  public createTvData(isUpdate: boolean){
+  createTVData(isUpdate: boolean){
     // generate data for all runner
     let firstColor = '#54ff00'
     const colorList = ['#298afa', '#e04434','#f3ea2d' ,'#65ef56' ,'#1c65ff']
@@ -232,13 +227,12 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     // empty last markers
     this.tradeMarkersA = []
     this.tradeMarkersB = []
-    let timeCorrection = 0
-    for (const odd of this.marketDetail.marketOdds.marketOdds){
+    for (const mktRunnerOdds of this.marketDetail.marketOdds.marketOdds){
       // increment the color for each runner
       firstColor = i<4 ? colorList[i] : incrementColor(firstColor,5000)
       // initialize runner data
-      const tempRunner: RunnerData = {
-        runnerId: odd.runnerId,
+      const tempRunner: TVRunners = {
+        runnerId: mktRunnerOdds.runnerId,
         originalData: [],
         tradeData: [],
         color: firstColor,
@@ -246,79 +240,15 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
         visible: true
       }
 
-      // --  TIME CORRECTION --
-      // calculate time zone and offset
-      this.utc = new Date(odd.odds[0].timestamp).getTimezoneOffset()
-      if(this.utc===-120){
-        this.toAdd = 7200
-      } else if(this.utc===-60){
-        this.toAdd = 3600
-      }
-      else if(this.utc===0){
-        this.toAdd = 0
-      }
-      // check for day, here add a const based on form value
-
-      switch (this.timeCorrect){
-        case ('-1d'):
-          timeCorrection = -86400
-          break
-        case ('-1d-1h'):
-          timeCorrection = -86400-3600
-          break
-        case ('-1d-0h'):
-          timeCorrection = -86400
-          break
-        case ('-1d+1'):
-          timeCorrection = -86400+3600
-          break
-        case ('+1d'):
-          timeCorrection = +86400
-          break
-        case ('+1d-1h'):
-          timeCorrection = 86400-3600
-          break
-        case ('+1d-0h'):
-          timeCorrection = 86400
-          break
-        case ('+1d+1'):
-          timeCorrection = 86400+3600
-          break
-        case ('+0h'):
-          timeCorrection = 0
-          break
-        case ('-1h'):
-          timeCorrection = -3600
-          break
-        case ('-2h'):
-          timeCorrection = -7200
-          break
-        case ('-3h'):
-          timeCorrection = -10800
-          break
-        case ('-4h'):
-          timeCorrection = -14400
-          break
-        case ('+1h'):
-          timeCorrection = +3600
-          break
-        case ('+2h'):
-          timeCorrection = +7200
-          break
-        case ('+3h'):
-          timeCorrection = +10800
-          break
-        case ('+4h'):
-          timeCorrection = +14400
-          break
-      }
+      // correct the time params for current runner
+      this.correctTime(mktRunnerOdds)
 
       // add odds for this runner
-      for (const  o of odd.odds){
-        const t =  (o.timestamp/1000) + this.toAdd as UTCTimestamp
+      for (const odds of mktRunnerOdds.odds){
+        const time =  (odds.timestamp/1000) + this.toAdd as UTCTimestamp
         const temp = {
-          time: t,
-          value: o.ltp,
+          time,
+          value: odds.ltp,
         }
         tempRunner.originalData.push(temp)
         tempRunner.tradeData.push(temp)
@@ -330,7 +260,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
       if(this.bets){
         for (const bet of this.bets){
           let temp = {}
-          const time = (bet.time/1000)  + timeCorrection + this.toAdd as UTCTimestamp
+          const time = (bet.time/1000)  + this.timeCorrection + this.toAdd as UTCTimestamp
           if (i===0 && bet.sideA){
             temp = {
               time,
@@ -368,32 +298,21 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     }
 
     // add backtest bets as markers and update chart
-    if(this.backtestBets){
-      for (const backtestBet of this.backtestBets){
-        const time = (backtestBet[0] /1000)  + timeCorrection + this.toAdd as UTCTimestamp
+    if(this.backtestForm.backtestBets){
+      let j = 0
+      for (const backtestBet of this.backtestForm.backtestBets){
+        const time = (backtestBet[0] /1000)  + this.timeCorrection + this.toAdd as UTCTimestamp
         if (backtestBet[1][0]){
-          this.tradeMarkersA.push(this.generateTradeMarker(null,time))
+          this.tradeMarkersA.push(this.generateTradeMarker(null,time, j))
+          j++
         }
         if (backtestBet[1][1]){
-          this.tradeMarkersB.push(this.generateTradeMarker(null,time))
+          this.tradeMarkersB.push(this.generateTradeMarker(null,time, j))
+          j++
         }
       }
     }
-    this.showTrade(false)
-  }
-
-  selectionBlockEvent(event){
-    if(this.marketDetail.marketRunners.marketRunners[0].id === event[0]) this.selectionBlock = 1
-    else this.selectionBlock = 0
-  }
-
-  changeRemoveState(){
-    this.removeState = !this.removeState
-  }
-
-  removeAllBets(){
-    this.backtestBets = []
-    this.createTvData(true)
+    this.showTradeMarkers(false)
   }
 
   // set TvData to trade
@@ -448,6 +367,93 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     this.chart.timeScale().fitContent();
   }
 
+  // -- MARKERS --
+  // generate updates markers for chart
+  private generateUpdatesMarkers(){
+    let color = '#b0fa74'
+    let index=0
+    for (const update of this.marketDetail.marketUpdates.marketUpdates){
+      if(update.status.indexOf('OPEN')!==-1 && update.betDelay>0 && update.inPlay){
+        color = incrementColor(color, 20000)
+        this.updateMarkers.push({
+          time: update.timestamp/1000 + this.toAdd as UTCTimestamp,
+          position: 'inBar',
+          color,
+          size:3,
+          shape: 'circle',
+          id: 'update Runner' + index,
+        })
+      }
+      index++
+    }
+  }
+
+  private setMarkers(runnerSeries, i: number){
+    if(i===0) {
+      if (this.showTrades) {
+        runnerSeries.setMarkers(this.updateMarkers.concat(this.tradeMarkersA))
+      } else {
+        runnerSeries.setMarkers(this.updateMarkers)
+      }
+    } else {
+      if (this.showTrades) {
+        runnerSeries.setMarkers(this.updateMarkers.concat(this.tradeMarkersB))
+      } else {
+        runnerSeries.setMarkers(this.updateMarkers)
+      }
+    }
+  }
+
+  private generateTradeMarker(trade: TVBets, time: number,  index?: number){
+
+    // markers
+    let color = '#b9e11c'
+    let arrow = 'square'
+    let position = 'inBar'
+    if(trade){
+      color = trade.isBackTrade ? '#30d6e5' : '#ce86ea'
+      arrow = trade.isBackTrade ? 'arrowDown' : 'arrowUp'
+      position = trade.isBackTrade ? 'aboveBar' : 'belowBar'
+    }
+
+    if(index>=0){
+      const temp = this.backtestForm.backtestBets[index]
+      arrow = temp[3].toLowerCase()==='back' ? 'arrowDown' : 'arrowUp'
+      position = temp[3].toLowerCase()==='back' ? 'aboveBar' : 'belowBar'
+    }
+
+    return {
+      time,
+      position,
+      color,
+      shape: arrow,
+      size:  trade  ? 3 : 2,
+      id: trade ? 'entry' +  trade.id : Math.random().toString(),
+      text: trade ? trade.id + ') ' + trade.odds + ', ' + trade.options.substr(0,5) : index ?  (index+1).toString() : ''
+    }
+
+  }
+
+  public showTradeMarkers(changeStatus: boolean){
+    if(changeStatus){
+      this.showTrades = !this.showTrades
+    }
+    let i=0
+    // switch tradeData to originalData
+    for(const series of this.lineSeriesData){
+      if(this.showTrades){
+        this.lineSeriesData[i].setData(this.runnersData[i].tradeData);
+      } else {
+        this.lineSeriesData[i].setData(this.runnersData[i].originalData);
+      }
+      // update markers
+      this.setMarkers(series,i)
+      i++
+    }
+
+  }
+
+  // -- BUTTON FUNCTIONS --
   // support function to change runner by button
   public changeRunnerState(runnerId: string){
     let i = 0
@@ -496,26 +502,6 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     this.chart.timeScale().fitContent();
   }
 
-  public showTrade(changeStatus: boolean){
-    if(changeStatus){
-      this.showTrades = !this.showTrades
-    }
-    let i=0
-    // switch tradeData to originalData
-    for(const series of this.lineSeriesData){
-      if(this.showTrades){
-        this.lineSeriesData[i].setData(this.runnersData[i].tradeData);
-      } else {
-        this.lineSeriesData[i].setData(this.runnersData[i].originalData);
-      }
-      // update markers
-      this.setMarkers(series,i)
-      i++
-    }
-
-  }
-
-
   // change the visibility for the runner in this position in data and series
   private changeRunnerVisibility(runnerPos: number, status:boolean){
     this.runnersData[runnerPos].visible = status
@@ -525,44 +511,85 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
 
   }
 
-  private setMarkers(runnerSeries, i: number){
-    if(i===0) {
-      if (this.showTrades) {
-        runnerSeries.setMarkers(this.updateMarkers.concat(this.tradeMarkersA))
-      } else {
-        runnerSeries.setMarkers(this.updateMarkers)
-      }
-    } else {
-      if (this.showTrades) {
-        runnerSeries.setMarkers(this.updateMarkers.concat(this.tradeMarkersB))
-      } else {
-        runnerSeries.setMarkers(this.updateMarkers)
-      }
-    }
+  // -- BACKTEST --
+  // set the current blocked runner to add bets
+  selectionBlockEvent(event){
+    if(this.marketDetail.marketRunners.marketRunners[0].name === event[0]) this.selectionBlock = 1
+    else this.selectionBlock = 0
   }
 
-  private generateTradeMarker(trade: BetsTV, time: number){
+  // remove all backtest bets and update markers
+  removeAllBets(){
+    this.backtestForm.backtestBets = []
+    // refresh all
+    this.createTVData(true)
+    this.backtestTradeBets = this.util.generateBetsFromBacktestBets(this.backtestForm.backtestBets,this.trade)
+  }
 
-    // markers
-    let color = '#b9e11c'
-    let arrow = 'square'
-    let position = 'inBar'
-    if(trade){
-      color = trade.isBackTrade ? '#30d6e5' : '#ce86ea'
-      arrow = trade.isBackTrade ? 'arrowDown' : 'arrowUp'
-      position = trade.isBackTrade ? 'aboveBar' : 'belowBar'
+  // --  TIME CORRECTION --
+  correctTime(odd){
+    // calculate time zone and offset
+    this.utc = new Date(odd.odds[0].timestamp).getTimezoneOffset()
+    if(this.utc===-120){
+      this.toAdd = 7200
+    } else if(this.utc===-60){
+      this.toAdd = 3600
     }
-
-    return {
-      time,
-      position,
-      color,
-      shape: arrow,
-      size:  trade  ? 3 : 2,
-      id: trade ? 'entry' +  trade.id : Math.random().toString(),
-      text: trade ? trade.id + ') ' + trade.odds + ', ' + trade.options.substr(0,5) : 'BT'
+    else if(this.utc===0){
+      this.toAdd = 0
     }
+    // check for day, here add a const based on form value
 
+    switch (this.timeCorrect){
+      case ('-1d'):
+        this.timeCorrection = -86400
+        break
+      case ('-1d-1h'):
+        this.timeCorrection = -86400-3600
+        break
+      case ('-1d-0h'):
+        this.timeCorrection = -86400
+        break
+      case ('-1d+1h'):
+        this.timeCorrection = -86400+3600
+        break
+      case ('+1d'):
+        this.timeCorrection = +86400
+        break
+      case ('+1d-1h'):
+        this.timeCorrection = 86400-3600
+        break
+      case ('+1d+1'):
+        this.timeCorrection = 86400+3600
+        break
+      case ('0h'):
+        this.timeCorrection = 0
+        break
+      case ('-1h'):
+        this.timeCorrection = -3600
+        break
+      case ('-2h'):
+        this.timeCorrection = -7200
+        break
+      case ('-3h'):
+        this.timeCorrection = -10800
+        break
+      case ('-4h'):
+        this.timeCorrection = -14400
+        break
+      case ('+1h'):
+        this.timeCorrection = +3600
+        break
+      case ('+2h'):
+        this.timeCorrection = +7200
+        break
+      case ('+3h'):
+        this.timeCorrection = +10800
+        break
+      case ('+4h'):
+        this.timeCorrection = +14400
+        break
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-export  interface BetsTV {
+export  interface TVBets {
   id: number
   odds: number
   stake: number

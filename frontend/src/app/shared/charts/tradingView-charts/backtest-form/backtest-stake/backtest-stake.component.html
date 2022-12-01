@@ -1,5 +1,5 @@
 <div class="d-grid gap-2">
-  <button type="button btn-lg"
+  <button type="button"
           [ngClass]="stakeForm.active===type ? normalColor : outlineColor"
           (click)="setBetActiveType()"
           [disabled]="getCorrectSideByType().stake===0">

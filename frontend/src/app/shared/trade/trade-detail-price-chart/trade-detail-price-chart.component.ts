@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MarketBasic, } from '../../../model/market/basic/marketBasic';
-import {BetsTV} from '../../../model/study/betsTV';
+import {TVBets} from '../../../model/TV/TVBets';
 import {NewTrade} from '../../../model/report/new/newTrade';
 
 @Component({
@@ -13,7 +13,7 @@ export class TradeDetailPriceChartComponent implements OnInit {
   @Input() marketDetail: MarketBasic
   @Input() marketDetailsFound: boolean
 
-  trades: BetsTV[] = []
+  trades: TVBets[] = []
 
   constructor() { }
 

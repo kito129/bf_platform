@@ -10,6 +10,7 @@ import {MarketBasic} from './market/basic/marketBasic';
 import {FootballPoint} from './point/footballPoint';
 import {utils} from 'protractor';
 import {MarketSelectionInfo} from './market/marketSelectionInfo';
+import {TradeBets} from "./report/tradeBets";
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -963,6 +964,69 @@ export class Utils{
         }
       }
     }
+  }
+
+  generateBetsFromTrade(trade: NewTrade): TradeBets[]{
+    let resp = []
+    // tslint:disable-next-line:prefer-for-of
+    for(let i=0; i< trade.trade.trades.length; i++){
+      const selected = trade.trade.trades[i]
+      const selectionN = trade.trade.trades[i].selectionN
+      const selectionName = trade.trade.selections[selectionN].runnerName
+      const temp = {
+        id: selected.id,
+        type: selected.type,
+        selectionN,
+        selectionName,
+        odds: selected.odds,
+        stake: selected.stake,
+        toWin: selected.ifWin,
+        liability: selected.liability,
+        time: selected.condition.time,
+        point: selected.condition.tennis.point,
+        note: selected.condition.note,
+        options: selected.options
+      }
+      resp.push(temp)
+    }
+    // sort by time
+    resp = resp.sort((a,b)=>{
+      return a.time - b.time
+    })
+    return resp
+  }
+
+  generateBetsFromBacktestBets(backtestBets: any[], trade: NewTrade): TradeBets[]{
+    let resp = []
+    // tslint:disable-next-line:prefer-for-of
+    for(let i=0; i< backtestBets.length; i++){
+      const selected = backtestBets[i]
+      const selectionN = trade.trade.selections[0].runnerName === selected[2] ? 0 : 1
+      const selectionName = selected[2]
+      const type = selected[3].toLowerCase()
+      const odds = selectionN===0 ? selected[1][0] : selected[1][1]
+      const stake = type ==='back' ? selected[4] : selected[5]
+      const temp = {
+        id: i+1,
+        type,
+        selectionN,
+        selectionName,
+        odds,
+        stake,
+        toWin: type ==='back' ? stake*(odds-1) : stake,
+        liability: type ==='back' ? stake : stake*(odds-1),
+        time:  selected[0],
+        point: this.getEmptyTennisPoint(),
+        note: '',
+        options: selected[6]
+      }
+      resp.push(temp)
+    }
+    // sort by time
+    resp = resp.sort((a,b)=>{
+      return a.time - b.time
+    })
+    return resp
   }
 
   getNotesStats(notes: Note[]){

@@ -1,0 +1,108 @@
+<!-- SELECTION SELECTOR
+<div>
+  <ul>
+    <li *ngFor="let bet of backtestForm.backtestBets, index as i">
+      <div class="row">
+        <div class="col">
+          {{i+1}}
+        </div>
+        <div class="col">
+          {{bet[0] | date:'longTime'}}
+        </div>
+        <div class="col">
+          {{bet[1][0]}}
+        </div>
+        <div class="col">
+          {{bet[1][1]}}
+        </div>
+        <div class="col">
+          {{bet[2]}}
+        </div>
+        <div class="col">
+          {{bet[3]}}
+        </div>
+        <div class="col">
+          {{bet[4]}}
+        </div>
+        <div class="col">
+          {{bet[5]}}
+        </div>
+        <div class="col">
+          {{bet[6]}}
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+-->
+<!-- BETS PREVIEW -->
+<div class="col">
+  <app-bets-table [bets]="backtestTradeBets" [title]="'preview'"></app-bets-table>
+</div>
+<!-- SELECTORS -->
+<form class="row">
+  <div class="col form-group">
+    <label>Bet Options</label>
+    <ng-select [items]="['OPEN','INCREASE MARGIN', 'DECREASE MARGIN', 'CLOSE' ,'FREE BET', 'ADJ']"
+               id='option'
+               name='option'
+               placeholder="Bet Options"
+               [(ngModel)]="backtestForm.side.option">
+    </ng-select>
+  </div>
+  <div class="col form-group">
+    <label>Selection</label>
+    <ng-select id="sport"
+               name="sport"
+               placeholder="Selection"
+               [items]="runners"
+               bindValue="name"
+               bindLabel="name"
+               [(ngModel)]="backtestForm.side.selection"
+               (ngModelChange)="selectionUpdate()">
+    </ng-select>
+  </div>
+</form>
+<!-- STAKE BUTTON -->
+<div class="row">
+  <div class="col">
+    <app-backtest-stake [stakeForm]="backtestForm.side" [type]="'Back'"></app-backtest-stake>
+  </div>
+  <div class="col">
+    <app-backtest-stake [stakeForm]="backtestForm.side" [type]="'Lay'"></app-backtest-stake>
+  </div>
+</div>
+<!-- STAKE BUTTON -->
+<div class="d-flex justify-content-center align-items-center grid-margin">
+    <button type="button"
+            class="btn btn-lg btn-outline-info mr-2"
+            (click)="addBetsInTrade()">
+      Confirm Bets
+    </button>
+</div>
+<!-- INFO ROW -->
+<h2 class="text-warning">Backtest Simulator</h2>
+<div class="d-flex justify-content-between align-items-center">
+  <h3>{{backtestForm.tradeForm.trade.info.marketInfo.marketName}} - {{backtestForm.tradeForm.trade.results.netProfit | currency}}</h3>
+  <h3 [ngClass]="!checkTradeValid() ? 'text-success' : 'text-danger'">{{!checkTradeValid() ? 'Valid' : 'Invalid'}}</h3>
+  <div>
+    <app-trade-updates-modal [tradeInput]="backtestForm.tradeForm"
+                             (tradeUpdateEmitter)="updateTradeFromEdit($event)">
+
+    </app-trade-updates-modal>
+    <button type="button"
+            class="btn bnt-lg btn-outline-success  ml-2"
+            [disabled]="checkTradeValid()"
+            (click)="addInBacktest()">
+      Add in Backtest
+    </button>
+  </div>
+</div>
+<!-- PREVIEW ROW -->
+<h2 class="text-warning">Preview</h2>
+<app-trade-detail [trade]="backtestForm.tradeForm" *ngIf="bug">
+</app-trade-detail>
+
+
+
+

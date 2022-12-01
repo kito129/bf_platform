@@ -135,7 +135,7 @@ import { BetOptionsFormatterComponent } from './formatter/bet-options-formatter/
 import { TradeDataGridComponent } from './trade/trade-data-grid/trade-data-grid.component';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { BacktestFormComponent } from './charts/tradingView-charts/backtest-form/backtest-form.component';
+import { BacktestMainComponent } from './charts/tradingView-charts/backtest-form/backtest-main.component';
 import {
   BacktestStakeComponent
 } from "./charts/tradingView-charts/backtest-form/backtest-stake/backtest-stake.component";
@@ -286,7 +286,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyReportBetFilterParamsComponent,
     BetOptionsFormatterComponent,
     TradeDataGridComponent,
-    BacktestFormComponent,
+    BacktestMainComponent,
     BacktestStakeComponent,
   ],
   exports: [

@@ -1,8 +1,8 @@
-
 <div class="card">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
       <h3>Odds Chart</h3>
+      <!-- BUTTONS -->
       <button type="button"
               class="btn btn-lg btn-secondary btn-icon-text mr-2"
               (click)="fitClick()">
@@ -12,7 +12,7 @@
       <button type="button"
               class="btn bnt-lg"
               [ngClass]="showTrades ? 'btn-primary' : 'btn-outline-primary'"
-              (click)="showTrade(true)">
+              (click)="showTradeMarkers(true)">
         Show Trades
       </button>
       <form>
@@ -22,9 +22,9 @@
           <ng-select id="tableSize"
                      name="options"
                      [(ngModel)]="timeCorrect"
-                     [items]="['-1d','-1d-1h','-1d-0h','-1d+1h','-4h','-3h','-2h','-1h','0h','+1h','+2h','+3h','+4h','+1d','+1d-1h','+1d-0h','+1d+1h']"
+                     [items]="['-1d','-1d-1h','-1d+1h','-4h','-3h','-2h','-1h','0h','+1h','+2h','+3h','+4h','+1d','+1d-1h','+1d+1h']"
                      [clearable]="false"
-                     (change)="createTvData(true)">
+                     (change)="createTVData(true)">
           </ng-select>
         </div>
       </form>
@@ -32,7 +32,7 @@
   </div>
   <!-- BODY -->
   <div class="card-body" id="TvContainer">
-    <!-- RUNNERS -->
+    <!-- RUNNERS LEGEND -->
     <div class=" mb-3 d-flex justify-content-around align-items-center">
       <div class="col">
         <h5>{{legend.time | date:'longTime'}}</h5>
@@ -51,27 +51,17 @@
         </button>
       </div>
     </div>
-
-    <!-- LEGEND
-    <div class="mb-3 d-flex justify-content-between align-items-center">
-      <div class="col">
-        <h4>{{legend.time | date:'longTime'}}</h4>
-        <h4 [ngClass]="legend.time - legend.openTime <0 ? 'text-warning' : ''"> {{legend.time - legend.openTime <0 ? '-' : ''}}({{(legend.time - legend.openTime) | secAndMinute}})</h4>
-      </div>
-      <div class="col" *ngFor="let leg of legend.value, index as i ">
-        <h4 class="mr-2" >{{runnersData[i].name}} <i *ngIf="marketDetail.marketRunners.marketRunners[i].status.indexOf('WINNER')" class=" text-success feather icon-check"></i></h4>
-        <h3 class="mr-2" >{{leg}}</h3>
-      </div>
-    </div>
-    -->
     <!-- CHARTS -->
     <div class="align-content-center" id="TVCharts" style="width: 100%; height: 100%"></div>
-
-    <div class="d-flex justify-content-start align-items-center" *ngIf="($backtestMode | async)">
+  </div>
+  <!-- BACKTEST BETS -->
+  <div class="card-footer" *ngIf="($backtestMode | async)">
+    <!-- BUTTONS -->
+    <div class="d-flex justify-content-start align-items-center mb-3" *ngIf="($backtestMode | async)">
       <button type="button"
               class="btn mr-2"
               [ngClass]="removeState ? 'btn-warning' : 'btn-outline-warning'"
-              (click)="changeRemoveState()">
+              (click)="removeState = !removeState">
         Remove Bet
       </button>
       <button type="button"
@@ -80,14 +70,12 @@
         Remove All Bets
       </button>
     </div>
-  </div>
-  <!-- BACKTEST BETS -->
-  <div class="card-footer" *ngIf="($backtestMode | async)">
-    <app-backtest-form [market]="marketDetail"
-                       [originalTrade]="trade"
-                       [backtestBets]="backtestBets"
+    <!-- BACKTEST MAIN -->
+    <app-backtest-main [market]="marketDetail"
+                       [backtestForm]="backtestForm"
+                       [trade]="trade"
+                       [backtestTradeBets]="backtestTradeBets"
                        (selectionEmitter)="selectionBlockEvent($event)">
-    </app-backtest-form>
+    </app-backtest-main>
   </div>
-
 </div>

@@ -5,7 +5,7 @@ import {IsLoading} from '../../../model/isLoading';
 import {select, Store} from '@ngrx/store';
 import * as studySelectors from '../../../store/study/study/study.selectors';
 import * as strategySelectors from '../../../store/report/report.selectors';
-import {BetsTV} from '../../../model/study/betsTV';
+import {TVBets} from '../../../model/TV/TVBets';
 import {StrategyReport} from '../../../model/report/starategyReport';import {takeUntil} from 'rxjs/operators';
 import {MarketSinglePrices} from '../../../model/market/marketSinglePrices';
 import {CompareStudy} from '../../../model/report/compareStudy';
@@ -35,7 +35,7 @@ export class StudyMainComponent implements OnInit, OnDestroy {
   // strategy and strategyReport
   selectedStrategyReport: StrategyReport
   selectedStrategyPie: number[] = [0,0,0]
-  selectedTrades: BetsTV[] = []
+  selectedTrades: TVBets[] = []
   // comparator
   isLoadingCompare$: Observable<IsLoading>
   compareList$: Observable<string[]>

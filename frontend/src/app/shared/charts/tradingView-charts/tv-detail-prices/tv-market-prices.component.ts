@@ -104,12 +104,12 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   // subscriber function for click
   crosshairClickSubscriber(param){
     const prices = []
-    // tslint:disable-next-line:prefer-for-of
+    // get odds data from TV object series
     for (let i = 0; i < this.lineSeriesData.length; i++) {
-      if(this.backtestForm.info.selectionN!==i){
-        prices.push(null)
-      } else {
+      if(this.backtestForm.info.selectionN===i){
         prices.push(param.seriesPrices.get(this.lineSeriesData[i]))
+      } else {
+       prices.push(null)
       }
     }
     // add backtest bets

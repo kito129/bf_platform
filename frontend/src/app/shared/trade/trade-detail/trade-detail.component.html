@@ -5,7 +5,7 @@
       <div class="card-header">
         <div class="d-flex justify-content-between align-items-baseline">
           <h3 class="text-primary pointer"
-              (click)="searchMarketNameGoogle(trade.trade.info.marketInfo.marketName, ' sofascore')">
+              (click)="searchMarketNameGoogle(trade.trade.info.marketInfo.marketName, 'sofascore')">
             {{trade.trade.info.marketInfo.marketName}}
             <i class="feather icon-search">
             </i>
@@ -190,11 +190,14 @@
         </li>
         <li class="list-group-item">
           <div class="row">
-            <div class="col">
-              <h4>Pl</h4>
+            <div class="col-6">
+              <h3>Pl</h3>
             </div>
             <div class="col">
-              <h4 [ngClass]="trade.trade.results.netProfit>0 ? 'text-success' : 'text-danger'">{{trade.trade.results.netProfit | currency}}</h4>
+              <h3 [ngClass]="trade.trade.results.netProfit>0 ? 'text-success' : 'text-danger'">{{trade.trade.results.netProfit | currency}}</h3>
+            </div>
+            <div class="col">
+              <h4>Gross: {{trade.trade.results.grossProfit | currency}}</h4>
             </div>
           </div>
         </li>

@@ -650,15 +650,19 @@ export class Utils{
   /*
   * Quartile and statistics utils
   */
-  // sort array ascending
+
   asc = arr => arr.sort((a, b) => a - b);
+
   sum = arr => arr.reduce((a, b) => a + b, 0);
+
   mean = arr => this.sum(arr) / arr.length;
+
   std = (arr) => {
     const mu = this.mean(arr);
     const diffArr = arr.map(a => (a - mu) ** 2);
     return Math.sqrt(this.sum(diffArr) / (arr.length - 1));
   };
+
   quantile = (arr, q) => {
     const sorted = this.asc(arr);
     const pos = (sorted.length - 1) * q;
@@ -670,6 +674,7 @@ export class Utils{
       return sorted[base];
     }
   };
+
   divideInHistogram(series: number[], n: number){
 
     let limit = []
@@ -732,6 +737,7 @@ export class Utils{
   /*
   * Month Calculator functions
   */
+
   getMonthTrades(trades: NewTrade[]): MonthTrade[]{
 
     const monthLabels = this.getMonthFromDate(trades[0].trade.info.date)
@@ -814,44 +820,6 @@ export class Utils{
             mmDescription: '',
           }
         }
-      }
-    }
-  }
-  getNotesStats(notes: Note[]){
-    return {
-      length: notes.length,
-        stats: {
-      medical: notes.map(x => x.note.type).reduce((acc, val) =>{
-        return val === 'Medical' ? acc+=1 : acc;},0),
-        note: notes.map(x => x.note.type).reduce((acc, val) =>{
-        return val === 'Note' ? acc+=1 : acc;},0),
-        walkover: notes.map(x => x.note.type).reduce((acc, val) =>{
-        return val === 'Walkover' ? acc+=1 : acc;},0),
-        nmRetires: notes.map(x => x.note.type).reduce((acc, val) =>{
-        return val === 'No Med Retired' ? acc+=1 : acc;},0),
-        validated: notes.map(x => x.note.validation.isValidated).reduce((acc, val) =>{
-        return val ? acc+=1 : acc;},0)
-    },
-      medical: {
-        winner: notes.map(x => x.note.validation.detailValidation.win).reduce((acc, val) =>{
-          return val ? acc+=1 : acc;},0),
-          looser: notes.map(x => x.note.validation.detailValidation.lose).reduce((acc, val) =>{
-          return val ? acc+=1 : acc;},0),
-          retired: notes.map(x => x.note.validation.detailValidation.retired).reduce((acc, val) =>{
-          return val ? acc+=1 : acc;},0),
-          fsRetired: notes.map(x => x.note.validation.detailValidation.retired &&
-          (x.note.validation.tennisPoints.set2.runnerA ===0
-            && x.note.validation.tennisPoints.set2.runnerB ===0
-            && x.note.validation.tennisPoints.set3.runnerA ===0
-            && x.note.validation.tennisPoints.set3.runnerB ===0
-            && x.note.validation.tennisPoints.set4.runnerA ===0
-            && x.note.validation.tennisPoints.set4.runnerB ===0
-            && x.note.validation.tennisPoints.set5.runnerA ===0
-            && x.note.validation.tennisPoints.set5.runnerB ===0)).reduce((acc, val) =>{
-          return val
-            ? acc+=1
-            : acc;
-        },0),
       }
     }
   }
@@ -1343,6 +1311,45 @@ export class Utils{
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+      }
+    }
+  }
+
+  getNotesStats(notes: Note[]){
+    return {
+      length: notes.length,
+      stats: {
+        medical: notes.map(x => x.note.type).reduce((acc, val) =>{
+          return val === 'Medical' ? acc+=1 : acc;},0),
+        note: notes.map(x => x.note.type).reduce((acc, val) =>{
+          return val === 'Note' ? acc+=1 : acc;},0),
+        walkover: notes.map(x => x.note.type).reduce((acc, val) =>{
+          return val === 'Walkover' ? acc+=1 : acc;},0),
+        nmRetires: notes.map(x => x.note.type).reduce((acc, val) =>{
+          return val === 'No Med Retired' ? acc+=1 : acc;},0),
+        validated: notes.map(x => x.note.validation.isValidated).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0)
+      },
+      medical: {
+        winner: notes.map(x => x.note.validation.detailValidation.win).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0),
+        looser: notes.map(x => x.note.validation.detailValidation.lose).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0),
+        retired: notes.map(x => x.note.validation.detailValidation.retired).reduce((acc, val) =>{
+          return val ? acc+=1 : acc;},0),
+        fsRetired: notes.map(x => x.note.validation.detailValidation.retired &&
+          (x.note.validation.tennisPoints.set2.runnerA ===0
+            && x.note.validation.tennisPoints.set2.runnerB ===0
+            && x.note.validation.tennisPoints.set3.runnerA ===0
+            && x.note.validation.tennisPoints.set3.runnerB ===0
+            && x.note.validation.tennisPoints.set4.runnerA ===0
+            && x.note.validation.tennisPoints.set4.runnerB ===0
+            && x.note.validation.tennisPoints.set5.runnerA ===0
+            && x.note.validation.tennisPoints.set5.runnerB ===0)).reduce((acc, val) =>{
+          return val
+            ? acc+=1
+            : acc;
+        },0),
       }
     }
   }

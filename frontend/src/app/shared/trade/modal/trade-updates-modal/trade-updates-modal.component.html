@@ -475,7 +475,16 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modal.close('close')">Close</button>
-    <button type="button" class="btn btn-primary" (click)="modal.close('update')">Update</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('update')"
+            [swal]="{
+              position: 'top-end',
+              icon: 'success',
+              title: 'Trade Updated',
+              showConfirmButton: false,
+              timer: 1000
+            }">
+      Update
+    </button>
   </div>
 
 </ng-template>

@@ -139,35 +139,37 @@ import { BacktestMainComponent } from './charts/tradingView-charts/backtest-form
 import {
   BacktestStakeComponent
 } from "./charts/tradingView-charts/backtest-form/backtest-stake/backtest-stake.component";
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
 
 @NgModule({
-  imports: [
-    CommonModule,
-    PlotlyViaCDNModule,
-    DataTablesModule,
-    RouterModule,
-    NgxDatatableModule,
-    NgSelectModule,
-    CustomFormsModule,
-    NgxMaskModule.forRoot(),
-    FeahterIconModule,
-    NgbDatepickerModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgApexchartsModule,
-    NgbNavModule,
-    NgbPopoverModule,
-    NgbTooltipModule,
-    NgbCollapseModule,
-    NgbProgressbarModule,
-    TableModule,
-    TableModule,
-    ButtonModule
-  ],
+    imports: [
+        CommonModule,
+        PlotlyViaCDNModule,
+        DataTablesModule,
+        RouterModule,
+        NgxDatatableModule,
+        NgSelectModule,
+        CustomFormsModule,
+        NgxMaskModule.forRoot(),
+        FeahterIconModule,
+        NgbDatepickerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgApexchartsModule,
+        NgbNavModule,
+        NgbPopoverModule,
+        NgbTooltipModule,
+        NgbCollapseModule,
+        NgbProgressbarModule,
+        TableModule,
+        TableModule,
+        ButtonModule,
+        SweetAlert2Module
+    ],
   declarations: [
     NoteDataTableComponent,
     NoteDeleteModalComponent,

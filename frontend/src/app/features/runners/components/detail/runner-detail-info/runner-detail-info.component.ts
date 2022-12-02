@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RunnerInfo} from '../../../../../model/runner/runner'
+import {GoogleSearchTabServiceService} from "../../../../../services/google-search-tab-service.service";
 
 @Component({
   selector: 'app-runner-detail-info',
@@ -10,17 +11,15 @@ export class RunnerDetailInfoComponent implements OnInit {
   @Input()
   runnerInfo: RunnerInfo
 
-  constructor() { }
+  constructor(private google: GoogleSearchTabServiceService) { }
 
   ngOnInit(): void {
   }
 
+
+
   searchMarketNameGoogle(toSearch: string){
-    const URL = 'https://www.google.com/search?q=' + toSearch + ' flashscore'
-    const viewportWidth = document.documentElement.clientWidth
-    const viewportHeight = document.documentElement.clientHeight
-    window.moveTo(0,0);
-    window.open(URL, toSearch, 'height= 950, width=850, left='+(viewportWidth-300)+', top=0')
+    this.google.searchMarketNameGoogle(toSearch,'flashscore')
   }
 
 }

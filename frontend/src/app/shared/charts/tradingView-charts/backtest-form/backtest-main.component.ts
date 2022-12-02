@@ -40,7 +40,7 @@ export class BacktestMainComponent implements OnInit {
   }
 
   // -- TRADE MANIPULATE --
-  // update form form update modal and refresh view
+  // update backtestForm from update modal and refresh view
   updateBacktestTradeFromEdit(event){
     console.log('updated trade')
     console.log(event)
@@ -51,11 +51,14 @@ export class BacktestMainComponent implements OnInit {
   // return true if trade is valid to add in backtest
   checkTradeValid(){
     const trade = this.backtestForm.tradeForm.trade
-    return (trade.trades.length === 0 ||
+    return (
+      trade.trades.length === 0 ||
       trade.info.tennisTournamentId === null ||
-      // TODO check if result === 0 in a fast way
-      trade.results.finalScore.tennis === this.util.getEmptyTennisPoint()
-      || trade.selections.filter( x => x.winner).length===0)
+      trade.info.tennisTournamentId === '' ||
+      (trade.results.finalScore.tennis.set1.runnerA === 0 &&
+      trade.results.finalScore.tennis.set1.runnerB === 0) ||
+      (trade.selections.filter( x => x.winner).length===0)
+    )
   }
 
   // emit current selection id to block in father
@@ -90,6 +93,9 @@ export class BacktestMainComponent implements OnInit {
     // remove temp _id
     // delete this.backtestForm.tradeForm._id
     console.log(this.backtestForm.tradeForm)
+
+
+    //from here
   }
 
   // -- SUPPORT --

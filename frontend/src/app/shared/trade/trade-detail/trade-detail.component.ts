@@ -7,6 +7,7 @@ import {takeUntil} from 'rxjs/operators';
 import {TennisTournament} from '../../../model/tennisTournament/tennisTournament';
 import {Subject} from 'rxjs';
 import {Strategy} from '../../../model/report/strategy';
+import {GoogleSearchTabServiceService} from "../../../services/google-search-tab-service.service";
 
 @Component({
   selector: 'app-trade-detail',
@@ -22,7 +23,8 @@ export class TradeDetailComponent implements OnInit,OnDestroy {
   notePresent = false
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private readonly store: Store) { }
+  constructor(private readonly store: Store,
+              private google: GoogleSearchTabServiceService) { }
 
   ngOnInit(): void {
 
@@ -57,11 +59,8 @@ export class TradeDetailComponent implements OnInit,OnDestroy {
     this.destroy$.complete();
   }
 
-  searchMarketNameGoogle(toSearch: string, secondary: string){
-    const URL = 'https://www.google.com/search?q=' + toSearch + secondary;
-    const viewportWidth = document.documentElement.clientWidth;
-    window.moveTo(0,0);
-    window.open(URL, toSearch, 'height= 950, width=850, left='+(viewportWidth-300)+', top=0');
+  searchMarketNameGoogle(toSearch: string, suffix: string){
+    this.google.searchMarketNameGoogle(toSearch,suffix)
   }
 
 

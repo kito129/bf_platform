@@ -1,17 +1,21 @@
 <div *ngIf="marketDetailsFound">
-  <app-tv-market-prices [originalMarket]="marketDetail"
+  <app-tv-market-prices class="mt-2 mb-2"
+                        [originalMarket]="marketDetail"
                         [TVBets]="trades"
                         [originalTrade]="trade">
   </app-tv-market-prices>
 
-  <app-market-runners-card [marketInfoBasic]="marketDetail.marketInfo"
+  <app-market-runners-card class="mt-2 mb-2"
+                           [marketInfoBasic]="marketDetail.marketInfo"
                            [marketRunnersBasic]="marketDetail.marketRunners">
   </app-market-runners-card>
 
-  <app-market-info-card [marketInfoBasic]="marketDetail.marketInfo">
+  <app-market-info-card class="mt-2 mb-2"
+                        [marketInfoBasic]="marketDetail.marketInfo">
   </app-market-info-card>
 
-  <app-market-update-card [marketInfoBasic]="marketDetail.marketInfo"
+  <app-market-update-card class="mt-2 mb-2"
+                          [marketInfoBasic]="marketDetail.marketInfo"
                           [marketUpdates]="marketDetail.marketUpdates"
                           [marketUpdateOnlyData]="">
   </app-market-update-card>

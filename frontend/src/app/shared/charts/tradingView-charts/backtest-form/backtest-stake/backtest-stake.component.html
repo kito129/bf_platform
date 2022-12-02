@@ -1,4 +1,4 @@
-<div class="d-grid gap-2">
+<div class="d-grid mb-2">
   <button type="button"
           [ngClass]="backtestForm.info.active.toLowerCase()===type.toLowerCase() ? normalColor : outlineColor"
           (click)="setBetActiveType()"
@@ -9,8 +9,7 @@
 <!-- stake form-->
 <form class="forms-sample grid-margin">
   <div class="form-group">
-    <label for="mainStake"
-           class="text-gray">{{type}} Stake</label>
+    <label for="mainStake">{{type}} Stake</label>
     <input type="number"
            class="form-control"
            id="mainStake"
@@ -20,7 +19,7 @@
   </div>
 </form>
 <!-- stake default button-->
-<p class="text-gray grid-margin">Default Stake</p>
+<p class="grid-margin">Default Stake</p>
 <div class="d-flex justify-content-center align-items-center grid-margin">
   <button type="button"
           *ngFor="let stake of stakeButton"
@@ -33,6 +32,6 @@
 <!-- reset button -->
 <div class="d-flex justify-content-center align-items-center grid-margin">
   <button type="button" class="btn mr-2" [ngClass]="outlineColor" (click)="resetStake()">Reset {{type}}</button>
-  <button type="button" class="btn mr-2 btn-warning" (click)="netStakeStake()">NET Stake</button>
+  <button type="button" class="btn mr-2 btn-outline-warning" (click)="netStakeStake()">NET Stake</button>
 </div>
 

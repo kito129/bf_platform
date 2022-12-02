@@ -51,13 +51,14 @@
         </button>
       </div>
     </div>
+
     <!-- CHARTS -->
     <div class="align-content-center" id="TVCharts" style="width: 100%; height: 100%"></div>
+
   </div>
-  <!-- BACKTEST BETS -->
+  <!-- BACKTEST BUTTONS -->
   <div class="card-footer" *ngIf="($backtestMode | async)">
-    <!-- BUTTONS -->
-    <div class="d-flex justify-content-start align-items-center mb-3" *ngIf="($backtestMode | async)">
+    <div class="d-flex justify-content-end align-items-center" *ngIf="($backtestMode | async)">
       <button type="button"
               class="btn mr-2"
               [ngClass]="removeState ? 'btn-warning' : 'btn-outline-warning'"
@@ -65,12 +66,22 @@
         Remove Bet
       </button>
       <button type="button"
-              class="btn btn-outline-danger"
+              class="btn btn-outline-danger mr-2"
               (click)="removeAllBets()">
         Remove All Bets
       </button>
     </div>
-    <!-- BACKTEST MAIN -->
+  </div>
+</div>
+
+<!-- BACKTEST MAIN CARD -->
+<div class="card mt-2 ">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="text-warning">Backtest</h3>
+    </div>
+  </div>
+  <div class="card-body">
     <app-backtest-main [originalMarket]="originalMarket"
                        [backtestForm]="backtestForm"
                        [originalTrade]="originalTrade"
@@ -78,3 +89,4 @@
     </app-backtest-main>
   </div>
 </div>
+

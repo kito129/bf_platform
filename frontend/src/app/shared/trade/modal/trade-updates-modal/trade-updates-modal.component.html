@@ -193,10 +193,9 @@
 
           </app-tennis-point>
         </div>
-        <div *ngIf="tradeOutput.trade.info.marketInfo.sport === ('FOOTBALL')">
+        <div *ngIf="tradeOutput.trade.info.marketInfo.sport === ('SOCCER')">
           <app-football-point [footballPoint]="tradeOutput.trade.results.finalScore.football"
                               (footballPointEmitter)="updateFinalResultFootball($event)">
-
           </app-football-point>
         </div>
 

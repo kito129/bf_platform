@@ -205,7 +205,6 @@ export class TradeUpdatesModalComponent implements OnInit {
       sel.avg = temp[i]
       i++
     }
-    console.log(this.tradeOutput)
   }
 
   updateFinalResultTennis(event){
@@ -226,8 +225,10 @@ export class TradeUpdatesModalComponent implements OnInit {
     }
   }
 
+  // refresh value, update result and avg for each selections and view
   updateBetsView(){
     this.updateAvgOddsPlayer()
+    this.tradeOutput.trade.results = this.utils.generateTradeResultsFromTrade(this.tradeOutput)
     this.updateBets = false
     setTimeout(() =>
       {

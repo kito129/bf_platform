@@ -3,15 +3,12 @@ import {TradePlSeries} from './calculator/montecarlo';
 import { MonthTrade} from './study/study/comparatorTableRow';
 import {Bets, CSVBetGroup, CSVTrade, NewTrade, TradeResult, TradeSelectionsAvg} from './report/new/newTrade';
 import {Note} from './note/note';
-import {min} from 'simple-statistics';
 import {Strategy} from './report/strategy';
 import {TennisPoint} from './point/tennisPoint';
 import {MarketBasic} from './market/basic/marketBasic';
 import {FootballPoint} from './point/footballPoint';
-import {utils} from 'protractor';
-import {MarketSelectionInfo} from './market/marketSelectionInfo';
 import {TradeBets} from './report/tradeBets';
-import {TVBets} from './TV/TVBets';
+import {BacktestBets} from './TV/backtestForm';
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -820,41 +817,6 @@ export class Utils{
       }
     }
   }
-
-  // TODO FIX IF TRADE IS NOT PRESENT BUT ONLY MARKET, from MarketBasic
-  generateBetsFromBacktestBets(backtestBets: any[], trade: NewTrade, market?: MarketBasic): TradeBets[]{
-    let resp = []
-    // tslint:disable-next-line:prefer-for-of
-    for(let i=0; i< backtestBets.length; i++){
-      const selected = backtestBets[i]
-      const selectionN = trade.trade.selections[0].runnerName === selected[2] ? 0 : 1
-      const selectionName = selected[2]
-      const type = selected[3].toLowerCase()
-      const odds = selectionN===0 ? selected[1][0] : selected[1][1]
-      const stake = type ==='back' ? selected[4] : selected[5]
-      const temp = {
-        id: i+1,
-        type,
-        selectionN,
-        selectionName,
-        odds,
-        stake,
-        toWin: type ==='back' ? stake*(odds-1) : stake,
-        liability: type ==='back' ? stake : stake*(odds-1),
-        time:  selected[0],
-        point: this.getEmptyTennisPoint(),
-        note: '',
-        options: selected[6]
-      }
-      resp.push(temp)
-    }
-    // sort by time
-    resp = resp.sort((a,b)=>{
-      return a.time - b.time
-    })
-    return resp
-  }
-
   getNotesStats(notes: Note[]){
     return {
       length: notes.length,
@@ -895,26 +857,59 @@ export class Utils{
   }
 
   /*
-  * Backetest
+  * Backtest
   */
+
+  generateBetsFromBacktestBets(backtestBets: BacktestBets[], trade: NewTrade, market: MarketBasic): TradeBets[]{
+    let resp = []
+    // tslint:disable-next-line:prefer-for-of
+    for(let i=0; i< backtestBets.length; i++){
+      const selected = backtestBets[i]
+      const selectionN =  trade ? trade.trade.selections[0].runnerName === selected.selectionName ? 0 : market ? market.marketRunners.marketRunners[0].name === selected.selectionName ? 0 : 1: 0 :0
+      const selectionName = selected.selectionName
+      const type = selected.type.toLowerCase()
+      const odds = selected.odds[selectionN]
+      const stake = type ==='back' ? selected.stakeBack : selected.stakeLay
+      const temp = {
+        id: i+1,
+        type,
+        selectionN,
+        selectionName,
+        odds,
+        stake,
+        toWin: type ==='back' ? stake*(odds-1) : stake,
+        liability: type ==='back' ? stake : stake*(odds-1),
+        time:  selected.time,
+        point: this.getEmptyTennisPoint(),
+        note: '',
+        options: selected.options
+      }
+      resp.push(temp)
+    }
+    // sort by time
+    resp = resp.sort((a,b)=>{
+      return a.time - b.time
+    })
+    return resp
+  }
 
   generateTradeFromMarket(marketInfo: MarketBasic, trade: NewTrade): NewTrade{
     const todayDate = new Date().getTime()
-    let selCount = -1
+    let runnerCount = -1
     const selections = []
     const stats = []
     const params = []
     marketInfo.marketRunners.marketRunners.map( x => {
-      selCount++
+      runnerCount++
       selections.push({
-        selectionN: selCount,
+        selectionN: runnerCount,
         runnerId: x.id,
         runnerName: x.name,
         winner: x.status === 'WINNER',
         bsp: x.inPlayOdds,
         sets: {
-          secondSet: 0,
-          thirdSet: 0,
+          secondSet: trade ? trade.trade.selections[runnerCount].sets.secondSet : 0,
+          thirdSet: trade ? trade.trade.selections[runnerCount].sets.thirdSet : 0,
         },
         avg: {
           back: {
@@ -958,7 +953,6 @@ export class Utils{
         params10: 0
       })
     })
-    // if have trade
 
     return {
       _id: todayDate.toString(),
@@ -1108,7 +1102,7 @@ export class Utils{
     return temp
   }
 
-  generateTradeResultsFromTradeBets(trade: NewTrade): TradeResult{
+  generateTradeResultsFromTrade(trade: NewTrade): TradeResult{
      return this.resultFromBets(trade)
   }
 
@@ -1161,7 +1155,12 @@ export class Utils{
     }
 
     // other calculation and return the results
-    const grossPl = netPl/ (1-0.02)
+    let grossPl = 0
+    if(netPl>0){
+      grossPl = netPl/ (1-0.02)
+    } else {
+      grossPl = netPl
+    }
     let maxRisk = this.minOfArray([this.minOfArray(intermediateA), this.minOfArray(intermediateB)])
     if(maxRisk>=0){
       maxRisk = 0

@@ -47,7 +47,7 @@
                id='option'
                name='option'
                placeholder="Bet Options"
-               [(ngModel)]="backtestForm.side.option">
+               [(ngModel)]="backtestForm.info.option">
     </ng-select>
   </div>
   <div class="col form-group">
@@ -58,18 +58,18 @@
                [items]="runners"
                bindValue="name"
                bindLabel="name"
-               [(ngModel)]="backtestForm.side.selection"
-               (ngModelChange)="selectionUpdate()">
+               [(ngModel)]="backtestForm.info.selectionName"
+               (ngModelChange)="selectionNUpdate()">
     </ng-select>
   </div>
 </form>
 <!-- STAKE BUTTON -->
 <div class="row">
   <div class="col">
-    <app-backtest-stake [stakeForm]="backtestForm.side" [type]="'Back'"></app-backtest-stake>
+    <app-backtest-stake [backtestForm]="backtestForm" [type]="'Back'"></app-backtest-stake>
   </div>
   <div class="col">
-    <app-backtest-stake [stakeForm]="backtestForm.side" [type]="'Lay'"></app-backtest-stake>
+    <app-backtest-stake [backtestForm]="backtestForm" [type]="'Lay'"></app-backtest-stake>
   </div>
 </div>
 <!-- STAKE BUTTON -->
@@ -94,7 +94,7 @@
     <button type="button"
             class="btn bnt-lg btn-outline-success  ml-2"
             [disabled]="checkTradeValid()"
-            (click)="addInBacktest()">
+            (click)="addTradeInBacktest()">
       Add in Backtest
     </button>
   </div>

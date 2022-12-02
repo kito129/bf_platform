@@ -47,7 +47,7 @@
   <div class="row grid-margin"  *ngIf="!dontWantUpdate">
     <div class="col">
       <app-tv-market-prices *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
-                            [marketDetail]="selectedMarket$ | async">
+                            [originalMarket]="selectedMarket$ | async">
       </app-tv-market-prices>
     </div>
     <div class="col-3">
@@ -73,7 +73,7 @@
   </app-market-info-card>
 
   <app-tv-market-prices *ngIf="(isLoadingSelectedMarket$ | async).isLoadingSuccess"
-                        [marketDetail]="selectedMarket$ | async">
+                        [originalMarket]="selectedMarket$ | async">
   </app-tv-market-prices>
 
 

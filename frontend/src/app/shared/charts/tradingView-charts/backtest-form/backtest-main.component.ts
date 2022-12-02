@@ -11,32 +11,35 @@ import {TradeBets} from '../../../../model/report/tradeBets';
 })
 export class BacktestMainComponent implements OnInit {
 
-  @Input() market : MarketBasic
-  @Input() trade : NewTrade
+  @Input() originalMarket : MarketBasic
+  @Input() originalTrade : NewTrade
   @Input() backtestForm: BacktestForm
   @Input() backtestTradeBets: TradeBets[]
-
-  @Output() selectionEmitter = new EventEmitter();
 
   util = new Utils()
 
   bug = true
-  runners = []
+  runners:  {count: number,
+            name: string}[] = []
   constructor() { }
 
+  // -- COMPONENT LIFETIME --
   ngOnInit(): void {
-    if(this.market){
-      this.runners = this.market.marketRunners.marketRunners.map(x => {
+    if(this.originalMarket){
+      let j = -1
+      this.runners = this.originalMarket.marketRunners.marketRunners.map(x => {
+        j++
         return{
-          id: x.id,
+          count: j,
           name: x.name
         }
       })
     }
-    // emit default runner 1
-    this.selectionEmitter.emit([this.backtestForm.side.selection])
+    // emit default selectionN 0
+    this.backtestForm.info.selectionN = 0
   }
 
+  // -- TRADE MANIPULATE --
   // update form form update modal and refresh view
   updateBacktestTradeFromEdit(event){
     console.log('updated trade')
@@ -49,7 +52,15 @@ export class BacktestMainComponent implements OnInit {
   checkTradeValid(){
     const trade = this.backtestForm.tradeForm.trade
     return (trade.trades.length === 0 ||
-      trade.info.tennisTournamentId === null);
+      trade.info.tennisTournamentId === null ||
+      // TODO check if result === 0 in a fast way
+      trade.results.finalScore.tennis === this.util.getEmptyTennisPoint()
+      || trade.selections.filter( x => x.winner).length===0)
+  }
+
+  // emit current selection id to block in father
+  selectionNUpdate(){
+    this.backtestForm.info.selectionN = this.runners.findIndex(x => x.name ===this.backtestForm.info.selectionName)
   }
 
   // convert bets to trade bets and add in trade from, then refresh trade view
@@ -60,7 +71,7 @@ export class BacktestMainComponent implements OnInit {
     this.backtestForm.tradeForm.trade.trades = this.util.generateBetsFromTradeBets(this.backtestTradeBets)
 
     // calculate result based on winner of the market, if winner not present leave at 0
-    this.backtestForm.tradeForm.trade.results = this.util.generateTradeResultsFromTradeBets(this.backtestForm.tradeForm)
+    this.backtestForm.tradeForm.trade.results = this.util.generateTradeResultsFromTrade(this.backtestForm.tradeForm)
 
     // calculate avg for each selection
     const avg = this.util.generateAvgOddsTrade(this.backtestForm.tradeForm)
@@ -74,18 +85,14 @@ export class BacktestMainComponent implements OnInit {
   }
 
   // valid trade to add in backtest list
-  addInBacktest(){
+  addTradeInBacktest(){
     console.log('trade ready to be added in backtest list in state')
     // remove temp _id
     // delete this.backtestForm.tradeForm._id
     console.log(this.backtestForm.tradeForm)
   }
 
-  // emit current selection id to block in father
-  selectionUpdate(){
-    this.selectionEmitter.emit([this.backtestForm.side.selection])
-  }
-
+  // -- SUPPORT --
   // temp to fix odds bug
   bugFix(){
     this.bug = false

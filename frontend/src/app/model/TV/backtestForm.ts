@@ -3,15 +3,16 @@ import {NewTrade} from '../report/new/newTrade';
 import {Utils} from '../utils';
 
 export interface BacktestFormInterface{
-  side: BacktestSide
+  info: BacktestInfo
   marketInfo: MarketBasic
   tradeForm: NewTrade
-  backtestBets: any
+  backtestBets: BacktestBets[]
 }
 
-export interface BacktestSide{
+export interface BacktestInfo {
   active: string
-  selection: string
+  selectionN: number
+  selectionName: string
   option: string
   back:{
     stake: number
@@ -21,22 +22,34 @@ export interface BacktestSide{
   }
 }
 
+export interface BacktestBets{
+  time: number
+  odds: number[]
+  selectionName: string
+  selectionN: number
+  type: string
+  stakeBack: number
+  stakeLay: number
+  options: string
+}
+
 
 export class BacktestForm implements BacktestFormInterface{
 
   private util = new Utils()
   marketInfo: MarketBasic;
-  side: BacktestSide;
+  info: BacktestInfo;
   tradeForm: NewTrade;
-  backtestBets: any []
+  backtestBets: BacktestBets []
 
   constructor(market: MarketBasic, trade: NewTrade) {
     this.marketInfo = market
-    this.side = {
+    this.info = {
       active: 'Back',
       option: 'OPEN',
       // default entry on runner 1
-      selection: market.marketRunners.marketRunners.length ? market.marketRunners.marketRunners[0].name : '',
+      selectionN: 0,
+      selectionName: market.marketRunners.marketRunners.length ? market.marketRunners.marketRunners[0].name : '',
       back:{
         stake: 100,
       },

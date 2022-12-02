@@ -47,7 +47,7 @@
                 [ngClass]="[run.visible == true ? 'btn btn-dark mr-2' : 'btn btn-outline-dark mr-2']" [style.color]="run.color"
                 (click)="changeRunnerState(run.runnerId)">
           ({{i===0 ? 'A ': 'B '}}) {{run.name}} [{{legend.value[i]}}]
-          <i *ngIf="marketDetail.marketRunners.marketRunners[i].status.indexOf('WINNER')!==-1" class=" text-success feather icon-check"></i>
+          <i *ngIf="originalMarket.marketRunners.marketRunners[i].status.indexOf('WINNER')!==-1" class=" text-success feather icon-check"></i>
         </button>
       </div>
     </div>
@@ -71,11 +71,10 @@
       </button>
     </div>
     <!-- BACKTEST MAIN -->
-    <app-backtest-main [market]="marketDetail"
+    <app-backtest-main [originalMarket]="originalMarket"
                        [backtestForm]="backtestForm"
-                       [trade]="trade"
-                       [backtestTradeBets]="backtestTradeBets"
-                       (selectionEmitter)="selectionBlockEvent($event)">
+                       [originalTrade]="originalTrade"
+                       [backtestTradeBets]="backtestTradeBets">
     </app-backtest-main>
   </div>
 </div>

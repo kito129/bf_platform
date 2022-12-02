@@ -17,9 +17,9 @@ import {Utils} from '../../../../model/utils';
 })
 export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() marketDetail: MarketBasic
-  @Input() trade: NewTrade
-  @Input() bets: TVBets[]
+  @Input() originalMarket: MarketBasic
+  @Input() originalTrade: NewTrade
+  @Input() TVBets: TVBets[]
 
   // chart
   lineSeriesData =[];
@@ -45,7 +45,6 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   backtestForm: BacktestForm
   $backtestMode: Observable<boolean>
   backtestTradeBets: TradeBets[]
-  selectionBlock = null
   removeState = false
   // other
   showTrades = true
@@ -59,7 +58,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit(): void {
     // backtest state
     this.$backtestMode = this.store.pipe(select(reportSelectors.getBacktestModeState))
-    this.backtestForm = new BacktestForm(this.marketDetail, this.trade)
+    this.backtestForm = new BacktestForm(this.originalMarket, this.originalTrade)
 
     // chart initialization
     this.createTVData(false)
@@ -70,7 +69,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
       name: '',
       value: [],
       time: null,
-      openTime: this.marketDetail.marketInfo.marketInfo.openDate as UTCTimestamp
+      openTime: this.originalMarket.marketInfo.marketInfo.openDate as UTCTimestamp
     }
   }
   ngAfterViewInit() {
@@ -107,7 +106,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     const prices = []
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.lineSeriesData.length; i++) {
-      if((this.selectionBlock===0 && i===0) || ((this.selectionBlock===1 && i===1))){
+      if(this.backtestForm.info.selectionN!==i){
         prices.push(null)
       } else {
         prices.push(param.seriesPrices.get(this.lineSeriesData[i]))
@@ -117,37 +116,32 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     const time = (param.time* 1000) - this.toAdd*1000
     if (time){
       if(!this.removeState){
-        // add backtest bets
-        const temp =[
+        // add backtest bet
+        const temp = {
           time,
-          prices,
-          this.backtestForm.side.selection,
-          this.backtestForm.side.active,
-          this.backtestForm.side.back.stake,
-          this.backtestForm.side.lay.stake,
-          this.backtestForm.side.option
-        ]
-        if(this.selectionBlock===1){
-          prices[0] ? this.backtestForm.backtestBets.push(temp)
-            : console.log()
-        } else {
-          prices[1] ? this.backtestForm.backtestBets.push(temp) : console.log()
+          odds: prices,
+          selectionName: this.backtestForm.info.selectionName,
+          selectionN: this.backtestForm.info.selectionN,
+          type: this.backtestForm.info.active,
+          stakeBack: this.backtestForm.info.back.stake,
+          stakeLay: this.backtestForm.info.lay.stake,
+          options: this.backtestForm.info.option
+        }
+        // push in the bets
+        if(prices[this.backtestForm.info.selectionN]){
+          this.backtestForm.backtestBets.push(temp)
         }
       } else {
         // remove backtest bets
-        if(this.selectionBlock===0){
-          this.backtestForm.backtestBets = this.backtestForm.backtestBets.filter( x => !(x[0] === time && x[1] !== null))
-        } else {
-          this.backtestForm.backtestBets = this.backtestForm.backtestBets.filter( x => !(x[0] === time && x[0] !== null))
-        }
+        this.backtestForm.backtestBets = this.backtestForm.backtestBets.filter( x => !(x.time === time))
       }
     }
     // reorder backtest bets
-    this.backtestForm.backtestBets.sort((a,b) => a[0]-b[0])
+    this.backtestForm.backtestBets.sort((a,b) => a.time-b.time)
 
     // refresh all
     this.createTVData(true)
-    this.backtestTradeBets = this.util.generateBetsFromBacktestBets(this.backtestForm.backtestBets,this.trade)
+    this.backtestTradeBets = this.util.generateBetsFromBacktestBets(this.backtestForm.backtestBets, this.originalTrade ? this.originalTrade : null, this.originalMarket)
   }
 
   // subscriber function for move
@@ -208,7 +202,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
         visible: true,
         fontSize: 52,
         color: 'rgba(171, 71, 188, 0.2)',
-        text: this.marketDetail.marketInfo.marketInfo.eventName,
+        text: this.originalMarket.marketInfo.marketInfo.eventName,
       },
       timeScale: {
         visible: true,
@@ -227,7 +221,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     // empty last markers
     this.tradeMarkersA = []
     this.tradeMarkersB = []
-    for (const mktRunnerOdds of this.marketDetail.marketOdds.marketOdds){
+    for (const mktRunnerOdds of this.originalMarket.marketOdds.marketOdds){
       // increment the color for each runner
       firstColor = i<4 ? colorList[i] : incrementColor(firstColor,5000)
       // initialize runner data
@@ -236,7 +230,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
         originalData: [],
         tradeData: [],
         color: firstColor,
-        name: this.marketDetail.marketRunners.marketRunners[i].name,
+        name: this.originalMarket.marketRunners.marketRunners[i].name,
         visible: true
       }
 
@@ -257,8 +251,8 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
       // add bets value
       // iterate over bets
       let prevTime = 0
-      if(this.bets){
-        for (const bet of this.bets){
+      if(this.TVBets){
+        for (const bet of this.TVBets){
           let temp = {}
           const time = (bet.time/1000)  + this.timeCorrection + this.toAdd as UTCTimestamp
           if (i===0 && bet.sideA){
@@ -301,12 +295,12 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     if(this.backtestForm.backtestBets){
       let j = 0
       for (const backtestBet of this.backtestForm.backtestBets){
-        const time = (backtestBet[0] /1000)  + this.timeCorrection + this.toAdd as UTCTimestamp
-        if (backtestBet[1][0]){
+        const time = (backtestBet.time /1000)  + this.timeCorrection + this.toAdd as UTCTimestamp
+        if (backtestBet.odds[0]){
           this.tradeMarkersA.push(this.generateTradeMarker(null,time, j))
           j++
         }
-        if (backtestBet[1][1]){
+        if (backtestBet.odds[1]){
           this.tradeMarkersB.push(this.generateTradeMarker(null,time, j))
           j++
         }
@@ -322,7 +316,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     for(const i in this.runnersData){
       // this runner series
       const runnerSerie = this.chart.addLineSeries({
-        title: this.marketDetail.marketRunners.marketRunners[i].name,
+        title: this.originalMarket.marketRunners.marketRunners[i].name,
       });
       // set data
       if(this.showTrades){
@@ -356,7 +350,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
         axisLabelVisible: false
       });
 
-      if(this.marketDetail.marketInfo.marketInfo.sport==='FOOTBALL'){
+      if(this.originalMarket.marketInfo.marketInfo.sport==='FOOTBALL'){
 
       } else {
         // only for tennis market
@@ -372,7 +366,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   private generateUpdatesMarkers(){
     let color = '#b0fa74'
     let index=0
-    for (const update of this.marketDetail.marketUpdates.marketUpdates){
+    for (const update of this.originalMarket.marketUpdates.marketUpdates){
       if(update.status.indexOf('OPEN')!==-1 && update.betDelay>0 && update.inPlay){
         color = incrementColor(color, 20000)
         this.updateMarkers.push({
@@ -418,8 +412,8 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
 
     if(index>=0){
       const temp = this.backtestForm.backtestBets[index]
-      arrow = temp[3].toLowerCase()==='back' ? 'arrowDown' : 'arrowUp'
-      position = temp[3].toLowerCase()==='back' ? 'aboveBar' : 'belowBar'
+      arrow = temp.type==='back' ? 'arrowDown' : 'arrowUp'
+      position = temp.type==='back' ? 'aboveBar' : 'belowBar'
     }
 
     return {
@@ -487,7 +481,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     let i = 0
     for (const runner of this.runnersData ) {
       // select only the winner
-      if (this.marketDetail.marketRunners.marketRunners[i].status === 'WINNER') {
+      if (this.originalMarket.marketRunners.marketRunners[i].status === 'WINNER') {
         this.changeRunnerVisibility(i, true)
       } else {
         this.changeRunnerVisibility(i, false)
@@ -512,18 +506,13 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   // -- BACKTEST --
-  // set the current blocked runner to add bets
-  selectionBlockEvent(event){
-    if(this.marketDetail.marketRunners.marketRunners[0].name === event[0]) this.selectionBlock = 1
-    else this.selectionBlock = 0
-  }
 
   // remove all backtest bets and update markers
   removeAllBets(){
     this.backtestForm.backtestBets = []
     // refresh all
     this.createTVData(true)
-    this.backtestTradeBets = this.util.generateBetsFromBacktestBets(this.backtestForm.backtestBets,this.trade)
+    this.backtestTradeBets = this.util.generateBetsFromBacktestBets(this.backtestForm.backtestBets,this.originalTrade ? this.originalTrade : null, this.originalMarket)
   }
 
   // --  TIME CORRECTION --

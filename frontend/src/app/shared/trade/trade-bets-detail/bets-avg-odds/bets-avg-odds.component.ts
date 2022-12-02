@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NewTrade} from "../../../../model/report/new/newTrade";
+import {Trade} from "../../../../model/report/trade/trade";
 
 @Component({
   selector: 'app-bets-avg-odds',
@@ -7,7 +7,7 @@ import {NewTrade} from "../../../../model/report/new/newTrade";
 })
 export class BetsAvgOddsComponent implements OnInit {
 
-  @Input() trade: NewTrade
+  @Input() trade: Trade
   @Input() view: boolean
 
   collapsed = false

@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {StudyService} from "../../../services/study.service";
-import * as studyActions from "../study/study.actions";
-import {catchError, exhaustMap, map} from "rxjs/operators";
-import {of} from "rxjs";
+import {Injectable} from '@angular/core';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {StudyService} from '../../../services/study.service';
+import * as studyActions from '../study/study.actions';
+import {catchError, exhaustMap, map} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Injectable()
 export class StudyEffects {
@@ -19,7 +19,7 @@ export class StudyEffects {
         exhaustMap(action =>
           this.studyServices.getAllStudies().pipe(
             map(response => {
-              //console.log('response:::', response)
+              // console.log('response:::', response)
 
               return studyActions.getAllStudiesSuccess({response})
             }),
@@ -38,7 +38,7 @@ export class StudyEffects {
         exhaustMap(action =>
           this.studyServices.getStudyTrades(action.id).pipe(
             map(response => {
-              //console.log('response:::', response)
+              // console.log('response:::', response)
 
               return studyActions.setSelectedStudySuccess({response})
             }),
@@ -57,7 +57,7 @@ export class StudyEffects {
         exhaustMap(action =>
           this.studyServices.createStudy(action.study).pipe(
             map(response => {
-              //console.log('response:::', response)
+              // console.log('response:::', response)
 
               return studyActions.createStudySuccess({response})
             }),
@@ -76,7 +76,7 @@ export class StudyEffects {
         exhaustMap(action =>
           this.studyServices.updateStudy(action._id,action.study).pipe(
             map(response => {
-              //console.log('response:::', response)
+              // console.log('response:::', response)
 
               return studyActions.updateStudySuccess({response})
             }),
@@ -95,7 +95,7 @@ export class StudyEffects {
         exhaustMap(action =>
           this.studyServices.deleteStudy(action._id).pipe(
             map(response => {
-              //console.log('response:::', response)
+              // console.log('response:::', response)
 
               return studyActions.deleteStudySuccess({response})
             }),
@@ -114,7 +114,7 @@ export class StudyEffects {
         exhaustMap(action =>
           this.studyServices.getStudyMarket(action.marketId, action.selectionId).pipe(
             map(response => {
-              //console.log('response:::', response)
+              // console.log('response:::', response)
 
               return studyActions.setSelectedStudyMarketSuccess({response})
             }),

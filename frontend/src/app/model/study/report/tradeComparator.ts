@@ -1,7 +1,7 @@
-import {NewTrade} from '../../report/new/newTrade';
+import {Trade} from '../../report/trade/trade';
 
 export interface TradeComparator{
-  trade: NewTrade
+  trade: Trade
   marketId: string
   tradeId: string
   selectionId: number

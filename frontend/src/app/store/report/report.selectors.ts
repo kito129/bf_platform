@@ -1,10 +1,10 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {ReportStates} from './report.reducers';
-import {StrategyDatatable} from '../../model/report/strategyDatatable';
+import {StrategyDatatable} from '../../model/report/strategy/strategyDatatable';
 import {Utils} from '../../model/utils';
-import {NewTrade} from '../../model/report/new/newTrade';
-import {Strategy} from '../../model/report/strategy';
-import {SavedReport} from '../../model/report/new/savedReport';
+import {Trade} from '../../model/report/trade/trade';
+import {Strategy} from '../../model/report/strategy/strategy';
+import {SavedReport} from '../../model/report/savedReport';
 
 const getReportState = createFeatureSelector<ReportStates>(
   'reportState'
@@ -84,7 +84,7 @@ function filterStrategyDatatable(allStrategy, allTrades, wantStrategy, strategyI
     return  trades
   }
 }
-function generateStrategyDatatable(allStrategy: Strategy[], allTrades: NewTrade[]){
+function generateStrategyDatatable(allStrategy: Strategy[], allTrades: Trade[]){
   const utils = new Utils()
   const temp: StrategyDatatable[] = []
   for(const strategy of allStrategy){
@@ -373,7 +373,7 @@ export const getSelectedSavedReportTrades = createSelector(
 );
 
 
-function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: NewTrade[]){
+function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: Trade[]){
   const utils = new Utils()
   const temp: StrategyDatatable[] = []
   for(const sr of savedReports){
@@ -421,7 +421,7 @@ function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: Ne
 
 
 
-function newTradeStats(trade: NewTrade): NewTrade{
+function newTradeStats(trade: Trade): Trade{
   const t =  {
     _id: trade._id,
     created: trade.created,

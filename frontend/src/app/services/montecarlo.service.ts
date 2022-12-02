@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {TradePlSeries} from '../model/calculator/montecarlo';
 import {Utils} from '../model/utils';
-import {NewTrade} from '../model/report/new/newTrade';
+import {Trade} from '../model/report/trade/trade';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class MontecarloService {
 
   constructor() {}
 
-  setTrade(trades: NewTrade[]){
+  setTrade(trades: Trade[]){
     this.originalTradesPL = trades.map( x => x.trade.results.netProfit)
     this.originalRisk = trades.map( x => x.trade.results.netProfit)
     this.originalSeries = this.utils.getTradesSeries(this.originalTradesPL, this.originalRisk,'original', null)

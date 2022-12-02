@@ -3,7 +3,7 @@
  */
 import {createAction, props} from '@ngrx/store';
 import {Study} from '../../../model/study/study/study';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 
 export const GET_ALL_STUDIES = '[Study] Get all Studies';
 export const GET_ALL_STUDIES_SUCCESS = '[Study] Get all Studies Success';
@@ -140,7 +140,7 @@ export const unsetSelectedStudy = createAction(
 // set selected study market id
 export const setSelectedStudyMarket = createAction(
   SET_SELECTED_STUDY_MARKET_ID,
-  props<{marketId: string, selectionId: number, marketTrade: NewTrade }>()
+  props<{marketId: string, selectionId: number, marketTrade: Trade }>()
 );
 
 export const setSelectedStudyMarketSuccess = createAction(

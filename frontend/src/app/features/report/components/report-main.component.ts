@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { combineLatest, Observable, Subject} from 'rxjs';
-import {Strategy} from '../../../model/report/strategy';
+import {Strategy} from '../../../model/report/strategy/strategy';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as reportSelectors from '../../../store/report/report.selectors';
@@ -8,12 +8,12 @@ import * as runnerSelectors from '../../../store/runners/runners.selectors';
 import {IsLoading} from '../../../model/isLoading';
 import {Runner} from '../../../model/runner/runner';
 import * as reportActions from '../../../store/report/report.actions';
-import {StrategyReport} from '../../../model/report/starategyReport';
+import {StrategyReport} from '../../../model/report/strategy/starategyReport';
 import {takeUntil} from 'rxjs/operators';
-import {StrategyDatatable} from '../../../model/report/strategyDatatable';
-import {NewTrade} from '../../../model/report/new/newTrade';
-import {CompareStrategy} from '../../../model/report/new/compareStrategy';
-import {StrategyReportClass} from '../../../model/calculator/strategyReport';
+import {StrategyDatatable} from '../../../model/report/strategy/strategyDatatable';
+import {Trade} from '../../../model/report/trade/trade';
+import {CompareStrategy} from '../../../model/report/strategy/compareStrategy';
+import {StrategyReportClass} from '../../../model/report/strategyReport';
 import {
   getComparedSavedReportData,
   getCompareSavedReportList, getCompareSavedReportStatus,
@@ -21,7 +21,7 @@ import {
   getSelectedSavedReportTrades, getSelectedStrategyName,
   isLoadingSavedReport
 } from '../../../store/report/report.selectors';
-import {SavedReport} from '../../../model/report/new/savedReport';
+import {SavedReport} from '../../../model/report/savedReport';
 
 @Component({
   selector: 'app-report-main',
@@ -36,30 +36,30 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   isLoadingAllNewTrade$: Observable<IsLoading>
   isLoadingSavedReport$: Observable<IsLoading>
   // datatable
-  allStrategyDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
-  injury2021Datatable$: Observable<StrategyDatatable[] | NewTrade[]>
-  injury2022Datatable$: Observable<StrategyDatatable[] | NewTrade[]>
-  passiveLiveDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
-  passiveDemoDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
-  activeKevinDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
-  activeBagnaDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
-  activeKitoDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
-  otherDatatable$: Observable<StrategyDatatable[] | NewTrade[]>
+  allStrategyDatatable$: Observable<StrategyDatatable[] | Trade[]>
+  injury2021Datatable$: Observable<StrategyDatatable[] | Trade[]>
+  injury2022Datatable$: Observable<StrategyDatatable[] | Trade[]>
+  passiveLiveDatatable$: Observable<StrategyDatatable[] | Trade[]>
+  passiveDemoDatatable$: Observable<StrategyDatatable[] | Trade[]>
+  activeKevinDatatable$: Observable<StrategyDatatable[] | Trade[]>
+  activeBagnaDatatable$: Observable<StrategyDatatable[] | Trade[]>
+  activeKitoDatatable$: Observable<StrategyDatatable[] | Trade[]>
+  otherDatatable$: Observable<StrategyDatatable[] | Trade[]>
   // trade
-  allTrade$: Observable<StrategyDatatable[] | NewTrade[]>
-  injury2021Trade$: Observable<StrategyDatatable[] | NewTrade[]>
-  injury2022Trade$: Observable<StrategyDatatable[] | NewTrade[]>
-  passiveLiveTrade$: Observable<StrategyDatatable[] | NewTrade[]>
-  passiveDemoTrade$: Observable<StrategyDatatable[] | NewTrade[]>
-  activeKevinTrade$: Observable<StrategyDatatable[] | NewTrade[]>
-  activeBagnaTrade$: Observable<StrategyDatatable[] | NewTrade[]>
-  activeKitoTrade$: Observable<StrategyDatatable[] | NewTrade[]>
-  otherTrade$: Observable<StrategyDatatable[] | NewTrade[]>
+  allTrade$: Observable<StrategyDatatable[] | Trade[]>
+  injury2021Trade$: Observable<StrategyDatatable[] | Trade[]>
+  injury2022Trade$: Observable<StrategyDatatable[] | Trade[]>
+  passiveLiveTrade$: Observable<StrategyDatatable[] | Trade[]>
+  passiveDemoTrade$: Observable<StrategyDatatable[] | Trade[]>
+  activeKevinTrade$: Observable<StrategyDatatable[] | Trade[]>
+  activeBagnaTrade$: Observable<StrategyDatatable[] | Trade[]>
+  activeKitoTrade$: Observable<StrategyDatatable[] | Trade[]>
+  otherTrade$: Observable<StrategyDatatable[] | Trade[]>
   // selected strategy
   selectedStrategy$: Observable<Strategy>
   selectedStrategyName$: Observable<string>
   selectedStrategyId$: Observable<string>
-  selectedStrategyTrades$: Observable<NewTrade[]>
+  selectedStrategyTrades$: Observable<Trade[]>
   // compare strategy
   comparedStrategy$: Observable<CompareStrategy[]>
   compareList$: Observable<string[]>
@@ -74,7 +74,7 @@ export class ReportMainComponent implements OnInit, OnDestroy {
   selectedSavedReportId$: Observable<string>
   selectedSavedReportName$: Observable<string>
   savedReportDatatable$: Observable<StrategyDatatable[]>
-  selectedSavedReportTrades$: Observable<NewTrade[]>
+  selectedSavedReportTrades$: Observable<Trade[]>
 
   lastTradeDate$: Observable<number>
 

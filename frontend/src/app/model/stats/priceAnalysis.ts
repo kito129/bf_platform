@@ -92,8 +92,8 @@ export class PriceAnalysis {
 
 
     // STATS
-    //this.odds.inPlay.stats = new PriceStats(this.odds.inPlay.odds)
-    //this.odds.preMatch.stats = new PriceStats(this.odds.preMatch.odds)
+    //this.odds.inPlay.stats = trade PriceStats(this.odds.inPlay.odds)
+    //this.odds.preMatch.stats = trade PriceStats(this.odds.preMatch.odds)
 
   }
 

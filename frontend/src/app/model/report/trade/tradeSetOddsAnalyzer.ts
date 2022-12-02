@@ -1,10 +1,10 @@
-import {NewTrade} from './new/newTrade';
-import {TennisPoint} from '../point/tennisPoint';
-import {Utils} from '../utils';
+import {Trade} from './trade';
+import {TennisPoint} from '../../point/tennisPoint';
+import {Utils} from '../../utils';
 
 export interface TradeSetOddsAnalyzerInterface{
   tradeId: string
-  trade: NewTrade
+  trade: Trade
   marketName: string
   date: number
   result: TennisPoint
@@ -29,7 +29,7 @@ export class TradeSetOddsAnalyzer{
 
   analyzer: TradeSetOddsAnalyzerInterface[] = []
 
-  constructor(trades: NewTrade[]) {
+  constructor(trades: Trade[]) {
     let filtered = trades.filter(y => y.trade.selections[0].sets.secondSet>0 && y.trade.info.marketInfo.marketName.indexOf('/')===-1)
     // remove 0 bsp
     filtered = filtered.filter( x => {
@@ -105,7 +105,7 @@ export class TradeSetOddsAnalyzer{
 
   removeDuplicate(obj){
     return obj.filter((value, index, self) =>
-        index === self.findIndex((t: NewTrade) => (
+        index === self.findIndex((t: Trade) => (
           t.trade.info.marketInfo.marketName === value.trade.info.marketInfo.marketName
         ))
     )

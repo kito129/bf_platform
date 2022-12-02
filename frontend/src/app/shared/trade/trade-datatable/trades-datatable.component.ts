@@ -4,12 +4,12 @@ import {DatatableComponent, ColumnMode, SelectionType} from '@swimlane/ngx-datat
 import {Store} from '@ngrx/store';
 import {TradeCalculatorService} from '../../../services/trade-calculator.service';
 import {takeUntil} from 'rxjs/operators';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 import {Utils} from '../../../model/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
 import * as reportActions from '../../../store/report/report.actions';
-import {SavedReport} from '../../../model/report/new/savedReport';
-import { TradeDetail} from '../../../model/report/new/newTrade';
+import {SavedReport} from '../../../model/report/savedReport';
+import { TradeDetail} from '../../../model/report/trade/trade';
 
 @Component({
   selector: 'app-trades-datatable',
@@ -17,8 +17,8 @@ import { TradeDetail} from '../../../model/report/new/newTrade';
 })
 export class TradesDatatableComponent implements OnInit, OnDestroy {
 
-  @Input() trades$: Observable<NewTrade[]>
-  @Input() trades: NewTrade[]
+  @Input() trades$: Observable<Trade[]>
+  @Input() trades: Trade[]
   @Input() selectedMarketId: string
   @Input() viewSelectors: boolean
   @Input() title: string
@@ -45,7 +45,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   viewNotes = false
   viewSelectedReport = false
 
-  selectedTrades: Observable<NewTrade[]>
+  selectedTrades: Observable<Trade[]>
 
   rows = [];
   temp =[] ;
@@ -175,15 +175,15 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  // DEPRECATED - to csv to fix with new version in utils
+  // DEPRECATED - to csv to fix with trade version in utils
   saveAsCSV(type: string) {
     const nowDate = new Date()
     const temp = []
     // sort by the longest trade number
-    const data: NewTrade[]  = JSON.parse(JSON.stringify(this.rows.map(x => x.trade)))
+    const data: Trade[]  = JSON.parse(JSON.stringify(this.rows.map(x => x.trade)))
       data
-      .sort((a:NewTrade,b:NewTrade) =>b.trade.trades.length - a.trade.trades.length)
-      .forEach((x: NewTrade) => {
+      .sort((a:Trade, b:Trade) =>b.trade.trades.length - a.trade.trades.length)
+      .forEach((x: Trade) => {
         const t = new Date(x.trade.info.date)
         const date = `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()}`
         const time = `${t.getHours()}:${t.getMinutes()}:${t.getSeconds()}`
@@ -237,7 +237,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
       JSON.parse(JSON.stringify(temp.sort((c,d) => c.date - d.date ))))
   }
 
-  private addPropsToObj(trade: NewTrade, arrayToAdd, type: string){
+  private addPropsToObj(trade: Trade, arrayToAdd, type: string){
     // add element from bets
     const bets = type ==='ALL' ? this.createTradeRows(trade) :
       type ==='BFL' ? this.createTradeRowsBFLGrouped(trade) :  this.createTradeRowsGrouped(trade)
@@ -250,7 +250,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createTradeRows(trade: NewTrade){
+  private createTradeRows(trade: Trade){
     let i =0
     return trade.trade.trades.map( x =>{
       console.log(trade.trade.info.marketInfo.marketName)
@@ -271,7 +271,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     })
   }
 
-  private createTradeRowsGrouped(trade: NewTrade){
+  private createTradeRowsGrouped(trade: Trade){
     let i =0
     const open = this.util.getEmptyCSVBetGroup()
     const increase = this.util.getEmptyCSVBetGroup()
@@ -353,7 +353,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     return [open, increase, decrease, close, freeBet]
   }
 
-  private createTradeRowsBFLGrouped(trade: NewTrade){
+  private createTradeRowsBFLGrouped(trade: Trade){
     let i =0
     const open = this.util.getEmptyCSVBetGroup()
     const increase = this.util.getEmptyCSVBetGroup()

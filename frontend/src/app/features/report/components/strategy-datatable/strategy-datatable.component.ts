@@ -1,10 +1,10 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
 import { Store} from '@ngrx/store';
-import {StrategyDatatable} from '../../../../model/report/strategyDatatable';
+import {StrategyDatatable} from '../../../../model/report/strategy/strategyDatatable';
 import * as reportActions from '../../../../store/report/report.actions';
 import {removeTradesFromSavedReport} from '../../../../store/report/report.actions';
-import {SavedReport} from "../../../../model/report/new/savedReport";
+import {SavedReport} from "../../../../model/report/savedReport";
 
 @Component({
   selector: 'app-strategy-datatable',

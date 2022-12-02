@@ -2,10 +2,10 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {CompareStudy} from '../../../../../model/report/compareStudy';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {TradeComparator} from '../../../../../model/study/study/tradeComparator';
-import {StrategyReport} from '../../../../../model/report/starategyReport';
+import {TradeComparator} from '../../../../../model/study/report/tradeComparator';
+import {StrategyReport} from '../../../../../model/report/strategy/starategyReport';
 import {Utils} from '../../../../../model/utils';
-import {StrategyReportClass} from '../../../../../model/calculator/strategyReport';
+import {StrategyReportClass} from '../../../../../model/report/strategyReport';
 
 @Component({
   selector: 'app-study-comparator',

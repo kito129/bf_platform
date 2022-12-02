@@ -1,9 +1,9 @@
-import {NewTrade} from '../new/newTrade';
+import {Trade} from '../trade/trade';
 import {TennisTournament} from '../../tennisTournament/tennisTournament';
 
 export interface StrategyTradeFiltersInterface {
   name: string
-  trades: NewTrade[]
+  trades: Trade[]
   minOdds: number
   maxOdds: number
   filterType: string
@@ -14,7 +14,7 @@ export interface StrategyTradeFiltersInterface {
 
 export class StrategyTradeFilter implements StrategyTradeFiltersInterface{
   name: string
-  trades: NewTrade[] = []
+  trades: Trade[] = []
   minOdds: number
   maxOdds: number
   filterType: string
@@ -32,7 +32,7 @@ export class StrategyTradeFilter implements StrategyTradeFiltersInterface{
     this.bank = bank
   }
 
-  filterData(trades: NewTrade[], tennisTournament: TennisTournament[]){
+  filterData(trades: Trade[], tennisTournament: TennisTournament[]){
     // empty prev data
     this.trades = []
     // check for trades with conditions
@@ -67,7 +67,7 @@ export class StrategyTradeFilter implements StrategyTradeFiltersInterface{
     })
   }
 
-  filterByTournament(trade: NewTrade[], tennis: TennisTournament[]): NewTrade[]{
+  filterByTournament(trade: Trade[], tennis: TennisTournament[]): Trade[]{
     const tempTrade = []
     trade.forEach(t=>{
       let toAdd = false

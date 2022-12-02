@@ -8,7 +8,7 @@ import * as marketActions from '../../../store/markets/markets.actions';
 import {select, Store} from '@ngrx/store';
 import * as marketSelectors from '../../../store/markets/markets.selectors';
 import {MarketBasic} from '../../../model/market/basic/marketBasic';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 import * as reportActions from "../../../store/report/report.actions";
 
 @Component({
@@ -24,7 +24,7 @@ import * as reportActions from "../../../store/report/report.actions";
 })
 export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
 
-  @Input() trade: NewTrade
+  @Input() trade: Trade
 
   isLoadingMarketDetails$: Observable<IsLoading>
   marketDetails$: Observable<MarketBasic>

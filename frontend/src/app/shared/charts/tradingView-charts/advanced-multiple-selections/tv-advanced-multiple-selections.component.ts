@@ -625,7 +625,7 @@ export class TvAdvancedMultipleSelectionsComponent implements OnInit, OnDestroy 
     this.fitClick()
   }
 
-  // main functions that reset chart and generate new value via switch
+  // main functions that reset chart and generate trade value via switch
   public changeTimeFrame(index: number) {
 
     // remove all data from charts
@@ -691,7 +691,7 @@ export class TvAdvancedMultipleSelectionsComponent implements OnInit, OnDestroy 
   }
 
 
-  // set new candlestick time frame in the carts
+  // set trade candlestick time frame in the carts
   private setNewCandleTimeFrame(odds: any[], vol: any[], index: number) {
 
     // create candlestick
@@ -720,7 +720,7 @@ export class TvAdvancedMultipleSelectionsComponent implements OnInit, OnDestroy 
 
   }
 
-  // return the new data for [odds, volume] with the new timeframe
+  // return the trade data for [odds, volume] with the trade timeframe
   private generateCandlestickByDuration(secDuration: number, odds: any[], volume: any[]): any[] {
 
     const responseOdds = []

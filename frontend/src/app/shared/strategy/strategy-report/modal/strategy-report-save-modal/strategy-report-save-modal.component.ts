@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {SavedReport} from '../../../../../model/report/new/savedReport';
-import { TradeDetail} from "../../../../../model/report/new/newTrade";
+import {SavedReport} from '../../../../../model/report/savedReport';
+import { TradeDetail} from "../../../../../model/report/trade/trade";
 
 @Component({
   selector: 'app-strategy-report-save-modal',

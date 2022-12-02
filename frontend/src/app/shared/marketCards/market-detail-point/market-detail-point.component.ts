@@ -1,9 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
 import {Note} from '../../../model/note/note';
-import {Point} from '../../../model/market/point';
-import {MarketInfoBasic} from '../../../model/market/basic/marketInfoBasic';
 import {MarketRunnersBasic} from '../../../model/market/basic/marketRunnersBasic';
+import {TennisPoint} from "../../../model/point/tennisPoint";
 
 @Component({
   selector: 'app-market-detail-point',
@@ -17,7 +15,7 @@ export class MarketDetailPointComponent implements OnInit {
   @Input()
   marketSelection: MarketRunnersBasic
 
-  public point: Point
+  public point: TennisPoint
 
   constructor() { }
 

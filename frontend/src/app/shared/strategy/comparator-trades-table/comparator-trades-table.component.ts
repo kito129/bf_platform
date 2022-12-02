@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {TradeComparator} from '../../../model/study/study/tradeComparator';
+import {TradeComparator} from '../../../model/study/report/tradeComparator';
 import * as studyActions from '../../../store/study/study/study.actions';
 import * as studySelectors from '../../../store/study/study/study.selectors';
 import {select, Store} from '@ngrx/store';

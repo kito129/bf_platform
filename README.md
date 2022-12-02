@@ -140,7 +140,7 @@ To remove and update site:
 sudo apt-get install tmux
 tmux new -s platform
 
-
+tmux new -s platform
 
 tmux new -s bot
 

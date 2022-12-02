@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ChartComponent} from 'ng-apexcharts';
 import {CurrencyPipe} from '@angular/common';
-import {NewTrade} from '../../../../../../model/report/new/newTrade';
+import {Trade} from '../../../../../../model/report/trade/trade';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class TradeEquityComponent implements OnInit, OnDestroy {
 
-  @Input() allTrades: Observable<NewTrade[]>
+  @Input() allTrades: Observable<Trade[]>
   @Input() labels: string[]
 
 
@@ -37,7 +37,7 @@ export class TradeEquityComponent implements OnInit, OnDestroy {
 
   }
 
-  generateChart(trades: NewTrade[]) {
+  generateChart(trades: Trade[]) {
 
     const netProfit = trades.map(x => Math.round(x.trade.results.netProfit * 100)/100)
 

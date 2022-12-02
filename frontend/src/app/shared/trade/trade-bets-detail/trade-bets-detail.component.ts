@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TradeBets} from '../../../model/report/tradeBets';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {TradeBets} from '../../../model/report/trade/tradeBets';
+import {Trade} from '../../../model/report/trade/trade';
 import {Utils} from "../../../model/utils";
 
 @Component({
@@ -9,7 +9,7 @@ import {Utils} from "../../../model/utils";
 })
 export class TradeBetsDetailComponent implements OnInit {
 
-  @Input() trade: NewTrade
+  @Input() trade: Trade
   @Input() onlyBets: boolean
 
   bets: TradeBets[] = []

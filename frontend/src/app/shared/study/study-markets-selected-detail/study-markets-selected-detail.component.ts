@@ -3,7 +3,7 @@ import {TVBets} from "../../../model/TV/TVBets";
 import * as studyActions from "../../../store/study/study/study.actions";
 import * as basketActions from "../../../store/study/basket/basket.actions";
 import {Store} from "@ngrx/store";
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 
 @Component({
   selector: 'app-study-markets-selected-detail',
@@ -17,7 +17,7 @@ export class StudyMarketsSelectedDetailComponent implements OnInit {
   @Input() haveTrades: boolean
   @Input() basketBspTime: number
   @Input() basketBspOdds: number
-  @Input() trade: NewTrade
+  @Input() trade: Trade
 
 
   constructor(private readonly store: Store) { }

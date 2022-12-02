@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {NewTrade} from '../../../../model/report/new/newTrade';
+import {Trade} from '../../../../model/report/trade/trade';
 import {Utils} from '../../../../model/utils';
-import {CompareStrategy} from '../../../../model/report/new/compareStrategy';
+import {CompareStrategy} from '../../../../model/report/strategy/compareStrategy';
 import {StrategyTradeFilter} from '../../../../model/report/strategyFilter/strategyTradeFiltersInterface';
 import {select, Store} from '@ngrx/store';
 import * as tennisTournamentSelectors from '../../../../store/tennis-tournament/tennisTournament.selectors';
@@ -15,7 +15,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class StrategyReportTradeFilterComponent implements OnInit, OnDestroy {
 
-  @Input() trades: NewTrade[]
+  @Input() trades: Trade[]
 
   tennisTournament: TennisTournament[]
 

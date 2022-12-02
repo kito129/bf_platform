@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NewTrade} from '../../../../model/report/new/newTrade';
+import {Trade} from '../../../../model/report/trade/trade';
 import {StrategyTradeFilter} from '../../../../model/report/strategyFilter/strategyTradeFiltersInterface';
 
 @Component({
@@ -8,7 +8,7 @@ import {StrategyTradeFilter} from '../../../../model/report/strategyFilter/strat
 })
 export class StrategyReportBetFilterComponent implements OnInit {
 
-  @Input() trades: NewTrade[]
+  @Input() trades: Trade[]
 
   validData = false
 

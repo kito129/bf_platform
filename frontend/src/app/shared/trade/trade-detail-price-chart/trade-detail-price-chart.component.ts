@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MarketBasic, } from '../../../model/market/basic/marketBasic';
 import {TVBets} from '../../../model/TV/TVBets';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 
 @Component({
   selector: 'app-trade-detail-price-chart',
@@ -9,7 +9,7 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 })
 export class TradeDetailPriceChartComponent implements OnInit {
 
-  @Input() trade: NewTrade
+  @Input() trade: Trade
   @Input() marketDetail: MarketBasic
   @Input() marketDetailsFound: boolean
 

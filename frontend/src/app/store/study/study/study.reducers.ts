@@ -13,18 +13,17 @@ import {
 } from '../../supportFunction';
 import {MarketSinglePrices} from '../../../model/market/marketSinglePrices';
 import {CompareStudy} from '../../../model/report/compareStudy';
-import {addStudiesInCompare} from '../study/study.actions';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 
 export interface StudyStates {
   allStudy: Study[]
   selectedStudyId: string
   compareList: string[]
   compareStudies: CompareStudy[]
-  selectedStudyTrades: NewTrade[]
+  selectedStudyTrades: Trade[]
   selectedStudyMarket: MarketSinglePrices
   selectedStudyMarketId: string
-  selectedStudyMarketTrade: NewTrade
+  selectedStudyMarketTrade: Trade
   studyError: string,
   isLoadingAllStudy: IsLoading,
   isLoadingSelectedStudyTrades: IsLoading,

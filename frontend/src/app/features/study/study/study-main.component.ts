@@ -6,11 +6,11 @@ import {select, Store} from '@ngrx/store';
 import * as studySelectors from '../../../store/study/study/study.selectors';
 import * as strategySelectors from '../../../store/report/report.selectors';
 import {TVBets} from '../../../model/TV/TVBets';
-import {StrategyReport} from '../../../model/report/starategyReport';import {takeUntil} from 'rxjs/operators';
+import {StrategyReport} from '../../../model/report/strategy/starategyReport';import {takeUntil} from 'rxjs/operators';
 import {MarketSinglePrices} from '../../../model/market/marketSinglePrices';
 import {CompareStudy} from '../../../model/report/compareStudy';
-import {NewTrade} from '../../../model/report/new/newTrade';
-import {StrategyReportClass} from '../../../model/calculator/strategyReport';
+import {Trade} from '../../../model/report/trade/trade';
+import {StrategyReportClass} from '../../../model/report/strategyReport';
 
 @Component({
   selector: 'app-study-main',
@@ -25,13 +25,13 @@ export class StudyMainComponent implements OnInit, OnDestroy {
   selectedStudyId$: Observable<string>
   selectedStudy$: Observable<Study>
   // selectedStudy trades
-  selectedStudyTrades$: Observable<NewTrade[]>
+  selectedStudyTrades$: Observable<Trade[]>
   isLoadingSelectedStudyTrades$: Observable<IsLoading>
   // selected study and selected study market
   isLoadingSelectedStudyMarket$: Observable<IsLoading>
   selectedStudyMarket$: Observable<MarketSinglePrices>
   selectedStudyMarketId$: Observable<string>
-  selectedStudyMarketTrade$: Observable<NewTrade>
+  selectedStudyMarketTrade$: Observable<Trade>
   // strategy and strategyReport
   selectedStrategyReport: StrategyReport
   selectedStrategyPie: number[] = [0,0,0]
@@ -89,7 +89,7 @@ export class StudyMainComponent implements OnInit, OnDestroy {
       if(data[0] && data[1]) {
 
         const market: MarketSinglePrices = data[1]
-        const trade: NewTrade = data[0]
+        const trade: Trade = data[0]
 
         this.selectedTrades = []
         // set selected trade proprieties
@@ -119,7 +119,7 @@ export class StudyMainComponent implements OnInit, OnDestroy {
         if(data[0] && data[1]) {
 
           const study: Study = data[0]
-          const trades: NewTrade[] = data[1]
+          const trades: Trade[] = data[1]
 
           this.store
             .pipe(select(strategySelectors.getStrategyById(study.study.strategyId)))

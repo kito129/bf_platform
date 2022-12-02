@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TradeCalculatorService} from '../../../../services/trade-calculator.service';
-import {Bets, NewTrade} from '../../../../model/report/new/newTrade';
+import {Bets, Trade} from '../../../../model/report/trade/trade';
 import {Utils} from '../../../../model/utils';
 
 @Component({
@@ -10,9 +10,9 @@ import {Utils} from '../../../../model/utils';
 })
 export class TradeUpdatesModalComponent implements OnInit {
 
-  @Input() tradeInput: NewTrade
+  @Input() tradeInput: Trade
   @Output() tradeUpdateEmitter = new EventEmitter()
-  public tradeOutput: NewTrade
+  public tradeOutput: Trade
 
   public executor = ['BAGNA', 'KEVIN', 'KITO', 'BAGNA KEVIN', 'BAGNA KEVIN KITO', 'BAGNA KITO', 'KEVIN KITO']
   public exchange = ['UK', 'KITO' ]
@@ -45,7 +45,7 @@ export class TradeUpdatesModalComponent implements OnInit {
 
       // action before pass to action
 
-      const trade: NewTrade ={
+      const trade: Trade ={
         _id: this.tradeOutput._id,
         created: this.tradeOutput.created,
         updated: new Date().getTime(),

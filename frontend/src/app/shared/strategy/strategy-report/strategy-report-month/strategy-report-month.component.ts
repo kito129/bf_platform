@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MonthTrade} from '../../../../model/study/study/comparatorTableRow';
+import {MonthTrade} from '../../../../model/study/report/comparatorTableRow';
 import {Utils} from '../../../../model/utils';
-import {StrategyReport} from '../../../../model/report/starategyReport';
-import {NewTrade} from '../../../../model/report/new/newTrade';
-import {StrategyReportClass} from '../../../../model/calculator/strategyReport';
+import {StrategyReport} from '../../../../model/report/strategy/starategyReport';
+import {Trade} from '../../../../model/report/trade/trade';
+import {StrategyReportClass} from '../../../../model/report/strategyReport';
 
 @Component({
   selector: 'app-strategy-report-month',
@@ -11,7 +11,7 @@ import {StrategyReportClass} from '../../../../model/calculator/strategyReport';
 })
 export class StrategyReportMonthComponent implements OnInit {
 
-  @Input() allTrades: NewTrade[]
+  @Input() allTrades: Trade[]
 
   utils = new Utils()
 

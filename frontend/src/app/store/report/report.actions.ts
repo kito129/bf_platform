@@ -1,8 +1,9 @@
 import {createAction, props} from '@ngrx/store'
-import {Strategy} from '../../model/report/strategy'
-import {NewTrade} from '../../model/report/new/newTrade'
-import {SavedReport} from '../../model/report/new/savedReport'
+import {Strategy} from '../../model/report/strategy/strategy'
+import {Trade} from '../../model/report/trade/trade'
+import {SavedReport} from '../../model/report/savedReport'
 
+// -- TRADE --
 export const GET_ALL_TRADES = '[Trades] Get all Trades'
 export const GET_ALL_TRADES_SUCCESS = '[Trades] Get all Trades Success'
 export const GET_ALL_TRADES_FAILURE = '[Trades] Get all Trades Failure'
@@ -49,9 +50,9 @@ export const SET_SELECTED_STRATEGY_TRADES_SUCCESS = '[Strategy] Set selected Tra
 export const SET_SELECTED_STRATEGY_TRADES_FAILURE = '[Strategy] Set selected Trades Failure'
 
 // -- NEW TRADE --
-export const GET_ALL_NEW_TRADES = '[New Trade] Get all new Trades'
-export const GET_ALL_NEW_TRADES_SUCCESS = '[New Trade] Get all new Trades Success'
-export const GET_ALL_NEW_TRADES_FAILURE = '[New Trade] Get all new Trades Failure'
+export const GET_ALL_NEW_TRADES = '[New Trade] Get all trade Trades'
+export const GET_ALL_NEW_TRADES_SUCCESS = '[New Trade] Get all trade Trades Success'
+export const GET_ALL_NEW_TRADES_FAILURE = '[New Trade] Get all trade Trades Failure'
 
 // -- COMPARE REPORT--
 export const ADD_STRATEGY_IN_COMPARE = '[Strategy] Add Strategy in compare list'
@@ -109,7 +110,7 @@ export const getAllTradesFailure = createAction(
 // create trade
 export const createTrade = createAction(
   CREATE_TRADE,
-  props<{trade: NewTrade}>()
+  props<{trade: Trade}>()
 )
 export const createTradeSuccess = createAction(
   CREATE_TRADE_SUCCESS,
@@ -123,7 +124,7 @@ export const createTradeFailure = createAction(
 // update trade
 export const updateTrade = createAction(
   UPDATE_TRADE,
-  props<{ trade: NewTrade }>()
+  props<{ trade: Trade }>()
 )
 export const updateTradeSuccess = createAction(
   UPDATE_TRADE_SUCCESS,

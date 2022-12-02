@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {StrategyReport} from '../../../model/report/starategyReport';
+import {StrategyReport} from '../../../model/report/strategy/starategyReport';
 import {MmCalculatorService} from '../../../services/mm-calculator.service';
 import {MmResult} from '../../../model/calculator/mm';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
 
 @Component({
@@ -11,7 +11,7 @@ import {TradePlSeries} from '../../../model/calculator/montecarlo';
 })
 export class MmComponent implements OnInit {
 
-  @Input() trades: NewTrade[]
+  @Input() trades: Trade[]
   @Input() strategyReport: StrategyReport
 
   defaultHeight = 500

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Strategy} from '../../../../../model/report/strategy';
+import {Strategy} from '../../../../../model/report/strategy/strategy';
 
 @Component({
   selector: 'app-strategy-create-modal',

@@ -1,4 +1,4 @@
-import {TennisPoint} from '../point/tennisPoint';
+import {TennisPoint} from '../../point/tennisPoint';
 
 export interface TradeBets{
   id: number

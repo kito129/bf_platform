@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {StrategyResume, StrategyReport} from "../../../../model/report/starategyReport";
+import {StrategyResume, StrategyReport} from "../../../../model/report/strategy/starategyReport";
 
 @Component({
   selector: 'app-strategy-report-resume',

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {NewTrade} from '../../../../model/report/new/newTrade';
-import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from '../../../../model/report/tradeSetOddsAnalyzer';
+import {Trade} from '../../../../model/report/trade/trade';
+import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from '../../../../model/report/trade/tradeSetOddsAnalyzer';
 import {ColumnMode,SelectionType, DatatableComponent} from '@swimlane/ngx-datatable';
 import {Utils} from '../../../../model/utils';
 
@@ -10,7 +10,7 @@ import {Utils} from '../../../../model/utils';
 })
 export class StrategyReportSetOddsAnalyzerComponent implements OnInit {
 
-  @Input() trades: NewTrade[]
+  @Input() trades: Trade[]
 
   analyzer: TradeSetOddsAnalyzerInterface[] = null
 

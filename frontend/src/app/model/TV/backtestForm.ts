@@ -1,11 +1,11 @@
 import {MarketBasic} from '../market/basic/marketBasic';
-import {NewTrade} from '../report/new/newTrade';
+import {Trade} from '../report/trade/trade';
 import {Utils} from '../utils';
 
 export interface BacktestFormInterface{
   info: BacktestInfo
   marketInfo: MarketBasic
-  tradeForm: NewTrade
+  tradeForm: Trade
   backtestBets: BacktestBets[]
 }
 
@@ -39,10 +39,10 @@ export class BacktestForm implements BacktestFormInterface{
   private util = new Utils()
   marketInfo: MarketBasic;
   info: BacktestInfo;
-  tradeForm: NewTrade;
+  tradeForm: Trade;
   backtestBets: BacktestBets []
 
-  constructor(market: MarketBasic, trade: NewTrade) {
+  constructor(market: MarketBasic, trade: Trade) {
     this.marketInfo = market
     this.info = {
       active: 'Back',

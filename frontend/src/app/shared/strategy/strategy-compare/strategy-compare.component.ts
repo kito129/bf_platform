@@ -1,12 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
-import {CompareStrategy} from '../../../model/report/new/compareStrategy';
+import {CompareStrategy} from '../../../model/report/strategy/compareStrategy';
 import {Utils} from '../../../model/utils';
-import {StrategyReport} from '../../../model/report/starategyReport';
-import {TradeComparator} from '../../../model/study/study/tradeComparator';
+import {StrategyReport} from '../../../model/report/strategy/starategyReport';
+import {TradeComparator} from '../../../model/study/report/tradeComparator';
 import {takeUntil} from 'rxjs/operators';
-import {StrategyReportClass} from '../../../model/calculator/strategyReport';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {StrategyReportClass} from '../../../model/report/strategyReport';
+import {Trade} from '../../../model/report/trade/trade';
 
 @Component({
   selector: 'app-strategy-compare',
@@ -25,7 +25,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   // main studies data
-  allTrades: NewTrade[] = []
+  allTrades: Trade[] = []
   allCompareStrategy: CompareStrategy[] = []
 
   seriesName: string[] = []
@@ -108,7 +108,7 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
     }
     // generate sum reports
     /*
-    const sumReports = new StrategyReportClass()
+    const sumReports = trade StrategyReportClass()
     sumReports.setDataNoStrategy('SUM', 1000,this.allTrades)
     this.strategyPies.push(sumReports.getStrategyPie())
     this.strategyReports.push(sumReports.getStrategyReport())

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TradeBets} from '../../../../model/report/tradeBets';
+import {TradeBets} from '../../../../model/report/trade/tradeBets';
 
 @Component({
   selector: 'app-bets-table',

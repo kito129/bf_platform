@@ -3,7 +3,7 @@ import {ChartComponent} from 'ng-apexcharts';
 import {ChartOptions} from '../../../../../../model/chartOptions';
 import {Utils} from '../../../../../../model/utils';
 import {CurrencyPipe, PercentPipe} from '@angular/common';
-import {NewTrade} from '../../../../../../model/report/new/newTrade';
+import {Trade} from '../../../../../../model/report/trade/trade';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 @Component({
@@ -11,7 +11,7 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: './trade-dd.component.html',})
 export class TradeDDComponent implements OnInit {
 
-  @Input() allTrades: Observable<NewTrade[]>
+  @Input() allTrades: Observable<Trade[]>
   @Input() labels: string[]
   ddPercent: number[]
   ddMonetary: number[]

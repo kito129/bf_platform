@@ -103,10 +103,10 @@ export class BasketFilters{
 
     /*
 
-this.filters.push(  new Filter('volumePrematch', 'marketInfo.marketInfo.volume.prematch','',
+this.filters.push(  trade Filter('volumePrematch', 'marketInfo.marketInfo.volume.prematch','',
   0,1000000000, true, false, 0, FilterType.moreThan))
 
-this.filters.push(  new Filter('volumeInplay', 'marketInfo.marketInfo.volume.inplay','',
+this.filters.push(  trade Filter('volumeInplay', 'marketInfo.marketInfo.volume.inplay','',
   0,1000000000, true, false, 0, FilterType.moreThan))
 
  */

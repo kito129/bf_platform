@@ -1,14 +1,14 @@
-import {Strategy} from '../report/strategy';
-import {NewTrade} from '../report/new/newTrade';
+import {Strategy} from './strategy/strategy';
+import {Trade} from './trade/trade';
 import {Utils} from '../utils';
-import {StrategyReport} from '../report/starategyReport';
+import {StrategyReport} from './strategy/starategyReport';
 import {utils} from 'protractor';
 
 export class StrategyReportClass{
 
   strategy: Strategy
   title: string = null
-  trades: NewTrade[] = []
+  trades: Trade[] = []
   tradesPL: number[] = []
   profitTrades: number[] = []
   lossTrades: number[] = []
@@ -35,13 +35,13 @@ export class StrategyReportClass{
   }
 
   // setter data
-  setData(strategy: Strategy, trades: NewTrade[]){
+  setData(strategy: Strategy, trades: Trade[]){
     this.emptyData()
     this.strategy = strategy
     this.trades = trades
     this.calculateReport()
   }
-  setDataNoStrategy(title: string, bank: number, trades: NewTrade[]){
+  setDataNoStrategy(title: string, bank: number, trades: Trade[]){
     this.emptyData()
     this.title = title
     this.bank = bank

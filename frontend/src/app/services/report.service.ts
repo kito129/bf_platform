@@ -3,9 +3,9 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import {Strategy} from '../model/report/strategy';
-import {NewTrade} from '../model/report/new/newTrade';
-import {SavedReport} from '../model/report/new/savedReport';
+import {Strategy} from '../model/report/strategy/strategy';
+import {Trade} from '../model/report/trade/trade';
+import {SavedReport} from '../model/report/savedReport';
 
 const headers = {'Content-Type': 'application/json'};
 
@@ -23,11 +23,11 @@ export class ReportService {
     return this.http.get(`${baseUrl}/trade/all`);
   }
 
-  createTrade(trade: NewTrade): Observable<any> {
+  createTrade(trade: Trade): Observable<any> {
     return this.http.put(`${baseUrl}/trade/create`,trade,{headers});
   }
 
-  updateTrade(id,trade: NewTrade): Observable<any> {
+  updateTrade(id,trade: Trade): Observable<any> {
     const body = JSON.stringify(trade)
     return this.http.post(`${baseUrl}/trade/${id}`,body, {headers});
   }

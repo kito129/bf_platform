@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {StrategyReport} from '../../../../model/report/starategyReport';
-import {ComparatorTableRow} from '../../../../model/study/study/comparatorTableRow';
+import {StrategyReport} from '../../../../model/report/strategy/starategyReport';
+import {ComparatorTableRow} from '../../../../model/study/report/comparatorTableRow';
 import {DatatableComponent, ColumnMode} from '@swimlane/ngx-datatable';
 import {Utils} from '../../../../model/utils';
 

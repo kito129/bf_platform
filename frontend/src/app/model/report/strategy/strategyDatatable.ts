@@ -1,5 +1,5 @@
 import {Strategy} from "./strategy";
-import {SavedReport} from './new/savedReport';
+import {SavedReport} from '../savedReport';
 
 export interface StrategyDatatable{
   _id: string

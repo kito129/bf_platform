@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { TradeForm, TradeDetail} from '../model/report/new/newTrade';
+import { TradeForm, TradeDetail} from '../model/report/trade/trade';
 import {Exposition} from '../model/report/exposition';
-import {NewTrade} from '../model/report/new/newTrade';
+import {Trade} from '../model/report/trade/trade';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class TradeCalculatorService {
 
   }
 
-  public calculatePl(tradeForm: NewTrade){
+  public calculatePl(tradeForm: Trade){
 
     // check the selection number winner
     const winnerIndex = this.findWinner(tradeForm)
@@ -61,7 +61,7 @@ export class TradeCalculatorService {
 
   }
 
-  private findWinner(tradeForm: NewTrade){
+  private findWinner(tradeForm: Trade){
     let winnerIndex =-1
     let i=0
     for (const selection of tradeForm.trade.selections){
@@ -187,7 +187,7 @@ export class TradeCalculatorService {
     tradeForm.result.maxRisk = maxExposition
   }
 
-  addCumulativeInTrade(trade: NewTrade[]): TradeDetail[]{
+  addCumulativeInTrade(trade: Trade[]): TradeDetail[]{
 
     let stockPl=0
     let dd = 0

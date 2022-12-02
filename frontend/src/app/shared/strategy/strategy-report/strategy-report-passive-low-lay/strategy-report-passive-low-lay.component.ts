@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NewTrade} from '../../../../model/report/new/newTrade';
-import {LowLayReport} from '../../../../model/report/new/lowLayReport';
+import {Trade} from '../../../../model/report/trade/trade';
+import {LowLayReport} from '../../../../model/report/lowLayReport';
 import {PassiveStrategyService} from '../../../../services/passive-strategy.service';
 
 @Component({
@@ -9,7 +9,7 @@ import {PassiveStrategyService} from '../../../../services/passive-strategy.serv
 })
 export class StrategyReportPassiveLowLayComponent implements OnInit {
 
-  @Input() trades: NewTrade[]
+  @Input() trades: Trade[]
   lowLayReport: LowLayReport
 
   constructor(private passiveStrategyService: PassiveStrategyService) { }

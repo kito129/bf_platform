@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Rule, RuleInterface} from '../../../../../model/study/new/rule/rules';
+import {Rule, RuleInterface} from '../../../../../model/newStudy/rule/rules';
 
 @Component({
   selector: 'app-rule-edit',

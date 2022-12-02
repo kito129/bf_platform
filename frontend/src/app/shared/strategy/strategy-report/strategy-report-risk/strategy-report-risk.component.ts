@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {StrategyReport} from '../../../../model/report/starategyReport';
+import {StrategyReport} from '../../../../model/report/strategy/starategyReport';
 import {Utils} from "../../../../model/utils";
 
 @Component({

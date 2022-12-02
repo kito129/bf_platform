@@ -191,7 +191,7 @@ export class TvSingleSelectionPriceComponent implements OnInit, AfterViewInit {
         return a.time - b.time;
       })
 
-      // set new data with odds or old
+      // set trade data with odds or old
       this.runnerSeries.setData(this.data);
 
 

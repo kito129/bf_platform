@@ -1,13 +1,13 @@
 import {ConsecutiveTrade} from './report/consecutiveTrade';
 import {TradePlSeries} from './calculator/montecarlo';
-import { MonthTrade} from './study/study/comparatorTableRow';
-import {Bets, CSVBetGroup, CSVTrade, NewTrade, TradeResult, TradeSelectionsAvg} from './report/new/newTrade';
+import { MonthTrade} from './study/report/comparatorTableRow';
+import {Bets, CSVBetGroup, CSVTrade, Trade, TradeResult, TradeSelectionsAvg} from './report/trade/trade';
 import {Note} from './note/note';
-import {Strategy} from './report/strategy';
+import {Strategy} from './report/strategy/strategy';
 import {TennisPoint} from './point/tennisPoint';
 import {MarketBasic} from './market/basic/marketBasic';
 import {FootballPoint} from './point/footballPoint';
-import {TradeBets} from './report/tradeBets';
+import {TradeBets} from './report/trade/tradeBets';
 import {BacktestBets} from './TV/backtestForm';
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -91,7 +91,7 @@ export class Utils{
     }
   }
 
-  getWinRatioTrades(trade: NewTrade[]): number{
+  getWinRatioTrades(trade: Trade[]): number{
     const win = trade.reduce((acc, val) =>{
       return val.trade.results.netProfit>0 ? acc+=1 : acc},0)
 
@@ -102,11 +102,11 @@ export class Utils{
   /*
   * Bte group Calculator
   */
-  createGroupBetByTrades(trades: NewTrade[]): CSVTrade[]{
+  createGroupBetByTrades(trades: Trade[]): CSVTrade[]{
     const temp = []
     trades
-      .sort((a:NewTrade,b:NewTrade) =>b.trade.trades.length - a.trade.trades.length)
-      .forEach((x: NewTrade) => {
+      .sort((a:Trade, b:Trade) =>b.trade.trades.length - a.trade.trades.length)
+      .forEach((x: Trade) => {
         const t = new Date(x.trade.info.date)
         const date = `${t.getMonth() + 1}/${t.getDate()}/${t.getFullYear()}`
         const winner = x.trade.selections.filter( y => y.winner)[0]
@@ -154,7 +154,7 @@ export class Utils{
     return temp
   }
 
-  private addPropsToObj(trade: NewTrade, arrayToAdd){
+  private addPropsToObj(trade: Trade, arrayToAdd){
     // add element from bets
     const bets = this.createTradeRowsGrouped(trade)
     // const type = 'ALL'
@@ -168,7 +168,7 @@ export class Utils{
     }
   }
 
-  private createTradeRows(trade: NewTrade):CSVBetGroup[]{
+  private createTradeRows(trade: Trade):CSVBetGroup[]{
     let i =0
     return trade.trade.trades.map( x =>{
       i++
@@ -191,7 +191,7 @@ export class Utils{
     })
   }
 
-  private createTradeRowsGrouped(trade: NewTrade){
+  private createTradeRowsGrouped(trade: Trade){
     let i =0
     const open = this.getEmptyCSVBetGroup()
     const increase = this.getEmptyCSVBetGroup()
@@ -285,7 +285,7 @@ export class Utils{
     return [open, increase, decrease, close, freeBet, adj]
   }
 
-  private createTradeRowsBFLGrouped(trade: NewTrade){
+  private createTradeRowsBFLGrouped(trade: Trade){
     let i =0
     const open = this.getEmptyCSVBetGroup()
     const increase = this.getEmptyCSVBetGroup()
@@ -555,11 +555,11 @@ export class Utils{
   /*
   * Trade Consecutive
   */
-  maxOfConsecutive(trade: NewTrade[][]){
+  maxOfConsecutive(trade: Trade[][]){
     return  Math.max.apply(Math, trade.map( x => x.length))
   }
 
-  avgOfConsecutive(trade: NewTrade[][]){
+  avgOfConsecutive(trade: Trade[][]){
     return  trade.map( x => x.length).reduce((acc, val) =>{return val ? acc+=val : acc},
       0) / trade.length
   }
@@ -584,7 +584,7 @@ export class Utils{
     }))
   }
 
-  getConsecutive(trades: NewTrade[]){
+  getConsecutive(trades: Trade[]){
 
     const consecutiveProfitTrade: any[] = []
     const consecutiveLossTrade: any[] = []
@@ -738,7 +738,7 @@ export class Utils{
   * Month Calculator functions
   */
 
-  getMonthTrades(trades: NewTrade[]): MonthTrade[]{
+  getMonthTrades(trades: Trade[]): MonthTrade[]{
 
     const monthLabels = this.getMonthFromDate(trades[0].trade.info.date)
     const recap: MonthTrade[] = []
@@ -828,7 +828,7 @@ export class Utils{
   * Backtest
   */
 
-  generateBetsFromBacktestBets(backtestBets: BacktestBets[], trade: NewTrade, market: MarketBasic): TradeBets[]{
+  generateBetsFromBacktestBets(backtestBets: BacktestBets[], trade: Trade, market: MarketBasic): TradeBets[]{
     let resp = []
     // tslint:disable-next-line:prefer-for-of
     for(let i=0; i< backtestBets.length; i++){
@@ -861,7 +861,7 @@ export class Utils{
     return resp
   }
 
-  generateTradeFromMarket(marketInfo: MarketBasic, trade: NewTrade): NewTrade{
+  generateTradeFromMarket(marketInfo: MarketBasic, trade: Trade): Trade{
     const todayDate = new Date().getTime()
     let runnerCount = -1
     const selections = []
@@ -1006,7 +1006,7 @@ export class Utils{
     }
   }
 
-  generateBetsFromTrade(trade: NewTrade): TradeBets[]{
+  generateBetsFromTrade(trade: Trade): TradeBets[]{
     let resp = []
     // tslint:disable-next-line:prefer-for-of
     for(let i=0; i< trade.trade.trades.length; i++){
@@ -1070,11 +1070,11 @@ export class Utils{
     return temp
   }
 
-  generateTradeResultsFromTrade(trade: NewTrade): TradeResult{
+  generateTradeResultsFromTrade(trade: Trade): TradeResult{
      return this.resultFromBets(trade)
   }
 
-  resultFromBets(trade: NewTrade): TradeResult {
+  resultFromBets(trade: Trade): TradeResult {
     const bets = trade.trade.trades
     const winnerIndex = trade.trade.selections[0].winner ? 0 : 1
     const intermediateA = []
@@ -1144,7 +1144,7 @@ export class Utils{
     }
   }
 
-  generateAvgOddsTrade(trade: NewTrade): TradeSelectionsAvg[]{
+  generateAvgOddsTrade(trade: Trade): TradeSelectionsAvg[]{
     const temp:TradeSelectionsAvg[]  = []
     let i =0
     // over selections

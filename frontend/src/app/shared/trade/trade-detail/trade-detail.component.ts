@@ -1,12 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 import {select, Store} from '@ngrx/store';
 import * as tennisTournamentSelectors from '../../../store/tennis-tournament/tennisTournament.selectors';
 import * as strategySelectors from '../../../store/report/report.selectors';
 import {takeUntil} from 'rxjs/operators';
 import {TennisTournament} from '../../../model/tennisTournament/tennisTournament';
 import {Subject} from 'rxjs';
-import {Strategy} from '../../../model/report/strategy';
+import {Strategy} from '../../../model/report/strategy/strategy';
 import {GoogleSearchTabServiceService} from "../../../services/google-search-tab-service.service";
 
 @Component({
@@ -15,7 +15,7 @@ import {GoogleSearchTabServiceService} from "../../../services/google-search-tab
 })
 export class TradeDetailComponent implements OnInit,OnDestroy {
 
-  @Input() trade: NewTrade
+  @Input() trade: Trade
 
   tennisTournament: TennisTournament
   strategy: Strategy

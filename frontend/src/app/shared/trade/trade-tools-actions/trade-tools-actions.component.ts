@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import * as reportActions from '../../../store/report/report.actions';
 import {Store} from '@ngrx/store';
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 
 @Component({
   selector: 'app-trade-tools-actions',
@@ -9,7 +9,7 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 })
 export class TradeToolsActionsComponent implements OnInit {
 
-  @Input() trade: NewTrade
+  @Input() trade: Trade
 
   constructor(private readonly store: Store,) { }
 
@@ -23,8 +23,8 @@ export class TradeToolsActionsComponent implements OnInit {
     }
   }
 
-  onDuplicateClick(trade: NewTrade){
-    const newTrade: NewTrade = JSON.parse(JSON.stringify(trade))
+  onDuplicateClick(trade: Trade){
+    const newTrade: Trade = JSON.parse(JSON.stringify(trade))
     newTrade._id = undefined
     newTrade.created = Date.now()
     newTrade.updated = Date.now()

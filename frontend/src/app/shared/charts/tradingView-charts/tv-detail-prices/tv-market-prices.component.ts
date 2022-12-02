@@ -5,10 +5,10 @@ import {TVBets} from '../../../../model/TV/TVBets';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import * as reportSelectors from '../../../../store/report/report.selectors';
-import {NewTrade} from '../../../../model/report/new/newTrade';
+import {Trade} from '../../../../model/report/trade/trade';
 import {BacktestForm} from '../../../../model/TV/backtestForm';
 import {TVRunners} from '../../../../model/TV/TVRunners';
-import {TradeBets} from '../../../../model/report/tradeBets';
+import {TradeBets} from '../../../../model/report/trade/tradeBets';
 import {Utils} from '../../../../model/utils';
 
 @Component({
@@ -18,7 +18,7 @@ import {Utils} from '../../../../model/utils';
 export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() originalMarket: MarketBasic
-  @Input() originalTrade: NewTrade
+  @Input() originalTrade: Trade
   @Input() TVBets: TVBets[]
 
   // chart
@@ -278,7 +278,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
       tempRunner.tradeData = tempRunner.tradeData.sort((a, b) => a.time - b.time)
       tempRunner.originalData = tempRunner.originalData.sort((a, b) => a.time - b.time)
 
-      // check if update data or push the new as the first time
+      // check if update data or push the trade as the first time
       if(isUpdate){
         // update data for the runner
         this.runnersData[i].tradeData = tempRunner.tradeData

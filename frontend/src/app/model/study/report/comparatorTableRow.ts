@@ -1,4 +1,4 @@
-import {NewTrade} from '../../report/new/newTrade';
+import {Trade} from '../../report/trade/trade';
 
 export interface ComparatorTableRow{
   studyName: string
@@ -32,5 +32,5 @@ export interface ComparatorTableRow{
 
 export interface MonthTrade {
   month: string,
-  trades: NewTrade[]
+  trades: Trade[]
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Mm, MmResult} from '../model/calculator/mm';
 import {Utils} from '../model/utils';
-import {NewTrade} from '../model/report/new/newTrade';
+import {Trade} from '../model/report/trade/trade';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class MmCalculatorService {
 
   constructor() { }
 
-  getMmResult(trade: NewTrade[], params: Mm): MmResult{
+  getMmResult(trade: Trade[], params: Mm): MmResult{
 
     const originalPL = trade.map( x=>x.trade.results.netProfit)
     const originalRR = trade.map( x=>x.trade.results.rr)

@@ -1,6 +1,6 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as reportActions from './report.actions';
-import {Strategy} from '../../model/report/strategy';
+import {Strategy} from '../../model/report/strategy/strategy';
 import {
   addElement,
   addStudyCompare,
@@ -13,13 +13,13 @@ import {
   setterLoadingSuccess,
   updateElement
 } from '../supportFunction';
-import {StrategyList} from '../../model/report/strategyList';
-import {NewTrade} from '../../model/report/new/newTrade';
-import {SavedReport} from '../../model/report/new/savedReport';
+import {StrategyList} from '../../model/report/strategy/strategyList';
+import {Trade} from '../../model/report/trade/trade';
+import {SavedReport} from '../../model/report/savedReport';
 
 
 export interface ReportStates {
-  allNewTrades: NewTrade[],
+  allNewTrades: Trade[],
   allStrategy: Strategy[],
   savedReports: SavedReport[],
   selectedSavedReportId: string,
@@ -51,7 +51,7 @@ export interface ReportStates {
   compareSavedReportStatus: boolean
   // backtest
   backtestModeOn: boolean
-  backtestCurrentTrades: NewTrade[]
+  backtestCurrentTrades: Trade[]
 }
 
 // this is the initial state of the app, before all HTTP call,
@@ -158,7 +158,7 @@ const reportReducers = createReducer(
 
   // -- NEW TRADE --
 
-  // get all new trades
+  // get all trade trades
   on(reportActions.getAllNewTrades, (state,result) => (
     {...state, isLoadingAllNewTrades: setterLoading()
     })

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SavedReport} from '../../../../../model/report/new/savedReport';
+import {SavedReport} from '../../../../../model/report/savedReport';
 import {Subject} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Store} from '@ngrx/store';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {NewTrade} from '../model/report/new/newTrade';
-import {LowLayReport} from '../model/report/new/lowLayReport';
+import {Trade} from '../model/report/trade/trade';
+import {LowLayReport} from '../model/report/lowLayReport';
 import {Utils} from '../model/utils';
 
 @Injectable({
@@ -8,14 +8,14 @@ import {Utils} from '../model/utils';
 })
 export class PassiveStrategyService {
 
-  inputTrades: NewTrade[]
+  inputTrades: Trade[]
   lowLayReport: LowLayReport
   utils = new Utils()
 
   constructor() {
   }
 
-  public setData(trades: NewTrade[]){
+  public setData(trades: Trade[]){
     this.inputTrades = trades
     this.calculateLowLayReport()
   }

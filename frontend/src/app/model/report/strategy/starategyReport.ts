@@ -1,5 +1,5 @@
 import {Strategy} from './strategy';
-import {ConsecutiveTrade} from './consecutiveTrade';
+import {ConsecutiveTrade} from '../consecutiveTrade';
 
 export interface StrategyReport{
   strategy?: Strategy

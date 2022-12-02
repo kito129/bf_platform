@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NewTrade} from '../../../../model/report/new/newTrade';
-import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from '../../../../model/report/tradeSetOddsAnalyzer';
+import {Trade} from '../../../../model/report/trade/trade';
+import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from '../../../../model/report/trade/tradeSetOddsAnalyzer';
 
 @Component({
   selector: 'app-bets-set-odds',
@@ -8,7 +8,7 @@ import {TradeSetOddsAnalyzer, TradeSetOddsAnalyzerInterface} from '../../../../m
 })
 export class BetsSetOddsComponent implements OnInit {
 
-  @Input() trade: NewTrade
+  @Input() trade: Trade
   @Input() view: boolean
 
   analyzer: TradeSetOddsAnalyzerInterface

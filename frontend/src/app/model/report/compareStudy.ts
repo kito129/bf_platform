@@ -1,7 +1,7 @@
 import {Study} from '../study/study/study';
-import {NewTrade} from './new/newTrade';
+import {Trade} from './trade/trade';
 
 export interface CompareStudy{
   study: Study
-  trades: NewTrade[]
+  trades: Trade[]
 }

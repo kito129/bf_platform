@@ -1,4 +1,4 @@
-import {NewTrade} from './new/newTrade';
+import {Trade} from '../trade/trade';
 
 export interface StrategyUploader{
   info: {
@@ -6,5 +6,5 @@ export interface StrategyUploader{
     id: number
     lastUpdate: number
   },
-  trade: NewTrade,
+  trade: Trade,
 }

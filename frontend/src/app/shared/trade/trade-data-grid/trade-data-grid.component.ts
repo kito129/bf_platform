@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {CSVTrade, NewTrade} from '../../../model/report/new/newTrade';
+import {CSVTrade, Trade} from '../../../model/report/trade/trade';
 import {Table} from "primeng/table";
 import {Utils} from "../../../model/utils";
 
@@ -9,7 +9,7 @@ import {Utils} from "../../../model/utils";
 })
 export class TradeDataGridComponent implements OnInit {
 
-  @Input() trades: NewTrade[]
+  @Input() trades: Trade[]
   @ViewChild('dt') table: Table;
 
 

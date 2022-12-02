@@ -1,12 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {NewTrade} from '../../../model/report/new/newTrade';
-import {Strategy} from '../../../model/report/strategy';
-import {StrategyReportClass} from '../../../model/calculator/strategyReport';
-import {StrategyReport} from '../../../model/report/starategyReport';
+import {Trade} from '../../../model/report/trade/trade';
+import {Strategy} from '../../../model/report/strategy/strategy';
+import {StrategyReportClass} from '../../../model/report/strategyReport';
+import {StrategyReport} from '../../../model/report/strategy/starategyReport';
 import {Utils} from '../../../model/utils';
-import {SavedReport} from '../../../model/report/new/savedReport';
+import {SavedReport} from '../../../model/report/savedReport';
 
 @Component({
   selector: 'app-strategy-report',
@@ -14,7 +14,7 @@ import {SavedReport} from '../../../model/report/new/savedReport';
 })
 export class StrategyReportComponent implements OnInit, OnDestroy {
 
-  @Input() selectedStrategyTrades$: Observable<NewTrade[]>
+  @Input() selectedStrategyTrades$: Observable<Trade[]>
   @Input() selectedStrategy: Observable<Strategy>
   @Input() title: string
   @Input() bank: number
@@ -29,7 +29,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   strategyReport: StrategyReport
   strategyReportClass = new StrategyReportClass()
 
-  trades: NewTrade[] = []
+  trades: Trade[] = []
   strategy: Strategy = null
   haveStrategy = false
 
@@ -87,10 +87,10 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
 
   }
 
-  private calculate(data: NewTrade[]){
+  private calculate(data: Trade[]){
     if(data.length){
       // order and set trade
-      const trades: NewTrade[] = data.sort((a,b) => a.trade.info.date-b.trade.info.date)
+      const trades: Trade[] = data.sort((a, b) => a.trade.info.date-b.trade.info.date)
       this.trades = trades
       const strategy: Strategy = this.strategy
 

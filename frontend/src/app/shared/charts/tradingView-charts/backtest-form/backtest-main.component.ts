@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MarketBasic} from '../../../../model/market/basic/marketBasic';
 import {BacktestForm} from '../../../../model/TV/backtestForm';
 import {Utils} from '../../../../model/utils';
-import {NewTrade} from '../../../../model/report/new/newTrade';
-import {TradeBets} from '../../../../model/report/tradeBets';
+import {Trade} from '../../../../model/report/trade/trade';
+import {TradeBets} from '../../../../model/report/trade/tradeBets';
 
 @Component({
   selector: 'app-backtest-main',
@@ -12,7 +12,7 @@ import {TradeBets} from '../../../../model/report/tradeBets';
 export class BacktestMainComponent implements OnInit {
 
   @Input() originalMarket : MarketBasic
-  @Input() originalTrade : NewTrade
+  @Input() originalTrade : Trade
   @Input() backtestForm: BacktestForm
   @Input() backtestTradeBets: TradeBets[]
 
@@ -95,7 +95,8 @@ export class BacktestMainComponent implements OnInit {
     console.log(this.backtestForm.tradeForm)
 
 
-    //from here
+    // from here
+
   }
 
   // -- SUPPORT --

@@ -1,7 +1,7 @@
 import {TennisPoint} from '../../point/tennisPoint';
 import {FootballPoint} from '../../point/footballPoint';
 
-export interface NewTrade{
+export interface Trade {
   _id?: string
   created?: number
   updated?: number
@@ -182,7 +182,7 @@ export interface CSVTrade {
   empty: null,
   pl: number
   maxRisk: number
-  trade?: NewTrade
+  trade?: Trade
 }
 
 
@@ -204,7 +204,7 @@ export interface CSVBetGroup {
 }
 
 export interface TradeDetail {
-  trade: NewTrade
+  trade: Trade
   bsp: {
     runnerA: number
     runnerB: number

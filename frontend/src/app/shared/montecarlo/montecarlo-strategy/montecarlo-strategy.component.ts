@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MontecarloService} from "../../../services/montecarlo.service";
 import {TradePlSeries} from "../../../model/calculator/montecarlo";
-import {NewTrade} from '../../../model/report/new/newTrade';
+import {Trade} from '../../../model/report/trade/trade';
 
 @Component({
   selector: 'app-montecarlo-strategy',
@@ -9,7 +9,7 @@ import {NewTrade} from '../../../model/report/new/newTrade';
 })
 export class MontecarloStrategyComponent implements OnInit {
 
-  @Input() trades: NewTrade[]
+  @Input() trades: Trade[]
 
   montecarlo: TradePlSeries[] = []
   montecarloSeries: number[][] = []
@@ -57,7 +57,7 @@ export class MontecarloStrategyComponent implements OnInit {
     this.montecarloMaxDDPercent = []
     this.montecarloAvgDDPercent = []
     this.montecarloSeriesName = []
-    // generate new value with new params
+    // generate trade value with trade params
     this.generate()
     this.bugFix()
   }

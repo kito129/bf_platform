@@ -21,9 +21,14 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   @Input() trades: Trade[]
   @Input() selectedMarketId: string
   @Input() title: string
+  // saved
   @Input() isSaved: boolean
   @Input() savedReportId: string
   @Input() savedReport: SavedReport
+  // backtest
+  @Input() isBackTest: boolean
+  // TODO default only column date, name, pl, risk. No view selected trade resume and state buttons.
+  // TODO to change also button delete and edit, not view edit and remove from backtest state and not from DB
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
   SelectionType = SelectionType;

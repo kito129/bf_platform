@@ -2,7 +2,7 @@ import {Action, createReducer, on} from '@ngrx/store';
 import * as reportActions from './report.actions';
 import {Strategy} from '../../model/report/strategy/strategy';
 import {
-  addElement,
+  addElement, addElements,
   addStudyCompare,
   backtestChangeMode,
   deleteElement,
@@ -16,6 +16,7 @@ import {
 import {StrategyList} from '../../model/report/strategy/strategyList';
 import {Trade} from '../../model/report/trade/trade';
 import {SavedReport} from '../../model/report/savedReport';
+import {Backtest} from '../../model/backtest/backtest';
 
 
 export interface ReportStates {
@@ -52,6 +53,12 @@ export interface ReportStates {
   // backtest
   backtestModeOn: boolean
   backtestCurrentTrades: Trade[]
+  backtests: Backtest[]
+  isLoadingBacktests:{
+    isLoading: boolean,
+    isLoadingSuccess: boolean,
+    isLoadingError: boolean,
+  },
 }
 
 // this is the initial state of the app, before all HTTP call,
@@ -87,7 +94,13 @@ export const reportInitialState: ReportStates = {
   compareSavedReportStatus: false,
   // backtest
   backtestModeOn: true,
-  backtestCurrentTrades: []
+  backtestCurrentTrades: [],
+  backtests: [],
+  isLoadingBacktests:{
+    isLoading: false,
+    isLoadingSuccess: false,
+    isLoadingError: false,
+  },
 }
 
 // reducer that catch the reportActions
@@ -338,7 +351,6 @@ const reportReducers = createReducer(
     })
   ),
 
-
   /*
   **  COMPARE SAVED REPORT
   */
@@ -366,6 +378,83 @@ const reportReducers = createReducer(
   // BACKTEST
   on(reportActions.backtestChangeMode, (state, result) => (
     {...state, backtestModeOn: backtestChangeMode(state.backtestModeOn)
+    })
+  ),
+
+  // trade CRUD for backtest, local
+  on(reportActions.backtestAddTrade, (state, result) => (
+    {...state, backtestCurrentTrades: addElement(state.backtestCurrentTrades, result.trade)
+    })
+  ),
+
+  on(reportActions.backtestRemoveTrade, (state, result) => (
+    {...state, backtestCurrentTrades: deleteElement(state.backtestCurrentTrades, result.id)
+    })
+  ),
+
+  // backtest CRUD
+
+  // getAll backtest
+  on(reportActions.backtestGetAll, (state, result) => (
+    {...state, isLoadingBacktests: setterLoading()
+    })
+  ),
+  on(reportActions.backtestGetAllSuccess, (state, result) =>
+    ({...state, backtests: result.response,
+      isLoadingBacktests: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.backtestGetAllFailure, (state, result) => (
+    {...state, strategyError: 'API error',
+      isLoadingBacktests: setterLoadingFailure()
+    })
+  ),
+
+  // create backtest
+  on(reportActions.backtestCreate, (state, result) => (
+    {...state, isLoadingBacktests: setterLoading()
+    })
+  ),
+  on(reportActions.backtestCreateSuccess, (state, result) =>
+    ({...state, backtests: addElement(state.backtests,result.backtest),
+      isLoadingBacktests: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.backtestCreateFailure, (state, result) => (
+    {...state, strategyError: 'API error',
+      isLoadingBacktests: setterLoadingFailure()
+    })
+  ),
+
+  // update backtest
+  on(reportActions.backtestUpdate, (state, result) => (
+    {...state, isLoadingBacktests: setterLoading()
+    })
+  ),
+  on(reportActions.backtestUpdateSuccess, (state, result) =>
+    ({...state, backtests: updateElement(state.backtests,result.backtest),
+      isLoadingBacktests: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.backtestUpdateFailure, (state, result) => (
+    {...state, strategyError: 'API error',
+      isLoadingBacktests: setterLoadingFailure()
+    })
+  ),
+
+  // delete backtest
+  on(reportActions.backtestDelete, (state, result) => (
+    {...state, isLoadingBacktests: setterLoading()
+    })
+  ),
+  on(reportActions.backtestDeleteSuccess, (state, result) =>
+    ({...state, backtests: deleteElement(state.backtests,result.backtest),
+      isLoadingBacktests: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.backtestDeleteFailure, (state, result) => (
+    {...state, strategyError: 'API error',
+      isLoadingBacktests: setterLoadingFailure()
     })
   ),
 )

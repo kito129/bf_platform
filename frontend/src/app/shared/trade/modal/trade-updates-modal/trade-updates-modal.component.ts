@@ -22,7 +22,7 @@ export class TradeUpdatesModalComponent implements OnInit {
   noteCollapse = true
   updateBets = true
 
-  utils = new Utils()
+  util = new Utils()
 
   public date = null
 
@@ -128,7 +128,7 @@ export class TradeUpdatesModalComponent implements OnInit {
       condition: {
         tennis: {
           isTennis: true,
-          point: this.utils.getEmptyTennisPoint(),
+          point: this.util.getEmptyTennisPoint(),
         },
         football: {
           isFootball: false,
@@ -199,7 +199,7 @@ export class TradeUpdatesModalComponent implements OnInit {
   }
 
   updateAvgOddsPlayer(){
-    const temp = this.utils.generateAvgOddsTrade(this.tradeOutput)
+    const temp = this.util.generateAvgOddsTrade(this.tradeOutput)
     let i = 0
     for (const sel of this.tradeOutput.trade.selections){
       sel.avg = temp[i]
@@ -228,7 +228,7 @@ export class TradeUpdatesModalComponent implements OnInit {
   // refresh value, update result and avg for each selections and view
   updateBetsView(){
     this.updateAvgOddsPlayer()
-    this.tradeOutput.trade.results = this.utils.generateTradeResultsFromTrade(this.tradeOutput)
+    this.tradeOutput.trade.results = this.util.generateTradeResultsFromTrade(this.tradeOutput)
     this.updateBets = false
     setTimeout(() =>
       {

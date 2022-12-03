@@ -67,7 +67,7 @@ export const getStrategyById  = (id: string) => createSelector(
 // selected
 export const getSelectedStrategyTrades = createSelector(
   getReportState,
-  (state) => state.allNewTrades.map( y=> newTradeStats(y)).filter( x=> {
+  (state) => state.allNewTrades.map( y=> tradeStats(y)).filter( x=> {
     if(state.selectedStrategyId){
       return x.trade.info.strategyId === state.selectedStrategyId
     }
@@ -84,6 +84,7 @@ function filterStrategyDatatable(allStrategy, allTrades, wantStrategy, strategyI
     return  trades
   }
 }
+
 function generateStrategyDatatable(allStrategy: Strategy[], allTrades: Trade[]){
   const utils = new Utils()
   const temp: StrategyDatatable[] = []
@@ -162,7 +163,6 @@ export const getInjury2021Data = (wantStrategy: boolean) => createSelector(
 
   }
 );
-
 export const getOtherData = (wantStrategy: boolean) => createSelector(
   getReportState,
   (state) => {
@@ -171,7 +171,6 @@ export const getOtherData = (wantStrategy: boolean) => createSelector(
 
   }
 );
-
 // passive
 export const getPassiveLiveData = (wantStrategy: boolean) => createSelector(
   getReportState,
@@ -200,7 +199,6 @@ export const getPassiveDemoData = (wantStrategy: boolean) => createSelector(
     }
   }
 );
-
 // personal
 export const getActiveKevinData = (wantStrategy: boolean) => createSelector(
   getReportState,
@@ -251,7 +249,7 @@ export const getActiveKitoData = (wantStrategy: boolean) => createSelector(
 export const getAllNewTrade = createSelector(
   getReportState,
   (state) => {
-    return state.allNewTrades.map( y=> newTradeStats(y)).sort((a, b) => b.trade.info.date - a.trade.info.date)
+    return state.allNewTrades.map( y=> tradeStats(y)).sort((a, b) => b.trade.info.date - a.trade.info.date)
   })
 
 export const isLoadingAllNewTrade = createSelector(
@@ -260,7 +258,7 @@ export const isLoadingAllNewTrade = createSelector(
     return state.isLoadingAllNewTrades
   })
 
-// compare
+// Compare strategy
 export const getCompareList = createSelector(
   getReportState,
   (state ) => state.compareListStrategy
@@ -273,7 +271,7 @@ export const getComparedData = createSelector(
     for (const st of state.compareListStrategy){
       compare.push({
         strategy: state.allStrategy.filter(x=> x._id === st)[0],
-        trades: state.allNewTrades.map( y=> newTradeStats(y)).filter( x=> x.trade.info.strategyId === st)
+        trades: state.allNewTrades.map( y=> tradeStats(y)).filter( x=> x.trade.info.strategyId === st)
       })
     }
     return compare
@@ -309,7 +307,7 @@ export const getComparedSavedReportData = createSelector(
       const temp = state.savedReports.filter(x=> x._id === st)[0]
       compare.push({
         strategy: utils.generateStrategy(temp.savedReport.name,1000,temp._id),
-        trades: state.allNewTrades.map( y=> newTradeStats(y)).filter( x=> temp.savedReport.tradesIds.includes(x._id))
+        trades: state.allNewTrades.map( y=> tradeStats(y)).filter( x=> temp.savedReport.tradesIds.includes(x._id))
       })
     }
     return compare
@@ -320,7 +318,6 @@ export const getCompareSavedReportStatus = createSelector(
   getReportState,
   (state ) => state.compareSavedReportStatus
 );
-
 
 
 // SAVED REPORT
@@ -372,7 +369,6 @@ export const getSelectedSavedReportTrades = createSelector(
   }
 );
 
-
 function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: Trade[]){
   const utils = new Utils()
   const temp: StrategyDatatable[] = []
@@ -419,9 +415,7 @@ function generateSavedReportDatatable(savedReports: SavedReport[], allTrades: Tr
   return temp
 }
 
-
-
-function newTradeStats(trade: Trade): Trade{
+function tradeStats(trade: Trade): Trade{
   const t =  {
     _id: trade._id,
     created: trade.created,
@@ -485,6 +479,23 @@ export const getBacktestModeState = createSelector(
 export const getBacktestCurrentTradesCount = createSelector(
   getReportState,
   (state ) => state.backtestCurrentTrades.length
+);
+
+// get all backtest trade
+export const getBacktestTradeList = createSelector(
+  getReportState,
+  (state ) => state.backtestCurrentTrades
+);
+
+// get all backtest
+export const getAllBacktestTrade = createSelector(
+  getReportState,
+  (state ) => state.backtests
+);
+
+export const getBacktestIsLoading = createSelector(
+  getReportState,
+  (state ) => state.isLoadingBacktests
 );
 
 

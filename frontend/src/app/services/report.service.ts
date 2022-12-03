@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import {Strategy} from '../model/report/strategy/strategy';
 import {Trade} from '../model/report/trade/trade';
 import {SavedReport} from '../model/report/savedReport';
+import {Backtest} from "../model/backtest/backtest";
 
 const headers = {'Content-Type': 'application/json'};
 
@@ -78,5 +79,22 @@ export class ReportService {
     return this.http.delete(`${baseUrl}/savedReport/${id}`, {headers});
   }
 
+  // CRUD BACKTEST
+  getAllBacktests(): Observable<any> {
+    return this.http.get(`${baseUrl}/backtest/all`);
+  }
+
+  createBacktest(backtest: Backtest): Observable<any> {
+    return this.http.put(`${baseUrl}/backtest/create`,backtest,{headers});
+  }
+
+  updateBacktest(id, backtest: Backtest): Observable<any> {
+    const body = JSON.stringify(backtest)
+    return this.http.post(`${baseUrl}/backtest/${id}`,body, {headers});
+  }
+
+  deleteBacktest(id): Observable<any> {
+    return this.http.delete(`${baseUrl}/backtest/${id}`, {headers});
+  }
 
 }

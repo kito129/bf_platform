@@ -8,13 +8,22 @@ import {TennisPoint} from './point/tennisPoint';
 import {MarketBasic} from './market/basic/marketBasic';
 import {FootballPoint} from './point/footballPoint';
 import {TradeBets} from './report/trade/tradeBets';
-import {BacktestBets} from './TV/backtestForm';
+import {BacktestBets} from './backtest/backtestTrade';
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
 export class Utils{
+  get swallTimer(): number {
+    return this._swallTimer;
+  }
+
+  set swallTimer(value: number) {
+    this._swallTimer = value;
+  }
+
+  private _swallTimer = 600
 
   /*
   * Calculator Trade

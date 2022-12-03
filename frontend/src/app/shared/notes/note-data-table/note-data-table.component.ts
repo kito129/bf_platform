@@ -48,8 +48,7 @@ export class NoteDataTableComponent implements OnInit {
   ];
 
   constructor(private router: Router,
-              private readonly store: Store,
-              private route: ActivatedRoute) {}
+              private readonly store: Store) {}
 
   ngOnInit(): void {
     this.temp = [...this.notes]

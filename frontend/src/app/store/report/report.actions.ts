@@ -2,6 +2,7 @@ import {createAction, props} from '@ngrx/store'
 import {Strategy} from '../../model/report/strategy/strategy'
 import {Trade} from '../../model/report/trade/trade'
 import {SavedReport} from '../../model/report/savedReport'
+import {Backtest} from '../../model/backtest/backtest';
 
 // -- TRADE --
 export const GET_ALL_TRADES = '[Trades] Get all Trades'
@@ -88,6 +89,26 @@ export const COMPARE_SAVED_REPORT = '[Saved Report] Compare Saved Report'
 
 // -- BACKTEST --
 export const BACKTEST_CHANGE_MODE = '[Backtest] Change backtest mode state'
+
+export const BACKTEST_ADD_TRADE = '[Backtest] Add trade in backtest list'
+export const BACKTEST_REMOVE_TRADE = '[Backtest] Remove trade in backtest list'
+
+export const BACKTEST_GET_ALL = '[Backtest] Get all backtest'
+export const BACKTEST_GET_ALL_SUCCESS = '[Backtest] Get all backtest Success'
+export const BACKTEST_GET_ALL_FAILURE = '[Backtest] CGet all backtest Failure'
+
+
+export const BACKTEST_CREATE = '[Backtest] Create a new back test from back test data and list'
+export const BACKTEST_CREATE_SUCCESS = '[Backtest] Create a new back test from back test data and list Success'
+export const BACKTEST_CREATE_FAILURE = '[Backtest] Create a new back test from back test data and list Failure'
+
+export const BACKTEST_UPDATE = '[Backtest] Update a back test from back test data and list'
+export const BACKTEST_UPDATE_SUCCESS = '[Backtest] Update a back test from back test data and list Success'
+export const BACKTEST_UPDATE_FAILURE = '[Backtest] Update a back test from back test data and list Failure'
+
+export const BACKTEST_DELETE = '[Backtest] Delete a back test '
+export const BACKTEST_DELETE_SUCCESS = '[Backtest] Delete a back test Success'
+export const BACKTEST_DELETE_FAILURE = '[Backtest] Delete a back test Failure'
 
 
 // CRUD TRADES
@@ -388,7 +409,74 @@ export const removeTradesFromSavedReport = createAction(
 /*
 **  BACKTEST
  */
+// backtest mode On off
 export const backtestChangeMode = createAction(
   BACKTEST_CHANGE_MODE,
+)
+
+// trade in backstest
+export const backtestAddTrade = createAction(
+  BACKTEST_ADD_TRADE,
+  props<{ trade: Trade}>()
+)
+export const backtestRemoveTrade = createAction(
+  BACKTEST_REMOVE_TRADE,
+  props<{ id: string}>()
+)
+
+// get all backtest
+export const backtestGetAll = createAction(
+  BACKTEST_GET_ALL,
+  props<{ backtest: Backtest}>()
+)
+export const backtestGetAllSuccess = createAction(
+  BACKTEST_GET_ALL_SUCCESS,
+  props<any>()
+)
+export const backtestGetAllFailure = createAction(
+  BACKTEST_GET_ALL_FAILURE,
+  props<any>()
+)
+
+// create backtest
+export const backtestCreate = createAction(
+  BACKTEST_CREATE,
+  props<{ backtest: Backtest}>()
+)
+export const backtestCreateSuccess = createAction(
+  BACKTEST_CREATE_SUCCESS,
+  props<any>()
+)
+export const backtestCreateFailure = createAction(
+  BACKTEST_CREATE_FAILURE,
+  props<any>()
+)
+
+// update backtest
+export const backtestUpdate = createAction(
+  BACKTEST_UPDATE,
+  props<{ _id: string, backtest: Backtest }>()
+)
+export const backtestUpdateSuccess = createAction(
+  BACKTEST_UPDATE_SUCCESS,
+  props<any>()
+)
+export const backtestUpdateFailure = createAction(
+  BACKTEST_UPDATE_FAILURE,
+  props<any>()
+)
+
+// delete backtest
+export const backtestDelete = createAction(
+  BACKTEST_DELETE,
+  props<{ _id: string}>()
+)
+export const backtestDeleteSuccess = createAction(
+  BACKTEST_DELETE_SUCCESS,
+  props<any>()
+)
+export const backtestDeleteFailure = createAction(
+  BACKTEST_DELETE_FAILURE,
+  props<any>()
 )
 

@@ -25,18 +25,9 @@
     <!-- BUTTON -->
     <div class="row">
       <div class="d-flex align-items-center">
-        <button [ngbTooltip]="backtestTooltip"
-                type="button"
-                class="btn mr-3"
-                [ngClass]="($backtestMode | async) ? 'btn-danger' : 'btn-outline-danger'"
-                (click)="backtestModeChange()"
-                (contextmenu)="backtestTradesPreview($event)">
-          Backtest {{($backtestMode | async) ? 'ON' : 'off'}}
-          <span *ngIf="($backtestMode | async)"
-                class="badge bg-light text-dark">
-            {{$backtestTradesCount | async}}
-          </span>
-        </button>
+        <!-- BACKTEST BUTTON -->
+        <app-backtest-modal></app-backtest-modal>
+        <!-- STATIC -->
         <button type="button" class="btn btn-outline-info btn-icon-text mr-2"
                 (click)="refreshAll()">
           <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
@@ -58,5 +49,5 @@
 
 <!-- TEMPLATE -->
 <ng-template #backtestTooltip>
-  <h5>Trade count in backtest, right click to view</h5>
+  <h5>Backtest, right click to turn ON/OFF</h5>
 </ng-template>

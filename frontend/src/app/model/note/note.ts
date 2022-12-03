@@ -1,4 +1,4 @@
-import {TennisPoint} from "../point/tennisPoint";
+import {TennisPoint} from '../point/tennisPoint';
 
 export interface Note {
   _id?: string

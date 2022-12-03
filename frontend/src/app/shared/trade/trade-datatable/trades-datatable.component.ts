@@ -20,7 +20,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   @Input() trades$: Observable<Trade[]>
   @Input() trades: Trade[]
   @Input() selectedMarketId: string
-  @Input() viewSelectors: boolean
   @Input() title: string
   @Input() isSaved: boolean
   @Input() savedReportId: string

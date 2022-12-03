@@ -2,7 +2,7 @@ import {MarketBasic} from '../market/basic/marketBasic';
 import {Trade} from '../report/trade/trade';
 import {Utils} from '../utils';
 
-export interface BacktestFormInterface{
+export interface BacktestTradeInterface {
   info: BacktestInfo
   marketInfo: MarketBasic
   tradeForm: Trade
@@ -34,7 +34,7 @@ export interface BacktestBets{
 }
 
 
-export class BacktestForm implements BacktestFormInterface{
+export class BacktestTrade implements BacktestTradeInterface{
 
   private util = new Utils()
   marketInfo: MarketBasic;

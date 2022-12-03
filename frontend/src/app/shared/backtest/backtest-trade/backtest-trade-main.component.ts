@@ -1,19 +1,21 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MarketBasic} from '../../../../model/market/basic/marketBasic';
-import {BacktestForm} from '../../../../model/TV/backtestForm';
-import {Utils} from '../../../../model/utils';
-import {Trade} from '../../../../model/report/trade/trade';
-import {TradeBets} from '../../../../model/report/trade/tradeBets';
+import {Component, Input, OnInit} from '@angular/core';
+import {MarketBasic} from '../../../model/market/basic/marketBasic';
+import {BacktestTrade} from '../../../model/backtest/backtestTrade';
+import {Utils} from '../../../model/utils';
+import {Trade} from '../../../model/report/trade/trade';
+import {TradeBets} from '../../../model/report/trade/tradeBets';
+import * as reportActions from '../../../store/report/report.actions';
+import {Store} from '@ngrx/store';
 
 @Component({
-  selector: 'app-backtest-main',
-  templateUrl: './backtest-main.component.html',
+  selector: 'app-backtest-trade-main',
+  templateUrl: './backtest-trade-main.component.html',
 })
-export class BacktestMainComponent implements OnInit {
+export class BacktestTradeMainComponent implements OnInit {
 
   @Input() originalMarket : MarketBasic
   @Input() originalTrade : Trade
-  @Input() backtestForm: BacktestForm
+  @Input() backtestForm: BacktestTrade
   @Input() backtestTradeBets: TradeBets[]
 
   util = new Utils()
@@ -21,7 +23,9 @@ export class BacktestMainComponent implements OnInit {
   bug = true
   runners:  {count: number,
             name: string}[] = []
-  constructor() { }
+
+
+  constructor(private readonly store: Store) { }
 
   // -- COMPONENT LIFETIME --
   ngOnInit(): void {
@@ -93,10 +97,7 @@ export class BacktestMainComponent implements OnInit {
     // remove temp _id
     // delete this.backtestForm.tradeForm._id
     console.log(this.backtestForm.tradeForm)
-
-
-    // from here
-
+    this.store.dispatch(reportActions.backtestAddTrade({ trade: this.backtestForm.tradeForm}));
   }
 
   // -- SUPPORT --

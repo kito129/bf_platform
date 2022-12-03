@@ -1,15 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BacktestFormInterface, BacktestInfo} from '../../../../../model/TV/backtestForm';
-import {Utils} from "../../../../../model/utils";
+import {BacktestTradeInterface, BacktestInfo} from '../../../../model/backtest/backtestTrade';
+import {Utils} from '../../../../model/utils';
 
 @Component({
-  selector: 'app-backtest-stake',
-  templateUrl: './backtest-stake.component.html',
+  selector: 'app-backtest-trade-stake',
+  templateUrl: './backtest-trade-stake.component.html',
 })
-export class BacktestStakeComponent implements OnInit {
+export class BacktestTradeStakeComponent implements OnInit {
 
   @Input() type: 'Back' | 'Lay'
-  @Input() backtestForm: BacktestFormInterface
+  @Input() backtestForm: BacktestTradeInterface
 
   outlineColor = ''
   normalColor = ''

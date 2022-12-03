@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import * as reportSelectors from '../../../../store/report/report.selectors';
 import {Trade} from '../../../../model/report/trade/trade';
-import {BacktestForm} from '../../../../model/TV/backtestForm';
+import {BacktestTrade} from '../../../../model/backtest/backtestTrade';
 import {TVRunners} from '../../../../model/TV/TVRunners';
 import {TradeBets} from '../../../../model/report/trade/tradeBets';
 import {Utils} from '../../../../model/utils';
@@ -42,7 +42,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   toAdd = 0
   timeCorrection = 0
   // backtest
-  backtestForm: BacktestForm
+  backtestForm: BacktestTrade
   $backtestMode: Observable<boolean>
   backtestTradeBets: TradeBets[]
   removeState = false
@@ -58,7 +58,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit(): void {
     // backtest state
     this.$backtestMode = this.store.pipe(select(reportSelectors.getBacktestModeState))
-    this.backtestForm = new BacktestForm(this.originalMarket, this.originalTrade)
+    this.backtestForm = new BacktestTrade(this.originalMarket, this.originalTrade)
 
     // chart initialization
     this.createTVData(false)

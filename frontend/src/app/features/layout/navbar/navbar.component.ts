@@ -74,7 +74,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   backtestModeChange(){
-    this.store.dispatch(reportActions.backtestChangeMode());
+
   }
 
   backtestTradesPreview(event: MouseEvent){

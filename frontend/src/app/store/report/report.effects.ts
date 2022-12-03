@@ -15,7 +15,7 @@ export class ReportEffects {
     private newReportServices: NewReportService,
   ) {}
 
-  // TRADE
+// -- TRADE --
   getAllTrades = createEffect(() => {
       return this.actions$.pipe(
         ofType(reportActions.getAllTrades),
@@ -54,8 +54,6 @@ export class ReportEffects {
     }
   );
 
-
-
   deleteTrade$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(reportActions.deleteTrade),
@@ -75,7 +73,7 @@ export class ReportEffects {
     }
   );
 
-  // TRADES
+// -- TRADES --
   deleteTrades$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(reportActions.deleteManyTrades),
@@ -95,7 +93,7 @@ export class ReportEffects {
     }
   );
 
-// STRATEGY
+// -- STRATEGY --
   getAllStrategy$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(reportActions.getAllStrategies),
@@ -211,7 +209,7 @@ export class ReportEffects {
     }
   );
 
-  // SAVED REPORT
+// -- SAVED REPORT --
   getAllSavedReport$ = createEffect(() => {
       return this.actions$.pipe(
         ofType(reportActions.getAllSavedReport),
@@ -282,6 +280,84 @@ export class ReportEffects {
             catchError((error: any) => {
               console.log('response:::', error)
               return of(reportActions.deleteSavedReportFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  // -- BACKTEST --
+
+  getAllBacktest$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.backtestGetAll),
+        exhaustMap(action =>
+          this.reportServices.getAllBacktests().pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.backtestGetAllSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.backtestGetAllFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  createBacktest$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.backtestCreate),
+        exhaustMap(action =>
+          this.reportServices.createBacktest(action.backtest).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.backtestCreateSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.backtestCreateFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  updateBacktest$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.backtestUpdate),
+        exhaustMap(action =>
+          this.reportServices.updateBacktest(action._id,action.backtest).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.backtestUpdateSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.backtestUpdateFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  deleteBacktest$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.backtestDelete),
+        exhaustMap(action =>
+          this.reportServices.deleteBacktest(action._id).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.backtestDeleteSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.backtestDeleteFailure(error));
             }))
         )
       );

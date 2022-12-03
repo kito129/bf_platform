@@ -29,10 +29,10 @@
     <!-- STAKE BUTTON -->
     <div class="row">
       <div class="col-6">
-        <app-backtest-stake [backtestForm]="backtestForm" [type]="'Back'"></app-backtest-stake>
+        <app-backtest-trade-stake [backtestForm]="backtestForm" [type]="'Back'"></app-backtest-trade-stake>
       </div>
       <div class="col-6">
-        <app-backtest-stake [backtestForm]="backtestForm" [type]="'Lay'"></app-backtest-stake>
+        <app-backtest-trade-stake [backtestForm]="backtestForm" [type]="'Lay'"></app-backtest-trade-stake>
       </div>
     </div>
     <div class="d-flex justify-content-center align-items-center grid-margin">
@@ -44,7 +44,7 @@
                         icon: 'success',
                         title: 'Bets update in Trade',
                         showConfirmButton: false,
-                        timer: 1000
+                        timer: util.swallTimer
                       }"
               [disabled]="backtestForm.backtestBets.length===0">
         Confirm Bets
@@ -71,7 +71,7 @@
                         icon: 'success',
                         title: 'Trade added in Back test',
                         showConfirmButton: false,
-                        timer: 1000
+                        timer: util.swallTimer
                       }"
                 (click)="addTradeInBacktest()">
           <i class="feather icon-plus"></i>

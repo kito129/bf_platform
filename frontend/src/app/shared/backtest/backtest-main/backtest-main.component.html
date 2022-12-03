@@ -1,0 +1,45 @@
+<!-- CARD 1 -->
+<div class="card">
+  <div class="card-body">
+    <app-backtest-form></app-backtest-form>
+
+  </div>
+</div>
+<!-- CARD 2 -->
+<div class="card">
+  <div class="card-body">
+    <h4>Backtest Trade list: {{backtestTradesCount}}</h4>
+    <app-trades-datatable [trades]="backtestTradesList"
+                          [isSaved]="false"
+                          [title]="'Backtest Trade'">
+    </app-trades-datatable>
+  </div>
+</div>
+<!-- CARD 3 -->
+<div class="card">
+  <div class="card-body">
+    <h4>Backtest list: {{(backtestList).length}}</h4>
+    <p>backtest list: {{backtestList | json}}</p>
+  </div>
+  <div class="card-footer">
+    <!-- TURN ON/OFF BUTTON -->
+    <button type="button"
+            class="btn btn"
+            [ngClass]="backtestMode   ? 'btn-danger' : 'btn-outline-danger'"
+            (click)="changeBacktestMode()"
+            [swal]="{
+                position: 'top-end',
+                icon:  backtestMode  ? 'success' : 'failure',
+                title: 'Backtest is' + backtestMode  ? 'ON' : 'off',
+                showConfirmButton: false,
+                timer: util.swallTimer
+              }">
+      <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
+      Backtest {{backtestMode  ? 'ON' : 'off'}}
+    </button>
+  </div>
+</div>
+
+
+
+

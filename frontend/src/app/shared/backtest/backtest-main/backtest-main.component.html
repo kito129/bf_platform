@@ -9,10 +9,11 @@
 <div class="card">
   <div class="card-body">
     <h4>Backtest Trade list: {{backtestTradesCount}}</h4>
-    // TODO from here
-    <app-trades-datatable [trades]="backtestTradesList"
+    <app-trades-datatable *ngIf="backtestTradesCount>0"
+                          [trades]="backtestTradesList"
                           [isSaved]="false"
-                          [title]="'Backtest Trade'">
+                          [title]="'Backtest Trade'"
+                          [isBackTest]="true">
     </app-trades-datatable>
   </div>
 </div>

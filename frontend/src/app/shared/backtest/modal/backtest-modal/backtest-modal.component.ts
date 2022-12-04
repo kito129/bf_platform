@@ -3,7 +3,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs';
 import * as reportActions from '../../../../store/report/report.actions';
 import {select, Store} from '@ngrx/store';
-import {Backtest} from '../../../../model/backtest/backtest';
+import {BacktestInterface} from '../../../../model/backtest/backtestInterface';
 import {Trade} from '../../../../model/report/trade/trade';
 import * as reportSelectors from '../../../../store/report/report.selectors';
 import {IsLoading} from '../../../../model/isLoading';
@@ -11,15 +11,15 @@ import {IsLoading} from '../../../../model/isLoading';
 @Component({
   selector: 'app-backtest-modal',
   templateUrl: './backtest-modal.component.html',
+  styles: ['/deep/ .modal {padding: 0 !important; } .modal .modal-dialog {width: 100%; !important; max-width: none !important;height: 100% ;!importantmargin: 0!important;} .modal .modal-content {height: 100% !important;border: 0 !important;border-radius: 0 !important;} .modal .modal-body {overflow-y: auto !important;}']
 })
 export class BacktestModalComponent implements OnInit {
 
   $backtestIsLoading: Observable<IsLoading>
   $backtestMode: Observable<boolean>
-  $backtestList: Observable<Backtest[]>
+  $backtestList: Observable<BacktestInterface[]>
   $backtestTradesCount: Observable<number>
   $backtestTradesList: Observable<Trade[]>
-
 
 
   constructor(private modalService: NgbModal,
@@ -45,7 +45,7 @@ export class BacktestModalComponent implements OnInit {
     });
   }
 
-  backtestModeChange(){
+  backtestModeChange(event){
     this.store.dispatch(reportActions.backtestChangeMode());
   }
 }

@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 import {Strategy} from '../model/report/strategy/strategy';
 import {Trade} from '../model/report/trade/trade';
 import {SavedReport} from '../model/report/savedReport';
-import {Backtest} from "../model/backtest/backtest";
+import {BacktestInterface} from "../model/backtest/backtestInterface";
 
 const headers = {'Content-Type': 'application/json'};
 
@@ -84,11 +84,11 @@ export class ReportService {
     return this.http.get(`${baseUrl}/backtest/all`);
   }
 
-  createBacktest(backtest: Backtest): Observable<any> {
+  createBacktest(backtest: BacktestInterface): Observable<any> {
     return this.http.put(`${baseUrl}/backtest/create`,backtest,{headers});
   }
 
-  updateBacktest(id, backtest: Backtest): Observable<any> {
+  updateBacktest(id, backtest: BacktestInterface): Observable<any> {
     const body = JSON.stringify(backtest)
     return this.http.post(`${baseUrl}/backtest/${id}`,body, {headers});
   }

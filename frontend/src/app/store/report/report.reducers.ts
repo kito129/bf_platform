@@ -16,7 +16,7 @@ import {
 import {StrategyList} from '../../model/report/strategy/strategyList';
 import {Trade} from '../../model/report/trade/trade';
 import {SavedReport} from '../../model/report/savedReport';
-import {Backtest} from '../../model/backtest/backtest';
+import {BacktestInterface} from '../../model/backtest/backtestInterface';
 
 
 export interface ReportStates {
@@ -53,7 +53,7 @@ export interface ReportStates {
   // backtest
   backtestModeOn: boolean
   backtestCurrentTrades: Trade[]
-  backtests: Backtest[]
+  backtests: BacktestInterface[]
   isLoadingBacktests:{
     isLoading: boolean,
     isLoadingSuccess: boolean,
@@ -388,7 +388,7 @@ const reportReducers = createReducer(
   ),
 
   on(reportActions.backtestRemoveTrade, (state, result) => (
-    {...state, backtestCurrentTrades: deleteElement(state.backtestCurrentTrades, result.id)
+    {...state, backtestCurrentTrades: deleteElement(state.backtestCurrentTrades, result._id)
     })
   ),
 

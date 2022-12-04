@@ -94,10 +94,10 @@ export class BacktestTradeMainComponent implements OnInit {
   // valid trade to add in backtest list
   addTradeInBacktest(){
     console.log('trade ready to be added in backtest list in state')
-    // remove temp _id
-    // delete this.backtestForm.tradeForm._id
-    console.log(this.backtestForm.tradeForm)
-    this.store.dispatch(reportActions.backtestAddTrade({ trade: this.backtestForm.tradeForm}));
+    // update trade id with random string
+    const temp = JSON.parse(JSON.stringify(this.backtestForm.tradeForm))
+    temp._id = (Math.random()*1000).toString()
+    this.store.dispatch(reportActions.backtestAddTrade({ trade: temp}));
   }
 
   // -- SUPPORT --

@@ -10,6 +10,7 @@ import {TradePlSeries} from '../../../model/calculator/montecarlo';
 import * as reportActions from '../../../store/report/report.actions';
 import {SavedReport} from '../../../model/report/savedReport';
 import { TradeDetail} from '../../../model/report/trade/trade';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-trades-datatable',
@@ -83,8 +84,14 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
         this.updateFilter()
       })
     }
+
+    // if backtest
+    if(this.isBackTest){
+      this.viewResult = true
+    }
   }
 
+  // -- TABLE --
   updateFilter() {
     const val = this.search.toLowerCase();
     if(val){
@@ -100,17 +107,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  // selection work
-  onSelect({ selected }) {
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-    this.selectedIds = this.selected.map(x=> x.trade._id)
-    this.getTradeDetail()
-
-    this.selectedTrades = of(this.selected.map(x =>x.trade))
-
-  }
-
   getTradeDetail(){
     if(this.selected.length){
       this.tradeSelectedResume =  this.util.getTradesSeries(this.selected.map(x=> x.trade.trade.results.netProfit),
@@ -120,6 +116,17 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     } else {
       this.tradeSelectedResume = null
     }
+
+  }
+
+  // -- TRADE SELECT --
+  onSelect({ selected }) {
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+    this.selectedIds = this.selected.map(x=> x.trade._id)
+    this.getTradeDetail()
+
+    this.selectedTrades = of(this.selected.map(x =>x.trade))
 
   }
 
@@ -139,7 +146,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     this.bugFix()
   }
 
-  // save report
+  // -- SAVED REPORT --
   deleteMany(event){
     if(event[1]==='delete') {
       // DELETE many trades
@@ -179,6 +186,26 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
+  // -- BACKTEST --
+  removeTradesFromBacktest(event){
+    console.log(event)
+    if(event[1] === 'remove'){
+      this.store.dispatch(reportActions.backtestRemoveTrade({ _id:event[2][0]}));
+      this.showToast()
+    }
+  }
+
+  showToast(){
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Trade added in Back test',
+      showConfirmButton: false,
+      timer: this.util.swallTimer
+    });
+  }
+
+  // -- CSV
   // DEPRECATED - to csv to fix with trade version in utils
   saveAsCSV(type: string) {
     const nowDate = new Date()

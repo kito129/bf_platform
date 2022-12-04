@@ -2,7 +2,7 @@ import {createAction, props} from '@ngrx/store'
 import {Strategy} from '../../model/report/strategy/strategy'
 import {Trade} from '../../model/report/trade/trade'
 import {SavedReport} from '../../model/report/savedReport'
-import {Backtest} from '../../model/backtest/backtest';
+import {BacktestInterface} from '../../model/backtest/backtestInterface';
 
 // -- TRADE --
 export const GET_ALL_TRADES = '[Trades] Get all Trades'
@@ -414,20 +414,20 @@ export const backtestChangeMode = createAction(
   BACKTEST_CHANGE_MODE,
 )
 
-// trade in backstest
+// trade in backtest
 export const backtestAddTrade = createAction(
   BACKTEST_ADD_TRADE,
   props<{ trade: Trade}>()
 )
 export const backtestRemoveTrade = createAction(
   BACKTEST_REMOVE_TRADE,
-  props<{ id: string}>()
+  props<{ _id: string}>()
 )
 
 // get all backtest
 export const backtestGetAll = createAction(
   BACKTEST_GET_ALL,
-  props<{ backtest: Backtest}>()
+  props<{ backtest: BacktestInterface}>()
 )
 export const backtestGetAllSuccess = createAction(
   BACKTEST_GET_ALL_SUCCESS,
@@ -441,7 +441,7 @@ export const backtestGetAllFailure = createAction(
 // create backtest
 export const backtestCreate = createAction(
   BACKTEST_CREATE,
-  props<{ backtest: Backtest}>()
+  props<{ backtest: BacktestInterface}>()
 )
 export const backtestCreateSuccess = createAction(
   BACKTEST_CREATE_SUCCESS,
@@ -455,7 +455,7 @@ export const backtestCreateFailure = createAction(
 // update backtest
 export const backtestUpdate = createAction(
   BACKTEST_UPDATE,
-  props<{ _id: string, backtest: Backtest }>()
+  props<{ _id: string, backtest: BacktestInterface }>()
 )
 export const backtestUpdateSuccess = createAction(
   BACKTEST_UPDATE_SUCCESS,

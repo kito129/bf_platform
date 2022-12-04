@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Trade} from '../../../model/report/trade/trade';
-import {Backtest} from '../../../model/backtest/backtest';
-import {IsLoading} from "../../../model/isLoading";
-import * as reportActions from "../../../store/report/report.actions";
-import {Utils} from "../../../model/utils";
+import {BacktestInterface} from '../../../model/backtest/backtestInterface';
+import {IsLoading} from '../../../model/isLoading';
+import * as reportActions from '../../../store/report/report.actions';
+import {Utils} from '../../../model/utils';
 
 @Component({
   selector: 'app-backtest-main',
@@ -13,7 +13,7 @@ import {Utils} from "../../../model/utils";
 export class BacktestMainComponent implements OnInit {
 
   @Input() backtestMode: boolean
-  @Input() backtestList: Backtest[]
+  @Input() backtestList: BacktestInterface[]
   @Input() backtestTradesCount: number
   @Input() backtestTradesList: Trade[]
   @Input() backtestIsLoading: IsLoading

@@ -1,5 +1,5 @@
 <!-- SELECTED STATS-->
-<div class="col">
+<div class="col" *ngIf="!isBackTest">
   <app-trade-datatable-stats [selected]="selected"
                              [totalSize]=" rows.length">
   </app-trade-datatable-stats>
@@ -24,40 +24,42 @@
           [disabled]="selected.length===0">
     Generate Report
   </button>
-  <app-strategy-report-save-modal *ngIf="selected.length>0"
-                                  class="mr-4 ml-4"
-                                  [selected]="selected"
-                                  [title]="title"
-                                  (saveReportEmitter)="saveReport($event)">
-  </app-strategy-report-save-modal>
-  <app-strategy-report-add-trades-to-saved *ngIf="selected.length>0"
-                                           class="mr-4"
-                                           [selected]="selected"
-                                           [title]="title"
-                                           (updateSavedReportEmitter)="updateReport($event)">
-  </app-strategy-report-add-trades-to-saved>
-  <app-delete-modal [type]="'Trade'"
-                    [ids]="selectedIds"
-                    [id]="savedReportId"
-                    [name]="' many '"
-                    [options]="'Delete'"
-                    (deleteEmitter)="deleteMany($event)"
-                    *ngIf="!isSaved && selected.length">
-  </app-delete-modal>
-  <app-delete-modal [type]="savedReport.savedReport.name"
-                    [ids]="selectedIds"
-                    [id]="savedReportId"
-                    [name]="' many trades from '"
-                    [options]="'Remove'"
-                    (deleteEmitter)="removeTradesFromSavedReportModal($event)"
-                    [isRemove]="true"
-                    *ngIf="isSaved && selected.length">
-  </app-delete-modal>
+  <div *ngIf="!isBackTest">
+    <app-strategy-report-save-modal *ngIf="selected.length>0"
+                                    class="mr-4 ml-4"
+                                    [selected]="selected"
+                                    [title]="title"
+                                    (saveReportEmitter)="saveReport($event)">
+    </app-strategy-report-save-modal>
+    <app-strategy-report-add-trades-to-saved *ngIf="selected.length>0"
+                                             class="mr-4"
+                                             [selected]="selected"
+                                             [title]="title"
+                                             (updateSavedReportEmitter)="updateReport($event)">
+    </app-strategy-report-add-trades-to-saved>
+    <app-delete-modal [type]="'Trade'"
+                      [ids]="selectedIds"
+                      [id]="savedReportId"
+                      [name]="' many '"
+                      [options]="'Delete'"
+                      (deleteEmitter)="deleteMany($event)"
+                      *ngIf="!isSaved && selected.length">
+    </app-delete-modal>
+    <app-delete-modal [type]="savedReport.savedReport.name"
+                      [ids]="selectedIds"
+                      [id]="savedReportId"
+                      [name]="' many trades from '"
+                      [options]="'Remove'"
+                      (deleteEmitter)="removeTradesFromSavedReportModal($event)"
+                      [isRemove]="true"
+                      *ngIf="isSaved && selected.length">
+    </app-delete-modal>
+  </div>
 </div>
 
 <h3>Trades List</h3>
 <!-- DATATABLE BUTTON -->
-<div class="d-flex justify-content-end align-items-center">
+<div class="d-flex justify-content-end align-items-center" *ngIf="!isBackTest">
   <button type="button" class="btn mr-2"
           [ngClass]="!viewResult ? 'btn-secondary' : 'btn-outline-secondary' "
           (click)="viewResult= !viewResult">
@@ -129,7 +131,7 @@
   </form>
 </div>
 <!-- CSV BUTTON -->
-<div class="d-flex justify-content-end align-items-center mb-3">
+<div class="d-flex justify-content-end align-items-center mb-3" *ngIf="!isBackTest">
   <button type="button" class="btn btn-outline-light btn-icon-text mr-2" (click)="saveAsCSV('ALL')">
     <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
     Download CSV
@@ -184,31 +186,31 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Stock" prop="data.stockPl" *ngIf="!viewNotes && !viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)" [width]="1">
+  <ngx-datatable-column name="Stock" prop="data.stockPl" *ngIf="!isBackTest && !viewNotes && !viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 [ngClass]="value>0? 'text-success' : 'text-danger'">{{ value | currency }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Risk" prop="trade.trade.results.maxRisk" [width]="1">
+  <ngx-datatable-column name="Risk" prop="trade.trade.results.maxRisk" [width]="1" *ngIf="!isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5 class="text-warning">{{ value | currency }}</h5>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="A BSP" prop="bsp.runnerA" [width]="1">
+  <ngx-datatable-column name="A BSP" prop="bsp.runnerA" [width]="1" *ngIf="!isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="B BSP" prop="bsp.runnerB" [width]="1">
+  <ngx-datatable-column name="B BSP" prop="bsp.runnerB" [width]="1" *ngIf="!isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <app-bsp-odd [bspOdd]="value"></app-bsp-odd>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Notes" prop="trade.trade.info.note" [width]="950" *ngIf="viewNotes">
+  <ngx-datatable-column name="Notes" prop="trade.trade.info.note" [width]="950" *ngIf="viewNotes && !isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <p>{{ value.description }}</p>
       <p>{{ value.entry }}</p>
@@ -220,7 +222,8 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="A Set 2 Odds" prop="setOdds.set2.runnerA" *ngIf="!viewNotes && (viewSetOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
+  <!-- STATS -->
+  <ngx-datatable-column name="A Set 2 Odds" prop="setOdds.set2.runnerA" *ngIf=" !viewNotes && (viewSetOdds  && (!viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)))" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5>{{value}}</h5>
     </ng-template>
@@ -274,7 +277,7 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Trades #" prop="trade.trade.trades.length" *ngIf="!viewNotes && !viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)" [width]="1">
+  <ngx-datatable-column name="Trades #" prop="trade.trade.trades.length" *ngIf="!isBackTest && !viewNotes && !viewTrades && !(viewStatsLeaderboard || viewStatsSet || viewStatsService)" [width]="1">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <h5>{{ value}}</h5>
     </ng-template>
@@ -395,7 +398,7 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="View" prop="" *ngIf="!isSaved">
+  <ngx-datatable-column name="View" prop="" *ngIf="!isSaved && !isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <app-trade-tools-actions [trade]="value.trade">
 
@@ -403,7 +406,23 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="View" prop="" *ngIf="isSaved">
+  <ngx-datatable-column name="View" prop="" *ngIf="isBackTest">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <div class="d-flex justify-content-end align-items-baseline">
+        <app-trade-and-market-details-modal [trade]="value.trade">
+        </app-trade-and-market-details-modal>
+
+        <app-delete-modal [ids]="[value.trade._id]"
+                          [options]="'Remove'"
+                          [isRemove]="true"
+                          [type]="value.trade.trade.info.marketInfo.marketName"
+                          (deleteEmitter)="removeTradesFromBacktest($event)">
+        </app-delete-modal>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="View" prop="" *ngIf="isSaved && !isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <div class="d-flex justify-content-end align-items-baseline">
         <app-trade-and-market-details-modal [trade]="value.trade">

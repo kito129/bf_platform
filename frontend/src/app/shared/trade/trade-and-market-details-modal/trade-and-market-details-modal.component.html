@@ -12,9 +12,9 @@
     <div class="modal-header">
       <h2>Trade Detail</h2>
 
-      <app-trade-updates-modal [tradeInput]="trade"
+      <app-trade-updates-modal *ngIf="!isBacktest"
+                               [tradeInput]="trade"
                                (tradeUpdateEmitter)="tradeUpdate($event)">
-
       </app-trade-updates-modal>
 
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -39,7 +39,8 @@
         <app-trade-detail-price-chart *ngIf="(isLoadingMarketDetails$ | async).isLoadingSuccess"
                                       [marketDetail]="marketDetails$ | async"
                                       [trade]="trade"
-                                      [marketDetailsFound]="!notFound">
+                                      [marketDetailsFound]="!notFound"
+                                      [isBacktest]="isBacktest">
         </app-trade-detail-price-chart>
       </div>
 

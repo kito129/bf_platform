@@ -70,6 +70,8 @@ export class AuthService {
     this.store.dispatch(runnerActions.getAllRunners())
     this.store.dispatch(marketActions.getAllFilterBasket())
     this.store.dispatch(reportActions.getAllNewTrades())
+    this.store.dispatch(reportActions.backtestGetAll())
+    this.store.dispatch(reportActions.backtestTradeGetAll())
     // this.store.dispatch(reportActions.getAllTrades())
     // this.store.dispatch(basketsActions.getAllBaskets())
     // this.store.dispatch(entryActions.getAllEntries())

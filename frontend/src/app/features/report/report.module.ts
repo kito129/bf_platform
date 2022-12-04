@@ -1,5 +1,3 @@
-
-// ROUTER
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
@@ -19,17 +17,8 @@ import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {NgxMaskModule} from 'ngx-mask';
 import {CustomFormsModule} from 'ngx-custom-validators';
-
+import {ReportMainComponent} from './report-main.component';
 import {SharedModule} from '../../shared/shared.module';
-
-import {StrategyUpdatesModalComponent} from './components/strategy-modal/strategy-updates-modal/strategy-updates-modal.component';
-import {StrategyCreateModalComponent} from './components/strategy-modal/strategy-create-modal/strategy-create-modal.component';
-import {StrategyDeleteModalComponent} from './components/strategy-modal/strategy-note-delete-modal/strategy-delete-modal.component';
-import { StrategyDatatableComponent } from './components/strategy-datatable/strategy-datatable.component';
-import { ReportMainComponent } from './components/report-main.component';
-
-
-
 
 const routes: Routes = [
   {
@@ -38,34 +27,28 @@ const routes: Routes = [
   },
 ]
 
-
 @NgModule({
   declarations: [
-    StrategyUpdatesModalComponent,
-    StrategyCreateModalComponent,
-    StrategyDeleteModalComponent,
-    StrategyDatatableComponent,
     ReportMainComponent,
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        FormsModule,
-        FeahterIconModule,
-        NgbDropdownModule,
-        NgbDatepickerModule,
-        NgApexchartsModule,
-        ChartsModule,
-        DataTablesModule,
-        NgxDatatableModule,
-        NgSelectModule,
-        NgxMaskModule,
-        CustomFormsModule,
-        NgbNavModule,
-        SharedModule,
-        NgbCollapseModule,
-        NgbTooltipModule
-
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    FormsModule,
+    FeahterIconModule,
+    NgbDropdownModule,
+    NgbDatepickerModule,
+    NgApexchartsModule,
+    ChartsModule,
+    DataTablesModule,
+    NgxDatatableModule,
+    NgSelectModule,
+    NgxMaskModule,
+    CustomFormsModule,
+    NgbNavModule,
+    NgbCollapseModule,
+    NgbTooltipModule,
+    SharedModule,
+  ]
 })
 export class ReportModule { }

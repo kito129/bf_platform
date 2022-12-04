@@ -1,27 +1,27 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { combineLatest, Observable, Subject} from 'rxjs';
-import {Strategy} from '../../../model/report/strategy/strategy';
+import {Strategy} from '../../model/report/strategy/strategy';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import * as reportSelectors from '../../../store/report/report.selectors';
-import * as runnerSelectors from '../../../store/runners/runners.selectors';
-import {IsLoading} from '../../../model/isLoading';
-import {Runner} from '../../../model/runner/runner';
-import * as reportActions from '../../../store/report/report.actions';
-import {StrategyReport} from '../../../model/report/strategy/starategyReport';
+import * as reportSelectors from '../../store/report/report.selectors';
+import * as runnerSelectors from '../../store/runners/runners.selectors';
+import {IsLoading} from '../../model/isLoading';
+import {Runner} from '../../model/runner/runner';
+import * as reportActions from '../../store/report/report.actions';
+import {StrategyReport} from '../../model/report/strategy/starategyReport';
 import {takeUntil} from 'rxjs/operators';
-import {StrategyDatatable} from '../../../model/report/strategy/strategyDatatable';
-import {Trade} from '../../../model/report/trade/trade';
-import {CompareStrategy} from '../../../model/report/strategy/compareStrategy';
-import {StrategyReportClass} from '../../../model/report/strategyReport';
+import {StrategyDatatable} from '../../model/report/strategy/strategyDatatable';
+import {Trade} from '../../model/report/trade/trade';
+import {CompareStrategy} from '../../model/report/strategy/compareStrategy';
+import {StrategyReportClass} from '../../model/report/strategyReport';
 import {
   getComparedSavedReportData,
   getCompareSavedReportList, getCompareSavedReportStatus,
   getPassiveDemoData,
   getSelectedSavedReportTrades, getSelectedStrategyName,
   isLoadingSavedReport
-} from '../../../store/report/report.selectors';
-import {SavedReport} from '../../../model/report/savedReport';
+} from '../../store/report/report.selectors';
+import {SavedReport} from '../../model/report/savedReport';
 
 @Component({
   selector: 'app-report-main',

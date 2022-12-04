@@ -2,7 +2,7 @@ import {Component, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EventEmitter} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Strategy} from '../../../../../model/report/strategy/strategy';
+import {Strategy} from '../../../../model/report/strategy/strategy';
 
 @Component({
   selector: 'app-strategy-updates-modal',

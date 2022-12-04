@@ -1,0 +1,64 @@
+<div class="form-group">
+  <div class="row">
+    <div class="col">
+      <label>Name</label>
+      <input type="text"
+             class="form-control mb-1"
+             name="name"
+             [(ngModel)]="backtest.backtest.name">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label for="bank">Bank</label>
+      <input class="form-control"
+             id="bank"
+             type="number"
+             placeholder="Bank"
+             name="bank"
+             [(ngModel)]="backtest.backtest.bank">
+    </div>
+    <div class="col">
+      <label>Type</label>
+      <input type="text"
+             name="type"
+             class="form-control mb-1"
+             [(ngModel)]="backtest.backtest.type">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label>Comment</label>
+      <textarea type="text"
+                name="comment"
+               class="form-control mb-1"
+               [(ngModel)]="backtest.backtest.comment">
+        </textarea>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="d-flex justify-content-end align-items-center">
+    <button *ngIf="isUpdate"
+            type="button"
+            class="btn btn-icon  btn-outline-primary mr-2 d-none d-md-block"
+            (click)="updateBacktest()"
+            [disabled]="currentTrade.length===0
+            || backtest.backtest.name.length===0">
+      <i class="btn-icon-prepend"
+         data-feather="edit"
+         appFeatherIcon></i>
+      Update
+    </button>
+    <button type="button"
+            class="btn btn-icon  btn-outline-light mr-2 d-none d-md-block"
+            (click)="saveBacktest()"
+            [disabled]="currentTrade.length===0">
+      <i class="btn-icon-prepend"
+         data-feather="save"
+         appFeatherIcon>
+      </i>
+      Save New
+    </button>
+  </div>
+</div>

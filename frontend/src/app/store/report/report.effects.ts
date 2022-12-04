@@ -5,6 +5,7 @@ import {catchError, exhaustMap, map} from 'rxjs/operators';
 import {of} from 'rxjs';
 import * as reportActions from './report.actions';
 import {NewReportService} from '../../services/new-report.service';
+import {BacktestInterface} from '../../model/backtest/backtestInterface';
 
 @Injectable()
 export class ReportEffects {
@@ -311,16 +312,16 @@ export class ReportEffects {
       return this.actions$.pipe(
         ofType(reportActions.backtestCreate),
         exhaustMap(action =>
-          this.reportServices.createBacktest(action.backtest).pipe(
-            map(response => {
-              // console.log('response:::', response)
+        this.reportServices.createBacktest(action.backtest, action.trades).pipe(
+          map(response => {
+            // console.log('response:::', response)
 
-              return reportActions.backtestCreateSuccess({response})
-            }),
-            catchError((error: any) => {
-              console.log('response:::', error)
-              return of(reportActions.backtestCreateFailure(error));
-            }))
+            return reportActions.backtestCreateSuccess({response})
+          }),
+          catchError((error: any) => {
+            console.log('response:::', error)
+            return of(reportActions.backtestCreateFailure(error));
+          }))
         )
       );
     }
@@ -363,5 +364,64 @@ export class ReportEffects {
       );
     }
   );
+
+  // -- BACKTEST TRADE --
+  getAllBacktestTrades$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.backtestTradeGetAll),
+        exhaustMap(action =>
+          this.reportServices.getAllBacktestsTrades().pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.backtestTradeGetAllSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.backtestTradeGetAllFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  createBacktestTrades$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.backtestTradeCreate),
+        exhaustMap(action =>
+          this.reportServices.createBacktestTrades(action.trades).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.backtestTradeCreateSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.backtestTradeCreateFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
+  deleteBacktestTrades$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(reportActions.backtestTradeDelete),
+        exhaustMap(action =>
+          this.reportServices.deleteBacktestTrades(action.tradeIds).pipe(
+            map(response => {
+              // console.log('response:::', response)
+
+              return reportActions.backtestTradeDeleteSuccess({response})
+            }),
+            catchError((error: any) => {
+              console.log('response:::', error)
+              return of(reportActions.backtestTradeDeleteFailure(error));
+            }))
+        )
+      );
+    }
+  );
+
 
 }

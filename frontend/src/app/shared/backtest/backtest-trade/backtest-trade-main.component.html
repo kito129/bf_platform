@@ -39,13 +39,6 @@
       <button type="button"
               class="btn btn-lg btn-info mr-2"
               (click)="addBetsInTrade()"
-              [swal]="{
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Bets update in Trade',
-                        showConfirmButton: false,
-                        timer: util.swallTimer
-                      }"
               [disabled]="backtestForm.backtestBets.length===0">
         Confirm Bets
       </button>
@@ -66,13 +59,6 @@
         <button type="button"
                 class="btn bnt-lg btn-outline-success ml-2"
                 [disabled]="checkTradeValid()"
-                [swal]="{
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Trade added in Back test',
-                        showConfirmButton: false,
-                        timer: util.swallTimer
-                      }"
                 (click)="addTradeInBacktest()">
           <i class="feather icon-plus"></i>
           Add in Backtest

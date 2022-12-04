@@ -3,6 +3,9 @@ const Strategy = require("../models/report/strategy");
 const Trade = require("../models/report/newTrade");
 const SavedReport = require("../models/report/savedReport");
 
+const Backtest = require("../models/backtest/backtest");
+const BacktestTrade = require("../models/backtest/backtestTrade");
+
 
 let mongoose = require('mongoose');
 
@@ -663,6 +666,277 @@ exports.delete_savedReport_by_id = (req, res, next) => {
                 created: docs.created,
                 updated: docs.updated,
                 savedReport: docs.savedReport,
+                _id: docs._id,
+            }
+            res.status(200).json(removed);
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        })
+};
+
+
+// -- BACK TEST --
+// backtest
+
+// get all backtest
+exports.get_all_backtest = (req, res, next) => {
+    Backtest.find()
+        .select("_id created updated backtest")
+        .exec()
+        .then(docs => {
+            const response =
+                docs.map(doc => {
+                    return {
+                        created: doc.created,
+                        updated: doc.updated,
+                        backtest: doc.backtest,
+                        _id: doc._id,
+                    };
+                });
+            if (docs.length >= 0) {
+                res.status(200).json(response);
+            } else {
+                res.status(404).json({
+                    message: 'No backtest found in DB'
+                });
+            }
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
+// create backtest
+exports.create_backtest = (req, res, next) => {
+    const backtestToCreate = req.body
+    //console.log(backtestToCreate)
+    if(backtestToCreate.trades.length){
+        // remove _id from trade and save startegyIf from backtest
+        const tradeList = backtestToCreate.trades
+        const backtestId = backtestToCreate.backtest.backtest.strategyId
+        const temp = tradeList.map( x=> {
+            // set backtest id
+            x.trade.info.strategyId = backtestId
+            // generate id
+            delete x._id
+            x._id = new mongoose.Types.ObjectId()
+            return x
+        })
+        // save trades
+        //console.log(tradeList)
+        BacktestTrade.insertMany(backtestToCreate.trades).then( tradeSaved =>{
+            // put the trades id in backtest
+            const savedIds = tradeSaved.map(x => x._id)
+            let tempBacktest = backtestToCreate.backtest
+            tempBacktest.backtest.tradesIds = savedIds
+            // save and return new backtest
+            let backtest = new Backtest({
+                _id: new mongoose.Types.ObjectId(),
+                created: tempBacktest.created,
+                updated: tempBacktest.updated,
+                backtest: tempBacktest.backtest,
+            });
+            let createdBacktest = null
+            backtest
+                .save()
+                .then(result => {
+                    createdBacktest =  {
+                        _id: result._id,
+                        created: result.created,
+                        updated: result.updated,
+                        backtest: result.backtest,
+                    }
+                    // backtest saved
+                    console.log(createdBacktest)
+                    res.status(200).json(createdBacktest);
+                })
+                .catch(err => {
+                    console.log("ERROR in save backtest:\n" + err);
+                    res.status(500).json(JSON.stringify({
+                        error: err
+                    }));
+                })
+        })
+        .catch(err => {
+            console.log("ERROR in save trade:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        });
+    }
+};
+
+
+
+
+
+
+    /*
+    let createdBacktest;
+    let backtest = new Backtest({
+        _id: new mongoose.Types.ObjectId(),
+        created: req.body.created,
+        updated: req.body.updated,
+        backtest: req.body.backtest,
+    });
+    backtest
+        .save()
+        .then(result => {
+            createdBacktest =  {
+                _id: result._id,
+                created: result.created,
+                updated: result.updated,
+                backtest: result.backtest,
+            }
+            res.status(200).json(createdBacktest);
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json(JSON.stringify({
+                error: err
+            }));
+        })
+
+    */
+
+
+// update backtest by _id
+exports.update_backtest = (req, res, next) => {
+    const myId = req.params.backtestId;
+    let updated
+    Backtest.findOneAndUpdate({_id: myId},req.body, { new: true})
+        .select("_id created updated backtest")
+        .exec()
+        .then(docs => {
+            updated ={
+                created: docs.created,
+                updated: docs.updated,
+                backtest: docs.backtest,
+                _id: docs._id,
+            }
+            res.status(200).json(updated);
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        })
+
+};
+
+// delete backtest by _id
+exports.delete_backtest = (req, res, next) => {
+    const myId = req.params.backtestId;
+    let removed
+    Backtest.findOneAndRemove({_id: myId})
+        .exec()
+        .then(docs => {
+            removed = {
+                created: docs.created,
+                updated: docs.updated,
+                backtest: docs.backtest,
+                _id: docs._id,
+            }
+            res.status(200).json(removed);
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        })
+};
+
+// backtest trade
+
+// get all backtest trade
+exports.get_all_backtest_trades = (req, res, next) => {
+    BacktestTrade.find()
+        .select("_id created updated trade")
+        .exec()
+        .then(docs => {
+            const response =
+                docs.map(doc => {
+                    return {
+                        created: doc.created,
+                        updated: doc.updated,
+                        trade: doc.trade,
+                        _id: doc._id,
+                    };
+                });
+            if (docs.length >= 0) {
+                res.status(200).json(response);
+            } else {
+                res.status(404).json({
+                    message: 'No backtest trade found in DB'
+                });
+            }
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
+// create backtest trade
+exports.create_backtest_trades = (req, res, next) => {
+    const tradeToCreate = req.body
+    let createdBacktestTrade;
+
+    console.log(tradeToCreate)
+
+    res.status(200).json('ok');
+    
+    /*
+    let backtest = new BacktestTrade({
+        _id: new mongoose.Types.ObjectId(),
+        created: req.body.created,
+        updated: req.body.updated,
+        trade: req.body.trade,
+    });
+    backtest
+        .save()
+        .then(result => {
+            createdBacktestTrade =  {
+                _id: result._id,
+                created: result.created,
+                updated: result.updated,
+                trade: result.trade,
+            }
+            res.status(200).json(createdBacktestTrade);
+        })
+        .catch(err => {
+            console.log("ERROR:\n" + err);
+            res.status(500).json(JSON.stringify({
+                error: err
+            }));
+        })
+    */
+
+};
+
+
+// delete backtest by _id
+exports.delete_backtest_trades = (req, res, next) => {
+    const myId = req.params.backtestId;
+    let removed
+    BacktestTrade.findOneAndRemove({_id: myId})
+        .exec()
+        .then(docs => {
+            removed = {
+                created: docs.created,
+                updated: docs.updated,
+                trade: docs.trade,
                 _id: docs._id,
             }
             res.status(200).json(removed);

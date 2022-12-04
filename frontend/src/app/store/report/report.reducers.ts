@@ -6,7 +6,7 @@ import {
   addStudyCompare,
   backtestChangeMode,
   deleteElement,
-  deleteElements,
+  deleteElements, removeElement,
   removeStudyCompare,
   setterLoading,
   setterLoadingFailure,
@@ -54,7 +54,14 @@ export interface ReportStates {
   backtestModeOn: boolean
   backtestCurrentTrades: Trade[]
   backtests: BacktestInterface[]
+  selectedBacktest: BacktestInterface
   isLoadingBacktests:{
+    isLoading: boolean,
+    isLoadingSuccess: boolean,
+    isLoadingError: boolean,
+  },
+  allBacktestTrades: Trade[],
+  isLoadingAllBacktestTrades:{
     isLoading: boolean,
     isLoadingSuccess: boolean,
     isLoadingError: boolean,
@@ -96,7 +103,14 @@ export const reportInitialState: ReportStates = {
   backtestModeOn: true,
   backtestCurrentTrades: [],
   backtests: [],
+  selectedBacktest: null,
   isLoadingBacktests:{
+    isLoading: false,
+    isLoadingSuccess: false,
+    isLoadingError: false,
+  },
+  allBacktestTrades: [],
+  isLoadingAllBacktestTrades:{
     isLoading: false,
     isLoadingSuccess: false,
     isLoadingError: false,
@@ -388,7 +402,73 @@ const reportReducers = createReducer(
   ),
 
   on(reportActions.backtestRemoveTrade, (state, result) => (
-    {...state, backtestCurrentTrades: deleteElement(state.backtestCurrentTrades, result._id)
+    {...state, backtestCurrentTrades: removeElement(state.backtestCurrentTrades, result._id)
+    })
+  ),
+
+  // backtest trade CRUD
+
+  // get All backtest trade
+  on(reportActions.backtestTradeGetAll, (state, result) => (
+    {...state, isLoadingAllBacktestTrades: setterLoading()
+    })
+  ),
+  on(reportActions.backtestTradeGetAllSuccess, (state, result) =>
+    ({...state, allBacktestTrades: result.response,
+      isLoadingAllBacktestTrades: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.backtestTradeGetAllFailure, (state, result) => (
+    {...state, strategyError: 'API error',
+      isLoadingAllBacktestTrades: setterLoadingFailure()
+    })
+  ),
+
+  // create backtest trade
+  on(reportActions.backtestTradeCreate, (state, result) => (
+    {...state, isLoadingAllBacktestTrades: setterLoading()
+    })
+  ),
+  on(reportActions.backtestTradeCreateSuccess, (state, result) =>
+    ({...state, allBacktestTrades: addElement(state.backtests,result.backtest),
+      isLoadingAllBacktestTrades: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.backtestTradeCreateFailure, (state, result) => (
+    {...state, strategyError: 'API error',
+      isLoadingAllBacktestTrades: setterLoadingFailure()
+    })
+  ),
+
+  // delete backtest trade
+  on(reportActions.backtestTradeDelete, (state, result) => (
+    {...state, isLoadingAllBacktestTrades: setterLoading()
+    })
+  ),
+  on(reportActions.backtestTradeDeleteSuccess, (state, result) =>
+    ({...state, allBacktestTrades: deleteElement(state.backtests,result.backtest),
+      isLoadingAllBacktestTrades: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.backtestTradeDeleteFailure, (state, result) => (
+    {...state, strategyError: 'API error',
+      isLoadingAllBacktestTrades: setterLoadingFailure()
+    })
+  ),
+
+  // deelte backtest trade
+  on(reportActions.backtestTradeDelete, (state, result) => (
+    {...state, isLoadingBacktests: setterLoading()
+    })
+  ),
+  on(reportActions.backtestTradeDeleteSuccess, (state, result) =>
+    ({...state, backtests: addElement(state.backtests,result.backtest),
+      isLoadingBacktests: setterLoadingSuccess()
+    })
+  ),
+  on(reportActions.backtestTradeDeleteFailure, (state, result) => (
+    {...state, strategyError: 'API error',
+      isLoadingBacktests: setterLoadingFailure()
     })
   ),
 
@@ -455,6 +535,17 @@ const reportReducers = createReducer(
   on(reportActions.backtestDeleteFailure, (state, result) => (
     {...state, strategyError: 'API error',
       isLoadingBacktests: setterLoadingFailure()
+    })
+  ),
+
+  // selected backtest
+  on(reportActions.backtestSetSelected, (state, result) => (
+    {...state, selectedBacktest: result.backtest
+    })
+  ),
+
+  on(reportActions.backtestUnSelected, (state, result) => (
+    {...state, selectedBacktest: null
     })
   ),
 )

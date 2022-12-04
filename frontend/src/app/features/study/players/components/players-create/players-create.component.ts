@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject} from "rxjs";
 import {Players, PlayersForm} from "../../../../../model/study/players/players";
 import * as playersActions from "../../../../../store/study/players/players.actions";
@@ -9,7 +9,7 @@ import {takeUntil} from "rxjs/operators";
   selector: 'app-players-create',
   templateUrl: './players-create.component.html',
 })
-export class PlayersCreateComponent implements OnInit {
+export class PlayersCreateComponent implements OnInit, OnDestroy {
 
   @Input() selectedPlayers$: Observable<Players>
 

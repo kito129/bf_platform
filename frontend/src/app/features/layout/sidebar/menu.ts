@@ -10,6 +10,11 @@ export const MENU: MenuItem[] = [
     icon: 'bar-chart-2',
     link: '/report'
   },
+  {
+    label: 'Backtest',
+    icon: 'database',
+    link: '/backtest'
+  },
   /*
   {
     label: 'Market Basic',

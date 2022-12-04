@@ -6,6 +6,7 @@ import {Trade} from '../../../model/report/trade/trade';
 import {TradeBets} from '../../../model/report/trade/tradeBets';
 import * as reportActions from '../../../store/report/report.actions';
 import {Store} from '@ngrx/store';
+import {SwallService} from '../../../services/swall.service';
 
 @Component({
   selector: 'app-backtest-trade-main',
@@ -25,7 +26,8 @@ export class BacktestTradeMainComponent implements OnInit {
             name: string}[] = []
 
 
-  constructor(private readonly store: Store) { }
+  constructor(private readonly store: Store,
+              private swall: SwallService) { }
 
   // -- COMPONENT LIFETIME --
   ngOnInit(): void {
@@ -87,6 +89,7 @@ export class BacktestTradeMainComponent implements OnInit {
       selection.avg = avg[i]
       i++
     }
+    this.swallAddBets()
     // refresh
     this.bugFix()
   }
@@ -98,6 +101,16 @@ export class BacktestTradeMainComponent implements OnInit {
     const temp = JSON.parse(JSON.stringify(this.backtestForm.tradeForm))
     temp._id = (Math.random()*1000).toString()
     this.store.dispatch(reportActions.backtestAddTrade({ trade: temp}));
+    this.swallAddTrades()
+  }
+
+  // -- SWALL TOAST --
+  swallAddBets(){
+    this.swall.showToast('Added Bets in Trade', 'success')
+  }
+
+  swallAddTrades(){
+    this.swall.showToast('Added Trade in Backtest', 'success')
   }
 
   // -- SUPPORT --

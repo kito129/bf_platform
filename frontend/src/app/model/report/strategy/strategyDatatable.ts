@@ -1,5 +1,6 @@
-import {Strategy} from "./strategy";
+import {Strategy} from './strategy';
 import {SavedReport} from '../savedReport';
+import {BacktestInterface} from '../../backtest/backtestInterface';
 
 export interface StrategyDatatable{
   _id: string
@@ -20,4 +21,5 @@ export interface StrategyDatatable{
   winRatio: number
   strategy: Strategy
   savedReport?: SavedReport
+  backtest?: BacktestInterface
 }

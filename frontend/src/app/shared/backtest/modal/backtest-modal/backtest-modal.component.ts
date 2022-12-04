@@ -20,6 +20,7 @@ export class BacktestModalComponent implements OnInit {
   $backtestList: Observable<BacktestInterface[]>
   $backtestTradesCount: Observable<number>
   $backtestTradesList: Observable<Trade[]>
+  $backtestSelected: Observable<BacktestInterface>
 
 
   constructor(private modalService: NgbModal,
@@ -30,8 +31,9 @@ export class BacktestModalComponent implements OnInit {
     this.$backtestIsLoading = this.store.pipe(select(reportSelectors.getBacktestIsLoading))
     this.$backtestMode = this.store.pipe(select(reportSelectors.getBacktestModeState))
     this.$backtestTradesCount = this.store.pipe(select(reportSelectors.getBacktestCurrentTradesCount))
-    this.$backtestList = this.store.pipe(select(reportSelectors.getAllBacktestTrade))
-    this.$backtestTradesList = this.store.pipe(select(reportSelectors.getBacktestTradeList))
+    this.$backtestList = this.store.pipe(select(reportSelectors.getAllBacktest))
+    this.$backtestTradesList = this.store.pipe(select(reportSelectors.getBacktestCurrentTrades))
+    this.$backtestSelected = this.store.pipe(select(reportSelectors.getSelectedBacktest))
   }
 
   openVerticalCenteredModal(content) {
@@ -45,7 +47,12 @@ export class BacktestModalComponent implements OnInit {
     });
   }
 
-  backtestModeChange(event){
+  backtestModeChangeRightClick(event){
+    event.preventDefault()
+    this.store.dispatch(reportActions.backtestChangeMode());
+  }
+
+  changeBacktestMode(){
     this.store.dispatch(reportActions.backtestChangeMode());
   }
 }

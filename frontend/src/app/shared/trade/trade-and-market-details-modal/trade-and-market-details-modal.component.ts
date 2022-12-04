@@ -25,6 +25,7 @@ import * as reportActions from "../../../store/report/report.actions";
 export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
 
   @Input() trade: Trade
+  @Input() isBacktest: boolean
 
   isLoadingMarketDetails$: Observable<IsLoading>
   marketDetails$: Observable<MarketBasic>

@@ -1,0 +1,28 @@
+<!-- CARD 1 -->
+<div class="card mb-2">
+  <div class="card-body">
+    <app-backtest-editor-form [backtest]="currentBackTest"
+                       [isUpdate]="isUpdate"
+                       [currentTrade]="backtestTradesList">
+    </app-backtest-editor-form>
+  </div>
+</div>
+<!-- CARD 2 -->
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3>Trade#: {{backtestTradesCount}}</h3>
+      <h3>PnL: {{backtestPnl() | currency}}</h3>
+      <h3>ROI: {{backtestROI() | percent}}</h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-trades-datatable *ngIf="backtestTradesCount>0"
+                          [trades$]="$backtestTradesList"
+                          [isSaved]="false"
+                          [title]="'Backtest Trade'"
+                          [isBackTest]="true">
+    </app-trades-datatable>
+  </div>
+</div>
+

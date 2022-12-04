@@ -20,6 +20,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   @Input() originalMarket: MarketBasic
   @Input() originalTrade: Trade
   @Input() TVBets: TVBets[]
+  @Input() isBacktest: boolean
 
   // chart
   lineSeriesData =[];

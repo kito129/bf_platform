@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { BaseComponent } from './features/layout/base/base.component';
 import { AuthGuard } from './core/guard/auth.guard';
 import { ErrorPageComponent } from './features/error-page/error-page.component';
+import {BacktestModule} from './features/backtest/backtest.module';
 
 
 const routes: Routes = [
@@ -15,6 +16,10 @@ const routes: Routes = [
       {
         path: 'report',
         loadChildren: () => import('./features/report/report.module').then(m => m.ReportModule)
+      },
+      {
+        path: 'backtest',
+        loadChildren: () => import('./features/backtest/backtest.module').then(m => m.BacktestModule)
       },
       {
         path: 'dashboard',

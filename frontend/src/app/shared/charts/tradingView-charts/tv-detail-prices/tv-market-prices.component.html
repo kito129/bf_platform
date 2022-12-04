@@ -57,7 +57,7 @@
 
   </div>
   <!-- BACKTEST BUTTONS -->
-  <div class="card-footer" *ngIf="($backtestMode | async)">
+  <div class="card-footer" *ngIf="($backtestMode | async) && !isBacktest">
     <div class="d-flex justify-content-end align-items-center" *ngIf="($backtestMode | async)">
       <button type="button"
               class="btn mr-2"
@@ -75,7 +75,7 @@
 </div>
 
 <!-- BACKTEST MAIN CARD -->
-<div class="card mt-2 ">
+<div class="card mt-2 " *ngIf="($backtestMode | async) && !isBacktest">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
       <h3 class="text-warning">Backtest</h3>

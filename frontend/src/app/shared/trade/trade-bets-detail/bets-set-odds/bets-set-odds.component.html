@@ -23,7 +23,7 @@
         </td>
       </tr>
       <!-- SECOND -->
-      <tr *ngIf="haveSet2">
+      <tr *ngIf="haveSet2 && trade.trade.results.finalScore.tennis">
         <td>
           <h4 class="text-info">Set 2</h4>
           <h4 class="text-info">{{trade.trade.results.finalScore.tennis.set1.runnerA}} - {{trade.trade.results.finalScore.tennis.set1.runnerB}}</h4>
@@ -39,7 +39,7 @@
         </td>
       </tr>
       <!-- SECOND NOTIONAL -->
-      <tr *ngIf="haveSet2">
+      <tr *ngIf="haveSet2 && trade.trade.results.finalScore.tennis">">
         <td>
           <h4 class="text-warning">Notional Set 2</h4>
         </td>
@@ -51,7 +51,7 @@
         </td>
       </tr>
       <!-- THIRD -->
-      <tr *ngIf="haveSet3">
+      <tr *ngIf="haveSet3 && trade.trade.results.finalScore.tennis">">
         <td>
           <h4 class="text-light">Set 3</h4>
           <h4 class="text-info">{{trade.trade.results.finalScore.tennis.set2.runnerA}} - {{trade.trade.results.finalScore.tennis.set2.runnerB}}</h4>
@@ -68,7 +68,7 @@
         </td>
       </tr>
       <!-- THIRD NOTIONAL -->
-      <tr *ngIf="haveSet3">
+      <tr *ngIf="haveSet3 && trade.trade.results.finalScore.tennis">">
         <td>
           <h4 class="text-warning">Notional Set 3</h4>
         </td>

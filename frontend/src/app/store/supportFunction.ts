@@ -27,7 +27,11 @@ export function updateElement(all: any[], update: any ) {
 }
 
 export function deleteElement(all: any[], deletedElement: any ) {
-  return all.filter((element) => element._id !== deletedElement._id )
+  return all.filter((element) => element._id !== deletedElement._id  )
+}
+
+export function removeElement(all: any[], elementId: string ) {
+  return all.filter((element) => element._id !== elementId)
 }
 
 export function deleteElements(all: any[], deletedElement: any[] ) {

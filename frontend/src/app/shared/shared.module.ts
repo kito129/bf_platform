@@ -136,41 +136,45 @@ import { TradeDataGridComponent } from './trade/trade-data-grid/trade-data-grid.
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { BacktestTradeStakeComponent} from './backtest/backtest-trade/backtest-stake/backtest-trade-stake.component';
-import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
-import { BacktestFormComponent } from './backtest/backtest-form/backtest-form.component';
-import {BacktestTradeMainComponent} from './backtest/backtest-trade/backtest-trade-main.component';
-import {BacktestMainComponent} from './backtest/backtest-main/backtest-main.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { BacktestEditorFormComponent } from './backtest/backtest-editor/backtest-editor-form/backtest-editor-form.component';
+import { BacktestTradeMainComponent } from './backtest/backtest-trade/backtest-trade-main.component';
+import { BacktestEditorMainComponent } from './backtest/backtest-editor/backtest-editor-main/backtest-editor-main.component';
 import { BacktestModalComponent } from './backtest/modal/backtest-modal/backtest-modal.component';
+import {StrategyDatatableComponent} from './strategy/strategy-datatable/strategy-datatable.component';
+import {  StrategyCreateModalComponent} from './strategy/strategy-modal/strategy-create-modal/strategy-create-modal.component';
+import {  StrategyDeleteModalComponent} from './strategy/strategy-modal/strategy-note-delete-modal/strategy-delete-modal.component';
+import {  StrategyUpdatesModalComponent} from './strategy/strategy-modal/strategy-updates-modal/strategy-updates-modal.component';
 
 
 PlotlyViaCDNModule.setPlotlyVersion('1.40.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
 
 @NgModule({
-    imports: [
-        CommonModule,
-        PlotlyViaCDNModule,
-        DataTablesModule,
-        RouterModule,
-        NgxDatatableModule,
-        NgSelectModule,
-        CustomFormsModule,
-        NgxMaskModule.forRoot(),
-        FeahterIconModule,
-        NgbDatepickerModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgApexchartsModule,
-        NgbNavModule,
-        NgbPopoverModule,
-        NgbTooltipModule,
-        NgbCollapseModule,
-        NgbProgressbarModule,
-        TableModule,
-        TableModule,
-        ButtonModule,
-        SweetAlert2Module
-    ],
+  imports: [
+    CommonModule,
+    PlotlyViaCDNModule,
+    DataTablesModule,
+    RouterModule,
+    NgxDatatableModule,
+    NgSelectModule,
+    CustomFormsModule,
+    NgxMaskModule.forRoot(),
+    FeahterIconModule,
+    NgbDatepickerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgApexchartsModule,
+    NgbNavModule,
+    NgbPopoverModule,
+    NgbTooltipModule,
+    NgbCollapseModule,
+    NgbProgressbarModule,
+    TableModule,
+    TableModule,
+    ButtonModule,
+    SweetAlert2Module
+  ],
   declarations: [
     NoteDataTableComponent,
     NoteDeleteModalComponent,
@@ -291,9 +295,13 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     TradeDataGridComponent,
     BacktestTradeMainComponent,
     BacktestTradeStakeComponent,
-    BacktestMainComponent,
-    BacktestFormComponent,
+    BacktestEditorMainComponent,
+    BacktestEditorFormComponent,
     BacktestModalComponent,
+    StrategyDatatableComponent,
+    StrategyCreateModalComponent,
+    StrategyDeleteModalComponent,
+    StrategyUpdatesModalComponent
   ],
   exports: [
     CommonModule,
@@ -472,6 +480,10 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     StrategyReportTradeFilterComponent,
     StrategyReportTradeFilterParamsComponent,
     BacktestModalComponent,
+    StrategyDatatableComponent,
+    StrategyCreateModalComponent,
+    StrategyDeleteModalComponent,
+    StrategyUpdatesModalComponent
   ]
 })
 export class SharedModule { }

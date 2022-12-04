@@ -5,7 +5,7 @@
   </app-trade-datatable-stats>
 </div>
 <!-- SELECTED BUTTON-->
-<div class="d-flex justify-content-center align-items-center">
+<div class="d-flex justify-content-center align-items-center" *ngIf="!isBackTest">
   <button type="button"
           class="btn btn-outline-primary mr-3"
           (click)="selectAll()">
@@ -29,13 +29,13 @@
                                     class="mr-4 ml-4"
                                     [selected]="selected"
                                     [title]="title"
-                                    (saveReportEmitter)="saveReport($event)">
+                                    (saveReportEmitter)="saveSavedReport($event)">
     </app-strategy-report-save-modal>
     <app-strategy-report-add-trades-to-saved *ngIf="selected.length>0"
                                              class="mr-4"
                                              [selected]="selected"
                                              [title]="title"
-                                             (updateSavedReportEmitter)="updateReport($event)">
+                                             (updateSavedReportEmitter)="updateSavedReport($event)">
     </app-strategy-report-add-trades-to-saved>
     <app-delete-modal [type]="'Trade'"
                       [ids]="selectedIds"
@@ -57,49 +57,51 @@
   </div>
 </div>
 
-<h3>Trades List</h3>
+
 <!-- DATATABLE BUTTON -->
-<div class="d-flex justify-content-end align-items-center" *ngIf="!isBackTest">
-  <button type="button" class="btn mr-2"
-          [ngClass]="!viewResult ? 'btn-secondary' : 'btn-outline-secondary' "
-          (click)="viewResult= !viewResult">
-    View Result
-  </button>
-  <button type="button" class="btn mr-2"
-          [ngClass]="viewTrades ? 'btn-warning' : 'btn-outline-warning' "
-          (click)="viewTrades= !viewTrades">
-    View Trades
-  </button>
-  <button type="button" class="btn mr-2"
-          [ngClass]="viewOdds ? 'btn-info' : 'btn-outline-info' "
-          (click)="viewOdds= !viewOdds">
-    View Avg Odds
-  </button>
-  <button type="button" class="btn mr-2"
-          [ngClass]="viewSetOdds ? 'btn-danger' : 'btn-outline-danger' "
-          (click)="viewSetOdds= !viewSetOdds">
-    View Set Odds
-  </button>
-  <button type="button" class="btn mr-2"
-          [ngClass]="viewNotes ? 'btn-light' : 'btn-outline-light' "
-          (click)="viewNotes= !viewNotes">
-    View Notes
-  </button>
-  <button type="button" class="btn mr-2"
-          [ngClass]="viewStatsService ? 'btn-primary' : 'btn-outline-primary' "
-          (click)="viewStatsService= !viewStatsService">
-    Stats Service & Break
-  </button>
-  <button type="button" class="btn mr-2"
-          [ngClass]="viewStatsSet ? 'btn-primary' : 'btn-outline-primary' "
-          (click)="viewStatsSet= !viewStatsSet">
-    Stats Set
-  </button>
-  <button type="button" class="btn mr-3"
-          [ngClass]="viewStatsLeaderboard ? 'btn-primary' : 'btn-outline-primary' "
-          (click)="viewStatsLeaderboard= !viewStatsLeaderboard">
-    Stats Leaderboard
-  </button>
+<div class="d-flex justify-content-end align-items-center">
+  <div *ngIf="!isBackTest">
+    <button type="button" class="btn mr-2"
+            [ngClass]="!viewResult ? 'btn-secondary' : 'btn-outline-secondary' "
+            (click)="viewResult= !viewResult">
+      View Result
+    </button>
+    <button type="button" class="btn mr-2"
+            [ngClass]="viewTrades ? 'btn-warning' : 'btn-outline-warning' "
+            (click)="viewTrades= !viewTrades">
+      View Trades
+    </button>
+    <button type="button" class="btn mr-2"
+            [ngClass]="viewOdds ? 'btn-info' : 'btn-outline-info' "
+            (click)="viewOdds= !viewOdds">
+      View Avg Odds
+    </button>
+    <button type="button" class="btn mr-2"
+            [ngClass]="viewSetOdds ? 'btn-danger' : 'btn-outline-danger' "
+            (click)="viewSetOdds= !viewSetOdds">
+      View Set Odds
+    </button>
+    <button type="button" class="btn mr-2"
+            [ngClass]="viewNotes ? 'btn-light' : 'btn-outline-light' "
+            (click)="viewNotes= !viewNotes">
+      View Notes
+    </button>
+    <button type="button" class="btn mr-2"
+            [ngClass]="viewStatsService ? 'btn-primary' : 'btn-outline-primary' "
+            (click)="viewStatsService= !viewStatsService">
+      Stats Service & Break
+    </button>
+    <button type="button" class="btn mr-2"
+            [ngClass]="viewStatsSet ? 'btn-primary' : 'btn-outline-primary' "
+            (click)="viewStatsSet= !viewStatsSet">
+      Stats Set
+    </button>
+    <button type="button" class="btn mr-3"
+            [ngClass]="viewStatsLeaderboard ? 'btn-primary' : 'btn-outline-primary' "
+            (click)="viewStatsLeaderboard= !viewStatsLeaderboard">
+      Stats Leaderboard
+    </button>
+  </div>
   <form class="form-group grid-margin">
     <div class="row ">
       <div class="col">
@@ -409,7 +411,8 @@
   <ngx-datatable-column name="View" prop="" *ngIf="isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <div class="d-flex justify-content-end align-items-baseline">
-        <app-trade-and-market-details-modal [trade]="value.trade">
+        <app-trade-and-market-details-modal [trade]="value.trade"
+                                            [isBacktest]="isBackTest">
         </app-trade-and-market-details-modal>
 
         <app-delete-modal [ids]="[value.trade._id]"

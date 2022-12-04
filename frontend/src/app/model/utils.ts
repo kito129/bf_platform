@@ -9,6 +9,7 @@ import {MarketBasic} from './market/basic/marketBasic';
 import {FootballPoint} from './point/footballPoint';
 import {TradeBets} from './report/trade/tradeBets';
 import {BacktestBets} from './backtest/backtestTrade';
+import {Observable, of} from 'rxjs';
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -24,6 +25,10 @@ export class Utils{
   }
 
   private _swallTimer = 600
+
+  passAsObservable(object: any):Observable<any>{
+    return of(object)
+  }
 
   /*
   * Calculator Trade

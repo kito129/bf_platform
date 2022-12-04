@@ -10,7 +10,8 @@ import {TradePlSeries} from '../../../model/calculator/montecarlo';
 import * as reportActions from '../../../store/report/report.actions';
 import {SavedReport} from '../../../model/report/savedReport';
 import { TradeDetail} from '../../../model/report/trade/trade';
-import Swal from 'sweetalert2'
+import {SwallService} from '../../../services/swall.service';
+
 
 @Component({
   selector: 'app-trades-datatable',
@@ -64,7 +65,8 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private readonly store: Store,
-              private tradeServices: TradeCalculatorService) {
+              private tradeServices: TradeCalculatorService,
+              private swall: SwallService) {
   }
 
   ngOnInit() {
@@ -146,7 +148,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     this.bugFix()
   }
 
-  // -- SAVED REPORT --
   deleteMany(event){
     if(event[1]==='delete') {
       // DELETE many trades
@@ -155,7 +156,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveReport(event){
+  saveSavedReport(event){
     if(event[1] === 'create'){
       console.log(event[0])
       this.store.dispatch(reportActions.createSavedReport({ savedReport: event[0] }));
@@ -163,7 +164,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateReport(event){
+  updateSavedReport(event){
     if(event[1] === 'update'){
       console.log(event[0])
       this.store.dispatch(reportActions.updateSavedReport({ _id: event[0]._id, savedReport:event[0] }));
@@ -171,6 +172,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
+  // -- BACKTEST --
   removeTradesFromSavedReportModal(event){
     if(event[1] === 'remove'){
       const temp = []
@@ -186,23 +188,13 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  // -- BACKTEST --
+
   removeTradesFromBacktest(event){
     console.log(event)
     if(event[1] === 'remove'){
-      this.store.dispatch(reportActions.backtestRemoveTrade({ _id:event[2][0]}));
-      this.showToast()
+      this.store.dispatch(reportActions.backtestRemoveTrade({ _id:event[2][0] as string}));
+      this.swall.showToast('Removed Trade from Backtest', 'success')
     }
-  }
-
-  showToast(){
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Trade added in Back test',
-      showConfirmButton: false,
-      timer: this.util.swallTimer
-    });
   }
 
   // -- CSV

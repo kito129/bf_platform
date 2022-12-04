@@ -245,8 +245,8 @@ export class StrategyCompareComponent implements OnInit, OnDestroy {
     }
   }
 
-  passAsObservable(trade: any):Observable<any>{
-    return of(trade)
+  passAsObservable(trade: any){
+    this.utils.passAsObservable(trade)
   }
 
 

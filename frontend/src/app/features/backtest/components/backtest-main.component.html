@@ -1,0 +1,65 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h3 class="mb-3">Backtest</h3>
+  </div>
+  <div class="d-flex align-items-center flex-wrap text-nowrap">
+    <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block" (click)="refreshBacktestTrade()">
+      <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
+      Refresh Backtest Trades
+    </button>
+
+    <button type="button" class="btn btn-outline-warning btn-icon-text mr-2 d-none d-md-block" (click)="refreshBacktest()">
+      <i class="btn-icon-prepend" data-feather="refresh-ccw" appFeatherIcon></i>
+      Refresh Backtest
+    </button>
+  </div>
+</div>
+
+<div class="col">
+
+  <ul ngbNav #defaultNav="ngbNav" [(activeId)]="defaultNavActiveId" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <h4>
+        <a ngbNavLink>Backtests</a>
+      </h4>
+      <ng-template ngbNavContent>
+        <div>
+          <app-strategy-datatable [strategyDatatable]="$allBacktestAsStrategy | async"
+                                  [isBacktest]="true"
+                                  [isSaved]="false"
+                                  [selectedBacktestId]="$backtestSelectedId | async">
+          </app-strategy-datatable>
+
+          {{($backtestSelectedId | async)}}
+          {{($backtestSelectedTrades | async | json)}}
+
+          <app-strategy-report *ngIf="($backtestSelectedId | async) !== null"
+                               [selectedStrategyTrades$]="$backtestSelectedTrades"
+                               [title]="($backtestSelected | async) ? ($backtestSelected | async).backtest.name : 'Backtest' "
+                               [bank]="($backtestSelected | async) ? ($backtestSelected | async).backtest.bank : 1000 "
+                               [noBug]="false"
+                               [isSaved]="false">
+          </app-strategy-report>
+
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <h4>
+        <a ngbNavLink>All Trades</a>
+      </h4>
+      <ng-template ngbNavContent>
+        <div>
+          <app-trades-datatable [trades$]="$backtestAllTrade"
+                                [isBackTest]="true"
+                                [isSaved]="false">
+          </app-trades-datatable>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+
+  <div [ngbNavOutlet]="defaultNav" class="border border-top-0 p-3"></div>
+
+</div>
+

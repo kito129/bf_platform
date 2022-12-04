@@ -54,16 +54,14 @@ import {AngularFireModule} from '@angular/fire';
 // API REPLACE URL
 import {environment} from '../environments/environment';
 import {MarketAdvancedEffectEffects} from './store/marketsAdvanced/marketAdvanced.effect';
-import { MarketMetaListBasicComponent } from './features/markets/components/list/market-meta-list-basic/market-meta-list-basic.component';
-import {MarketsModule} from "./features/markets/markets.module";
-import {FeahterIconModule} from "./core/feather-icon/feather-icon.module";
-import {NgSelectModule} from "@ng-select/ng-select";
+import {MarketsModule} from './features/markets/markets.module';
+import {FeahterIconModule} from './core/feather-icon/feather-icon.module';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
     declarations: [
         AppComponent,
         ErrorPageComponent,
-        MarketMetaListBasicComponent,
     ],
     imports: [
         BrowserModule,

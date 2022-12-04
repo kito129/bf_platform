@@ -12,6 +12,7 @@ export class TradeDetailPriceChartComponent implements OnInit {
   @Input() trade: Trade
   @Input() marketDetail: MarketBasic
   @Input() marketDetailsFound: boolean
+  @Input() isBacktest: boolean
 
   trades: TVBets[] = []
 

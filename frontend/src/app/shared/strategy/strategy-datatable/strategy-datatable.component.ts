@@ -1,10 +1,10 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
 import { Store} from '@ngrx/store';
-import {StrategyDatatable} from '../../../../model/report/strategy/strategyDatatable';
-import * as reportActions from '../../../../store/report/report.actions';
-import {removeTradesFromSavedReport} from '../../../../store/report/report.actions';
-import {SavedReport} from "../../../../model/report/savedReport";
+import {StrategyDatatable} from '../../../model/report/strategy/strategyDatatable';
+import * as reportActions from '../../../store/report/report.actions';
+import {SavedReport} from '../../../model/report/savedReport';
+import {BacktestInterface} from '../../../model/backtest/backtestInterface';
 
 @Component({
   selector: 'app-strategy-datatable',
@@ -19,9 +19,11 @@ export class StrategyDatatableComponent implements OnInit {
   @Input() compareSavedReportList: string[]
   @Input() compareSavedReportStatus: boolean
   @Input() isSaved: boolean
+  @Input() isBacktest: boolean
 
   @Input() selectedStrategyId: string
   @Input() selectedSavedReportId: string
+  @Input() selectedBacktestId: string
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -97,6 +99,7 @@ export class StrategyDatatableComponent implements OnInit {
     }
   }
 
+  // -- STRATEGY --
   clickSelectStrategy(id: string){
     if(this.selectedStrategyId === id){
       this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
@@ -147,6 +150,8 @@ export class StrategyDatatableComponent implements OnInit {
       this.store.dispatch(reportActions.addStrategyInCompare({strategyId: id, first:true}))
     }
   }
+
+  // -- SAVED REPORT --
 
   // saved report compare
   addToCompareSavedReport(id: string){
@@ -214,6 +219,15 @@ export class StrategyDatatableComponent implements OnInit {
     temp.updated = Date.now()
     temp.savedReport.name = temp.savedReport.name.concat(' - duplicate')
     this.store.dispatch(reportActions.createSavedReport({savedReport: temp}))
+  }
+
+  // -- BACKTEST
+  clickSelectBacktest(backtest: BacktestInterface, id: string){
+    if(this.selectedBacktestId === id){
+      this.store.dispatch(reportActions.backtestUnSelected());
+    } else {
+      this.store.dispatch(reportActions.backtestSetSelected({ backtest, _id: id}));
+    }
   }
 
 }

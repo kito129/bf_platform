@@ -84,17 +84,35 @@ export class ReportService {
     return this.http.get(`${baseUrl}/backtest/all`);
   }
 
-  createBacktest(backtest: BacktestInterface): Observable<any> {
-    return this.http.put(`${baseUrl}/backtest/create`,backtest,{headers});
+  createBacktest(backtest: BacktestInterface, trades: Trade[]): Observable<any> {
+    const body = {
+      backtest,
+      trades
+    }
+    return this.http.put(`${baseUrl}/backtest/create`,body,{headers});
   }
 
   updateBacktest(id, backtest: BacktestInterface): Observable<any> {
     const body = JSON.stringify(backtest)
-    return this.http.post(`${baseUrl}/backtest/${id}`,body, {headers});
+    return this.http.post(`${baseUrl}/backtest/update/${id}`,body, {headers});
   }
 
   deleteBacktest(id): Observable<any> {
-    return this.http.delete(`${baseUrl}/backtest/${id}`, {headers});
+    return this.http.delete(`${baseUrl}/backtest/delete/${id}`, {headers});
+  }
+
+  // CRUD BACKTEST TRADE
+  getAllBacktestsTrades(): Observable<any> {
+    return this.http.get(`${baseUrl}/backtest/trades/all`);
+  }
+
+  createBacktestTrades(trades: Trade[]): Observable<any> {
+    return this.http.put(`${baseUrl}/backtest/trades/create`,trades,{headers});
+  }
+
+  deleteBacktestTrades(ids: string[]): Observable<any> {
+    const body = JSON.stringify(ids)
+    return this.http.put(`${baseUrl}/backtest/trades/delete`,body, {headers});
   }
 
 }

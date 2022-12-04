@@ -3,7 +3,7 @@
         class="btn mr-3"
         [ngClass]="($backtestMode | async)  ? 'btn-danger' : 'btn-outline-danger'"
         (click)="openVerticalCenteredModal(verticalCenteredModal)"
-        (contextmenu)="backtestModeChange($event)">
+        (contextmenu)="backtestModeChangeRightClick($event)">
   Backtest {{($backtestMode | async)  ? 'ON' : 'off'}}
   <span *ngIf="($backtestMode | async)"
         class="badge bg-light text-dark">
@@ -11,27 +11,38 @@
           </span>
 </button>
 
-<!-- Modal -->
+<!-- MODAL -->
 <ng-template #verticalCenteredModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel">Title</h5>
+    <h3 class="text-danger">{{($backtestSelected| async) ? 'Update' : 'Create'}} Backtest</h3>
     <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-
-    <app-backtest-main [backtestTradesCount]="$backtestTradesCount | async"
+    <!-- MAIN BACKTEST -->
+    <app-backtest-editor-main [backtestTradesCount]="$backtestTradesCount | async"
                        [backtestList]="$backtestList | async"
                        [backtestTradesList]="$backtestTradesList | async"
+                       [$backtestTradesList]="$backtestTradesList"
+                       [$selectedBacktest]="$backtestSelected"
                        [backtestMode]="$backtestMode | async"
                        [backtestIsLoading]="$backtestIsLoading | async">
-    </app-backtest-main>
-
+    </app-backtest-editor-main>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.close('close')">Close</button>
-    <button type="button" class="btn btn-primary" (click)="modal.close('end')">End</button>
+    <!-- TURN ON/OFF BUTTON -->
+      <div class="d-flex justify-content-end align-items-center">
+        <button type="button"
+                class="btn btn mr-2 "
+                [ngClass]="($backtestMode | async)   ? 'btn-danger' : 'btn-outline-danger'"
+                (click)="changeBacktestMode()">
+          Backtest {{($backtestMode | async)  ? 'ON' : 'off'}}
+        </button>
+
+        <button type="button" class="mr-2 btn btn-primary" (click)="modal.close('end')">Close</button>
+
+      </div>
   </div>
 </ng-template>
 

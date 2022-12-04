@@ -53,15 +53,15 @@
     /***/
     function _(module, exports, __webpack_require__) {
       __webpack_require__(
-      /*! C:\Users\marco\00 PROJECT\lastBF\frontend\src\styles.scss */
+      /*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\src\styles.scss */
       "+EN/");
 
       __webpack_require__(
-      /*! C:\Users\marco\00 PROJECT\lastBF\frontend\src\assets\scss\style.scss */
+      /*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\src\assets\scss\style.scss */
       "eKdF");
 
       module.exports = __webpack_require__(
-      /*! C:\Users\marco\00 PROJECT\lastBF\frontend\node_modules\primeng\resources\themes\mdc-dark-indigo\theme.css */
+      /*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\node_modules\primeng\resources\themes\mdc-dark-indigo\theme.css */
       "U+RZ");
       /***/
     },

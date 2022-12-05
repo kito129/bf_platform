@@ -4,7 +4,7 @@ import {Strategy} from '../../model/report/strategy/strategy';
 import {
   addElement, addElements,
   addStudyCompare,
-  backtestChangeMode, backtestRemoveTradeFromTradeIds,
+  backtestChangeMode, backtestReAddRemovedTradeFromTradeIds, backtestRemoveTradeFromTradeIds,
   deleteElement,
   deleteElements, removeElement,
   removeStudyCompare,
@@ -415,6 +415,12 @@ const reportReducers = createReducer(
     })
   ),
 
+  on(reportActions.backtestsAddRemovedTradeFromBacktest, (state, result) => (
+    {...state, backtestTradesToRemove: removeElement(state.backtestTradesToRemove, result.trade._id),
+      selectedBacktest: backtestReAddRemovedTradeFromTradeIds(state.selectedBacktest, result.trade)
+    })
+  ),
+
 
   // backtest trade CRUD
 
@@ -466,7 +472,7 @@ const reportReducers = createReducer(
     })
   ),
 
-  // deelte backtest trade
+  // delete backtest trade
   on(reportActions.backtestTradeDelete, (state, result) => (
     {...state, isLoadingBacktests: setterLoading()
     })

@@ -31,6 +31,8 @@
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
       <h3 class="text-success">Trades already present#: {{($selectedBacktestTrades | async).length}}</h3>
+      <h3>PnL: {{backtestPnl(($selectedBacktestTrades | async)) | currency}}</h3>
+      <h3>ROI: {{(backtestROI(($selectedBacktestTrades | async))) | percent}}</h3>
     </div>
   </div>
   <div class="card-body">

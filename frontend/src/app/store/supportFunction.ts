@@ -128,9 +128,17 @@ export function backtestChangeMode(currentState: boolean){
 
 // --  BACKTEST --
 export function backtestRemoveTradeFromTradeIds(backtest: BacktestInterface, tradeToRemove: Trade): BacktestInterface{
-  console.log(tradeToRemove)
+  console.log(backtest.backtest.tradesIds)
   const copy:BacktestInterface = JSON.parse(JSON.stringify(backtest))
+  console.log(tradeToRemove)
   copy.backtest.tradesIds = copy.backtest.tradesIds.filter( x => x !==tradeToRemove._id)
+  console.log(copy.backtest.tradesIds)
+  return copy
+}
+
+export function backtestReAddRemovedTradeFromTradeIds(backtest: BacktestInterface, tradeToAdd: Trade): BacktestInterface{
+  const copy:BacktestInterface = JSON.parse(JSON.stringify(backtest))
+  copy.backtest.tradesIds.push(tradeToAdd._id)
   return copy
 }
 

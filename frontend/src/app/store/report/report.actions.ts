@@ -94,6 +94,7 @@ export const BACKTEST_ADD_TRADE = '[Backtest] Add trade in backtest to add'
 export const BACKTEST_REMOVE_TRADE = '[Backtest] Remove trade from backtest list'
 
 export const BACKTEST_REMOVE_TRADE_FROM_BACKTEST = '[Backtest] Remove trade from backtest'
+export const BACKTEST_ADD_REMOVE_TRADE_FROM_BACKTEST = '[Backtest] Add removed trade from backtest'
 
 export const BACKTEST_TRADES_GET_ALL = '[Backtest trade] Get all backtest trades in DB'
 export const BACKTEST_TRADES_GET_ALL_SUCCESS = '[Backtest]  Get all backtest trades in DB Success'
@@ -445,6 +446,11 @@ export const backtestRemoveTradeFromTradesToAdd = createAction(
 
 export const backtestRemoveTradeFromBacktest = createAction(
   BACKTEST_REMOVE_TRADE_FROM_BACKTEST,
+  props<{ trade: Trade}>()
+)
+
+export const backtestsAddRemovedTradeFromBacktest = createAction(
+  BACKTEST_ADD_REMOVE_TRADE_FROM_BACKTEST,
   props<{ trade: Trade}>()
 )
 

@@ -11,7 +11,10 @@ import * as reportActions from '../../../store/report/report.actions';
 import {SavedReport} from '../../../model/report/savedReport';
 import { TradeDetail} from '../../../model/report/trade/trade';
 import {SwallService} from '../../../services/swall.service';
-import {backtestRemoveTradeFromBacktest} from "../../../store/report/report.actions";
+import {
+  backtestRemoveTradeFromBacktest,
+  backtestsAddRemovedTradeFromBacktest
+} from '../../../store/report/report.actions';
 
 
 @Component({
@@ -215,8 +218,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   }
 
   reAddTradesFromBacktest(trade: Trade){
-    // FROM HERE
-    this.store.dispatch(reportActions.backtestAddTrade({ trade}));
+    this.store.dispatch(reportActions.backtestsAddRemovedTradeFromBacktest({ trade}));
   }
 
   // -- CSV

@@ -560,7 +560,6 @@ function generateBacktestReportDatatable(backtests: BacktestInterface[], allTrad
   const temp: StrategyDatatable[] = []
   if(backtests.length){
     for(const bt of backtests){
-      console.log(bt)
       const bank  = bt.backtest.bank
       const trades = allTrades.filter(x => bt.backtest.tradesIds.includes(x._id))
       const tempStrategy = utils.generateStrategy(bt.backtest.name,bank, bt._id)

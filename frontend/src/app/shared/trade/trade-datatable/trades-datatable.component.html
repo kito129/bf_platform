@@ -421,11 +421,10 @@
                 class="btn btn-outline-success mr-3"
                 (click)="reAddTradesFromBacktest(value.trade)">
           <i class="feather icon-plus"></i>
-          Add
+          Re Add
         </button>
 
-
-        <app-delete-modal *ngIf="isBackTestToAdd"
+        <app-delete-modal *ngIf="isBackTestToAdd && !isBackTestToAddRemoved"
                           [ids]="[value.trade._id]"
                           [options]="'Remove'"
                           [isRemove]="true"

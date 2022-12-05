@@ -48,8 +48,6 @@ export class BacktestTradeMainComponent implements OnInit {
   // -- TRADE MANIPULATE --
   // update backtestForm from update modal and refresh view
   updateBacktestTradeFromEdit(event){
-    console.log('updated trade')
-    console.log(event)
     this.backtestForm.tradeForm = event[0]
     this.bugFix()
   }
@@ -74,8 +72,6 @@ export class BacktestTradeMainComponent implements OnInit {
 
   // convert bets to trade bets and add in trade from, then refresh trade view
   addBetsInTrade(){
-    console.log('bets ready to be added in trade')
-
     // generate trade bets and add in trade
     this.backtestForm.tradeForm.trade.trades = this.util.generateBetsFromTradeBets(this.backtestTradeBets)
 
@@ -96,7 +92,6 @@ export class BacktestTradeMainComponent implements OnInit {
 
   // valid trade to add in backtest list
   addTradeInBacktest(){
-    console.log('trade ready to be added in backtest list in state')
     // update trade id with random string
     const temp = JSON.parse(JSON.stringify(this.backtestForm.tradeForm))
     temp._id = (Math.random()*1000).toString()

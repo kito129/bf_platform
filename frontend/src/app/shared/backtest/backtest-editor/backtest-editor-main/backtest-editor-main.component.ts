@@ -30,6 +30,8 @@ export class BacktestEditorMainComponent implements OnInit, OnDestroy {
 
   util = new Utils()
 
+  bug = true
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store,) { }
@@ -43,6 +45,7 @@ export class BacktestEditorMainComponent implements OnInit, OnDestroy {
         if (selected!==null && selected !== undefined) {
           this.isUpdate = true
           this.currentBackTest = new Backtest(selected)
+          this.bugFix()
         }
       })
   }
@@ -58,6 +61,16 @@ export class BacktestEditorMainComponent implements OnInit, OnDestroy {
 
   backtestROI(list: Trade[]): number{
     return this.util.sumOfArray(list.map(x => x.trade.results.netProfit)) / this.currentBackTest.backtest.bank
+  }
+
+  // temp to fix odds bug
+  bugFix(){
+    this.bug = false
+    setTimeout(() =>
+      {
+        this.bug = true
+      },
+      500);
   }
 
 }

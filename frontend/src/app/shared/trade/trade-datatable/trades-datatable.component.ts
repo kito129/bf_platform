@@ -35,6 +35,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   @Input() isBackTest: boolean
   @Input() isBackTestToAdd: boolean
   @Input() isBackTestToAddRemoved: boolean
+  @Input() isBackTestReport: boolean
   // TODO default only column date, name, pl, risk. No view selected trade resume and state buttons.
   // TODO to change also button delete and edit, not view edit and remove from backtest state and not from DB
 

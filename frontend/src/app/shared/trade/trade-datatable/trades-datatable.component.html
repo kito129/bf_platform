@@ -24,7 +24,7 @@
           [disabled]="selected.length===0">
     Generate Report
   </button>
-  <div *ngIf="!isBackTest">
+  <div *ngIf="!isBackTest && !isBackTestReport">
     <app-strategy-report-save-modal *ngIf="selected.length>0"
                                     class="mr-4 ml-4"
                                     [selected]="selected"
@@ -396,8 +396,8 @@
 
   <ngx-datatable-column name="View" prop="" *ngIf="!isSaved && !isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <app-trade-tools-actions [trade]="value.trade">
-
+      <app-trade-tools-actions [trade]="value.trade"
+                               [isBacktestReport]="isBackTestReport">
       </app-trade-tools-actions>
     </ng-template>
   </ngx-datatable-column>

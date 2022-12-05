@@ -13,17 +13,23 @@ import {BacktestInterface} from '../../../model/backtest/backtestInterface';
 })
 export class StrategyDatatableComponent implements OnInit {
 
+  // strategy
   @Input() strategyDatatable: StrategyDatatable[]
+  // compare strategy
   @Input() compareList: string[]
   @Input() compareStatus: boolean
+  @Input() selectedStrategyId: string
+  // backtest
+  @Input() isBacktest: boolean
+  @Input() selectedBacktestId: string
+  // backtest compare
+  @Input() compareBacktestList: string[]
+  @Input() compareBacktestStatus: boolean
+  // compare saved report
+  @Input() isSaved: boolean
+  @Input() selectedSavedReportId: string
   @Input() compareSavedReportList: string[]
   @Input() compareSavedReportStatus: boolean
-  @Input() isSaved: boolean
-  @Input() isBacktest: boolean
-
-  @Input() selectedStrategyId: string
-  @Input() selectedSavedReportId: string
-  @Input() selectedBacktestId: string
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -98,6 +104,8 @@ export class StrategyDatatableComponent implements OnInit {
       this.store.dispatch(reportActions.deleteSavedReport({ _id: event[0] }));
     }
   }
+
+
 
   // -- STRATEGY --
   clickSelectStrategy(id: string){
@@ -221,7 +229,7 @@ export class StrategyDatatableComponent implements OnInit {
     this.store.dispatch(reportActions.createSavedReport({savedReport: temp}))
   }
 
-  // -- BACKTEST
+  // -- BACKTEST --
   clickSelectBacktest(strategy: StrategyDatatable, id: string){
     if(this.selectedBacktestId === id){
       this.store.dispatch(reportActions.backtestUnSelected());
@@ -229,5 +237,54 @@ export class StrategyDatatableComponent implements OnInit {
       this.store.dispatch(reportActions.backtestSetSelected({ backtest: strategy.backtest, _id: id}));
     }
   }
+  deleteBacktest(event){
+    console.log(event)
+    if(event[1]==='delete'){
+      this.store.dispatch(reportActions.backtestDelete({ _id: event[0] }));
+    }
+  }
 
+  // -- COMPARE BACKTEST --
+  addToCompareBacktest(id: string){
+    //     this.store.dispatch(reportActions.backtestUnSelected());
+    if(this.compareSavedReportList.indexOf(id) !==-1){
+      //    this.store.dispatch(reportActions.removeSavedReportInCompare({savedReportId: id}))
+    } else {
+      //    this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: id, first:false}))
+    }
+  }
+
+  compareBacktest(){
+    //   this.store.dispatch(reportActions.backtestUnSelected());
+    //    this.store.dispatch(reportActions.compareSavedReport())
+    this.search = ''
+  }
+
+  compareAllBacktest(){
+    this.store.dispatch(reportActions.backtestUnSelected());
+    const notEmpty =  this.strategyDatatable.filter( x => x.numberOfTrade)
+    for (const at of notEmpty) {
+      //    this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: at._id, first:false}))
+    }
+    //  this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
+    //   this.store.dispatch(reportActions.compareSavedReport())
+    this.search = ''
+  }
+
+  resetCompareBacktest(){
+   //  this.store.dispatch(reportActions.backtestUnSelected());
+    //   this.store.dispatch(reportActions.setSelectedSavedReport({ _id: null}));
+    //   this.store.dispatch(reportActions.resetSavedReportCompare())
+    this.search = ''
+  }
+
+  firstToCompareBacktest($event, id: string){
+    $event.preventDefault();
+    if(this.compareList.indexOf(id) !==-1){
+      // this.store.dispatch(reportActions.removeSavedReportInCompare({savedReportId: id}))
+      // this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: id, first:true}))
+    } else {
+     //  this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: id, first:true}))
+    }
+  }
 }

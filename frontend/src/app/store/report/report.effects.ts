@@ -6,7 +6,8 @@ import {of} from 'rxjs';
 import * as reportActions from './report.actions';
 import {NewReportService} from '../../services/new-report.service';
 import {BacktestInterface} from '../../model/backtest/backtestInterface';
-import {SwallService} from "../../services/swall.service";
+import {SwallService} from '../../services/swall.service';
+import {Trade} from '../../model/report/trade/trade';
 
 @Injectable()
 export class ReportEffects {
@@ -320,7 +321,7 @@ export class ReportEffects {
           map(response => {
             console.log('response:::', response)
             this.swall.showToast('Backtest Saved', 'success')
-            return reportActions.backtestCreateSuccess({response})
+            return reportActions.backtestCreateSuccess({backtest: response[0] as BacktestInterface, trades: response[1] as Trade[]})
           }),
           catchError((error: any) => {
             console.log('response:::', error)
@@ -340,7 +341,7 @@ export class ReportEffects {
             map(response => {
               // console.log('response:::', response)
               this.swall.showToast('Backtest Updated', 'success')
-              return reportActions.backtestUpdateSuccess({response})
+              return reportActions.backtestUpdateSuccess({backtest: response[0] as BacktestInterface, trades: response[1] as Trade[]})
             }),
             catchError((error: any) => {
               console.log('response:::', error)
@@ -359,11 +360,12 @@ export class ReportEffects {
           this.reportServices.deleteBacktest(action._id).pipe(
             map(response => {
               // console.log('response:::', response)
-
-              return reportActions.backtestDeleteSuccess({response})
+              this.swall.showToast('Backtest Deleted', 'success')
+              return reportActions.backtestDeleteSuccess({backtestId: response[0]._id, tradesIds: response[1]})
             }),
             catchError((error: any) => {
               console.log('response:::', error)
+              this.swall.showToast('Error in Backtest Delete', 'error')
               return of(reportActions.backtestDeleteFailure(error));
             }))
         )

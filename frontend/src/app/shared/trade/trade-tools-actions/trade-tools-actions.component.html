@@ -3,7 +3,8 @@
   </app-trade-and-market-details-modal>
 
 
-  <app-delete-modal [type]="'Trade'"
+  <app-delete-modal *ngIf="!isBacktestReport"
+                    [type]="'Trade'"
                     [options]="'Delete'"
                     [id]="trade._id"
                     [name]="trade.trade.info.marketInfo.marketName"

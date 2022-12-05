@@ -10,6 +10,7 @@ import {Trade} from '../../../model/report/trade/trade';
 export class TradeToolsActionsComponent implements OnInit {
 
   @Input() trade: Trade
+  @Input() isBacktestReport: boolean
 
   constructor(private readonly store: Store,) { }
 

@@ -11,7 +11,7 @@ import {
   deleteBacktestTradeToRemove,
   deleteElement,
   deleteElements,
-  removeElement,
+  removeElement, removeElements,
   removeStudyCompare,
   setterLoading,
   setterLoadingFailure,
@@ -408,18 +408,15 @@ const reportReducers = createReducer(
     {...state, backtestCurrentTrades: addElement(state.backtestCurrentTrades, result.trade)
     })
   ),
-
   on(reportActions.backtestRemoveTradeFromTradesToAdd, (state, result) => (
     {...state, backtestCurrentTrades: removeElement(state.backtestCurrentTrades, result._id)
     })
   ),
-
   on(reportActions.backtestRemoveTradeFromBacktest, (state, result) => (
     {...state, backtestTradesToRemove: addElement(state.backtestTradesToRemove, result.trade),
       selectedBacktest: backtestRemoveTradeFromTradeIds(state.selectedBacktest, result.trade)
     })
   ),
-
   on(reportActions.backtestsAddRemovedTradeFromBacktest, (state, result) => (
     {...state, backtestTradesToRemove: removeElement(state.backtestTradesToRemove, result.trade._id),
       selectedBacktest: backtestReAddRemovedTradeFromTradeIds(state.selectedBacktest, result.trade)
@@ -429,7 +426,7 @@ const reportReducers = createReducer(
 
   // backtest trade CRUD
 
-  // get All backtest trade
+  // get All backtestTrades
   on(reportActions.backtestTradeGetAll, (state, result) => (
     {...state, isLoadingAllBacktestTrades: setterLoading()
     })
@@ -470,8 +467,9 @@ const reportReducers = createReducer(
   ),
   on(reportActions.backtestCreateSuccess, (state, result) =>
     ({...state,
-      backtests: addElement(state.backtests,result[0]),
-      allBacktestTrades: addElements(state.allBacktestTrades,result[1]),
+      backtests: addElement(state.backtests,result.backtest),
+      allBacktestTrades: addElements(state.allBacktestTrades,result.trades),
+      selectedBacktest: null,
       backtestCurrentTrades: [],
       backtestTradesToRemove: [],
       isLoadingBacktests: setterLoadingSuccess()
@@ -487,15 +485,17 @@ const reportReducers = createReducer(
   on(reportActions.backtestUpdate, (state, result) => (
     {...state, isLoadingBacktests: setterLoading(),
       isLoadingAllBacktestTrades: setterLoading(),
+      // remove trade for the new one's
       allBacktestTrades: deleteBacktestTradeToRemove(state.allBacktestTrades,state.backtestTradesToRemove)
     })
   ),
   on(reportActions.backtestUpdateSuccess, (state, result) =>
     ({...state,
-      backtests: updateElement(state.backtests,result[0]),
-      allBacktestTrades: addElements(state.allBacktestTrades,result[1]),
-      backtestTradesToRemove: [],
+      backtests: updateElement(state.backtests,result.backtest),
+      allBacktestTrades: addElements(state.allBacktestTrades,result.trades),
+      selectedBacktest: null,
       backtestCurrentTrades: [],
+      backtestTradesToRemove: [],
       isLoadingBacktests: setterLoadingSuccess(),
       isLoadingAllBacktestTrades: setterLoadingSuccess(),
     })
@@ -509,12 +509,18 @@ const reportReducers = createReducer(
 
   // delete backtest
   on(reportActions.backtestDelete, (state, result) => (
-    {...state, isLoadingBacktests: setterLoading()
+    {...state, isLoadingBacktests: setterLoading(),
     })
   ),
   on(reportActions.backtestDeleteSuccess, (state, result) =>
-    ({...state, backtests: deleteElement(state.backtests,result.backtest),
-      isLoadingBacktests: setterLoadingSuccess()
+    ({...state,
+      backtests: removeElement(state.backtests,result.backtestId),
+      allBacktestTrades: removeElements(state.allBacktestTrades,result.tradesIds),
+      selectedBacktest: null,
+      backtestCurrentTrades: [],
+      backtestTradesToRemove: [],
+      isLoadingBacktests: setterLoadingSuccess(),
+      isLoadingAllBacktestTrades: setterLoadingSuccess(),
     })
   ),
   on(reportActions.backtestDeleteFailure, (state, result) => (
@@ -528,9 +534,10 @@ const reportReducers = createReducer(
     {...state, selectedBacktest: result.backtest
     })
   ),
-
   on(reportActions.backtestUnSelected, (state, result) => (
-    {...state, selectedBacktest: null, backtestTradesToRemove: []
+    {...state,
+      selectedBacktest: null,
+      backtestTradesToRemove: []
     })
   ),
 )

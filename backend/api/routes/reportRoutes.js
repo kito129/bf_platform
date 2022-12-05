@@ -20,12 +20,13 @@ router.post("/strategy/:strategyId", checkAuth,  ReportController.update_strateg
 router.delete("/strategy/:strategyId", checkAuth,  ReportController.delete_strategy_by_id);
 router.post("/strategyInfoByName", ReportController.strategy_get_info_by_name);
 
-
 // saved report
 router.get("/savedReport/all", checkAuth,  ReportController.get_all_savedReport);
 router.put("/savedReport/create", checkAuth,  ReportController.create_savedReport);
 router.post("/savedReport/:savedReportId", checkAuth,  ReportController.update_savedReport_by_id);
 router.delete("/savedReport/:savedReportId", checkAuth,  ReportController.delete_savedReport_by_id);
+
+// -- BACKTEST --
 
 // backtest
 router.get("/backtest/all", checkAuth,  ReportController.get_all_backtest);

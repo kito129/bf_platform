@@ -22,6 +22,7 @@ export class StrategyReportComponent implements OnInit, OnDestroy {
   @Input() isSaved: boolean
   @Input() savedReportId: string
   @Input() savedReport: SavedReport
+  @Input() isBacktestReport: boolean
 
   isCollapsed = false
 

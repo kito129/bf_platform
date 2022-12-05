@@ -4,8 +4,8 @@
 
 // -- CRUD function to modify state by server response --
 import {BasketFilters, Filter} from '../model/market/filter/basketFilter';
-import {BacktestInterface} from "../model/backtest/backtestInterface";
-import {Trade} from "../model/report/trade/trade";
+import {BacktestInterface} from '../model/backtest/backtestInterface';
+import {Trade} from '../model/report/trade/trade';
 
 export function addElement(all: any[], newElement: any ) {
   const copy = all.map(element => ({...element}));
@@ -18,6 +18,7 @@ export function addElements(all: any[], newElement: any[] ) {
   console.log(newElement)
   let copy = all.map(element => ({...element}));
   copy = copy.concat(newElement)
+  console.log(copy)
   return copy
 }
 
@@ -36,6 +37,10 @@ export function deleteElement(all: any[], deletedElement: any ) {
 
 export function removeElement(all: any[], elementId: string ) {
   return all.filter((element) => element._id !== elementId)
+}
+
+export function removeElements(all: any[], elementId: string[] ) {
+  return all.filter((element) => !elementId.includes(element._id))
 }
 
 
@@ -132,7 +137,9 @@ export function backtestChangeMode(currentState: boolean){
 // --  BACKTEST --
 export function backtestRemoveTradeFromTradeIds(backtest: BacktestInterface, tradeToRemove: Trade): BacktestInterface{
   const copy:BacktestInterface = JSON.parse(JSON.stringify(backtest))
-  copy.backtest.tradesIds = copy.backtest.tradesIds.filter( x => x !==tradeToRemove._id)
+  if(copy.backtest){
+    copy.backtest.tradesIds = copy.backtest.tradesIds.filter( x => x !==tradeToRemove._id)
+  }
   return copy
 }
 

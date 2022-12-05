@@ -517,7 +517,7 @@ export const backtestCreate = createAction(
 )
 export const backtestCreateSuccess = createAction(
   BACKTEST_CREATE_SUCCESS,
-  props<any>()
+  props<{ backtest: BacktestInterface, trades: Trade[]}>()
 )
 export const backtestCreateFailure = createAction(
   BACKTEST_CREATE_FAILURE,
@@ -531,7 +531,7 @@ export const backtestUpdate = createAction(
 )
 export const backtestUpdateSuccess = createAction(
   BACKTEST_UPDATE_SUCCESS,
-  props<any>()
+  props<{ backtest: BacktestInterface, trades: Trade[]}>()
 )
 export const backtestUpdateFailure = createAction(
   BACKTEST_UPDATE_FAILURE,
@@ -545,7 +545,7 @@ export const backtestDelete = createAction(
 )
 export const backtestDeleteSuccess = createAction(
   BACKTEST_DELETE_SUCCESS,
-  props<any>()
+  props<{ backtestId: string, tradesIds: string[]}>()
 )
 export const backtestDeleteFailure = createAction(
   BACKTEST_DELETE_FAILURE,

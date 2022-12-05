@@ -523,7 +523,11 @@ export const getSelectedBacktestTrade = createSelector(
   (state ) => {
     if(state.selectedBacktest !==null){
       // find all trade that have same staretgyId
-      return state.allBacktestTrades.filter( x => state.selectedBacktest.backtest.tradesIds.includes(x._id))
+      if(state.selectedBacktest){
+        return state.allBacktestTrades.filter( x => state.selectedBacktest.backtest.tradesIds.includes(x._id))
+      } else {
+        return []
+      }
     } else {
       return []
     }
@@ -561,7 +565,8 @@ function generateBacktestReportDatatable(backtests: BacktestInterface[], allTrad
   const temp: StrategyDatatable[] = []
   if(backtests.length){
     for(const bt of backtests){
-      if(bt){
+      // from here
+      if(bt && bt.backtest){
         const bank  = bt.backtest.bank
         const trades = allTrades.filter(x => bt.backtest.tradesIds.includes(x._id))
         const tempStrategy = utils.generateStrategy(bt.backtest.name,bank, bt._id)

@@ -713,38 +713,46 @@ exports.get_all_backtest = (req, res, next) => {
         });
 };
 
+
 // create backtest
 exports.create_backtest = (req, res, next) => {
-    const backtestToCreate = req.body
-    //console.log(backtestToCreate)
-    if(backtestToCreate.trades.length){
-        // remove _id from trade and save startegyIf from backtest
-        const tradeList = backtestToCreate.trades
-        const backtestId = backtestToCreate.backtest.backtest.strategyId
-        const temp = tradeList.map( x=> {
-            // set backtest id
+    // get data from body
+    const body = req.body
+    const tradesToAdd = body.trades
+    const backtestId = body.backtest.backtest.strategyId
+    const backtest = body.backtest
+    if(tradesToAdd.length){
+        // remove _id from trade and save strategyID from backtest
+        const temp = tradesToAdd.map( x=> {
             x.trade.info.strategyId = backtestId
-            // generate id
             delete x._id
             x._id = new mongoose.Types.ObjectId()
             return x
         })
-        // save trades
-        //console.log(tradeList)
-        BacktestTrade.insertMany(backtestToCreate.trades).then( tradeSaved =>{
-            // put the trades id in backtest
-            const savedIds = tradeSaved.map(x => x._id)
-            let tempBacktest = backtestToCreate.backtest
-            tempBacktest.backtest.tradesIds = savedIds
-            // save and return new backtest
-            let backtest = new Backtest({
+        // save tradesToAdd
+        BacktestTrade.insertMany(temp).then( tradeSaved =>{
+            // save trades to return in response
+            const newTradesFromDb = tradeSaved.map(x => {
+                return {
+                    created: x.created,
+                    updated: x.updated,
+                    trade: x.trade,
+                    _id: x._id,
+                };
+            })
+            // put the tradesId in backtest tradeIds
+            const savedTradesIds = tradeSaved.map(x => x._id)
+            let tempBacktest = backtest
+            tempBacktest.backtest.tradesIds = savedTradesIds
+            // save and return new backtest and relative trades
+            let finalBacktest = new Backtest({
                 _id: new mongoose.Types.ObjectId(),
                 created: tempBacktest.created,
                 updated: tempBacktest.updated,
                 backtest: tempBacktest.backtest,
             });
             let createdBacktest = null
-            backtest
+            finalBacktest
                 .save()
                 .then(result => {
                     createdBacktest =  {
@@ -753,9 +761,9 @@ exports.create_backtest = (req, res, next) => {
                         updated: result.updated,
                         backtest: result.backtest,
                     }
-                    // backtest saved
+                    // backtest saved and return complete
                     console.log(createdBacktest)
-                    res.status(200).json([createdBacktest, tradeSaved]);
+                    res.status(200).json([createdBacktest, newTradesFromDb]);
                 })
                 .catch(err => {
                     console.log("ERROR in save backtest:\n" + err);
@@ -765,7 +773,7 @@ exports.create_backtest = (req, res, next) => {
                 })
         })
         .catch(err => {
-            console.log("ERROR in save trade:\n" + err);
+            console.log("ERROR in save tradesToAdd:\n" + err);
             res.status(500).json({
                 error: err
             });
@@ -778,118 +786,182 @@ exports.create_backtest = (req, res, next) => {
 
 // update backtest by _id
 exports.update_backtest = (req, res, next) => {
+    // get data from body
     const myId = req.params.backtestId;
     const body = req.body
     const backtestToUpdate = body.backtest
     const tradeIdsToRemove = body.tradesToRemove
-    const tradeToAdd = body.tradesToAdd
-
-    //delete trade to remove
-    BacktestTrade.deleteMany({"_id": {$in: tradeIdsToRemove}})
-    .exec()
-    .then(docs => {
-        console.log(docs)
-
-
-        if(tradeToAdd.length){
-            // remove _id from trade and save startegyIf from backtest
-            const tradeList = tradeToAdd
-            const backtestId = backtestToUpdate.backtest.strategyId
-            const temp = tradeList.map( x=> {
-                // set backtest id
-                x.trade.info.strategyId = backtestId
-                // generate id
-                delete x._id
-                x._id = new mongoose.Types.ObjectId()
-                return x
+    const tradesToAdd = body.tradesToAdd
+    const backtestId = backtestToUpdate.backtest.strategyId
+    // function
+    // if have trade to Add
+    if(tradesToAdd && tradesToAdd.length){
+        // remove _id from trade and save strategyID from backtest
+        const temp = tradesToAdd.map( x=> {
+            x.trade.info.strategyId = backtestId
+            delete x._id
+            x._id = new mongoose.Types.ObjectId()
+            return x
+        })
+        BacktestTrade.insertMany(temp).then( tradeSaved =>{
+            // save trades to return in response
+            const newTradesFromDb = tradeSaved.map(x => {
+                return {
+                    created: x.created,
+                    updated: x.updated,
+                    trade: x.trade,
+                    _id: x._id,
+                };
             })
-            // save trades
-            //console.log(tradeList)
-            BacktestTrade.insertMany(tradeList).then( tradeSaved =>{
-                //trade to return
-
-                // put the trades id in backtest
-                const savedIds = tradeSaved.map(x => x._id)
-                let tempBacktest = backtestToUpdate.backtest
-                tempBacktest.backtest.tradesIds = savedIds
-                // save and return new backtest
-                let backtest = new Backtest({
-                    _id: tempBacktest._id,
-                    created: tempBacktest.created,
-                    updated: tempBacktest.updated,
-                    backtest: tempBacktest.backtest,
-                });
-                let updatedBacktest = null
-                Backtest.findOneAndUpdate({_id: myId}, backtest, { new: true})
-                .select("_id created updated backtest")
-                .exec()
-                .then(result => {
-                    updatedBacktest =  {
-                        _id: result._id,
-                        created: result.created,
-                        updated: result.updated,
-                        backtest: result.backtest,
-                    }
-                    // backtest saved
-                    console.log(updatedBacktest)
-                    res.status(200).json([updatedBacktest, tradeSaved]);
-                })
-                .catch(err => {
-                    console.log("ERROR in save backtest:\n" + err);
-                    res.status(500).json(JSON.stringify({
-                        error: err
-                    }));
-                })
+            // put the tradesId in backtest tradeIds
+            const savedTradesIds = tradeSaved.map(x => x._id)
+            let tempBacktest = backtestToUpdate
+            // with the old one's
+            tempBacktest.backtest.tradesIds = tempBacktest.backtest.tradesIds.concat(savedTradesIds)
+            // save and return new backtest and relative trades
+            let finalBacktest = new Backtest({
+                created: tempBacktest.created,
+                updated: Date.now(),
+                backtest: tempBacktest.backtest,
+            });
+            let updatedBacktest = null
+            Backtest.findOneAndUpdate({_id: myId}, finalBacktest, { new: true})
+            .select("_id created updated backtest")
+            .exec()
+            .then(result => {
+                updatedBacktest =  {
+                    _id: result._id,
+                    created: result.created,
+                    updated: result.updated,
+                    backtest: result.backtest,
+                }
+                // if to delete some trade
+                if(tradeIdsToRemove && tradeIdsToRemove.length>0){
+                    BacktestTrade.deleteMany({"_id": {$in: tradeIdsToRemove}})
+                    .exec()
+                    .then(docs => {
+                        console.log(docs)
+                        res.status(200).json([updatedBacktest, newTradesFromDb]);
+                    })
+                    .catch(err => {
+                        console.log("ERROR in deleting trades:\n" + err);
+                        res.status(500).json({
+                            error: err
+                        });
+                    })
+                } else{
+                    res.status(200).json([updatedBacktest, newTradesFromDb]);
+                }
             })
             .catch(err => {
-                console.log("ERROR in save trade:\n" + err);
-                res.status(500).json({
+                console.log("ERROR in update backtest:\n" + err);
+                res.status(500).json(JSON.stringify({
                     error: err
-                });
+                }));
+            })
+        })
+        .catch(err => {
+            console.log("ERROR in save trade:\n" + err);
+            res.status(500).json({
+                error: err
             });
-        }
-
-
-
-
-    })
-    .catch(err => {
-        console.log("ERROR in deleting trades:\n" + err);
-        res.status(500).json({
-            error: err
         });
-    })
-
-    // 
-
-
-    //return backtest updated and new trade add in object
-    res.status(200).json('ok');
-    
-
+    } else {
+        // no trade to add
+        let tempBacktest = backtestToUpdate
+        // save and return new backtest and relative trades
+        let finalBacktest = new Backtest({
+            _id: tempBacktest._id,
+            created: tempBacktest.created,
+            updated: Date.now(),
+            backtest: tempBacktest.backtest,
+        });
+        let updatedBacktest = null
+        Backtest.findOneAndUpdate({_id: myId}, finalBacktest, { new: true})
+        .select("_id created updated backtest")
+        .exec()
+        .then(result => {
+            updatedBacktest =  {
+                _id: result._id,
+                created: result.created,
+                updated: result.updated,
+                backtest: result.backtest,
+            }
+            // if to delete some trade
+            if(tradeIdsToRemove && tradeIdsToRemove.length>0){
+                BacktestTrade.deleteMany({"_id": {$in: tradeIdsToRemove}})
+                .exec()
+                .then(docs => {
+                    console.log(docs)
+                    // return only backtest cause didn't added more trade
+                    res.status(200).json([updatedBacktest, []]);
+                })
+                .catch(err => {
+                    console.log("ERROR in deleting trades:\n" + err);
+                    res.status(500).json({
+                        error: err
+                    });
+                })
+            } else{
+                // return only backtest cause didn't added more trade
+                console.log(updatedBacktest)
+                res.status(200).json([updatedBacktest, []]);
+            }
+        })
+        .catch(err => {
+            console.log("ERROR in update backtest:\n" + err);
+            res.status(500).json(JSON.stringify({
+                error: err
+            }));
+        })
+    }
 };
 
 // delete backtest by _id
 exports.delete_backtest = (req, res, next) => {
+    // get data from body
     const myId = req.params.backtestId;
-    let removed
+    console.log(myId)
+    // delete backtest
     Backtest.findOneAndRemove({_id: myId})
         .exec()
-        .then(docs => {
-            removed = {
-                created: docs.created,
-                updated: docs.updated,
-                backtest: docs.backtest,
-                _id: docs._id,
+        .then(doc => {
+            const removed = {
+                created: doc.created,
+                lastUpdate: doc.lastUpdate,
+                backtest: doc.backtest,
+                _id: doc._id,
             }
-            res.status(200).json(removed);
+            // get tradeIds to delete
+            const tradeIdsToRemove = removed.backtest.tradesIds
+            // if present delete and return the list
+            if(tradeIdsToRemove && tradeIdsToRemove.length>0){
+                BacktestTrade.deleteMany({"_id": {$in: tradeIdsToRemove}})
+                .exec()
+                .then(docs => {
+                    console.log(docs)
+                    res.status(200).json([removed, tradeIdsToRemove]);
+                })
+                .catch(err => {
+                    console.log("ERROR in deleting trades:\n" + err);
+                    res.status(500).json({
+                        error: err
+                    });
+                })
+            } else{
+                res.status(200).json([removed, []]);
+            }
         })
         .catch(err => {
-            console.log("ERROR:\n" + err);
+            console.log("ERROR in delete backtest:\n" + err);
             res.status(500).json({
                 error: err
             });
         })
+
+    // delete all trade present in backtest
+
+    
 };
 
 // backtest trade
@@ -923,65 +995,4 @@ exports.get_all_backtest_trades = (req, res, next) => {
                 error: err
             });
         });
-};
-
-// create backtest trade
-exports.create_backtest_trades = (req, res, next) => {
-    const tradeToCreate = req.body
-    let createdBacktestTrade;
-
-    console.log(tradeToCreate)
-
-    res.status(200).json('ok');
-    
-    /*
-    let backtest = new BacktestTrade({
-        _id: new mongoose.Types.ObjectId(),
-        created: req.body.created,
-        updated: req.body.updated,
-        trade: req.body.trade,
-    });
-    backtest
-        .save()
-        .then(result => {
-            createdBacktestTrade =  {
-                _id: result._id,
-                created: result.created,
-                updated: result.updated,
-                trade: result.trade,
-            }
-            res.status(200).json(createdBacktestTrade);
-        })
-        .catch(err => {
-            console.log("ERROR:\n" + err);
-            res.status(500).json(JSON.stringify({
-                error: err
-            }));
-        })
-    */
-
-};
-
-
-// delete backtest by _id
-exports.delete_backtest_trades = (req, res, next) => {
-    const myId = req.params.backtestId;
-    let removed
-    BacktestTrade.findOneAndRemove({_id: myId})
-        .exec()
-        .then(docs => {
-            removed = {
-                created: docs.created,
-                updated: docs.updated,
-                trade: docs.trade,
-                _id: docs._id,
-            }
-            res.status(200).json(removed);
-        })
-        .catch(err => {
-            console.log("ERROR:\n" + err);
-            res.status(500).json({
-                error: err
-            });
-        })
 };

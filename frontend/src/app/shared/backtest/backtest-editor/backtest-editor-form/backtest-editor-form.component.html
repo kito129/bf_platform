@@ -48,7 +48,8 @@
          appFeatherIcon></i>
       Update
     </button>
-    <button type="button"
+    <button *ngIf="!isUpdate"
+            type="button"
             class="btn btn-icon  btn-outline-light mr-2 d-none d-md-block"
             (click)="saveBacktest()"
             [disabled]="tradesToAdd.length===0">

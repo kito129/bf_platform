@@ -24,7 +24,7 @@ export class Utils{
     this._swallTimer = value;
   }
 
-  private _swallTimer = 600
+  private _swallTimer = 1000
 
   passAsObservable(object: any):Observable<any>{
     return of(object)

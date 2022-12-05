@@ -11,8 +11,10 @@ import {Store} from '@ngrx/store';
 export class BacktestEditorFormComponent implements OnInit {
 
   @Input() backtest: BacktestInterface
-  @Input() currentTrade: Trade[]
+  @Input() tradesToAdd: Trade[]
+  @Input() tradesToRemove: Trade[]
   @Input() isUpdate: boolean
+
 
   constructor(private  store: Store) { }
 
@@ -20,21 +22,23 @@ export class BacktestEditorFormComponent implements OnInit {
   }
 
   saveBacktest(){
-    // remove id in all trades
-    const temp: Trade[] = JSON.parse(JSON.stringify(this.currentTrade))
+    const temp: Trade[] = JSON.parse(JSON.stringify(this.tradesToAdd))
     // action to save backtest adn all trade inside
     this.store.dispatch(reportActions.backtestCreate({backtest: this.backtest, trades: temp}))
   }
 
   updateBacktest(){
-    // first delete all tarde present in this backtest from DB
-
-    // then save the new trade in DB
-
-    // with the new trade id save that in tradeIds of trade
-    this.backtest.backtest.tradesIds = this.currentTrade.map( x=> x._id)
-
-    // only now update backtest in DB
+    let tempTrade = null
+    let tradeToRemoveIds= null
+    if(this.tradesToRemove.length){
+      tradeToRemoveIds = this.tradesToRemove.map( x => x._id)
+    }
+    if(this.tradesToAdd.length){
+      tempTrade = this.tradesToAdd
+    }
+    const tempBacktest: BacktestInterface = JSON.parse(JSON.stringify(this.backtest))
+    // set tradesIds
+    this.store.dispatch(reportActions.backtestUpdate({_id: tempBacktest._id, backtest: tempBacktest, tradesToUpdate: tempTrade, tradesToRemove: tradeToRemoveIds }))
 
   }
 

@@ -20,7 +20,7 @@
     <!-- ROW -->
     <div class="d-flex justify-content-end align-items-center">
 
-      <app-strategy-create-modal *ngIf="!isSaved"
+      <app-strategy-create-modal *ngIf="!isSaved && !isBacktest"
                                  class="mr-3"
                                  (addStrategyCreateEmitter)="createModal($event)">
       </app-strategy-create-modal>

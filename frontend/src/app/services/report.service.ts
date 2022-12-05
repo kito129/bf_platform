@@ -92,8 +92,12 @@ export class ReportService {
     return this.http.put(`${baseUrl}/backtest/create`,body,{headers});
   }
 
-  updateBacktest(id, backtest: BacktestInterface): Observable<any> {
-    const body = JSON.stringify(backtest)
+  updateBacktest(id, backtest: BacktestInterface, tradesToAdd: Trade[],  tradesToRemove: string[]): Observable<any> {
+    const body = {
+      backtest,
+      tradesToAdd,
+      tradesToRemove
+    }
     return this.http.post(`${baseUrl}/backtest/update/${id}`,body, {headers});
   }
 

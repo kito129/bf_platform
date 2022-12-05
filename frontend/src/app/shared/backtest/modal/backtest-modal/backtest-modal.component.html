@@ -14,7 +14,7 @@
 <!-- MODAL -->
 <ng-template #verticalCenteredModal let-modal>
   <div class="modal-header">
-    <h3 class="text-danger">{{($backtestSelected| async) ? 'Update' : 'Create'}} Backtest</h3>
+    <h3 class="text-danger">{{($selectedBacktest| async) ? 'Update' : 'Create'}} Backtest</h3>
     <button type="button" class="close" (click)="modal.close('by: close icon')" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -28,8 +28,8 @@
                               [$backtestTradesToRemove]="$backtestTradesToRemove"
                               [backtestMode]="$backtestMode | async"
                               [backtestIsLoading]="$backtestIsLoading | async"
-                              [$selectedBacktest]="$backtestSelected"
-                              [$selectedBacktestTrades]="$backtestSelectedTrades">
+                              [$selectedBacktest]="$selectedBacktest"
+                              [$selectedBacktestTrades]="$backtestSelectedBacktestTrades">
     </app-backtest-editor-main>
   </div>
   <div class="modal-footer">
@@ -44,7 +44,7 @@
 
         <button type="button"
                 class="mr-2 btn btn-outline-secondary"
-                [disabled]="($backtestSelected| async) === null"
+                [disabled]="($selectedBacktest| async) === null"
                 (click)="unsetBacktestSelected()">
           Unset Backtest
         </button>

@@ -14,6 +14,8 @@ export function addElement(all: any[], newElement: any ) {
 }
 
 export function addElements(all: any[], newElement: any[] ) {
+  // from here
+  console.log(newElement)
   let copy = all.map(element => ({...element}));
   copy = copy.concat(newElement)
   return copy
@@ -35,6 +37,7 @@ export function deleteElement(all: any[], deletedElement: any ) {
 export function removeElement(all: any[], elementId: string ) {
   return all.filter((element) => element._id !== elementId)
 }
+
 
 export function deleteElements(all: any[], deletedElement: any[] ) {
   return all.filter((element) => !deletedElement.includes(element._id))
@@ -128,11 +131,8 @@ export function backtestChangeMode(currentState: boolean){
 
 // --  BACKTEST --
 export function backtestRemoveTradeFromTradeIds(backtest: BacktestInterface, tradeToRemove: Trade): BacktestInterface{
-  console.log(backtest.backtest.tradesIds)
   const copy:BacktestInterface = JSON.parse(JSON.stringify(backtest))
-  console.log(tradeToRemove)
   copy.backtest.tradesIds = copy.backtest.tradesIds.filter( x => x !==tradeToRemove._id)
-  console.log(copy.backtest.tradesIds)
   return copy
 }
 
@@ -141,5 +141,19 @@ export function backtestReAddRemovedTradeFromTradeIds(backtest: BacktestInterfac
   copy.backtest.tradesIds.push(tradeToAdd._id)
   return copy
 }
+
+export function deleteBacktestTradeToRemove(all: any[], deletedElement: Trade[] ) {
+  const tradesIds = deletedElement.map( x => x._id)
+  console.log(all)
+  console.log(tradesIds)
+  return all.filter((element) => !tradesIds.includes(element._id))
+}
+
+export function addTradeBacktest(all: any[], trades: Trade[] ) {
+  let temp =  JSON.parse(JSON.stringify(all))
+  temp = temp.concat(trades)
+  return temp
+}
+
 
 

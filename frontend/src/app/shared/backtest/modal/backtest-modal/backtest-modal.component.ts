@@ -21,11 +21,8 @@ export class BacktestModalComponent implements OnInit {
   $backtestTradesToAddCount: Observable<number>
   $backtestTradesToAdd: Observable<Trade[]>
   $backtestTradesToRemove: Observable<Trade[]>
-  $backtestSelected: Observable<BacktestInterface>
-  $backtestSelectedTrades: Observable<Trade[]>
-
-
-
+  $selectedBacktest: Observable<BacktestInterface>
+  $backtestSelectedBacktestTrades: Observable<Trade[]>
 
   constructor(private modalService: NgbModal,
               private store: Store,) {}
@@ -38,8 +35,8 @@ export class BacktestModalComponent implements OnInit {
     this.$allBacktests = this.store.pipe(select(reportSelectors.getAllBacktest))
     this.$backtestTradesToAdd = this.store.pipe(select(reportSelectors.getBacktestCurrentTrades))
     this.$backtestTradesToRemove = this.store.pipe(select(reportSelectors.getBacktestTradesToRemove))
-    this.$backtestSelected = this.store.pipe(select(reportSelectors.getSelectedBacktest))
-    this.$backtestSelectedTrades = this.store.pipe(select(reportSelectors.getSelectedBacktestTrade))
+    this.$selectedBacktest = this.store.pipe(select(reportSelectors.getSelectedBacktest))
+    this.$backtestSelectedBacktestTrades = this.store.pipe(select(reportSelectors.getSelectedBacktestTrade))
   }
 
   openVerticalCenteredModal(content) {

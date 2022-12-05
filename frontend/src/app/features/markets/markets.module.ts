@@ -60,6 +60,7 @@ const routes: Routes = [
         MarketsCalendarRangeComponent,
         MarketsStatsMainComponent,
         MarketsDataTableListComponent,
+        MarketMetaListBasicComponent,
 
     ],
     imports: [

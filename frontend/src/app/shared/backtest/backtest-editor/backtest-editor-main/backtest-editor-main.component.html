@@ -2,8 +2,9 @@
 <div class="card mb-2">
   <div class="card-body">
     <app-backtest-editor-form [backtest]="currentBackTest"
-                       [isUpdate]="isUpdate"
-                       [currentTrade]="backtestTradesList">
+                              [isUpdate]="isUpdate"
+                              [tradesToAdd]="backtestTradesList"
+                              [tradesToRemove]="$backtestTradesToRemove | async">
     </app-backtest-editor-form>
   </div>
 </div>
@@ -11,13 +12,13 @@
 <div class="card mb-1">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
-      <h3>Trade to Add#: {{backtestTradesCount}}</h3>
+      <h3 class="text-info">Trade to Add: {{backtestTradesCount}}</h3>
       <h3>PnL: {{backtestPnl(this.backtestTradesList) | currency}}</h3>
       <h3>ROI: {{(backtestROI(this.backtestTradesList)) | percent}}</h3>
     </div>
   </div>
   <div class="card-body">
-    <app-trades-datatable *ngIf="backtestTradesCount>0"
+    <app-trades-datatable *ngIf="($backtestTradesToAdd | async).length"
                           [trades$]="$backtestTradesToAdd"
                           [isSaved]="false"
                           [title]="'Backtest Trade'"
@@ -27,16 +28,17 @@
   </div>
 </div>
 
-<div class="card mb-2"  *ngIf="($selectedBacktestTrades | async).length">
+<div class="card mb-2">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
-      <h3 class="text-success">Trades already present#: {{($selectedBacktestTrades | async).length}}</h3>
+      <h3 class="text-success">Trades Present: {{($selectedBacktestTrades | async).length}}</h3>
       <h3>PnL: {{backtestPnl(($selectedBacktestTrades | async)) | currency}}</h3>
       <h3>ROI: {{(backtestROI(($selectedBacktestTrades | async))) | percent}}</h3>
     </div>
   </div>
   <div class="card-body">
-    <app-trades-datatable [trades$]="$selectedBacktestTrades"
+    <app-trades-datatable *ngIf="($selectedBacktestTrades | async).length"
+                          [trades$]="$selectedBacktestTrades"
                           [isSaved]="false"
                           [title]="'Trades already present'"
                           [isBackTest]="true"
@@ -45,15 +47,18 @@
   </div>
 </div>
 
-<div class="card mb-2"  *ngIf="($selectedBacktestTrades | async).length && ($backtestTradesToRemove | async).length">
+<div class="card mb-2" *ngIf="isUpdate">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
-      <h3 class="text-danger">Trades to remove#: {{($backtestTradesToRemove | async).length}}</h3>
+      <h3 class="text-danger">Trades to Remove: {{($backtestTradesToRemove | async).length}}</h3>
+      <h3>PnL: {{backtestPnl(($backtestTradesToRemove | async)) | currency}}</h3>
+      <h3>ROI: {{(backtestROI(($backtestTradesToRemove | async))) | percent}}</h3>
     </div>
   </div>
 
-  <div class="card-body" *ngIf="($backtestTradesToRemove | async).length">
-    <app-trades-datatable [trades$]="$backtestTradesToRemove"
+  <div class="card-body">
+    <app-trades-datatable *ngIf="($backtestTradesToRemove | async).length"
+                          [trades$]="$backtestTradesToRemove"
                           [isSaved]="false"
                           [title]="'Trades to remove'"
                           [isBackTest]="true"

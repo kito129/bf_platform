@@ -35,8 +35,6 @@ router.delete("/backtest/delete/:backtestId", checkAuth,  ReportController.delet
 
 // backtest trades
 router.get("/backtest/trades/all", checkAuth,  ReportController.get_all_backtest_trades);
-router.put("/backtest/trades/create", checkAuth,  ReportController.create_backtest_trades);
-router.put("/backtest/trades/delete", checkAuth,  ReportController.delete_backtest_trades);
 
 
 module.exports = router;

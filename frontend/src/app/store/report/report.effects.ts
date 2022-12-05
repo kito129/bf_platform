@@ -318,7 +318,7 @@ export class ReportEffects {
         exhaustMap(action =>
         this.reportServices.createBacktest(action.backtest, action.trades).pipe(
           map(response => {
-            // console.log('response:::', response)
+            console.log('response:::', response)
             this.swall.showToast('Backtest Saved', 'success')
             return reportActions.backtestCreateSuccess({response})
           }),
@@ -336,14 +336,15 @@ export class ReportEffects {
       return this.actions$.pipe(
         ofType(reportActions.backtestUpdate),
         exhaustMap(action =>
-          this.reportServices.updateBacktest(action._id,action.backtest).pipe(
+          this.reportServices.updateBacktest(action._id,action.backtest, action.tradesToUpdate, action.tradesToRemove).pipe(
             map(response => {
               // console.log('response:::', response)
-
+              this.swall.showToast('Backtest Updated', 'success')
               return reportActions.backtestUpdateSuccess({response})
             }),
             catchError((error: any) => {
               console.log('response:::', error)
+              this.swall.showToast('Error in Backtest Update', 'error')
               return of(reportActions.backtestUpdateFailure(error));
             }))
         )

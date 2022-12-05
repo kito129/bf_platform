@@ -219,6 +219,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
 
   reAddTradesFromBacktest(trade: Trade){
     this.store.dispatch(reportActions.backtestsAddRemovedTradeFromBacktest({ trade}));
+    this.swall.showToast('Trade added to Backtest', 'success')
   }
 
   // -- CSV

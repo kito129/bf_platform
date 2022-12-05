@@ -522,7 +522,8 @@ export const getSelectedBacktestTrade = createSelector(
   getReportState,
   (state ) => {
     if(state.selectedBacktest !==null){
-      return state.allBacktestTrades.filter( x => x.trade.info.strategyId === state.selectedBacktest.backtest.strategyId)
+      // find all trade that have same staretgyId
+      return state.allBacktestTrades.filter( x => state.selectedBacktest.backtest.tradesIds.includes(x._id))
     } else {
       return []
     }
@@ -560,50 +561,52 @@ function generateBacktestReportDatatable(backtests: BacktestInterface[], allTrad
   const temp: StrategyDatatable[] = []
   if(backtests.length){
     for(const bt of backtests){
-      const bank  = bt.backtest.bank
-      const trades = allTrades.filter(x => bt.backtest.tradesIds.includes(x._id))
-      const tempStrategy = utils.generateStrategy(bt.backtest.name,bank, bt._id)
-      if(trades.length){
-        // check pl
-        const tradePLValue = trades.map(x=> {
-          return x.trade.results.netProfit
-        })
-        const pl = utils.sumOfArray(tradePLValue)
-        // save row
-        temp.push({
-          bank: bt.backtest.bank,
-          currentBank: bt.backtest.bank,
-          executor: 'BACKTEST',
-          moneyManagement: '',
-          sport: '',
-          stake: 0,
-          typeOfStake: '',
-          year: 0,
-          _id: bt._id,
-          name: bt.backtest.name,
-          numberOfTrade: trades.length,
-          pl,
-          plPercent: pl/bank,
-          maxDD: utils.maxDDOfPl(tradePLValue, false, bank),
-          maxDDPercent: utils.maxDDOfPl(tradePLValue, true, bank),
-          winRatio: utils.getWinRatioTrades(trades),
-          strategy: tempStrategy,
-          backtest: bt,
-        })
-      } else {
-        temp.push({
-          bank: 0, currentBank: 0, executor: '', moneyManagement: '', sport: '', stake: 0, typeOfStake: '', year: 0,
-          _id: bt._id,
-          name: bt.backtest.name,
-          numberOfTrade: trades.length,
-          pl: 0,
-          plPercent: 0,
-          maxDD: 0,
-          maxDDPercent:0,
-          winRatio:0,
-          strategy: tempStrategy,
-          backtest: bt,
-        })
+      if(bt){
+        const bank  = bt.backtest.bank
+        const trades = allTrades.filter(x => bt.backtest.tradesIds.includes(x._id))
+        const tempStrategy = utils.generateStrategy(bt.backtest.name,bank, bt._id)
+        if(trades.length){
+          // check pl
+          const tradePLValue = trades.map(x=> {
+            return x.trade.results.netProfit
+          })
+          const pl = utils.sumOfArray(tradePLValue)
+          // save row
+          temp.push({
+            bank: bt.backtest.bank,
+            currentBank: bt.backtest.bank,
+            executor: 'BACKTEST',
+            moneyManagement: '',
+            sport: '',
+            stake: 0,
+            typeOfStake: '',
+            year: 0,
+            _id: bt._id,
+            name: bt.backtest.name,
+            numberOfTrade: trades.length,
+            pl,
+            plPercent: pl/bank,
+            maxDD: utils.maxDDOfPl(tradePLValue, false, bank),
+            maxDDPercent: utils.maxDDOfPl(tradePLValue, true, bank),
+            winRatio: utils.getWinRatioTrades(trades),
+            strategy: tempStrategy,
+            backtest: bt,
+          })
+        } else {
+          temp.push({
+            bank: 0, currentBank: 0, executor: '', moneyManagement: '', sport: '', stake: 0, typeOfStake: '', year: 0,
+            _id: bt._id,
+            name: bt.backtest.name,
+            numberOfTrade: trades.length,
+            pl: 0,
+            plPercent: 0,
+            maxDD: 0,
+            maxDDPercent:0,
+            winRatio:0,
+            strategy: tempStrategy,
+            backtest: bt,
+          })
+        }
       }
     }
   } else {

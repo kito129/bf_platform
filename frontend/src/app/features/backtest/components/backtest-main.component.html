@@ -30,6 +30,8 @@
                                   [selectedBacktestId]="$backtestSelectedId | async">
           </app-strategy-datatable>
 
+          {{$allBacktestAsStrategy | async | json}}
+
           <app-strategy-report *ngIf="($backtestSelectedTrades | async).length>0"
                                [selectedStrategyTrades$]="$backtestSelectedTrades"
                                [title]="($backtestSelected | async) ? ($backtestSelected | async).backtest.name : 'Backtest' "
@@ -52,6 +54,8 @@
                                 [isSaved]="false"
                                 [isBackTestToAdd]="false">
           </app-trades-datatable>
+
+          {{$backtestAllTrade | async | json}}
         </div>
       </ng-template>
     </li>

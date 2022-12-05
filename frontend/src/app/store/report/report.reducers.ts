@@ -2,11 +2,16 @@ import {Action, createReducer, on} from '@ngrx/store';
 import * as reportActions from './report.actions';
 import {Strategy} from '../../model/report/strategy/strategy';
 import {
-  addElement, addElements,
-  addStudyCompare,
-  backtestChangeMode, backtestReAddRemovedTradeFromTradeIds, backtestRemoveTradeFromTradeIds,
+  addElement,
+  addElements,
+  addStudyCompare, addTradeBacktest,
+  backtestChangeMode,
+  backtestReAddRemovedTradeFromTradeIds,
+  backtestRemoveTradeFromTradeIds,
+  deleteBacktestTradeToRemove,
   deleteElement,
-  deleteElements, removeElement,
+  deleteElements,
+  removeElement,
   removeStudyCompare,
   setterLoading,
   setterLoadingFailure,
@@ -440,54 +445,6 @@ const reportReducers = createReducer(
     })
   ),
 
-  // create backtest trade
-  on(reportActions.backtestTradeCreate, (state, result) => (
-    {...state, isLoadingAllBacktestTrades: setterLoading()
-    })
-  ),
-  on(reportActions.backtestTradeCreateSuccess, (state, result) =>
-    ({...state, allBacktestTrades: addElement(state.backtests,result.backtest),
-      isLoadingAllBacktestTrades: setterLoadingSuccess()
-    })
-  ),
-  on(reportActions.backtestTradeCreateFailure, (state, result) => (
-    {...state, strategyError: 'API error',
-      isLoadingAllBacktestTrades: setterLoadingFailure()
-    })
-  ),
-
-  // delete backtest trade
-  on(reportActions.backtestTradeDelete, (state, result) => (
-    {...state, isLoadingAllBacktestTrades: setterLoading()
-    })
-  ),
-  on(reportActions.backtestTradeDeleteSuccess, (state, result) =>
-    ({...state, allBacktestTrades: deleteElement(state.backtests,result.backtest),
-      isLoadingAllBacktestTrades: setterLoadingSuccess()
-    })
-  ),
-  on(reportActions.backtestTradeDeleteFailure, (state, result) => (
-    {...state, strategyError: 'API error',
-      isLoadingAllBacktestTrades: setterLoadingFailure()
-    })
-  ),
-
-  // delete backtest trade
-  on(reportActions.backtestTradeDelete, (state, result) => (
-    {...state, isLoadingBacktests: setterLoading()
-    })
-  ),
-  on(reportActions.backtestTradeDeleteSuccess, (state, result) =>
-    ({...state, backtests: addElement(state.backtests,result.backtest),
-      isLoadingBacktests: setterLoadingSuccess()
-    })
-  ),
-  on(reportActions.backtestTradeDeleteFailure, (state, result) => (
-    {...state, strategyError: 'API error',
-      isLoadingBacktests: setterLoadingFailure()
-    })
-  ),
-
   // backtest CRUD
 
   // getAll backtest
@@ -512,7 +469,11 @@ const reportReducers = createReducer(
     })
   ),
   on(reportActions.backtestCreateSuccess, (state, result) =>
-    ({...state, backtests: addElement(state.backtests,result.backtest),
+    ({...state,
+      backtests: addElement(state.backtests,result[0]),
+      allBacktestTrades: addElements(state.allBacktestTrades,result[1]),
+      backtestCurrentTrades: [],
+      backtestTradesToRemove: [],
       isLoadingBacktests: setterLoadingSuccess()
     })
   ),
@@ -524,17 +485,25 @@ const reportReducers = createReducer(
 
   // update backtest
   on(reportActions.backtestUpdate, (state, result) => (
-    {...state, isLoadingBacktests: setterLoading()
+    {...state, isLoadingBacktests: setterLoading(),
+      isLoadingAllBacktestTrades: setterLoading(),
+      allBacktestTrades: deleteBacktestTradeToRemove(state.allBacktestTrades,state.backtestTradesToRemove)
     })
   ),
   on(reportActions.backtestUpdateSuccess, (state, result) =>
-    ({...state, backtests: updateElement(state.backtests,result.backtest),
-      isLoadingBacktests: setterLoadingSuccess()
+    ({...state,
+      backtests: updateElement(state.backtests,result[0]),
+      allBacktestTrades: addElements(state.allBacktestTrades,result[1]),
+      backtestTradesToRemove: [],
+      backtestCurrentTrades: [],
+      isLoadingBacktests: setterLoadingSuccess(),
+      isLoadingAllBacktestTrades: setterLoadingSuccess(),
     })
   ),
   on(reportActions.backtestUpdateFailure, (state, result) => (
     {...state, strategyError: 'API error',
-      isLoadingBacktests: setterLoadingFailure()
+      isLoadingBacktests: setterLoadingFailure(),
+      isLoadingAllBacktestTrades: setterLoadingSuccess(),
     })
   ),
 

@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store'
 import {Strategy} from '../../model/report/strategy/strategy'
-import {Trade} from '../../model/report/trade/trade'
+import {Trade, TradeDetail} from '../../model/report/trade/trade'
 import {SavedReport} from '../../model/report/savedReport'
 import {BacktestInterface} from '../../model/backtest/backtestInterface';
 
@@ -527,7 +527,7 @@ export const backtestCreateFailure = createAction(
 // update backtest
 export const backtestUpdate = createAction(
   BACKTEST_UPDATE,
-  props<{ _id: string, backtest: BacktestInterface }>()
+  props<{ _id: string, backtest: BacktestInterface, tradesToUpdate: Trade[], tradesToRemove: string[] }>()
 )
 export const backtestUpdateSuccess = createAction(
   BACKTEST_UPDATE_SUCCESS,

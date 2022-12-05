@@ -102,33 +102,27 @@
       Stats Leaderboard
     </button>
   </div>
-  <form class="form-group grid-margin">
-    <div class="row ">
-      <div class="col">
-        <div class="form-group">
-          <label for="name">Find by Name</label>
-          <input
-            class="form-control"
-            type="text"
-            id="name"
-            placeholder="Type name..."
-            [(ngModel)]="search"
-            name="search"
-            (ngModelChange)="updateFilter()"/>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-control-lg">
-          <!-- OPTIONS -->
-          <label for="tableSize">Table size</label>
-          <ng-select id="tableSize"
-                     name="options"
-                     [(ngModel)]="tableSize"
-                     [items]="[5, 10,15,20,25,30,40,50,100,200,250,500,1000]"
-                     [clearable]="false">
-          </ng-select>
-        </div>
-      </div>
+  <form class="form-group d-flex justify-content-end align-items-center">
+    <div class="col">
+      <label for="name">Find by Name</label>
+      <input
+        class="form-control"
+        type="text"
+        id="name"
+        placeholder="Type name..."
+        [(ngModel)]="search"
+        name="search"
+        (ngModelChange)="updateFilter()"/>
+    </div>
+    <div class="col">
+      <!-- OPTIONS -->
+      <label for="tableSize">Table size</label>
+      <ng-select id="tableSize"
+                 name="options"
+                 [(ngModel)]="tableSize"
+                 [items]="[5, 10,15,20,25,30,40,50,100,200,250,500,1000]"
+                 [clearable]="false">
+      </ng-select>
     </div>
   </form>
 </div>
@@ -432,7 +426,7 @@
                           (deleteEmitter)="removeTradesFromTradesToAdd($event)">
         </app-delete-modal>
 
-        <app-delete-modal *ngIf="!isBackTestToAdd"
+        <app-delete-modal *ngIf="!isBackTestToAdd && !isBackTestToAddRemoved"
                           [ids]="[value.trade._id]"
                           [options]="'Remove'"
                           [isRemove]="true"

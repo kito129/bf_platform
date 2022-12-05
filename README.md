@@ -1,5 +1,4 @@
-
-ele---
+---
 title: Production of platform 
 summary: A brief description of Angular production on NGINX server.
 authors:

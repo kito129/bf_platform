@@ -31,6 +31,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   // backtest
   @Input() isBackTest: boolean
   @Input() isBackTestToAdd: boolean
+  @Input() isBackTestToAddRemoved: boolean
   // TODO default only column date, name, pl, risk. No view selected trade resume and state buttons.
   // TODO to change also button delete and edit, not view edit and remove from backtest state and not from DB
 
@@ -211,6 +212,11 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
         this.swall.showToast('Error in Removing Trade from Backtest', 'error')
       }
     }
+  }
+
+  reAddTradesFromBacktest(trade: Trade){
+    // FROM HERE
+    this.store.dispatch(reportActions.backtestAddTrade({ trade}));
   }
 
   // -- CSV

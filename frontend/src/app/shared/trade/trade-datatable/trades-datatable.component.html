@@ -416,6 +416,14 @@
                                             [isBacktest]="isBackTest">
         </app-trade-and-market-details-modal>
 
+        <button *ngIf="isBackTestToAddRemoved"
+                type="button"
+                class="btn btn-outline-success mr-3"
+                (click)="reAddTradesFromBacktest(value.trade)">
+          <i class="feather icon-plus"></i>
+          Add
+        </button>
+
 
         <app-delete-modal *ngIf="isBackTestToAdd"
                           [ids]="[value.trade._id]"

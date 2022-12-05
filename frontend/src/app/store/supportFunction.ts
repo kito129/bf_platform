@@ -4,6 +4,8 @@
 
 // -- CRUD function to modify state by server response --
 import {BasketFilters, Filter} from '../model/market/filter/basketFilter';
+import {BacktestInterface} from "../model/backtest/backtestInterface";
+import {Trade} from "../model/report/trade/trade";
 
 export function addElement(all: any[], newElement: any ) {
   const copy = all.map(element => ({...element}));
@@ -123,5 +125,13 @@ export function backtestChangeMode(currentState: boolean){
   return !currentState
 }
 
+
+// --  BACKTEST --
+export function backtestRemoveTradeFromTradeIds(backtest: BacktestInterface, tradeToRemove: Trade): BacktestInterface{
+  console.log(tradeToRemove)
+  const copy:BacktestInterface = JSON.parse(JSON.stringify(backtest))
+  copy.backtest.tradesIds = copy.backtest.tradesIds.filter( x => x !==tradeToRemove._id)
+  return copy
+}
 
 

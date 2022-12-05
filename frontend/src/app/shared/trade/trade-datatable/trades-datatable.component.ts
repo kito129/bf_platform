@@ -11,6 +11,7 @@ import * as reportActions from '../../../store/report/report.actions';
 import {SavedReport} from '../../../model/report/savedReport';
 import { TradeDetail} from '../../../model/report/trade/trade';
 import {SwallService} from '../../../services/swall.service';
+import {backtestRemoveTradeFromBacktest} from "../../../store/report/report.actions";
 
 
 @Component({
@@ -29,6 +30,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   @Input() savedReport: SavedReport
   // backtest
   @Input() isBackTest: boolean
+  @Input() isBackTestToAdd: boolean
   // TODO default only column date, name, pl, risk. No view selected trade resume and state buttons.
   // TODO to change also button delete and edit, not view edit and remove from backtest state and not from DB
 
@@ -189,11 +191,25 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   }
 
 
+  removeTradesFromTradesToAdd(event){
+    console.log(event)
+    if(event[1] === 'remove'){
+      this.store.dispatch(reportActions.backtestRemoveTradeFromTradesToAdd({ _id:event[2][0] as string}));
+      this.swall.showToast('Removed Trade to add', 'success')
+    }
+  }
+
   removeTradesFromBacktest(event){
     console.log(event)
     if(event[1] === 'remove'){
-      this.store.dispatch(reportActions.backtestRemoveTrade({ _id:event[2][0] as string}));
-      this.swall.showToast('Removed Trade from Backtest', 'success')
+      // match id to trade
+      const tradeToRemove = this.rows.filter( (x:TradeDetail)=> x.trade._id === event[2][0])[0].trade
+      if(tradeToRemove){
+        this.store.dispatch(reportActions.backtestRemoveTradeFromBacktest({ trade: tradeToRemove}));
+        this.swall.showToast('Removed Trade from Backtest', 'success')
+      } else {
+        this.swall.showToast('Error in Removing Trade from Backtest', 'error')
+      }
     }
   }
 

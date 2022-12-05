@@ -7,7 +7,7 @@
   Backtest {{($backtestMode | async)  ? 'ON' : 'off'}}
   <span *ngIf="($backtestMode | async)"
         class="badge bg-light text-dark">
-            {{$backtestTradesCount | async}}
+            {{$backtestTradesToAddCount | async}}
           </span>
 </button>
 
@@ -21,13 +21,15 @@
   </div>
   <div class="modal-body">
     <!-- MAIN BACKTEST -->
-    <app-backtest-editor-main [backtestTradesCount]="$backtestTradesCount | async"
-                       [backtestList]="$backtestList | async"
-                       [backtestTradesList]="$backtestTradesList | async"
-                       [$backtestTradesList]="$backtestTradesList"
-                       [$selectedBacktest]="$backtestSelected"
-                       [backtestMode]="$backtestMode | async"
-                       [backtestIsLoading]="$backtestIsLoading | async">
+    <app-backtest-editor-main [backtestTradesCount]="$backtestTradesToAddCount | async"
+                              [backtestList]="$allBacktests | async"
+                              [backtestTradesList]="$backtestTradesToAdd | async"
+                              [$backtestTradesToAdd]="$backtestTradesToAdd"
+                              [$backtestTradesToRemove]="$backtestTradesToRemove"
+                              [backtestMode]="$backtestMode | async"
+                              [backtestIsLoading]="$backtestIsLoading | async"
+                              [$selectedBacktest]="$backtestSelected"
+                              [$selectedBacktestTrades]="$backtestSelectedTrades">
     </app-backtest-editor-main>
   </div>
   <div class="modal-footer">
@@ -38,6 +40,13 @@
                 [ngClass]="($backtestMode | async)   ? 'btn-danger' : 'btn-outline-danger'"
                 (click)="changeBacktestMode()">
           Backtest {{($backtestMode | async)  ? 'ON' : 'off'}}
+        </button>
+
+        <button type="button"
+                class="mr-2 btn btn-outline-secondary"
+                [disabled]="($backtestSelected| async) === null"
+                (click)="unsetBacktestSelected()">
+          Unset Backtest
         </button>
 
         <button type="button" class="mr-2 btn btn-primary" (click)="modal.close('end')">Close</button>

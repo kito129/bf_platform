@@ -14,8 +14,10 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class BacktestEditorMainComponent implements OnInit, OnDestroy {
 
-  @Input() $backtestTradesList: Observable<Trade[]>
+  @Input() $backtestTradesToAdd: Observable<Trade[]>
+  @Input() $backtestTradesToRemove: Observable<Trade[]>
   @Input() $selectedBacktest: Observable<BacktestInterface>
+  @Input() $selectedBacktestTrades: Observable<Trade[]>
 
   @Input() backtestMode: boolean
   @Input() backtestList: BacktestInterface[]
@@ -50,12 +52,12 @@ export class BacktestEditorMainComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  backtestPnl(): number{
-    return this.util.sumOfArray(this.backtestTradesList.map(x => x.trade.results.netProfit))
+  backtestPnl(list: Trade[]): number{
+    return this.util.sumOfArray(list.map(x => x.trade.results.netProfit))
   }
 
-  backtestROI(): number{
-    return this.util.sumOfArray(this.backtestTradesList.map(x => x.trade.results.netProfit)) / this.currentBackTest.backtest.bank
+  backtestROI(list: Trade[]): number{
+    return this.util.sumOfArray(list.map(x => x.trade.results.netProfit)) / this.currentBackTest.backtest.bank
   }
 
 }

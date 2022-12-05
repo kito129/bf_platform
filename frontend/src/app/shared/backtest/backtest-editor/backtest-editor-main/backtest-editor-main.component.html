@@ -8,21 +8,56 @@
   </div>
 </div>
 <!-- CARD 2 -->
-<div class="card">
+<div class="card mb-1">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
-      <h3>Trade#: {{backtestTradesCount}}</h3>
-      <h3>PnL: {{backtestPnl() | currency}}</h3>
-      <h3>ROI: {{backtestROI() | percent}}</h3>
+      <h3>Trade to Add#: {{backtestTradesCount}}</h3>
+      <h3>PnL: {{backtestPnl(this.backtestTradesList) | currency}}</h3>
+      <h3>ROI: {{(backtestROI(this.backtestTradesList)) | percent}}</h3>
     </div>
   </div>
   <div class="card-body">
     <app-trades-datatable *ngIf="backtestTradesCount>0"
-                          [trades$]="$backtestTradesList"
+                          [trades$]="$backtestTradesToAdd"
                           [isSaved]="false"
                           [title]="'Backtest Trade'"
-                          [isBackTest]="true">
+                          [isBackTest]="true"
+                          [isBackTestToAdd]="true">
     </app-trades-datatable>
   </div>
 </div>
+
+<div class="card mb-2"  *ngIf="($selectedBacktestTrades | async).length">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="text-success">Trades already present#: {{($selectedBacktestTrades | async).length}}</h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <app-trades-datatable [trades$]="$selectedBacktestTrades"
+                          [isSaved]="false"
+                          [title]="'Trades already present'"
+                          [isBackTest]="true"
+                          [isBackTestToAdd]="false">
+    </app-trades-datatable>
+  </div>
+</div>
+
+<div class="card mb-2"  *ngIf="($selectedBacktestTrades | async).length && ($backtestTradesToRemove | async).length">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="text-danger">Trades to remove#: {{($backtestTradesToRemove | async).length}}</h3>
+    </div>
+  </div>
+
+  <div class="card-body" *ngIf="($backtestTradesToRemove | async).length">
+    <app-trades-datatable [trades$]="$backtestTradesToRemove"
+                          [isSaved]="false"
+                          [title]="'Trades to remove'"
+                          [isBackTest]="true"
+                          [isBackTestToAdd]="false">
+    </app-trades-datatable>
+  </div>
+</div>
+
 

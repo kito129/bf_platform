@@ -17,10 +17,14 @@ export class BacktestModalComponent implements OnInit {
 
   $backtestIsLoading: Observable<IsLoading>
   $backtestMode: Observable<boolean>
-  $backtestList: Observable<BacktestInterface[]>
-  $backtestTradesCount: Observable<number>
-  $backtestTradesList: Observable<Trade[]>
+  $allBacktests: Observable<BacktestInterface[]>
+  $backtestTradesToAddCount: Observable<number>
+  $backtestTradesToAdd: Observable<Trade[]>
+  $backtestTradesToRemove: Observable<Trade[]>
   $backtestSelected: Observable<BacktestInterface>
+  $backtestSelectedTrades: Observable<Trade[]>
+
+
 
 
   constructor(private modalService: NgbModal,
@@ -30,10 +34,12 @@ export class BacktestModalComponent implements OnInit {
     // get backtest state
     this.$backtestIsLoading = this.store.pipe(select(reportSelectors.getBacktestIsLoading))
     this.$backtestMode = this.store.pipe(select(reportSelectors.getBacktestModeState))
-    this.$backtestTradesCount = this.store.pipe(select(reportSelectors.getBacktestCurrentTradesCount))
-    this.$backtestList = this.store.pipe(select(reportSelectors.getAllBacktest))
-    this.$backtestTradesList = this.store.pipe(select(reportSelectors.getBacktestCurrentTrades))
+    this.$backtestTradesToAddCount = this.store.pipe(select(reportSelectors.getBacktestCurrentTradesCount))
+    this.$allBacktests = this.store.pipe(select(reportSelectors.getAllBacktest))
+    this.$backtestTradesToAdd = this.store.pipe(select(reportSelectors.getBacktestCurrentTrades))
+    this.$backtestTradesToRemove = this.store.pipe(select(reportSelectors.getBacktestTradesToRemove))
     this.$backtestSelected = this.store.pipe(select(reportSelectors.getSelectedBacktest))
+    this.$backtestSelectedTrades = this.store.pipe(select(reportSelectors.getSelectedBacktestTrade))
   }
 
   openVerticalCenteredModal(content) {
@@ -45,6 +51,10 @@ export class BacktestModalComponent implements OnInit {
       // emit result of backtest and confirm
     }).catch((res) => {
     });
+  }
+
+  unsetBacktestSelected(){
+    this.store.dispatch(reportActions.backtestUnSelected());
   }
 
   backtestModeChangeRightClick(event){

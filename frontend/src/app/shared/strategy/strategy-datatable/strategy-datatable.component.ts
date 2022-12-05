@@ -222,11 +222,11 @@ export class StrategyDatatableComponent implements OnInit {
   }
 
   // -- BACKTEST
-  clickSelectBacktest(backtest: BacktestInterface, id: string){
+  clickSelectBacktest(strategy: StrategyDatatable, id: string){
     if(this.selectedBacktestId === id){
       this.store.dispatch(reportActions.backtestUnSelected());
     } else {
-      this.store.dispatch(reportActions.backtestSetSelected({ backtest, _id: id}));
+      this.store.dispatch(reportActions.backtestSetSelected({ backtest: strategy.backtest, _id: id}));
     }
   }
 

@@ -37,7 +37,7 @@ export class Backtest implements BacktestInterface{
       this.created = time
       this.updated = time
       this.backtest = {
-        strategyId: Math.trunc(new Date().getTime() / 17).toString(),
+        strategyId: Math.trunc(new Date().getTime()).toString(),
         name: '',
         comment: '',
         bank: 1000,

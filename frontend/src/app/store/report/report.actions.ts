@@ -90,8 +90,10 @@ export const COMPARE_SAVED_REPORT = '[Saved Report] Compare Saved Report'
 // -- BACKTEST --
 export const BACKTEST_CHANGE_MODE = '[Backtest] Change backtest mode state'
 
-export const BACKTEST_ADD_TRADE = '[Backtest] Add trade in backtest list'
-export const BACKTEST_REMOVE_TRADE = '[Backtest] Remove trade in backtest list'
+export const BACKTEST_ADD_TRADE = '[Backtest] Add trade in backtest to add'
+export const BACKTEST_REMOVE_TRADE = '[Backtest] Remove trade from backtest list'
+
+export const BACKTEST_REMOVE_TRADE_FROM_BACKTEST = '[Backtest] Remove trade from backtest'
 
 export const BACKTEST_TRADES_GET_ALL = '[Backtest trade] Get all backtest trades in DB'
 export const BACKTEST_TRADES_GET_ALL_SUCCESS = '[Backtest]  Get all backtest trades in DB Success'
@@ -436,9 +438,14 @@ export const backtestAddTrade = createAction(
   BACKTEST_ADD_TRADE,
   props<{ trade: Trade}>()
 )
-export const backtestRemoveTrade = createAction(
+export const backtestRemoveTradeFromTradesToAdd = createAction(
   BACKTEST_REMOVE_TRADE,
   props<{ _id: string}>()
+)
+
+export const backtestRemoveTradeFromBacktest = createAction(
+  BACKTEST_REMOVE_TRADE_FROM_BACKTEST,
+  props<{ trade: Trade}>()
 )
 
 // CRUD backtest trade

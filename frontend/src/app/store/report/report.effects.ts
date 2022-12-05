@@ -6,9 +6,12 @@ import {of} from 'rxjs';
 import * as reportActions from './report.actions';
 import {NewReportService} from '../../services/new-report.service';
 import {BacktestInterface} from '../../model/backtest/backtestInterface';
+import {SwallService} from "../../services/swall.service";
 
 @Injectable()
 export class ReportEffects {
+
+  swall = new SwallService()
 
   constructor(
     private actions$: Actions,
@@ -309,17 +312,19 @@ export class ReportEffects {
   );
 
   createBacktest$ = createEffect(() => {
+
       return this.actions$.pipe(
         ofType(reportActions.backtestCreate),
         exhaustMap(action =>
         this.reportServices.createBacktest(action.backtest, action.trades).pipe(
           map(response => {
             // console.log('response:::', response)
-
+            this.swall.showToast('Backtest Saved', 'success')
             return reportActions.backtestCreateSuccess({response})
           }),
           catchError((error: any) => {
             console.log('response:::', error)
+            this.swall.showToast('Error in Backtest Save', 'error')
             return of(reportActions.backtestCreateFailure(error));
           }))
         )

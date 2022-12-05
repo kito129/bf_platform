@@ -4,7 +4,7 @@ import {Strategy} from '../../model/report/strategy/strategy';
 import {
   addElement, addElements,
   addStudyCompare,
-  backtestChangeMode,
+  backtestChangeMode, backtestRemoveTradeFromTradeIds,
   deleteElement,
   deleteElements, removeElement,
   removeStudyCompare,
@@ -17,6 +17,7 @@ import {StrategyList} from '../../model/report/strategy/strategyList';
 import {Trade} from '../../model/report/trade/trade';
 import {SavedReport} from '../../model/report/savedReport';
 import {BacktestInterface} from '../../model/backtest/backtestInterface';
+import {backtestRemoveTradeFromBacktest} from './report.actions';
 
 
 export interface ReportStates {
@@ -53,6 +54,7 @@ export interface ReportStates {
   // backtest
   backtestModeOn: boolean
   backtestCurrentTrades: Trade[]
+  backtestTradesToRemove: Trade[]
   backtests: BacktestInterface[]
   selectedBacktest: BacktestInterface
   isLoadingBacktests:{
@@ -102,6 +104,7 @@ export const reportInitialState: ReportStates = {
   // backtest
   backtestModeOn: true,
   backtestCurrentTrades: [],
+  backtestTradesToRemove: [],
   backtests: [],
   selectedBacktest: null,
   isLoadingBacktests:{
@@ -401,10 +404,17 @@ const reportReducers = createReducer(
     })
   ),
 
-  on(reportActions.backtestRemoveTrade, (state, result) => (
+  on(reportActions.backtestRemoveTradeFromTradesToAdd, (state, result) => (
     {...state, backtestCurrentTrades: removeElement(state.backtestCurrentTrades, result._id)
     })
   ),
+
+  on(reportActions.backtestRemoveTradeFromBacktest, (state, result) => (
+    {...state, backtestTradesToRemove: addElement(state.backtestTradesToRemove, result.trade),
+      selectedBacktest: backtestRemoveTradeFromTradeIds(state.selectedBacktest, result.trade)
+    })
+  ),
+
 
   // backtest trade CRUD
 
@@ -545,7 +555,7 @@ const reportReducers = createReducer(
   ),
 
   on(reportActions.backtestUnSelected, (state, result) => (
-    {...state, selectedBacktest: null
+    {...state, selectedBacktest: null, backtestTradesToRemove: []
     })
   ),
 )

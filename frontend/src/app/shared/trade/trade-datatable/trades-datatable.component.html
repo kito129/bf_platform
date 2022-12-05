@@ -408,6 +408,7 @@
     </ng-template>
   </ngx-datatable-column>
 
+  <!-- BACKTEST BUTTON-->
   <ngx-datatable-column name="View" prop="" *ngIf="isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <div class="d-flex justify-content-end align-items-baseline">
@@ -415,7 +416,17 @@
                                             [isBacktest]="isBackTest">
         </app-trade-and-market-details-modal>
 
-        <app-delete-modal [ids]="[value.trade._id]"
+
+        <app-delete-modal *ngIf="isBackTestToAdd"
+                          [ids]="[value.trade._id]"
+                          [options]="'Remove'"
+                          [isRemove]="true"
+                          [type]="value.trade.trade.info.marketInfo.marketName"
+                          (deleteEmitter)="removeTradesFromTradesToAdd($event)">
+        </app-delete-modal>
+
+        <app-delete-modal *ngIf="!isBackTestToAdd"
+                          [ids]="[value.trade._id]"
                           [options]="'Remove'"
                           [isRemove]="true"
                           [type]="value.trade.trade.info.marketInfo.marketName"
@@ -425,6 +436,7 @@
     </ng-template>
   </ngx-datatable-column>
 
+  <!-- SAVED BUTTON-->
   <ngx-datatable-column name="View" prop="" *ngIf="isSaved && !isBackTest">
     <ng-template let-value="value" ngx-datatable-cell-template>
       <div class="d-flex justify-content-end align-items-baseline">

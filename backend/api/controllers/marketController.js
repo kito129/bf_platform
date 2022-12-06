@@ -122,9 +122,12 @@ exports.market_get_details_by_market_id = (req, res, next) => {
 exports.market_get_id_by_market_name_and_date = (req, res, next) => {
 
     let myName = req.body.name;
+    let myEventName = req.body.eventName;
     const myDate = req.body.date;
 
-    let marketType = "Match Odds"
+    console.log(req.body)
+
+    let marketType = myEventName
     
 
     // lookup for market type
@@ -136,6 +139,8 @@ exports.market_get_id_by_market_name_and_date = (req, res, next) => {
         myName = myName.split(" - ")[0];
         marketType = "Set 2 Winner"
     }
+
+
     let options = {$and:[{"marketInfo.eventName": myName},{"marketInfo.name": marketType},{"marketInfo.openDate": { $gte:myDate-126400000 , $lte: myDate+126400000 }}]}
     
     //     MarketInfo.find({$and:[{"marketInfo.eventName": myName},{"marketInfo.openDate": { $gte:myDate-10000000, $lte: myDate+10000000 }}]})

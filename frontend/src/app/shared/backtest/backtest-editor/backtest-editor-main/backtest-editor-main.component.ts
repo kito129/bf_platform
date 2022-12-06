@@ -46,6 +46,8 @@ export class BacktestEditorMainComponent implements OnInit, OnDestroy {
           this.isUpdate = true
           this.currentBackTest = new Backtest(selected)
           this.bugFix()
+        } else {
+          this.bugFix()
         }
       })
   }

@@ -130,6 +130,11 @@ export const BACKTEST_DELETE_FAILURE = '[Backtest] Delete a back test Failure'
 export const BACKTEST_SET_SELECTED= '[Backtest] Set selected back test '
 export const BACKTEST_UNSET_SELECTED = '[Backtest] Unset selected a back test Success'
 
+// -- COMPARE BACKTEST --
+export const ADD_BACKTEST_IN_COMPARE = '[Backtest] Add Backtest in compare list'
+export const REMOVE_BACKTEST_IN_COMPARE = '[Backtest] Remove Backtest in compare list'
+export const RESET_BACKTEST_COMPARE = '[Backtest] Reset Backtest compare list'
+export const COMPARE_BACKTEST_REPORT = '[Backtest] Backtest'
 
 // CRUD TRADES
 
@@ -348,7 +353,6 @@ export const removeSavedReportInCompare = createAction(
 export const resetSavedReportCompare = createAction(
   RESET_SAVED_REPORT_COMPARE,
 )
-
 // compare actions
 export const compareSavedReport = createAction(
   COMPARE_SAVED_REPORT,
@@ -560,5 +564,24 @@ export const backtestSetSelected = createAction(
 
 export const backtestUnSelected = createAction(
   BACKTEST_UNSET_SELECTED,
+)
+
+/*
+**  COMPARE BACKTEST ACTIONS
+ */
+export const addBacktestInCompare = createAction(
+  ADD_BACKTEST_IN_COMPARE,
+  props<{backtestId: string, first: boolean}>()
+)
+export const removeBacktestInCompare = createAction(
+  REMOVE_BACKTEST_IN_COMPARE,
+  props<{backtestId: string}>()
+)
+export const resetBacktestCompare = createAction(
+  RESET_BACKTEST_COMPARE,
+)
+// compare actions
+export const compareBacktest = createAction(
+  COMPARE_BACKTEST_REPORT,
 )
 

@@ -59,8 +59,6 @@ export class BacktestTradeMainComponent implements OnInit {
       trade.trades.length === 0 ||
       trade.info.tennisTournamentId === null ||
       trade.info.tennisTournamentId === '' ||
-      (trade.results.finalScore.tennis.set1.runnerA === 0 &&
-      trade.results.finalScore.tennis.set1.runnerB === 0) ||
       (trade.selections.filter( x => x.winner).length===0)
     )
   }

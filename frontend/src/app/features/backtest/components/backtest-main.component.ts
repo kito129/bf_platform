@@ -8,6 +8,7 @@ import {BacktestInterface} from '../../../model/backtest/backtestInterface';
 import {Trade} from '../../../model/report/trade/trade';
 import * as reportSelectors from '../../../store/report/report.selectors';
 import {StrategyDatatable} from '../../../model/report/strategy/strategyDatatable';
+import {CompareStrategy} from '../../../model/report/strategy/compareStrategy';
 
 @Component({
   selector: 'app-backtest-main',
@@ -23,6 +24,11 @@ export class BacktestMainComponent implements OnInit {
   $backtestSelected: Observable<BacktestInterface>
   $backtestSelectedId: Observable<string>
   $backtestSelectedTrades: Observable<Trade[]>
+
+  // compare backtest
+  comparedBacktest$: Observable<CompareStrategy[]>
+  compareList$: Observable<string[]>
+  compareStatus$: Observable<boolean>
 
   $allBacktestAsStrategy: Observable<StrategyDatatable[]>
 
@@ -49,6 +55,11 @@ export class BacktestMainComponent implements OnInit {
     this.$isLoadingBacktestAllTrade = this.store.pipe(select(reportSelectors.getIsLoadingAllBacktestTrade))
 
     this.$allBacktestAsStrategy = this.store.pipe(select(reportSelectors.getAllBacktestAsStrategyDatatable))
+
+    // compare
+    this.compareList$ =  this.store.pipe(select(reportSelectors.getCompareBacktestList))
+    this.comparedBacktest$ =  this.store.pipe(select(reportSelectors.getComparedBacktestData))
+    this.compareStatus$ =  this.store.pipe(select(reportSelectors.getCompareBacktestStatus))
   }
 
   refreshBacktest(){

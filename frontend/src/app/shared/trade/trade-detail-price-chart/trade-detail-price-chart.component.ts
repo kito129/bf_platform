@@ -19,7 +19,6 @@ export class TradeDetailPriceChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-
     this.trades = []
     // set selected trade proprieties
     for(const trade of this.trade.trade.trades){

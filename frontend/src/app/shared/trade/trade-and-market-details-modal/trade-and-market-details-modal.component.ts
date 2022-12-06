@@ -62,7 +62,7 @@ export class TradeAndMarketDetailsModalComponent implements OnInit,OnDestroy{
   openModal(content) {
 
     // subscribe to API response
-    this.marketService.getMarketIdByNameAndDate(this.trade.trade.info.marketInfo.marketName,this.trade.trade.info.date)
+    this.marketService.getMarketIdByNameAndDate(this.trade.trade.info.marketInfo.marketName,this.trade.trade.info.date, this.trade.trade.info.marketInfo.eventName)
       .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
         if (response.marketId.indexOf('1.') !== -1) {

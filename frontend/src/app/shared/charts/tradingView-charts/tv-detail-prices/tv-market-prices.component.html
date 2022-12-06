@@ -26,6 +26,8 @@
                      [clearable]="false"
                      (change)="createTVData(true)">
           </ng-select>
+          To add:{{toAdd}}
+          Correction: {{timeCorrection}}
         </div>
       </form>
     </div>
@@ -34,7 +36,7 @@
   <div class="card-body" id="TvContainer">
     <!-- RUNNERS LEGEND -->
     <div class=" mb-3 d-flex justify-content-around align-items-center">
-      <div class="col">
+      <div class="col" *ngIf="legend">
         <h5>{{legend.time | date:'longTime'}}</h5>
         <h4 [ngClass]="legend.time - legend.openTime <0 ? 'text-warning' : ''">
           {{legend.time - legend.openTime <0 ? '-' : ''}}({{(legend.time - legend.openTime) | secAndMinute}})

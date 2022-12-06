@@ -245,18 +245,19 @@ export class StrategyDatatableComponent implements OnInit {
   }
 
   // -- COMPARE BACKTEST --
+  // from here
   addToCompareBacktest(id: string){
-    //     this.store.dispatch(reportActions.backtestUnSelected());
-    if(this.compareSavedReportList.indexOf(id) !==-1){
-      //    this.store.dispatch(reportActions.removeSavedReportInCompare({savedReportId: id}))
+    this.store.dispatch(reportActions.backtestUnSelected());
+    if(this.compareBacktestList.indexOf(id) !==-1){
+      this.store.dispatch(reportActions.removeBacktestInCompare({backtestId: id}))
     } else {
-      //    this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: id, first:false}))
+      this.store.dispatch(reportActions.addBacktestInCompare({backtestId: id, first:false}))
     }
   }
 
   compareBacktest(){
-    //   this.store.dispatch(reportActions.backtestUnSelected());
-    //    this.store.dispatch(reportActions.compareSavedReport())
+    this.store.dispatch(reportActions.backtestUnSelected());
+    this.store.dispatch(reportActions.compareBacktest())
     this.search = ''
   }
 
@@ -264,25 +265,25 @@ export class StrategyDatatableComponent implements OnInit {
     this.store.dispatch(reportActions.backtestUnSelected());
     const notEmpty =  this.strategyDatatable.filter( x => x.numberOfTrade)
     for (const at of notEmpty) {
-      //    this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: at._id, first:false}))
+      this.store.dispatch(reportActions.addBacktestInCompare({backtestId: at._id, first:false}))
     }
-    //  this.store.dispatch(reportActions.setSelectedStrategy({ _id: null}));
-    //   this.store.dispatch(reportActions.compareSavedReport())
+      this.store.dispatch(reportActions.backtestUnSelected());
+      this.store.dispatch(reportActions.compareBacktest())
     this.search = ''
   }
 
   resetCompareBacktest(){
-   //  this.store.dispatch(reportActions.backtestUnSelected());
-    //   this.store.dispatch(reportActions.setSelectedSavedReport({ _id: null}));
-    //   this.store.dispatch(reportActions.resetSavedReportCompare())
+    this.store.dispatch(reportActions.backtestUnSelected());
+    this.store.dispatch(reportActions.backtestUnSelected());
+    this.store.dispatch(reportActions.resetBacktestCompare())
     this.search = ''
   }
 
   firstToCompareBacktest($event, id: string){
     $event.preventDefault();
-    if(this.compareList.indexOf(id) !==-1){
-      // this.store.dispatch(reportActions.removeSavedReportInCompare({savedReportId: id}))
-      // this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: id, first:true}))
+    if(this.compareBacktestList.indexOf(id) !==-1){
+      this.store.dispatch(reportActions.removeBacktestInCompare({backtestId: id}))
+      this.store.dispatch(reportActions.addBacktestInCompare({backtestId: id, first:true}))
     } else {
      //  this.store.dispatch(reportActions.addSavedReportInCompare({savedReportId: id, first:true}))
     }

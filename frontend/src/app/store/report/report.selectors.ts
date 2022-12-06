@@ -559,6 +559,34 @@ export const getBacktestTradesToRemove = createSelector(
   }
 );
 
+// compare backtest
+export const getCompareBacktestList = createSelector(
+  getReportState,
+  (state ) => state.compareListBacktest
+);
+
+export const getComparedBacktestData = createSelector(
+  getReportState,
+  (state ) => {
+    const utils = new Utils()
+    const compare = []
+    for (const bt of state.compareListBacktest){
+      const temp = state.backtests.filter(x=> x._id === bt)[0]
+      compare.push({
+        strategy: utils.generateStrategy(temp.backtest.name,temp.backtest.bank,temp._id),
+        trades: state.allBacktestTrades.map( y=> tradeStats(y)).filter( x=> temp.backtest.tradesIds.includes(x._id))
+      })
+    }
+    return compare
+  }
+);
+
+export const getCompareBacktestStatus = createSelector(
+  getReportState,
+  (state ) => state.compareBacktestStatus
+);
+
+
 
 function generateBacktestReportDatatable(backtests: BacktestInterface[], allTrades: Trade[]): StrategyDatatable[]{
   const utils = new Utils()

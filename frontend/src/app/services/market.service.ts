@@ -59,10 +59,11 @@ export class MarketService {
     return this.http.get(`${baseUrl}/metalist/soccer`);
   }
 
-  getMarketIdByNameAndDate(name: string, date: number): Observable<any> {
+  getMarketIdByNameAndDate(name: string, date: number, eventName: string): Observable<any> {
     const body = JSON.stringify({
       name,
-      date
+      date,
+      eventName
     })
     return this.http.post(`${baseUrl}/marketIdByNameAndDate`,body, {headers})
   }

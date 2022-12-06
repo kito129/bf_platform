@@ -27,7 +27,9 @@
           <app-strategy-datatable [strategyDatatable]="$allBacktestAsStrategy | async"
                                   [isBacktest]="true"
                                   [isSaved]="false"
-                                  [selectedBacktestId]="$backtestSelectedId | async" [compareBacktestStatus]="false" [compareBacktestList]="[]" >
+                                  [selectedBacktestId]="$backtestSelectedId | async"
+                                  [compareBacktestStatus]="compareStatus$ | async"
+                                  [compareBacktestList]="compareList$ | async" >
           </app-strategy-datatable>
 
           <app-strategy-report *ngIf="($backtestSelectedTrades | async).length>0"
@@ -40,8 +42,8 @@
           </app-strategy-report>
 
           <!-- COMPARE REPORTS-->
-          <div class="col grid-margin" *ngIf="false">
-            <app-strategy-compare class="mb-2" [strategyList$]="[]">
+          <div class="col mt-2 " *ngIf="(comparedBacktest$ | async).length && (compareStatus$ | async)">
+            <app-strategy-compare class="mb-2" [strategyList$]="comparedBacktest$">
             </app-strategy-compare>
           </div>
 

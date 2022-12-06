@@ -59,11 +59,9 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit(): void {
     // backtest state
     this.$backtestMode = this.store.pipe(select(reportSelectors.getBacktestModeState))
-    this.backtestForm = new BacktestTrade(this.originalMarket, this.originalTrade)
-
-    // chart initialization
-    this.createTVData(false)
-    this.generateUpdatesMarkers()
+    if(this.isBacktest){
+      this.backtestForm = new BacktestTrade(this.originalMarket, this.originalTrade)
+    }
 
     // legend initialization
     this.legend ={
@@ -72,6 +70,12 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
       time: null,
       openTime: this.originalMarket.marketInfo.marketInfo.openDate as UTCTimestamp
     }
+
+    // chart initialization
+    this.createTVData(false)
+    this.generateUpdatesMarkers()
+
+
   }
   ngAfterViewInit() {
     this.initializeChart()
@@ -97,9 +101,11 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     this.chart.subscribeCrosshairMove((param) =>{
       this.crosshairMoveSubscriber(param)
     });
-    this.chart.subscribeClick((param) =>{
-      this.crosshairClickSubscriber(param)
-    });
+    if(this.isBacktest){
+      this.chart.subscribeClick((param) =>{
+        this.crosshairClickSubscriber(param)
+      });
+    }
   }
 
   // subscriber function for click
@@ -255,7 +261,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
       if(this.TVBets){
         for (const bet of this.TVBets){
           let temp = {}
-          const time = (bet.time/1000)  + this.timeCorrection + this.toAdd as UTCTimestamp
+          const time = ((bet.time/1000)  + this.timeCorrection + this.toAdd) as UTCTimestamp
           if (i===0 && bet.sideA){
             temp = {
               time,
@@ -293,7 +299,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     }
 
     // add backtest bets as markers and update chart
-    if(this.backtestForm.backtestBets){
+    if(this.isBacktest && this.backtestForm.backtestBets){
       let j = 0
       for (const backtestBet of this.backtestForm.backtestBets){
         const time = (backtestBet.time /1000)  + this.timeCorrection + this.toAdd as UTCTimestamp
@@ -400,7 +406,6 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   private generateTradeMarker(trade: TVBets, time: number,  index?: number){
-
     // markers
     let color = '#b9e11c'
     let arrow = 'square'
@@ -529,7 +534,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
       this.toAdd = 0
     }
     // check for day, here add a const based on form value
-
+    this.timeCorrection = 0
     switch (this.timeCorrect){
       case ('-1d'):
         this.timeCorrection = -86400

@@ -54,8 +54,12 @@ export interface ReportStates {
   // compare
   compareListStrategy: string[]
   compareStatus: boolean
+  // compare saved report
   compareListSavedReport: string[]
   compareSavedReportStatus: boolean
+  // compare backtest
+  compareListBacktest: string[]
+  compareBacktestStatus: boolean
   // backtest
   backtestModeOn: boolean
   backtestCurrentTrades: Trade[]
@@ -106,8 +110,10 @@ export const reportInitialState: ReportStates = {
   compareStatus: false,
   compareListSavedReport: [],
   compareSavedReportStatus: false,
+  compareListBacktest: [],
+  compareBacktestStatus: false,
   // backtest
-  backtestModeOn: true,
+  backtestModeOn: false,
   backtestCurrentTrades: [],
   backtestTradesToRemove: [],
   backtests: [],
@@ -393,6 +399,29 @@ const reportReducers = createReducer(
 
   on(reportActions.resetSavedReportCompare, (state, result) => (
     {...state, compareListSavedReport: [], compareSavedReportStatus: false
+    })
+  ),
+
+  /*
+  **  COMPARE BACKTEST
+  */
+  on(reportActions.addBacktestInCompare, (state, result) => (
+    {...state, compareListBacktest: addStudyCompare(state.compareListBacktest, result.backtestId, result.first)
+    })
+  ),
+
+  on(reportActions.removeBacktestInCompare, (state, result) => (
+    {...state, compareListBacktest: removeStudyCompare(state.compareListBacktest, result.backtestId)
+    })
+  ),
+
+  on(reportActions.compareBacktest, (state, result) => (
+    {...state, compareBacktestStatus: !state.compareBacktestStatus
+    })
+  ),
+
+  on(reportActions.resetBacktestCompare, (state, result) => (
+    {...state, compareListBacktest: [], compareBacktestStatus: false
     })
   ),
 

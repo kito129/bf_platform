@@ -348,7 +348,7 @@
     /***/
     function _(module, exports, __webpack_require__) {
       __webpack_require__(
-      /*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\node_modules\@angular-devkit\build-angular\src\webpack\es5-polyfills.js */
+      /*! M:\03_PROJECT\04_BF\lastBF\frontend\node_modules\@angular-devkit\build-angular\src\webpack\es5-polyfills.js */
       "voQr");
 
       __webpack_require__(
@@ -356,15 +356,15 @@
       "R0gw");
 
       __webpack_require__(
-      /*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\node_modules\@angular-devkit\build-angular\src\webpack\jit-polyfills.js */
+      /*! M:\03_PROJECT\04_BF\lastBF\frontend\node_modules\@angular-devkit\build-angular\src\webpack\jit-polyfills.js */
       "rZy+");
 
       __webpack_require__(
-      /*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\node_modules\@angular-devkit\build-angular\src\webpack\es5-jit-polyfills.js */
+      /*! M:\03_PROJECT\04_BF\lastBF\frontend\node_modules\@angular-devkit\build-angular\src\webpack\es5-jit-polyfills.js */
       "aYjs");
 
       module.exports = __webpack_require__(
-      /*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\src\polyfills.ts */
+      /*! M:\03_PROJECT\04_BF\lastBF\frontend\src\polyfills.ts */
       "hN/g");
       /***/
     },

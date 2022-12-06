@@ -59,9 +59,8 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit(): void {
     // backtest state
     this.$backtestMode = this.store.pipe(select(reportSelectors.getBacktestModeState))
-    if(this.isBacktest){
-      this.backtestForm = new BacktestTrade(this.originalMarket, this.originalTrade)
-    }
+    this.backtestForm = new BacktestTrade(this.originalMarket, this.originalTrade)
+
 
     // legend initialization
     this.legend ={

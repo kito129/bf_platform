@@ -35,9 +35,9 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\src\styles.scss */"+EN/");
-__webpack_require__(/*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\src\assets\scss\style.scss */"eKdF");
-module.exports = __webpack_require__(/*! C:\Users\marco\00 PROJECT\01_bf_platform\lastBF\frontend\node_modules\primeng\resources\themes\mdc-dark-indigo\theme.css */"U+RZ");
+__webpack_require__(/*! M:\03_PROJECT\04_BF\lastBF\frontend\src\styles.scss */"+EN/");
+__webpack_require__(/*! M:\03_PROJECT\04_BF\lastBF\frontend\src\assets\scss\style.scss */"eKdF");
+module.exports = __webpack_require__(/*! M:\03_PROJECT\04_BF\lastBF\frontend\node_modules\primeng\resources\themes\mdc-dark-indigo\theme.css */"U+RZ");
 
 
 /***/ }),

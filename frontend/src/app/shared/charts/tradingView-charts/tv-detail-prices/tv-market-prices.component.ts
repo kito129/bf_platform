@@ -100,11 +100,9 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     this.chart.subscribeCrosshairMove((param) =>{
       this.crosshairMoveSubscriber(param)
     });
-    if(this.isBacktest){
-      this.chart.subscribeClick((param) =>{
-        this.crosshairClickSubscriber(param)
-      });
-    }
+    this.chart.subscribeClick((param) =>{
+      this.crosshairClickSubscriber(param)
+    });
   }
 
   // subscriber function for click
@@ -298,7 +296,7 @@ export class TvMarketPricesComponent implements OnInit, AfterViewInit, OnDestroy
     }
 
     // add backtest bets as markers and update chart
-    if(this.isBacktest && this.backtestForm.backtestBets){
+    if(this.backtestForm.backtestBets){
       let j = 0
       for (const backtestBet of this.backtestForm.backtestBets){
         const time = (backtestBet.time /1000)  + this.timeCorrection + this.toAdd as UTCTimestamp

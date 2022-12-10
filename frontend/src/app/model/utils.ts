@@ -847,7 +847,21 @@ export class Utils{
     // tslint:disable-next-line:prefer-for-of
     for(let i=0; i< backtestBets.length; i++){
       const selected = backtestBets[i]
-      const selectionN =  trade ? trade.trade.selections[0].runnerName === selected.selectionName ? 0 : market ? market.marketRunners.marketRunners[0].name === selected.selectionName ? 0 : 1: 0 :0
+      // selection number
+      let selectionN = 0
+      if(trade){
+        // use trade
+        console.log(trade.trade.selections)
+        if (trade.trade.selections[0].runnerName === selected.selectionName) selectionN = 0
+        else selectionN = 1
+      } else {
+        // use market
+        if(market){
+          console.log(market.marketRunners.marketRunners)
+          if (market.marketRunners.marketRunners[0].name === selected.selectionName) selectionN = 0
+          else selectionN = 1
+        }
+      }
       const selectionName = selected.selectionName
       const type = selected.type.toLowerCase()
       const odds = selected.odds[selectionN]

@@ -3,18 +3,19 @@
     <!-- BETS PREVIEW -->
     <app-bets-table [bets]="backtestTradeBets" [title]="'preview'"></app-bets-table>
       <!-- SELECTORS -->
-    <form class="row">
+    <p>Options</p>
+    <div class="d-flex justify-content-center align-items-center grid-margin">
+      <button type="button"
+              *ngFor="let option of options, index as i"
+              class="mr-3 btn btn"
+              [ngClass]="this.backtestForm.info.option === option ? 'btn-' + colors[i] : 'btn-outline-' + colors[i]"
+              (click)="setOptions(option)">
+        {{option}}
+      </button>
+    </div>
+    <form>
+      <label>Selection</label>
       <div class="col form-group">
-        <label>Bet Options</label>
-        <ng-select [items]="['OPEN','INCREASE MARGIN', 'DECREASE MARGIN', 'CLOSE' ,'FREE BET', 'ADJ']"
-                   id='option'
-                   name='option'
-                   placeholder="Bet Options"
-                   [(ngModel)]="backtestForm.info.option">
-        </ng-select>
-      </div>
-      <div class="col form-group">
-        <label>Selection</label>
         <ng-select id="sport"
                    name="sport"
                    placeholder="Selection"

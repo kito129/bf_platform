@@ -19,6 +19,9 @@ export class BacktestTradeMainComponent implements OnInit {
   @Input() backtestForm: BacktestTrade
   @Input() backtestTradeBets: TradeBets[]
 
+  options=['OPEN','INCREASE MARGIN', 'DECREASE MARGIN', 'CLOSE' ,'FREE BET', 'ADJ']
+  colors=['success','warning', 'secondary', 'danger' ,'info', 'light']
+
   util = new Utils()
 
   bug = true
@@ -50,6 +53,10 @@ export class BacktestTradeMainComponent implements OnInit {
   updateBacktestTradeFromEdit(event){
     this.backtestForm.tradeForm = event[0]
     this.bugFix()
+  }
+
+  setOptions(option: string){
+    this.backtestForm.info.option = option
   }
 
   // return true if trade is valid to add in backtest

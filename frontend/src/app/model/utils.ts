@@ -114,7 +114,7 @@ export class Utils{
 
 
   /*
-  * Bte group Calculator
+  * Bet group Calculator
   */
   createGroupBetByTrades(trades: Trade[]): CSVTrade[]{
     const temp = []
@@ -446,17 +446,14 @@ export class Utils{
   getEmptyCSVBetGroup():CSVBetGroup{
     return{
       id: 0,
-      note: '',
-      selectionN: 0,
-      time: 0,
       name: '',
       type: '',
       options: '',
+      odds:  0,
+      stake:  0,
+      liability:  0,
+      ifWin:  0,
       point: '',
-      odds: 0,
-      stake: 0,
-      liability: 0,
-      ifWin:0,
       empty: null
     }
   }
@@ -1382,6 +1379,15 @@ export class Utils{
     }
   }
 
+  /*
+  * Date formatter
+  */
+
+  dateFormatter(d: Date): string{
+    return  d.getFullYear().toString()+'-'+((d.getMonth()+1).toString().length===2?(d.getMonth()+1).toString():'0'+(d.getMonth()+1).toString())+'-'+(d.getDate().toString().length==2?d.getDate().toString():'0'+d.getDate().toString())+' '+(d.getHours().toString().length===2?d.getHours().toString():'0'+d.getHours().toString())+':'+((parseInt(String(d.getMinutes() / 5))*5).toString().length===2?(parseInt(String(d.getMinutes() / 5))*5).toString():'0'+(parseInt(String(d.getMinutes() / 5))*5).toString())+':00';
+  }
 }
+
+
 
 

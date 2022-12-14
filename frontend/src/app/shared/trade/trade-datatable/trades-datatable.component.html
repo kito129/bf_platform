@@ -128,16 +128,16 @@
 </div>
 <!-- CSV BUTTON -->
 <div class="d-flex justify-content-end align-items-center mb-3" *ngIf="!isBackTest">
-  <button type="button" class="btn btn-outline-light btn-icon-text mr-2" (click)="saveAsCSV('ALL')">
+  <button type="button" class="btn btn-outline-primary btn-icon-text mr-2" (click)="saveAsCSV('ALL')">
     <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
-    Download CSV
+    Download simple CSV
   </button>
-  <button type="button" class="btn btn-outline-light btn-icon-text mr-2" (click)="saveAsCSV('GROUPED')">
+  <button type="button" class="btn btn-outline-secondary btn-icon-text mr-2" (click)="saveAsCSV('GROUPED NORMAL')">
     <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
-    Download Grouped Type CSV
+    Download Grouped Options CSV
   </button>
 
-  <button type="button" class="btn btn-outline-light btn-icon-text mr-2" (click)="saveAsCSV('BFL')">
+  <button type="button" class="btn btn-outline-warning btn-icon-text mr-2" (click)="saveAsCSV('GROUPED BFL')">
     <i class="btn-icon-prepend" data-feather="download" appFeatherIcon></i>
     Download Grouped BFL CSV
   </button>

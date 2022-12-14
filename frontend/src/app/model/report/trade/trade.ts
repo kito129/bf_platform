@@ -188,18 +188,15 @@ export interface CSVTrade {
 
 
 export interface CSVBetGroup {
-  name: string
   id: number
-  selectionN: number
+  name: string
+  type: string
+  options: string
   odds: number
   stake: number
   liability: number
   ifWin: number
-  options: string
-  type: string
   point: TennisPoint | string
-  note: string
-  time: number
   empty?: null
 }
 

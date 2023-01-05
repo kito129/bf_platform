@@ -169,4 +169,10 @@ Config:
     git config --global user.email marco.96.12@gmail.com
     
     git config --global credential.helper store
+
+
+
+## DOWNLOAD MONGO db
+mongodump --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup
+
     

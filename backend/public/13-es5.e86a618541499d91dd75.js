@@ -241,9 +241,7 @@
 
           b.prototype.l = function () {
             if (null != this.a) {
-              for (var g = 0; g < this.a.length; ++g) {
-                f.b(this.a[g]);
-              }
+              for (var g = 0; g < this.a.length; ++g) f.b(this.a[g]);
 
               this.a = null;
             }
@@ -321,9 +319,7 @@
 
           b.race = function (g) {
             return new b(function (h, m) {
-              for (var p = fa(g), v = p.next(); !v.done; v = p.next()) {
-                d(v.value).Pa(h, m);
-              }
+              for (var p = fa(g), v = p.next(); !v.done; v = p.next()) d(v.value).Pa(h, m);
             });
           };
 
@@ -342,9 +338,7 @@
               var A = [],
                   Q = 0;
 
-              do {
-                A.push(void 0), Q++, d(m.value).Pa(B(A.length - 1), v), m = h.next();
-              } while (!m.done);
+              do A.push(void 0), Q++, d(m.value).Pa(B(A.length - 1), v), m = h.next(); while (!m.done);
             });
           };
 
@@ -603,13 +597,11 @@
         };
 
         function Aa(a) {
-          for (var b in za) {
-            if (za[b].id === a) return a = za[b], {
-              firebaseEndpoint: a.Sa,
-              secureTokenEndpoint: a.Ya,
-              identityPlatformEndpoint: a.Va
-            };
-          }
+          for (var b in za) if (za[b].id === a) return a = za[b], {
+            firebaseEndpoint: a.Sa,
+            secureTokenEndpoint: a.Ya,
+            identityPlatformEndpoint: a.Va
+          };
 
           return null;
         }
@@ -643,9 +635,7 @@
         function Da(a, b) {
           a = a.split("%s");
 
-          for (var c = "", d = a.length - 1, e = 0; e < d; e++) {
-            c += a[e] + (e < b.length ? b[e] : "%s");
-          }
+          for (var c = "", d = a.length - 1, e = 0; e < d; e++) c += a[e] + (e < b.length ? b[e] : "%s");
 
           u.call(this, c + a[d]);
         }
@@ -727,34 +717,26 @@
         } : function (a, b) {
           if ("string" === typeof a) return "string" !== typeof b || 1 != b.length ? -1 : a.indexOf(b, 0);
 
-          for (var c = 0; c < a.length; c++) {
-            if (c in a && a[c] === b) return c;
-          }
+          for (var c = 0; c < a.length; c++) if (c in a && a[c] === b) return c;
 
           return -1;
         },
             w = Array.prototype.forEach ? function (a, b, c) {
           Array.prototype.forEach.call(a, b, c);
         } : function (a, b, c) {
-          for (var d = a.length, e = "string" === typeof a ? a.split("") : a, f = 0; f < d; f++) {
-            f in e && b.call(c, e[f], f, a);
-          }
+          for (var d = a.length, e = "string" === typeof a ? a.split("") : a, f = 0; f < d; f++) f in e && b.call(c, e[f], f, a);
         };
 
         function Na(a, b) {
-          for (var c = "string" === typeof a ? a.split("") : a, d = a.length - 1; 0 <= d; --d) {
-            d in c && b.call(void 0, c[d], d, a);
-          }
+          for (var c = "string" === typeof a ? a.split("") : a, d = a.length - 1; 0 <= d; --d) d in c && b.call(void 0, c[d], d, a);
         }
 
         var Oa = Array.prototype.filter ? function (a, b) {
           return Array.prototype.filter.call(a, b, void 0);
         } : function (a, b) {
-          for (var c = a.length, d = [], e = 0, f = "string" === typeof a ? a.split("") : a, g = 0; g < c; g++) {
-            if (g in f) {
-              var h = f[g];
-              b.call(void 0, h, g, a) && (d[e++] = h);
-            }
+          for (var c = a.length, d = [], e = 0, f = "string" === typeof a ? a.split("") : a, g = 0; g < c; g++) if (g in f) {
+            var h = f[g];
+            b.call(void 0, h, g, a) && (d[e++] = h);
           }
 
           return d;
@@ -762,18 +744,14 @@
             Pa = Array.prototype.map ? function (a, b) {
           return Array.prototype.map.call(a, b, void 0);
         } : function (a, b) {
-          for (var c = a.length, d = Array(c), e = "string" === typeof a ? a.split("") : a, f = 0; f < c; f++) {
-            f in e && (d[f] = b.call(void 0, e[f], f, a));
-          }
+          for (var c = a.length, d = Array(c), e = "string" === typeof a ? a.split("") : a, f = 0; f < c; f++) f in e && (d[f] = b.call(void 0, e[f], f, a));
 
           return d;
         },
             Qa = Array.prototype.some ? function (a, b) {
           return Array.prototype.some.call(a, b, void 0);
         } : function (a, b) {
-          for (var c = a.length, d = "string" === typeof a ? a.split("") : a, e = 0; e < c; e++) {
-            if (e in d && b.call(void 0, d[e], e, a)) return !0;
-          }
+          for (var c = a.length, d = "string" === typeof a ? a.split("") : a, e = 0; e < c; e++) if (e in d && b.call(void 0, d[e], e, a)) return !0;
 
           return !1;
         };
@@ -782,11 +760,9 @@
           a: {
             var b = Sa;
 
-            for (var c = a.length, d = "string" === typeof a ? a.split("") : a, e = 0; e < c; e++) {
-              if (e in d && b.call(void 0, d[e], e, a)) {
-                b = e;
-                break a;
-              }
+            for (var c = a.length, d = "string" === typeof a ? a.split("") : a, e = 0; e < c; e++) if (e in d && b.call(void 0, d[e], e, a)) {
+              b = e;
+              break a;
             }
 
             b = -1;
@@ -821,9 +797,7 @@
           var b = a.length;
 
           if (0 < b) {
-            for (var c = Array(b), d = 0; d < b; d++) {
-              c[d] = a[d];
-            }
+            for (var c = Array(b), d = 0; d < b; d++) c[d] = a[d];
 
             return c;
           }
@@ -878,15 +852,11 @@
         ;
 
         function jb(a, b) {
-          for (var c in a) {
-            b.call(void 0, a[c], c, a);
-          }
+          for (var c in a) b.call(void 0, a[c], c, a);
         }
 
         function kb(a) {
-          for (var b in a) {
-            return !1;
-          }
+          for (var b in a) return !1;
 
           return !0;
         }
@@ -895,9 +865,7 @@
           var b = {},
               c;
 
-          for (c in a) {
-            b[c] = a[c];
-          }
+          for (c in a) b[c] = a[c];
 
           return b;
         }
@@ -908,13 +876,9 @@
           for (var c, d, e = 1; e < arguments.length; e++) {
             d = arguments[e];
 
-            for (c in d) {
-              a[c] = d[c];
-            }
+            for (c in d) a[c] = d[c];
 
-            for (var f = 0; f < mb.length; f++) {
-              c = mb[f], Object.prototype.hasOwnProperty.call(d, c) && (a[c] = d[c]);
-            }
+            for (var f = 0; f < mb.length; f++) c = mb[f], Object.prototype.hasOwnProperty.call(d, c) && (a[c] = d[c]);
           }
         }
 
@@ -1102,9 +1066,7 @@
         ;
 
         function Nb(a, b) {
-          for (var c = a.split("%s"), d = "", e = Array.prototype.slice.call(arguments, 1); e.length && 1 < c.length;) {
-            d += c.shift() + e.shift();
-          }
+          for (var c = a.split("%s"), d = "", e = Array.prototype.slice.call(arguments, 1); e.length && 1 < c.length;) d += c.shift() + e.shift();
 
           return d + c.join("%s");
         }
@@ -1463,9 +1425,7 @@
               0 == d && b(e);
             }, g = function g(p) {
               c(p);
-            }, h = 0, m; h < a.length; h++) {
-              m = a[h], Cc(m, ta(f, h), g);
-            } else b(e);
+            }, h = 0, m; h < a.length; h++) m = a[h], Cc(m, ta(f, h), g);else b(e);
           });
         }
 
@@ -1483,9 +1443,7 @@
                 reason: p
               };
               0 == c && b(d);
-            }, f = 0, g; f < a.length; f++) {
-              g = a[f], Cc(g, ta(e, f, !0), ta(e, f, !1));
-            } else b(d);
+            }, f = 0, g; f < a.length; f++) g = a[f], Cc(g, ta(e, f, !0), ta(e, f, !1));else b(d);
           });
         }
 
@@ -1521,9 +1479,7 @@
             var c = a.c;
 
             if (c.b) {
-              for (var d = 0, e = null, f = null, g = c.b; g && (g.c || (d++, g.a == a && (e = g), !(e && 1 < d))); g = g.next) {
-                e || (f = g);
-              }
+              for (var d = 0, e = null, f = null, g = c.b; g && (g.c || (d++, g.a == a && (e = g), !(e && 1 < d))); g = g.next) e || (f = g);
 
               e && (c.a == uc && 1 == d ? Ic(c, b) : (f ? (d = f, d.next == c.f && (c.f = d), d.next = d.next.next) : Jc(c), Kc(c, e, yc, b)));
             }
@@ -1619,17 +1575,13 @@
         }
 
         k.fc = function () {
-          for (var a; a = Jc(this);) {
-            Kc(this, a, this.a, this.i);
-          }
+          for (var a; a = Jc(this);) Kc(this, a, this.a, this.i);
 
           this.h = !1;
         };
 
         function Kc(a, b, c, d) {
-          if (c == yc && b.b && !b.c) for (; a && a.g; a = a.c) {
-            a.g = !1;
-          }
+          if (c == yc && b.b && !b.c) for (; a && a.g; a = a.c) a.g = !1;
           if (b.a) b.a.c = null, Oc(b, c, d);else try {
             b.c ? b.g.call(b.f) : Oc(b, c, d);
           } catch (e) {
@@ -1677,9 +1629,7 @@
         }
 
         Qc.prototype.Da = function () {
-          if (this.oa) for (; this.oa.length;) {
-            this.oa.shift()();
-          }
+          if (this.oa) for (; this.oa.length;) this.oa.shift()();
         };
 
         var Uc = Object.freeze || function (a) {
@@ -1839,9 +1789,7 @@
             id = 0;
 
         function jd(a, b, c, d, e) {
-          if (d && d.once) kd(a, b, c, d, e);else if (Array.isArray(b)) for (var f = 0; f < b.length; f++) {
-            jd(a, b[f], c, d, e);
-          } else c = ld(c), a && a[$c] ? md(a, b, c, n(d) ? !!d.capture : !!d, e) : nd(a, b, c, !1, d, e);
+          if (d && d.once) kd(a, b, c, d, e);else if (Array.isArray(b)) for (var f = 0; f < b.length; f++) jd(a, b[f], c, d, e);else c = ld(c), a && a[$c] ? md(a, b, c, n(d) ? !!d.capture : !!d, e) : nd(a, b, c, !1, d, e);
         }
 
         function nd(a, b, c, d, e, f) {
@@ -1873,15 +1821,11 @@
         }
 
         function kd(a, b, c, d, e) {
-          if (Array.isArray(b)) for (var f = 0; f < b.length; f++) {
-            kd(a, b[f], c, d, e);
-          } else c = ld(c), a && a[$c] ? sd(a, b, c, n(d) ? !!d.capture : !!d, e) : nd(a, b, c, !0, d, e);
+          if (Array.isArray(b)) for (var f = 0; f < b.length; f++) kd(a, b[f], c, d, e);else c = ld(c), a && a[$c] ? sd(a, b, c, n(d) ? !!d.capture : !!d, e) : nd(a, b, c, !0, d, e);
         }
 
         function G(a, b, c, d, e) {
-          if (Array.isArray(b)) for (var f = 0; f < b.length; f++) {
-            G(a, b[f], c, d, e);
-          } else (d = n(d) ? !!d.capture : !!d, c = ld(c), a && a[$c]) ? (a = a.v, b = String(b).toString(), b in a.a && (f = a.a[b], c = ed(f, c, d, e), -1 < c && (cd(f[c]), Array.prototype.splice.call(f, c, 1), 0 == f.length && (delete a.a[b], a.b--)))) : a && (a = od(a)) && (b = a.a[b.toString()], a = -1, b && (a = ed(b, c, d, e)), (c = -1 < a ? b[a] : null) && td(c));
+          if (Array.isArray(b)) for (var f = 0; f < b.length; f++) G(a, b[f], c, d, e);else (d = n(d) ? !!d.capture : !!d, c = ld(c), a && a[$c]) ? (a = a.v, b = String(b).toString(), b in a.a && (f = a.a[b], c = ed(f, c, d, e), -1 < c && (cd(f[c]), Array.prototype.splice.call(f, c, 1), 0 == f.length && (delete a.a[b], a.b--)))) : a && (a = od(a)) && (b = a.a[b.toString()], a = -1, b && (a = ed(b, c, d, e)), (c = -1 < a ? b[a] : null) && td(c));
         }
 
         function td(a) {
@@ -1924,11 +1868,9 @@
             if (!b) a: {
               b = ["window", "event"];
 
-              for (var c = l, d = 0; d < b.length; d++) {
-                if (c = c[b[d]], null == c) {
-                  b = null;
-                  break a;
-                }
+              for (var c = l, d = 0; d < b.length; d++) if (c = c[b[d]], null == c) {
+                b = null;
+                break a;
               }
 
               b = c;
@@ -1951,9 +1893,7 @@
 
               d = [];
 
-              for (e = b.b; e; e = e.parentNode) {
-                d.push(e);
-              }
+              for (e = b.b; e; e = e.parentNode) d.push(e);
 
               a = a.type;
 
@@ -1963,9 +1903,7 @@
                 c = c && f;
               }
 
-              for (e = 0; e < d.length; e++) {
-                b.b = d[e], f = ud(d[e], a, !1, b), c = c && f;
-              }
+              for (e = 0; e < d.length; e++) b.b = d[e], f = ud(d[e], a, !1, b), c = c && f;
             }
 
             return c;
@@ -2012,9 +1950,7 @@
         H.prototype.dispatchEvent = function (a) {
           var b,
               c = this.fb;
-          if (c) for (b = []; c; c = c.fb) {
-            b.push(c);
-          }
+          if (c) for (b = []; c; c = c.fb) b.push(c);
           c = this.$b;
           var d = a.type || a;
           if ("string" === typeof a) a = new F(a, c);else if (a instanceof F) a.target = a.target || c;else {
@@ -2030,9 +1966,7 @@
           g = a.b = c;
           e = xd(g, d, !0, a) && e;
           e = xd(g, d, !1, a) && e;
-          if (b) for (f = 0; f < b.length; f++) {
-            g = a.b = b[f], e = xd(g, d, !1, a) && e;
-          }
+          if (b) for (f = 0; f < b.length; f++) g = a.b = b[f], e = xd(g, d, !1, a) && e;
           return e;
         };
 
@@ -2045,9 +1979,7 @@
                 c;
 
             for (c in a.a) {
-              for (var d = a.a[c], e = 0; e < d.length; e++) {
-                ++b, cd(d[e]);
-              }
+              for (var d = a.a[c], e = 0; e < d.length; e++) ++b, cd(d[e]);
 
               delete a.a[c];
               a.b--;
@@ -2111,9 +2043,7 @@
           if ("string" === typeof a) return a.split("");
 
           if (ma(a)) {
-            for (var b = [], c = a.length, d = 0; d < c; d++) {
-              b.push(a[d]);
-            }
+            for (var b = [], c = a.length, d = 0; d < c; d++) b.push(a[d]);
 
             return b;
           }
@@ -2121,9 +2051,7 @@
           b = [];
           c = 0;
 
-          for (d in a) {
-            b[c++] = a[d];
-          }
+          for (d in a) b[c++] = a[d];
 
           return b;
         }
@@ -2136,9 +2064,7 @@
               var b = [];
               a = a.length;
 
-              for (var c = 0; c < a; c++) {
-                b.push(c);
-              }
+              for (var c = 0; c < a; c++) b.push(c);
 
               return b;
             }
@@ -2146,18 +2072,14 @@
             b = [];
             c = 0;
 
-            for (var d in a) {
-              b[c++] = d;
-            }
+            for (var d in a) b[c++] = d;
 
             return b;
           }
         }
 
         function Dd(a, b) {
-          if (a.forEach && "function" == typeof a.forEach) a.forEach(b, void 0);else if (ma(a) || "string" === typeof a) w(a, b, void 0);else for (var c = Cd(a), d = Bd(a), e = d.length, f = 0; f < e; f++) {
-            b.call(void 0, d[f], c && c[f], a);
-          }
+          if (a.forEach && "function" == typeof a.forEach) a.forEach(b, void 0);else if (ma(a) || "string" === typeof a) w(a, b, void 0);else for (var c = Cd(a), d = Bd(a), e = d.length, f = 0; f < e; f++) b.call(void 0, d[f], c && c[f], a);
         }
 
         ;
@@ -2171,14 +2093,8 @@
           if (1 < c) {
             if (c % 2) throw Error("Uneven number of arguments");
 
-            for (var d = 0; d < c; d += 2) {
-              this.set(arguments[d], arguments[d + 1]);
-            }
-          } else if (a) if (a instanceof Ed) for (c = a.Y(), d = 0; d < c.length; d++) {
-            this.set(c[d], a.get(c[d]));
-          } else for (d in a) {
-            this.set(d, a[d]);
-          }
+            for (var d = 0; d < c; d += 2) this.set(arguments[d], arguments[d + 1]);
+          } else if (a) if (a instanceof Ed) for (c = a.Y(), d = 0; d < c.length; d++) this.set(c[d], a.get(c[d]));else for (d in a) this.set(d, a[d]);
         }
 
         k = Ed.prototype;
@@ -2186,9 +2102,7 @@
         k.V = function () {
           Fd(this);
 
-          for (var a = [], b = 0; b < this.a.length; b++) {
-            a.push(this.b[this.a[b]]);
-          }
+          for (var a = [], b = 0; b < this.a.length; b++) a.push(this.b[this.a[b]]);
 
           return a;
         };
@@ -2217,9 +2131,7 @@
           if (a.c != a.a.length) {
             var e = {};
 
-            for (c = b = 0; b < a.a.length;) {
-              d = a.a[b], Gd(e, d) || (a.a[c++] = d, e[d] = 1), b++;
-            }
+            for (c = b = 0; b < a.a.length;) d = a.a[b], Gd(e, d) || (a.a[c++] = d, e[d] = 1), b++;
 
             a.a.length = c;
           }
@@ -2447,11 +2359,7 @@
         k.Y = function () {
           $d(this);
 
-          for (var a = this.a.V(), b = this.a.Y(), c = [], d = 0; d < b.length; d++) {
-            for (var e = a[d], f = 0; f < e.length; f++) {
-              c.push(b[d]);
-            }
-          }
+          for (var a = this.a.V(), b = this.a.Y(), c = [], d = 0; d < b.length; d++) for (var e = a[d], f = 0; f < e.length; f++) c.push(b[d]);
 
           return c;
         };
@@ -2462,9 +2370,7 @@
           if ("string" === typeof a) ee(this, a) && (b = Wa(b, this.a.get(ce(this, a))));else {
             a = this.a.V();
 
-            for (var c = 0; c < a.length; c++) {
-              b = Wa(b, a[c]);
-            }
+            for (var c = 0; c < a.length; c++) b = Wa(b, a[c]);
           }
           return b;
         };
@@ -2548,9 +2454,7 @@
                 b = d.length;
                 c.push("[");
 
-                for (var e = "", f = 0; f < b; f++) {
-                  c.push(e), ge(a, d[f], c), e = ",";
-                }
+                for (var e = "", f = 0; f < b; f++) c.push(e), ge(a, d[f], c), e = ",";
 
                 c.push("]");
                 return;
@@ -2560,9 +2464,7 @@
                 c.push("{");
                 e = "";
 
-                for (d in b) {
-                  Object.prototype.hasOwnProperty.call(b, d) && (f = b[d], "function" != typeof f && (c.push(e), ie(d, c), c.push(":"), ge(a, f, c), e = ","));
-                }
+                for (d in b) Object.prototype.hasOwnProperty.call(b, d) && (f = b[d], "function" != typeof f && (c.push(e), ie(d, c), c.push(":"), ge(a, f, c), e = ","));
 
                 c.push("}");
                 return;
@@ -2635,13 +2537,9 @@
           var c = [],
               d;
 
-          for (d in a) {
-            d in b ? typeof a[d] != typeof b[d] ? c.push(d) : "object" == typeof a[d] && null != a[d] && null != b[d] ? 0 < oe(a[d], b[d]).length && c.push(d) : a[d] !== b[d] && c.push(d) : c.push(d);
-          }
+          for (d in a) d in b ? typeof a[d] != typeof b[d] ? c.push(d) : "object" == typeof a[d] && null != a[d] && null != b[d] ? 0 < oe(a[d], b[d]).length && c.push(d) : a[d] !== b[d] && c.push(d) : c.push(d);
 
-          for (d in b) {
-            d in a || c.push(d);
-          }
+          for (d in b) d in a || c.push(d);
 
           return c;
         }
@@ -2691,23 +2589,21 @@
           c = a.target || c.target;
           e = [];
 
-          for (g in a) {
-            switch (g) {
-              case "width":
-              case "height":
-              case "top":
-              case "left":
-                e.push(g + "=" + a[g]);
-                break;
+          for (g in a) switch (g) {
+            case "width":
+            case "height":
+            case "top":
+            case "left":
+              e.push(g + "=" + a[g]);
+              break;
 
-              case "target":
-              case "noopener":
-              case "noreferrer":
-                break;
+            case "target":
+            case "noopener":
+            case "noreferrer":
+              break;
 
-              default:
-                e.push(g + "=" + (a[g] ? 1 : 0));
-            }
+            default:
+              e.push(g + "=" + (a[g] ? 1 : 0));
           }
 
           var g = e.join(",");
@@ -2791,9 +2687,7 @@
         }
 
         function He() {
-          for (var a = 50, b = []; 0 < a;) {
-            b.push("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(Math.floor(62 * Math.random()))), a--;
-          }
+          for (var a = 50, b = []; 0 < a;) b.push("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(Math.floor(62 * Math.random()))), a--;
 
           return b.join("");
         }
@@ -2831,13 +2725,9 @@
               d = {},
               e;
 
-          for (e in Ie) {
-            d[Ie[e]] = !0;
-          }
+          for (e in Ie) d[Ie[e]] = !0;
 
-          for (e = 0; e < b.length; e++) {
-            "undefined" !== typeof d[b[e]] && (delete d[b[e]], c.push(b[e]));
-          }
+          for (e = 0; e < b.length; e++) "undefined" !== typeof d[b[e]] && (delete d[b[e]], c.push(b[e]));
 
           c.sort();
           b = c;
@@ -2855,9 +2745,7 @@
           a = a.split(".");
           b = b || l;
 
-          for (var c = 0; c < a.length && "object" == typeof b && null != b; c++) {
-            b = b[a[c]];
-          }
+          for (var c = 0; c < a.length && "object" == typeof b && null != b; c++) b = b[a[c]];
 
           c != a.length && (b = void 0);
           return b;
@@ -2900,9 +2788,7 @@
           var b = {},
               c;
 
-          for (c in a) {
-            a.hasOwnProperty(c) && null !== a[c] && void 0 !== a[c] && (b[c] = a[c]);
-          }
+          for (c in a) a.hasOwnProperty(c) && null !== a[c] && void 0 !== a[c] && (b[c] = a[c]);
 
           return b;
         }
@@ -2922,11 +2808,7 @@
 
         function Te() {
           var a = l.___jsl;
-          if (a && a.H) for (var b in a.H) {
-            if (a.H[b].r = a.H[b].r || [], a.H[b].L = a.H[b].L || [], a.H[b].r = a.H[b].L.concat(), a.CP) for (var c = 0; c < a.CP.length; c++) {
-              a.CP[c] = null;
-            }
-          }
+          if (a && a.H) for (var b in a.H) if (a.H[b].r = a.H[b].r || [], a.H[b].L = a.H[b].L || [], a.H[b].r = a.H[b].L.concat(), a.CP) for (var c = 0; c < a.CP.length; c++) a.CP[c] = null;
         }
 
         function Ue(a, b) {
@@ -3032,9 +2914,7 @@
         }
 
         function N(a, b) {
-          if (b) for (var c in b) {
-            b.hasOwnProperty(c) && M(a, c, b[c]);
-          }
+          if (b) for (var c in b) b.hasOwnProperty(c) && M(a, c, b[c]);
         }
 
         function ff(a) {
@@ -3047,9 +2927,7 @@
           var b = {},
               c;
 
-          for (c in a) {
-            a.hasOwnProperty(c) && (b[c] = a[c]);
-          }
+          for (c in a) a.hasOwnProperty(c) && (b[c] = a[c]);
 
           return b;
         }
@@ -3072,9 +2950,7 @@
           if ("object" == typeof a && null != a) {
             b = "length" in a ? [] : {};
 
-            for (var c in a) {
-              M(b, c, jf(a[c]));
-            }
+            for (var c in a) M(b, c, jf(a[c]));
           }
 
           return b;
@@ -3271,9 +3147,7 @@
           b.iOSBundleId = a.f;
           b.dynamicLinkDomain = a.i;
 
-          for (var c in b) {
-            null === b[c] && delete b[c];
-          }
+          for (var c in b) null === b[c] && delete b[c];
 
           return b;
         }
@@ -3327,11 +3201,9 @@
           if (!$f) {
             $f = {};
 
-            for (var a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split(""), b = ["+/=", "+/", "-_=", "-_.", "-_"], c = 0; 5 > c; c++) {
-              for (var d = a.concat(b[c].split("")), e = 0; e < d.length; e++) {
-                var f = d[e];
-                void 0 === $f[f] && ($f[f] = e);
-              }
+            for (var a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split(""), b = ["+/=", "+/", "-_=", "-_.", "-_"], c = 0; 5 > c; c++) for (var d = a.concat(b[c].split("")), e = 0; e < d.length; e++) {
+              var f = d[e];
+              void 0 === $f[f] && ($f[f] = e);
             }
           }
         }
@@ -3376,9 +3248,7 @@
           if (3 != a.length) return null;
           a = a[1];
 
-          for (var b = (4 - a.length % 4) % 4, c = 0; c < b; c++) {
-            a += ".";
-          }
+          for (var b = (4 - a.length % 4) % 4, c = 0; c < b; c++) a += ".";
 
           try {
             return JSON.parse(ag(a));
@@ -3429,9 +3299,7 @@
         };
 
         function jg(a) {
-          for (var b in ig) {
-            if (ig[b].fa == a) return ig[b];
-          }
+          for (var b in ig) if (ig[b].fa == a) return ig[b];
 
           return null;
         }
@@ -4129,9 +3997,7 @@
           var b = rh;
           b.a.push(a);
           b.b || (b.b = function (c) {
-            for (var d = 0; d < b.a.length; d++) {
-              b.a[d](c);
-            }
+            for (var d = 0; d < b.a.length; d++) b.a[d](c);
           }, a = L("universalLinks.subscribe", l), "function" === typeof a && a(null, b.b));
         }
 
@@ -4359,9 +4225,7 @@
         }
 
         Gh.prototype.log = function (a, b, c) {
-          if (a.value >= Mh(this).value) for (na(b) && (b = b()), a = new Eh(a, String(b), this.f), c && (a.a = c), c = this; c;) {
-            c = c.a;
-          }
+          if (a.value >= Mh(this).value) for (na(b) && (b = b()), a = new Eh(a, String(b), this.f), c && (a.a = c), c = this; c;) c = c.a;
         };
 
         var Nh = {},
@@ -4518,9 +4382,7 @@
 
           a = [];
 
-          for (var b = this.b.entries(), c = b.next(); !c.done;) {
-            c = c.value, a.push(c[0] + ": " + c[1]), c = b.next();
-          }
+          for (var b = this.b.entries(), c = b.next(); !c.done;) c = c.value, a.push(c[0] + ": " + c[1]), c = b.next();
 
           return a.join("\r\n");
         };
@@ -5145,9 +5007,7 @@
           I(h, "key", a.c);
           g && I(h, "cb", ua().toString());
           var m = "GET" == d;
-          if (m) for (var p in e) {
-            e.hasOwnProperty(p) && I(h, p, e[p]);
-          }
+          if (m) for (var p in e) e.hasOwnProperty(p) && I(h, p, e[p]);
           return new C(function (v, B) {
             Oi(a, h.toString(), function (A) {
               A ? A.error ? B(Ti(A, f || {})) : v(A) : B(new t("network-request-failed"));
@@ -5739,9 +5599,7 @@
           z(d, b || {});
           b = (b = c.match(/^[^\s]+\s*:\s*([\s\S]*)$/)) && 1 < b.length ? b[1] : void 0;
 
-          for (var e in d) {
-            if (0 === c.indexOf(e)) return new t(d[e], b);
-          }
+          for (var e in d) if (0 === c.indexOf(e)) return new t(d[e], b);
 
           !b && a && (b = Pe(a));
           return new t("internal-error", b);
@@ -5908,9 +5766,7 @@
             c = this.a;
             b = Qe(c.Hb);
 
-            for (var d in b) {
-              b[d] = b[d].toString();
-            }
+            for (var d in b) b[d] = b[d].toString();
 
             d = c.Pc;
             b = lb(b);
@@ -5928,9 +5784,7 @@
           this.l ? I(a, "redirectUrl", this.l) : de(a.b, "redirectUrl");
           this.g ? I(a, "eventId", this.g) : de(a.b, "eventId");
           this.i ? I(a, "v", this.i) : de(a.b, "v");
-          if (this.b) for (var g in this.b) {
-            this.b.hasOwnProperty(g) && !Xd(a, g) && I(a, g, this.b[g]);
-          }
+          if (this.b) for (var g in this.b) this.b.hasOwnProperty(g) && !Xd(a, g) && I(a, g, this.b[g]);
           this.h ? I(a, "tid", this.h) : de(a.b, "tid");
           this.f ? I(a, "eid", this.f) : de(a.b, "eid");
           g = Tj(this.c);
@@ -6114,9 +5968,7 @@
               var d = !1;
               b = ph(b.authEvent);
 
-              for (c = 0; c < a.h.length; c++) {
-                d = a.h[c](b) || d;
-              }
+              for (c = 0; c < a.h.length; c++) d = a.h[c](b) || d;
 
               c = {};
               c.status = d ? "ACK" : "ERROR";
@@ -6226,9 +6078,7 @@
                 });
               });
               w(g, function (h) {
-                for (var m in h) {
-                  "undefined" === typeof h[m] && delete h[m];
-                }
+                for (var m in h) "undefined" === typeof h[m] && delete h[m];
               });
               a.ports[0].postMessage({
                 status: "done",
@@ -6308,9 +6158,7 @@
         }
 
         hk.prototype.close = function () {
-          for (; 0 < this.a.length;) {
-            jk(this, this.a[0]);
-          }
+          for (; 0 < this.a.length;) jk(this, this.a[0]);
 
           this.b = !0;
         };
@@ -6506,9 +6354,7 @@
                 d = [];
 
             if (0 == a.b) {
-              for (d = 0; d < b.length; d++) {
-                c[b[d].fbase_key] = b[d].value;
-              }
+              for (d = 0; d < b.length; d++) c[b[d].fbase_key] = b[d].value;
 
               d = oe(a.c, c);
               a.c = c;
@@ -6847,11 +6693,9 @@
               c = new t("unsupported-persistence-type");
 
           a: {
-            for (d in Mk) {
-              if (Mk[d] == a) {
-                var d = !0;
-                break a;
-              }
+            for (d in Mk) if (Mk[d] == a) {
+              var d = !0;
+              break a;
             }
 
             d = !1;
@@ -7078,9 +6922,7 @@
         var dl;
         r(bl, al);
 
-        for (var cl = 64, fl = cl - 1, gl = [], hl = 0; hl < fl; hl++) {
-          gl[hl] = 0;
-        }
+        for (var cl = 64, fl = cl - 1, gl = [], hl = 0; hl < fl; hl++) gl[hl] = 0;
 
         var il = Wa(128, gl);
 
@@ -7090,9 +6932,7 @@
         };
 
         function jl(a) {
-          for (var b = a.f, c = a.l, d = 0, e = 0; e < b.length;) {
-            c[d++] = b[e] << 24 | b[e + 1] << 16 | b[e + 2] << 8 | b[e + 3], e = 4 * d;
-          }
+          for (var b = a.f, c = a.l, d = 0, e = 0; e < b.length;) c[d++] = b[e] << 24 | b[e + 1] << 16 | b[e + 2] << 8 | b[e + 3], e = 4 * d;
 
           for (b = 16; 64 > b; b++) {
             e = c[b - 15] | 0;
@@ -7141,9 +6981,7 @@
           void 0 === c && (c = b.length);
           var d = 0,
               e = a.c;
-          if ("string" === typeof b) for (; d < c;) {
-            a.f[e++] = b.charCodeAt(d++), e == a.b && (jl(a), e = 0);
-          } else if (ma(b)) for (; d < c;) {
+          if ("string" === typeof b) for (; d < c;) a.f[e++] = b.charCodeAt(d++), e == a.b && (jl(a), e = 0);else if (ma(b)) for (; d < c;) {
             var f = b[d++];
             if (!("number" == typeof f && 0 <= f && 255 >= f && f == (f | 0))) throw Error("message must be a byte array");
             a.f[e++] = f;
@@ -7195,9 +7033,7 @@
         };
 
         function pl() {
-          for (var a = 20, b = []; 0 < a;) {
-            b.push("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(Math.floor(62 * Math.random()))), a--;
-          }
+          for (var a = 20, b = []; 0 < a;) b.push("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(Math.floor(62 * Math.random()))), a--;
 
           return b.join("");
         }
@@ -7209,17 +7045,11 @@
           var c = 8 * b.g;
           56 > b.c ? kl(b, il, 56 - b.c) : kl(b, il, b.b - (b.c - 56));
 
-          for (var d = 63; 56 <= d; d--) {
-            b.f[d] = c & 255, c /= 256;
-          }
+          for (var d = 63; 56 <= d; d--) b.f[d] = c & 255, c /= 256;
 
           jl(b);
 
-          for (d = c = 0; d < b.i; d++) {
-            for (var e = 24; 0 <= e; e -= 8) {
-              a[c++] = b.a[d] >> e & 255;
-            }
-          }
+          for (d = c = 0; d < b.i; d++) for (var e = 24; 0 <= e; e -= 8) a[c++] = b.a[d] >> e & 255;
 
           return Zf(a);
         }
@@ -7331,11 +7161,9 @@
         }
 
         function ul(a, b) {
-          for (var c = 0; c < a.b.length; c++) {
-            try {
-              a.b[c](b);
-            } catch (d) {}
-          }
+          for (var c = 0; c < a.b.length; c++) try {
+            a.b[c](b);
+          } catch (d) {}
         }
 
         function rl(a) {
@@ -7647,9 +7475,7 @@
             return E(b);
           };
 
-          if (a.c.length) for (var c = 0; c < a.c.length; c++) {
-            a.c[c](b);
-          }
+          if (a.c.length) for (var c = 0; c < a.c.length; c++) a.c[c](b);
         }
 
         function Xl(a, b) {
@@ -7657,9 +7483,7 @@
             return D(b);
           };
 
-          if (a.f.length) for (var c = 0; c < a.f.length; c++) {
-            a.f[c](b);
-          }
+          if (a.f.length) for (var c = 0; c < a.f.length; c++) a.f[c](b);
         }
 
         function Tl(a, b, c, d) {
@@ -7852,9 +7676,7 @@
         function nm(a, b) {
           F.call(this, a);
 
-          for (var c in b) {
-            this[c] = b[c];
-          }
+          for (var c in b) this[c] = b[c];
         }
 
         r(nm, F);
@@ -8204,9 +8026,7 @@
         }
 
         function Pm(a) {
-          for (var b = [], c = 0; c < a.R.length; c++) {
-            b.push(a.R[c](a));
-          }
+          for (var b = [], c = 0; c < a.R.length; c++) b.push(a.R[c](a));
 
           return Fc(b).then(function () {
             return a;
@@ -8344,9 +8164,7 @@
             tenantId: a.tenantId
           });
 
-          for (var b = $m(a), c = 0; c < b.length; c++) {
-            Um(this, b[c]);
-          }
+          for (var b = $m(a), c = 0; c < b.length; c++) Um(this, b[c]);
 
           Wm(this, "isAnonymous", !(this.email && a.passwordHash) && !(this.providerData && this.providerData.length));
           this.dispatchEvent(new nm("userReloaded", {
@@ -8515,9 +8333,7 @@
           }).then(function () {
             a.dispatchEvent(new nm("userDeleted"));
           })).then(function () {
-            for (var b = 0; b < a.G.length; b++) {
-              a.G[b].cancel("app-deleted");
-            }
+            for (var b = 0; b < a.G.length; b++) a.G[b].cancel("app-deleted");
 
             Im(a, null);
             Jm(a, null);
@@ -8859,9 +8675,7 @@
           var c = [],
               d;
 
-          for (d in Mk) {
-            Mk[d] !== b && c.push(Uk(a.b, rn(Mk[d]), a.a));
-          }
+          for (d in Mk) Mk[d] !== b && c.push(Uk(a.b, rn(Mk[d]), a.a));
 
           c.push(Uk(a.b, un, a.a));
           return Ec(c);
@@ -9534,13 +9348,9 @@
 
         function Mn(a) {
           if (a.ba) {
-            for (var b = 0; b < a.u.length; b++) {
-              if (a.u[b]) a.u[b](Qn(a));
-            }
+            for (var b = 0; b < a.u.length; b++) if (a.u[b]) a.u[b](Qn(a));
 
-            if (a.X !== a.getUid() && a.P.length) for (a.X = a.getUid(), b = 0; b < a.P.length; b++) {
-              if (a.P[b]) a.P[b](Qn(a));
-            }
+            if (a.X !== a.getUid() && a.P.length) for (a.X = a.getUid(), b = 0; b < a.P.length; b++) if (a.P[b]) a.P[b](Qn(a));
           }
         }
 
@@ -9584,9 +9394,7 @@
         k["delete"] = function () {
           this.m = !0;
 
-          for (var a = 0; a < this.R.length; a++) {
-            this.R[a].cancel("app-deleted");
-          }
+          for (var a = 0; a < this.R.length; a++) this.R[a].cancel("app-deleted");
 
           this.R = [];
           this.l && (a = this.l, a.b.removeListener(rn("local"), a.a, this.pa));
@@ -9885,11 +9693,9 @@
             ho = "size";
 
         function jo(a, b) {
-          for (var c = 0; c < a.l.length; c++) {
-            try {
-              a.l[c](b);
-            } catch (d) {}
-          }
+          for (var c = 0; c < a.l.length; c++) try {
+            a.l[c](b);
+          } catch (d) {}
         }
 
         function lo(a, b) {
@@ -9978,16 +9784,12 @@
           this.A = !0;
           this.v.c();
 
-          for (var a = 0; a < this.h.length; a++) {
-            this.h[a].cancel("RecaptchaVerifier instance has been destroyed.");
-          }
+          for (var a = 0; a < this.h.length; a++) this.h[a].cancel("RecaptchaVerifier instance has been destroyed.");
 
           if (!this.i) {
             a = fc(this.m);
 
-            for (var b; b = a.firstChild;) {
-              a.removeChild(b);
-            }
+            for (var b; b = a.firstChild;) a.removeChild(b);
           }
         };
 
@@ -10031,23 +9833,19 @@
             c = Array.prototype.slice.call(c);
             var e = 0;
 
-            for (var f = !1, g = 0; g < b.length; g++) {
-              if (b[g].optional) f = !0;else {
-                if (f) throw new t("internal-error", "Argument validator encountered a required argument after an optional argument.");
-                e++;
-              }
+            for (var f = !1, g = 0; g < b.length; g++) if (b[g].optional) f = !0;else {
+              if (f) throw new t("internal-error", "Argument validator encountered a required argument after an optional argument.");
+              e++;
             }
 
             f = b.length;
             if (c.length < e || f < c.length) d = "Expected " + (e == f ? 1 == e ? "1 argument" : e + " arguments" : e + "-" + f + " arguments") + " but got " + c.length + ".";else {
-              for (e = 0; e < c.length; e++) {
-                if (f = b[e].optional && void 0 === c[e], !b[e].K(c[e]) && !f) {
-                  b = b[e];
-                  if (0 > e || e >= qo.length) throw new t("internal-error", "Argument validator received an unsupported number of arguments.");
-                  c = qo[e];
-                  d = (d ? "" : c + " argument ") + (b.name ? '"' + b.name + '" ' : "") + "must be " + b.J + ".";
-                  break a;
-                }
+              for (e = 0; e < c.length; e++) if (f = b[e].optional && void 0 === c[e], !b[e].K(c[e]) && !f) {
+                b = b[e];
+                if (0 > e || e >= qo.length) throw new t("internal-error", "Argument validator received an unsupported number of arguments.");
+                c = qo[e];
+                d = (d ? "" : c + " argument ") + (b.name ? '"' + b.name + '" ' : "") + "must be " + b.J + ".";
+                break a;
               }
 
               d = null;
@@ -10250,13 +10048,9 @@
           var e = Fo(a),
               f;
 
-          for (f in b) {
-            d[f] = b[f];
-          }
+          for (f in b) d[f] = b[f];
 
-          for (f in b.prototype) {
-            d.prototype[f] = b.prototype[f];
-          }
+          for (f in b.prototype) d.prototype[f] = b.prototype[f];
 
           return d;
         }
@@ -10544,9 +10338,7 @@
         Z(xg, "fromJSON", function (a) {
           a = "string" === typeof a ? JSON.parse(a) : a;
 
-          for (var b, c = [Ig, $g, gh, Fg], d = 0; d < c.length; d++) {
-            if (b = c[d](a)) return b;
-          }
+          for (var b, c = [Ig, $g, gh, Fg], d = 0; d < c.length; d++) if (b = c[d](a)) return b;
 
           return null;
         }, [X(V(), W(), "json")]);

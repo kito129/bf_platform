@@ -1,20 +1,15 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
-import {DatatableComponent, ColumnMode, SelectionType} from '@swimlane/ngx-datatable';
+import {ColumnMode, DatatableComponent, SelectionType} from '@swimlane/ngx-datatable';
 import {Store} from '@ngrx/store';
 import {TradeCalculatorService} from '../../../services/trade-calculator.service';
 import {takeUntil} from 'rxjs/operators';
-import {CSVBetGroup, Trade} from '../../../model/report/trade/trade';
+import {CSVBetGroup, CSVTrade, Trade, TradeDetail} from '../../../model/report/trade/trade';
 import {Utils} from '../../../model/utils';
 import {TradePlSeries} from '../../../model/calculator/montecarlo';
 import * as reportActions from '../../../store/report/report.actions';
 import {SavedReport} from '../../../model/report/savedReport';
-import { TradeDetail} from '../../../model/report/trade/trade';
 import {SwallService} from '../../../services/swall.service';
-import {
-  backtestRemoveTradeFromBacktest,
-  backtestsAddRemovedTradeFromBacktest
-} from '../../../store/report/report.actions';
 
 
 @Component({
@@ -224,7 +219,6 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
   }
 
   // -- CSV
-  // DEPRECATED - to csv to fix with trade version in utils
   saveAsCSV(type: string) {
     const nowDate = new Date()
     const temp = []
@@ -232,7 +226,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     let i = 0
     const data: Trade[]  = JSON.parse(JSON.stringify(this.rows.map(x => x.trade)))
       data
-      .sort((a:Trade, b:Trade) =>a.trade.info.date - b.trade.info.date)
+      .sort((a:Trade, b:Trade) =>b.trade.trades.length - a.trade.trades.length)
       .forEach((x: Trade) => {
         const d = new Date(x.trade.info.date);
         const winner = x.trade.selections.filter( y => y.winner)[0]
@@ -262,6 +256,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
         // add element from bets
         this.addBetsToCSVInfo(x,temp, type)
         i++
+        console.log(temp)
       }
     )
 
@@ -273,6 +268,7 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     const bets = type ==='ALL' ? this.createBetsAll(trade) :
       type ==='GROUPED NORMAL' ? this.createBetsColumnsGrouped(trade) :
       type ==='GROUPED BFL' ? this.createBetsColumnsGroupedBFL(trade) : null
+
     // match the key for csv
     for (const [key, value] of Object.entries(bets)) {
       const h = Object.getOwnPropertyNames(value)
@@ -282,15 +278,13 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createBetsAll(trade: Trade){
+  private createBetsAll(trade: Trade): CSVBetGroup[]{
     let i =0
-    return trade.trade.trades.map( x =>{
-      console.log(trade.trade.info.marketInfo.marketName)
-      console.log(trade.trade.selections.length)
+    return trade.trade.trades.map(x => {
       i++
-      console.log(x.selectionN)
       const sideName = trade.trade.selections[x.selectionN].runnerName
-      return {
+      const resp =  {
+        id: i,
         name: sideName,
         type: x.type,
         options: x.options,
@@ -298,12 +292,14 @@ export class TradesDatatableComponent implements OnInit, OnDestroy {
         stake: x.stake,
         liability: x.liability,
         ifWin: x.ifWin,
+        point: this.util.getPointInStringWay(x.condition.tennis.point),
         empty: null
       }
+      return resp
     })
   }
 
-  private createBetsColumnsGrouped(trade: Trade){
+  private createBetsColumnsGrouped(trade: Trade): CSVBetGroup[]{
     let i =0
     const open = this.util.getEmptyCSVBetGroup()
     const increase = this.util.getEmptyCSVBetGroup()

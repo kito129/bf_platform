@@ -87,7 +87,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   /**
    * Open sidebar when hover (in folded folded state)
    */
-  operSidebarFolded() {
+  openSidebarFolded() {
     if (this.document.body.classList.contains('sidebar-folded')){
       this.document.body.classList.add('open-sidebar-folded');
     }

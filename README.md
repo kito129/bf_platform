@@ -202,33 +202,35 @@ Config:
 
 
 ## DOWNLOAD MONGO db
-mongodump --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup
 
-mongodump --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -d --pretty -o ./mongo-backup
 
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\backtest.json -c backtest
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\backtestTrade.json -c backtestTrade
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketAdditionalInfoSoccer.json -c marketAdditionalInfoSoccer
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketAdditionalInfoTennis.json -c marketAdditionalInfoTennis
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketAdditionalInfoTennis.json -c marketAdditionalInfoTennis
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketInfoAdvanced.json -c marketInfoAdvanced
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketInfoAdvanced.json -c marketInfoAdvanced
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketOddsAdvanced.json -c marketOddsAdvanced
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketOddsBasic.json -c marketOddsBasic
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketRunnersAdvanced.json -c marketRunnersAdvanced
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketRunnersBasic.json -c marketRunnersBasic
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketUpdatesAdvanced.json -c marketUpdatesAdvanced
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketUpdatesBasic.json -c marketUpdatesBasic
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\notes.json -c notes
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\players.json -c players
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\runners.json -c runners
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\savedReport.json -c savedReport
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\strategy.json -c strategy
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\tennisTournament.json -c tennisTournament
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\trade.json -c trade
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\tradeNew.json -c tradeNew
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\user.json -c user
-mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\users.json -c users
+    mongodump --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup
+
+    mongodump --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -d --pretty -o ./mongo-backup
+
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\backtest.json -c backtest
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\backtestTrade.json -c backtestTrade
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketAdditionalInfoSoccer.json -c marketAdditionalInfoSoccer
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketAdditionalInfoTennis.json -c marketAdditionalInfoTennis
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketAdditionalInfoTennis.json -c marketAdditionalInfoTennis
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketInfoAdvanced.json -c marketInfoAdvanced
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketInfoAdvanced.json -c marketInfoAdvanced
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketOddsAdvanced.json -c marketOddsAdvanced
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketOddsBasic.json -c marketOddsBasic
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketRunnersAdvanced.json -c marketRunnersAdvanced
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketRunnersBasic.json -c marketRunnersBasic
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketUpdatesAdvanced.json -c marketUpdatesAdvanced
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\marketUpdatesBasic.json -c marketUpdatesBasic
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\notes.json -c notes
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\players.json -c players
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\runners.json -c runners
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\savedReport.json -c savedReport
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\strategy.json -c strategy
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\tennisTournament.json -c tennisTournament
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\trade.json -c trade
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\tradeNew.json -c tradeNew
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\user.json -c user
+    mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\users.json -c users
 
 
 

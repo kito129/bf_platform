@@ -2,11 +2,13 @@
     [ngClass]="collapsed ? 'text-gray' : title ? title.indexOf('(A)')!==-1 ? 'text-primary' : 'text-danger' : ''">
   Bets -  {{title}}
 </h5>
+<h6 [ngClass]="bets.length%2===0 ? 'text-primary' : 'text-danger'"></h6>
 <div class="table-responsive pb-2" [ngbCollapse]="collapsed">
   <table class="table table-sm table-bordered text-center text-monospace">
     <thead>
     <tr>
-      <th>#</th>
+      <th>Seq</th>
+      <th>Id</th>
       <th>Time</th>
       <th>Point</th>
       <th>S1</th>
@@ -26,8 +28,26 @@
     <tr [ngClass]="bet.type==='back' ? 'table-primary' : 'table-danger' " *ngFor="let bet of bets, index as i"
         [ngbTooltip]="popContent"
         [autoClose]="'outside'">
-      <td>
+      <td *ngIf="!tradeEdit">
+        {{i+1}}
+      </td>
+      <td *ngIf="tradeEdit">
+        <button type="button" class="btn btn-xs btn-danger"
+                (click)="removeBet(i)">
+          X
+        </button>
+      </td>
+      <td *ngIf="!tradeEdit">
         {{bet.id}}
+      </td>
+      <td *ngIf="tradeEdit">
+        <input type="number"
+               step='1'
+               class="form-control"
+               [(ngModel)]="bet.id"
+               [min]="0"
+               name="betId"
+               (ngModelChange)="updateBet()">
       </td>
       <td>
         <b> {{bet.time ? (bet.time | date:'HH:mm:ss') : 0 }}</b>
@@ -45,22 +65,62 @@
       <td>
         <b *ngIf="bet.point.currentGame.server ? bet.point.currentGame.server==='B' : false"><span class="badge badge-warning">B</span></b>
       </td>
-      <td>
+      <td *ngIf="!tradeEdit">
         <app-bet-options-formatter [betOptions]="bet.options"></app-bet-options-formatter>
       </td>
-      <td>
+      <td *ngIf="tradeEdit">
+        <ng-select id="options"
+                   name="options"
+                   [(ngModel)]="bet.options"
+                   [items]="['OPEN', 'INCREASE', 'DECREASE', 'CLOSE', 'ADJ']"
+                   [clearable]="false"
+                   (ngModelChange)="updateBet()">
+        </ng-select>
+      </td>
+      <td *ngIf="!tradeEdit">
         <h6 *ngIf="bet.selectionN===0" class="text-primary">(A) {{bet.selectionName ? bet.selectionName.substr(0,18) : ''}} </h6>
         <h6 *ngIf="bet.selectionN===1" class="text-danger">(B) {{bet.selectionName ? bet.selectionName.substr(0,18) : ''}}</h6>
       </td>
-      <td>
+      <td *ngIf="tradeEdit">
+        <h6 *ngIf="bet.selectionN===0" class="text-primary">(A)</h6>
+        <h6 *ngIf="bet.selectionN===1" class="text-danger">(B)</h6>
+      </td>
+      <td *ngIf="!tradeEdit">
         <h4>{{bet.odds}}</h4>
       </td>
-      <td>
+      <td *ngIf="tradeEdit">
+        <input type="number"
+               step='0.01'
+               [min]="0"
+               class="form-control"
+               [(ngModel)]="bet.odds"
+               name="betOdds"
+               (ngModelChange)="updateBet()">
+      </td>
+      <td *ngIf="!tradeEdit">
         <h5>{{bet.stake | currency}}</h5>
       </td>
-      <td>
+      <td *ngIf="tradeEdit">
+        <input type="number"
+               step='0.01'
+               class="form-control"
+               [(ngModel)]="bet.stake"
+               [min]="0"
+               name="betOdds"
+               (ngModelChange)="updateBet()">
+      </td>
+      <td *ngIf="!tradeEdit">
         <b *ngIf="bet.type==='lay'">{{bet.liability | currency}}</b>
         <b *ngIf="bet.type==='back'"> -- </b>
+      </td>
+      <td *ngIf="tradeEdit">
+        <input type="number"
+               step='0.01'
+               [min]="0"
+               class="form-control"
+               [(ngModel)]="bet.liability"
+               name="betOdds"
+               (ngModelChange)="updateBet(true)">
       </td>
       <td>
         <b>{{bet.toWin | currency}}</b>

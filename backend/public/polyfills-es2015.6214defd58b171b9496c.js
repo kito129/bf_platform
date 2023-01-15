@@ -105,8 +105,8 @@ module.exports = getBuiltIn('document', 'documentElement');
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_bf_platform\bf_platform\frontend\src\polyfills.ts */"hN/g");
-module.exports = __webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_bf_platform\bf_platform\frontend\node_modules\@angular-devkit\build-angular\src\webpack\jit-polyfills.js */"rZy+");
+__webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_SPORT\01_platform\bf_platform\frontend\src\polyfills.ts */"hN/g");
+module.exports = __webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_SPORT\01_platform\bf_platform\frontend\node_modules\@angular-devkit\build-angular\src\webpack\jit-polyfills.js */"rZy+");
 
 
 /***/ }),

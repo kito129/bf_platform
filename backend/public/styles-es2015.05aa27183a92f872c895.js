@@ -35,9 +35,9 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_bf_platform\bf_platform\frontend\src\styles.scss */"+EN/");
-__webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_bf_platform\bf_platform\frontend\src\assets\scss\style.scss */"eKdF");
-module.exports = __webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_bf_platform\bf_platform\frontend\node_modules\primeng\resources\themes\mdc-dark-indigo\theme.css */"U+RZ");
+__webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_SPORT\01_platform\bf_platform\frontend\src\styles.scss */"+EN/");
+__webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_SPORT\01_platform\bf_platform\frontend\src\assets\scss\style.scss */"eKdF");
+module.exports = __webpack_require__(/*! C:\Users\marco\00_PROJECTS\01_SPORT\01_platform\bf_platform\frontend\node_modules\primeng\resources\themes\mdc-dark-indigo\theme.css */"U+RZ");
 
 
 /***/ }),

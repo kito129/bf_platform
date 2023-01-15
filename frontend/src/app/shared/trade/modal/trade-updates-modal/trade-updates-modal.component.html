@@ -226,7 +226,7 @@
                 <!-- BET TITLE -->
                 <div class="row">
                   <div class="col">
-                    <h4>{{h+1}}) {{tradeOutput.trade.selections.length >=bet.selectionN ?  tradeOutput.trade.selections[bet.selectionN].runnerName : ""}}</h4>
+                    <h4>{{bet.id}}) {{tradeOutput.trade.selections.length >=bet.selectionN ?  tradeOutput.trade.selections[bet.selectionN].runnerName : ""}}</h4>
                   </div>
                   <div class="col">
                     <h4 *ngIf="bet.type.indexOf('lay')!==-1" class="text-danger">Lay</h4>
@@ -344,8 +344,14 @@
             </button>
             <app-trade-bets-detail *ngIf="updateBets"
                                    [trade]="tradeOutput"
-                                   [onlyBets]="false">
+                                   [onlyBets]="false"
+                                   [tradeEdit]="true">
             </app-trade-bets-detail>
+            <button type="button" class="btn btn-outline-info"
+                    [ngClass]="updateBets ? 'btn btn-outline-info' : 'btn btn-info'"
+                    (click)="updateBetsView()">
+              Update Bets
+            </button>
           </ul>
         </div>
       </div>

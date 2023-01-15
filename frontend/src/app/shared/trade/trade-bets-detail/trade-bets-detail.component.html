@@ -9,7 +9,7 @@
 </app-bets-avg-odds>
 
 
-<button type="button" class="btn btn-xs" [disabled]="!(betsA.length && betsB.length)"
+<button type="button" class="btn btn-xs"
         [ngClass]="split ? 'btn-warning' : 'btn-outline-warning' "
         (click)="split= !split">
   Split
@@ -18,18 +18,23 @@
 <!-- TRADE BETS-->
 <app-bets-table *ngIf="!split"
                 [bets]="bets"
-                [title]="'All Bets'">
+                [title]="'All Bets'"
+                [tradeEdit]="tradeEdit"
+                (tradeUpdate)="betUpdate($event, 'ALL')">
 </app-bets-table>
-
-
 
 <app-bets-table *ngIf="betsA.length && split"
                 [bets]="betsA"
-                [title]="'(A) ' + trade.trade.selections[0].runnerName">
+                [title]="'(A) ' + trade.trade.selections[0].runnerName"
+                [tradeEdit]="tradeEdit"
+                (tradeUpdate)="betUpdate($event, 'A')">
 </app-bets-table>
+
 <app-bets-table *ngIf="betsB.length  && split"
                 [bets]="betsB"
-                [title]="'(B) ' + trade.trade.selections[1].runnerName">
+                [title]="'(B) ' + trade.trade.selections[1].runnerName"
+                [tradeEdit]="tradeEdit"
+                (tradeUpdate)="betUpdate($event, 'B')">
 </app-bets-table>
 
 

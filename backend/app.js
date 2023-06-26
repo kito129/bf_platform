@@ -66,7 +66,7 @@ const CONNECTION_URL =
   process.env.MONGO_ATLAS_STRING2;
   */
 //new db connection 
-const CONNECTION_URL = "mongodb://kito:65255@localhost:27017/bf_historical";
+const CONNECTION_URL = "mongodb://kito:65255@localhost:51606/bf_historical";
 
 
 //database connection option

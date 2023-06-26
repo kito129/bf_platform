@@ -55,7 +55,7 @@ exports.baseUrl = baseUrl;
 // --- DATABASE ---
 
 //database setting
-/*
+
 const CONNECTION_URL =
   "mongodb://"+
   process.env.MONGO_ATLAS_USER +
@@ -64,9 +64,9 @@ const CONNECTION_URL =
   process.env.MONGO_ATLAS_STRING1 +
   process.env.MONGO_ATLAS_DBNAME +
   process.env.MONGO_ATLAS_STRING2;
-  */
+  
 //new db connection 
-const CONNECTION_URL = "mongodb://kito:65255@localhost:51606/bf_historical";
+//const CONNECTION_URL = "mongodb://kito:65255@localhost:51606/bf_historical";
 
 
 //database connection option

@@ -203,10 +203,14 @@ Config:
 
 ## DOWNLOAD MONGO db
 
+mongo dump
 
     mongodump --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup
-
     mongodump --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -d --pretty -o ./mongo-backup
+
+mongo restore
+
+mongo export
 
     mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\backtest.json -c backtest
     mongoexport --uri "mongodb+srv://marco:4Nr1fD8mAOSypUur@cluster1.fzsll.mongodb.net/bf_historical" -o ./mongo-backup\backtestTrade.json -c backtestTrade
